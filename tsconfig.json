@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "strict": true,
+        "module": "es6",
+        "target": "es6",
+        "esModuleInterop": true,
+        "sourceMap": false,
+        "rootDir": "/",
+        "outDir": "dist",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
+        "typeRoots": [
+            "node_modules/@types",
+        ],
+    },
+    "compileOnSave": true,
+ }

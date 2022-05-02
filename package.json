@@ -1,0 +1,24 @@
+{
+  "name": "overrider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "background.js",
+  "scripts": {
+    "start": "webpack --config webpack/webpack.development.js --watch",
+    "build": "webpack --config webpack/webpack.production.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/chrome": "^0.0.181",
+    "copy-webpack-plugin": "^10.2.4",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-router": "^6.3.0",
+    "react-script": "^2.0.5",
+    "ts-loader": "^9.2.8",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
