@@ -66,6 +66,14 @@ class RuleService {
         // exact match
         // /^a$/;
 
+
+        // {
+        //     "id": 4,
+        //     "priority": 1,
+        //     "action": { "type": "redirect", "redirect": { "url": "https://example.com" } },
+        //     "condition": { "urlFilter": "google.com", "resourceTypes": ["main_frame"] }
+        //   },
+
         const rule: any =  {
           "id": 4,
           "priority": 1,

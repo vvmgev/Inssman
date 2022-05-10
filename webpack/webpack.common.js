@@ -1,10 +1,13 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css to files
 module.exports = {
    entry: {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
       popup: path.resolve(__dirname, "../src/popup", "popup.ts"),
-      options: path.resolve(__dirname, "../src/options", "options.ts"),
+      options: path.resolve(__dirname, "../src/options", "options.tsx"),
    },
    output: {
       path: path.join(__dirname, "../", "dist"),
@@ -12,16 +15,20 @@ module.exports = {
       clean: true
    },
    resolve: {
-      extensions: [".ts", ".js"],
+      extensions: [".ts", '.tsx', ".js"],
    },
    module: {
       rules: [
          {
             test: /\.tsx?$/,
-            use: [{loader : "ts-loader"}],
+            use: [{loader : "babel-loader"}, {loader : "ts-loader"}],
             exclude: /node_modules/,
-            
          },
+         {
+            test: /\.css$/i,
+            include: path.resolve(__dirname, "../", "src"),
+            use: ["style-loader", "css-loader", "postcss-loader"],
+          },
       ],
    },
    plugins: [
@@ -33,6 +40,10 @@ module.exports = {
             {from : "src/manifest.json", to: "."},
          ]
       }),
+      new MiniCssExtractPlugin({
+         filename: "options/styles.css",
+         chunkFilename: "styles.css"
+       }),
    ],
    // experiments: {
       // topLevelAwait: true,

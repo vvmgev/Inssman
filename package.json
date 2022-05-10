@@ -5,20 +5,36 @@
   "main": "background.js",
   "scripts": {
     "start": "webpack --config webpack/webpack.development.js --watch",
-    "build": "webpack --config webpack/webpack.production.js"
+    "build": "webpack --config webpack/webpack.production.js",
+    "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/preset-react": "^7.16.7",
     "@types/chrome": "^0.0.181",
+    "babel-loader": "^8.2.5",
+    "concurrently": "^7.1.0",
     "copy-webpack-plugin": "^10.2.4",
+    "mini-css-extract-plugin": "^2.6.0",
+    "postcss-preset-env": "^7.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
     "react-script": "^2.0.5",
     "ts-loader": "^9.2.8",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "css-loader": "^6.7.1",
+    "postcss": "^8.4.13",
+    "postcss-loader": "^6.2.1",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.24"
   }
 }

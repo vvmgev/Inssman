@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
+        "baseUrl": ".",
         "strict": true,
         "module": "es6",
         "target": "es6",
@@ -10,9 +10,11 @@
         "outDir": "dist",
         "noEmitOnError": true,
         "noImplicitAny": false,
+        "moduleResolution": "node",
         "typeRoots": [
             "node_modules/@types",
         ],
+        "jsx": "react"
     },
     "compileOnSave": true,
  }

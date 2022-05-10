@@ -4,6 +4,17 @@ import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
 
+export enum RULETYPE {
+    REDIRECT = 'Redirect Request',
+    CANCEL = 'Cancel Request',
+    REPLACE = 'Replace Reuqest',
+    MODIFYHEADER = 'Modify Request Header',
+    INSERTSCRIPT = 'Insert Script',
+    MODIFYRESPONSE = 'Modify Request Response',
+    DELAY = 'Delay Request',
+    QUERYPARAM = 'Query Param'
+}
+
 export enum MatchType {
     EQUAL,
     CONTAIN,
