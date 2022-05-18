@@ -4,6 +4,7 @@ import Header from '../header/header';
 import Content from '../content/content';
 import Footer from '../footer/footer'
 import CreateRuleForm from '../createRuleForm/createRuleForm'
+import Edit from '../edit/edit';
 
 export default () => {
 
@@ -14,6 +15,7 @@ export default () => {
                     <Routes>
                         <Route path="/" element={<Content />} />
                         <Route path="/create" element={<CreateRuleForm />} />
+                        <Route path="/edit" element={<Edit />} />
                     </Routes>
                 </div>
             <Footer />

@@ -38,6 +38,7 @@ module.exports = {
             {from : "src/options/options.html", to: "options"},
             {from : "src/images", to: "images"},
             {from : "src/manifest.json", to: "."},
+            {from : "src/rules.json", to: "."},
          ]
       }),
       new MiniCssExtractPlugin({

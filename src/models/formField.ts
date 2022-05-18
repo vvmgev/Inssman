@@ -1,25 +1,30 @@
-import { ConcatenationScope } from "node_modules/webpack/types";
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
 
-export enum RULETYPE {
+export enum FormType {
     REDIRECT = 'Redirect Request',
-    CANCEL = 'Cancel Request',
+    BLOCK = 'Block Request',
     REPLACE = 'Replace Reuqest',
     MODIFYHEADER = 'Modify Request Header',
     INSERTSCRIPT = 'Insert Script',
-    MODIFYRESPONSE = 'Modify Request Response',
+    MODIFYRESPONSE = 'Modify Response',
     DELAY = 'Delay Request',
     QUERYPARAM = 'Query Param'
 }
 
+export const FormTypeMap = {
+    REDIRECT: RuleActionType.REDIRECT,
+    BLOCK: RuleActionType.BLOCK,
+    MODIFYRESPONSE: RuleActionType.REDIRECT
+}
+
 export enum MatchType {
-    EQUAL,
-    CONTAIN,
-    REGEXP,
-    WILDCARD
+    CONTAIN = 'Contain',
+    EQUAL = 'Equl',
+    REGEXP = 'Regexp',
+    WILDCARD = 'Wildcard'
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

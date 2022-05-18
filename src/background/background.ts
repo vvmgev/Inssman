@@ -2,8 +2,6 @@ import RuleService from '../services/RuleService';
 import { PostMessageAction } from '../models/postMessageAction';
 const { RuleActionType } = chrome.declarativeNetRequest;
 
-let color = '#3aa757';
-
 chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
 
 chrome.runtime.onInstalled.addListener(() => {});
@@ -29,8 +27,13 @@ chrome.declarativeNetRequest.getDynamicRules().then((data) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     case PostMessageAction.AddRule:
-      RuleService.add([RuleService.generateRule(request.data)]);
-      sendResponse();
+      RuleService.add([RuleService.generateRule(request.data)])
+      .then(sendResponse)
+      .catch(error => {
+        console.log('error', error);
+        sendResponse({error})
+    });
+      return true;
       break;
     case PostMessageAction.UpdateRule:
       break;

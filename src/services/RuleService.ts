@@ -1,8 +1,9 @@
-import { FormField } from "../models/formField";
+import { FormField, FormType, FormTypeMap } from "../models/formField";
 import Rule = chrome.declarativeNetRequest.Rule;
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 
 class RuleService {
@@ -29,58 +30,35 @@ class RuleService {
         return chrome.declarativeNetRequest.getDynamicRules();
     }
 
-    generateRule(formField: any): Rule {
-        const condition: RuleCondition = {
-            urlFilter: formField.condition.urlFilter,
-            regexFilter: formField.condition.regexFilter,
-            ...(formField.condition?.resourceTypes?.length && {resourceTypes: formField.resourceTypes}),
-            ...(formField.condition?.requestMethods?.length && {requestMethods: formField.requestMethods})
+    generateAction(formField: any) {
+        return {
+            type: FormTypeMap[formField.type],
+            redirect : {
+                ...(formField.redirectTo && {url: formField.redirectTo}),
+                ...(formField.extensionPath && {extensionPath: formField.extensionPath}),
+                ...(formField.regexSubstitution && {regexSubstitution: formField.regexSubstitution}),
+                // "transform" property is not implemented
+            }
         }
-        // const rule: Rule = {
-        //     id: 1,
-        //     priority: 1,
-        //     action: {
-        //         ...formField.action
-        //     },
-        //     condition,
-        // };
+    }
 
-        
-        // const rule: any =  {
-        //     "id": 7,
-        //     "priority": 1,
-        //     "action": {
-        //       "type": "redirect",
-        //       "redirect": {
-        //         "regexSubstitution": "https://\\1.baaa.com"
-        //       }
-        //     },
-        //     "condition": {
-        //       "regexFilter": "^http[s]?://(abc|def).xyz.com",
-        //       "resourceTypes": [
-        //         "main_frame"
-        //       ]
-        //     }
-        //   };
+    generateCondition(formField: any) {
+        return {
+            ...(formField.urlFilter && {urlFilter: formField.urlFilter}),
+            ...(formField.regexFilter && {regexFilter: formField.regexFilter}),
+            resourceTypes: ["main_frame", "sub_frame"]
+            // some properties are not implemented
+            // see docs
+        }
+    }
 
-        // exact match
-        // /^a$/;
-
-
-        // {
-        //     "id": 4,
-        //     "priority": 1,
-        //     "action": { "type": "redirect", "redirect": { "url": "https://example.com" } },
-        //     "condition": { "urlFilter": "google.com", "resourceTypes": ["main_frame"] }
-        //   },
-
-        const rule: any =  {
-          "id": 4,
-          "priority": 1,
-          "action": { "type": "redirect", "redirect": { "url": "https://example.com" } },
-          "condition": { "urlFilter": " /^search$/", "resourceTypes": ["main_frame"] }
-        };
-
+    generateRule(formField: any): Rule {
+        const rule: Rule = {
+            id: 1,
+            priority: 1, 
+            action: this.generateAction(formField),
+            condition: this.generateCondition(formField),
+        }
         console.log('rule', rule);
         return rule;
     }

@@ -1,0 +1,34 @@
+[
+    {
+        "id": 7,
+        "priority": 1,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "regexSubstitution": "\\1://www.youtube.com/embed/\\2"
+            }
+        },
+        "condition": {
+        "regexFilter":"^(.*):\\/\\/fb.com\/test\/?(.*)?",
+          "resourceTypes": [
+            "main_frame"
+          ]
+        }
+      },
+      {
+        "id": 10,
+        "priority": 3,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "regexSubstitution": "www.youtube.com/embed/"
+            }
+        },
+        "condition": {
+            "regexFilter": "(www\\.youtube\\.com\/watch\\?v=)",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    }
+]

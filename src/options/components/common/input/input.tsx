@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-export default ({field, value, onChange}) => {
-    return <div className="mb-4">
-        <input className="shadow appearance-none border 
+
+export default ({field, fieldData = {value: '', error: null}, onChange}) => {
+    const handler = useCallback((event) => {
+        field.onChange(event, onChange)
+    }, [])
+
+    return <>
+    <input className={`shadow appearance-none border 
                       rounded w-full py-2 px-3 text-gray-700 
-                      leading-tight focus:border-sky-500 focus:outline-none focus:shadow-outline"
+                      leading-tight focus:border-sky-500 focus:outline-none focus:shadow-outline
+                      ${(field.classes || []).join(' ')}`}
                       autoComplete="off"
                       name={field.name}
-                      value={value}
+                      value={fieldData.value}
                       placeholder={field.placeholder}
                       type={field.type}
-                      onChange={event => field.onChange(event, onChange)} />
-    </div>
+                      onChange={handler} />
+    {fieldData.error ? <div>{fieldData.error}</div> : ''}
+    </>
 }
