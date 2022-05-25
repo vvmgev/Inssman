@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default ({field, fieldData = {value: ''}, onChange}) => {
+export default ({value, classes, name, options, onChange}) => {
     return <select
-            className={`${(field.classes || []).join(' ')}`}
-            name={field.name} 
-            onChange={event => field.onChange(event, onChange)}
-            value={fieldData.value}
+            className={classes}
+            name={name} 
+            onChange={onChange}
+            value={value}
         >
-            {field.options.map((item, id) => {
+            {options.map((item, id) => {
                 return <option key={id} value={item.value}>{item.label}</option>
             })}
         </select>

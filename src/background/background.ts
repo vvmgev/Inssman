@@ -1,10 +1,16 @@
 import RuleService from '../services/RuleService';
-import { PostMessageAction } from '../models/postMessageAction';
+import StorageService from '../services/StorageService';
+import { StorageKey } from '../models/storageModel';
+import { PostMessageAction } from '../models/postMessageActionModel';
 const { RuleActionType } = chrome.declarativeNetRequest;
+import Rule = chrome.declarativeNetRequest.Rule;
+import { getCssModule } from 'mini-css-extract-plugin';
+
 
 chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
 
-chrome.runtime.onInstalled.addListener(() => {});
+chrome.runtime.onInstalled.addListener(() => {
+});
 
 
 chrome.declarativeNetRequest.getDynamicRules().then((data) => {
@@ -27,20 +33,39 @@ chrome.declarativeNetRequest.getDynamicRules().then((data) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     case PostMessageAction.AddRule:
-      RuleService.add([RuleService.generateRule(request.data)])
-      .then(sendResponse)
-      .catch(error => {
-        console.log('error', error);
-        sendResponse({error})
-    });
+      (async() => {
+        const id: number = await StorageService.setNextId();
+        const rule: Rule = await RuleService.generateRule({id, ...request.data})
+        StorageService.set({[rule.id]: request.data});
+        sendResponse(await RuleService.add([rule]))
+      })()
       return true;
       break;
     case PostMessageAction.UpdateRule:
+      (async() => {
+        const rule: Rule = await RuleService.generateRule(request.data)
+        StorageService.set({[rule.id]: request.data});
+        sendResponse(await RuleService.add([rule]))
+      })()
+      return true;
       break;
     case PostMessageAction.DeleteRule:
+      (async () => {
+        await RuleService.remove([request.data.rule])
+        sendResponse();
+      })()
+      return true;
       break;
     case PostMessageAction.GetRules:
-      RuleService.getRules().then(sendResponse);
+      (async () => {
+        const rules: Rule[] = await RuleService.getRules();
+        const rulesMap =  await Promise.all(rules.map(async (rule) => {
+          const ruleData = await StorageService.get(String(rule.id))
+          const degenerateRule = RuleService.degenerate(rule)
+          return {...degenerateRule, ...(ruleData[rule.id])}
+        }));
+        sendResponse(rulesMap)
+      })()
       return true;
       break;
     case PostMessageAction.Log:

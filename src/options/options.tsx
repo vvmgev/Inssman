@@ -1,5 +1,5 @@
-import { FormField, MatchType } from "../models/formField";
-import { PostMessageAction } from "../models/postMessageAction";
+import { FormField, MatchType } from "../models/formFieldModel";
+import { PostMessageAction } from "../models/postMessageActionModel";
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod

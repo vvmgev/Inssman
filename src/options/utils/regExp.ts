@@ -6,12 +6,19 @@ export const makeExactMatch: Function = (url: string): string => {
     return `^${url}\/?$`;
 }
 
-export const addProtocol: Function = (url: string): string => {
+export const addProtocolRegExp: Function = (url: string): string => {
     if(!url.match(protocolRegExp)) {
         return `^http(s?)://${url}\/?$`;
     }
     return url;
-} 
+}
+
+export const addProtocol: Function = (url: string): string => {
+    if(!url.match(protocolRegExp)) {
+        return `http://${url}`;
+    }
+    return url;
+}
 
 export const escapedSymbols: {[key: string]: string} = {
     '/': '\\/',

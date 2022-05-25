@@ -8,6 +8,11 @@ module.exports = {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
       popup: path.resolve(__dirname, "../src/popup", "popup.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
+      'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
+		'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
+		'css.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/css/css.worker'),
+		'html.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/html/html.worker'),
+		'ts.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
    },
    output: {
       path: path.join(__dirname, "../", "dist"),
@@ -26,9 +31,14 @@ module.exports = {
          },
          {
             test: /\.css$/i,
-            include: path.resolve(__dirname, "../", "src"),
+            // include: path.resolve(__dirname, "../", "src"),
             use: ["style-loader", "css-loader", "postcss-loader"],
           },
+          {
+				test: /\.ttf$/,
+				use: ['file-loader'],
+            exclude: /node_modules/,
+			}
       ],
    },
    plugins: [

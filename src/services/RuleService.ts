@@ -1,15 +1,20 @@
-import { FormField, FormType, FormTypeMap } from "../models/formField";
+import StorageService from './StorageService';
+import { FormField, FormType, FormTypeMap } from "../models/formFieldModel";
 import Rule = chrome.declarativeNetRequest.Rule;
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import RuleAction = chrome.declarativeNetRequest.RuleAction
+import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 
 class RuleService {
-    add(rules: Rule[]): Promise<void> {
-        const qq : number[] = rules.map(as => as.id)
-        return this.updateDynamicRules({addRules: rules, removeRuleIds: qq})
+    async add(rules: Rule[]): Promise<void> {
+        // const qq : number[] = rules.map(as => as.id);
+        // const ww: number[] = (await this.getRules()).map(item => item.id);
+        // return this.updateDynamicRules({addRules: rules, removeRuleIds: [...qq, ...ww]})
+        return this.updateDynamicRules({ addRules: rules })
     }
 
     remove(rules: Rule[]): Promise<void> {
@@ -30,11 +35,11 @@ class RuleService {
         return chrome.declarativeNetRequest.getDynamicRules();
     }
 
-    generateAction(formField: any) {
+    generateAction(formField: FormField): RuleAction {
         return {
-            type: FormTypeMap[formField.type],
+            type: FormTypeMap[formField.formType],
             redirect : {
-                ...(formField.redirectTo && {url: formField.redirectTo}),
+                ...(formField.url && {url: formField.url}),
                 ...(formField.extensionPath && {extensionPath: formField.extensionPath}),
                 ...(formField.regexSubstitution && {regexSubstitution: formField.regexSubstitution}),
                 // "transform" property is not implemented
@@ -42,25 +47,44 @@ class RuleService {
         }
     }
 
-    generateCondition(formField: any) {
+    generateCondition(formField: FormField): RuleCondition {
         return {
             ...(formField.urlFilter && {urlFilter: formField.urlFilter}),
             ...(formField.regexFilter && {regexFilter: formField.regexFilter}),
-            resourceTypes: ["main_frame", "sub_frame"]
+            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME]
             // some properties are not implemented
             // see docs
         }
     }
 
-    generateRule(formField: any): Rule {
-        const rule: Rule = {
-            id: 1,
+    async generateRule(formField: FormField): Promise<Rule> {
+        const rule: any = {
+            id: formField.id,
             priority: 1, 
             action: this.generateAction(formField),
             condition: this.generateCondition(formField),
-        }
+        };
+
         console.log('rule', rule);
         return rule;
+    }
+
+    degenerate(rule: Rule): FormField {
+        const formField: FormField = {
+            id: rule.id,
+            priority: rule.priority,
+            formType: rule.action.type as any,
+            url: rule.action.redirect?.url as string,
+            extensionPath: rule.action.redirect?.extensionPath as string,
+            regexSubstitution: rule.action.redirect?.regexSubstitution as string,
+            urlFilter: rule.condition?.urlFilter as string,
+            regexFilter: rule.condition?.regexFilter as string,
+            // @ts-ignore
+            resourceTypes: rule.condition?.resourceTypes,
+
+        };
+
+        return formField;
     }
 }
 

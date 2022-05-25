@@ -12,10 +12,11 @@
             }
         ]
     ],
-    // "plugins": [
+    "plugins": [
+        "@babel/plugin-transform-runtime",
         // "transform-class-properties",
         // "react-hot-loader/babel"
-    // ]
+    ]
     // "env": {
     //     "test": {
     //         "plugins": [
