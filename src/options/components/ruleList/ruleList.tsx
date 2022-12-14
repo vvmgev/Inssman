@@ -8,7 +8,6 @@ import Rule = chrome.declarativeNetRequest.Rule
 
 export default (): FC => {
     const [rules, setRules] = useState([]);
-
     const getRules = () => {
         chrome.runtime.sendMessage({action: PostMessageAction.GetRules}, (rules: Rule[]) => {
             console.log(rules);
@@ -30,7 +29,6 @@ export default (): FC => {
             },
         );
     }
-
 
     return <>
         <div>

@@ -20,7 +20,7 @@ self.MonacoEnvironment = {
 	}
 };
 
-export default forwardRef(({ value, language = '', onChangeHandler }, ref) => {
+const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }, ref) => {
 	const divEl = useRef<HTMLDivElement>(null);
 	let editor: monaco.editor.IStandaloneCodeEditor;
 
@@ -54,3 +54,5 @@ export default forwardRef(({ value, language = '', onChangeHandler }, ref) => {
 
 	return <div className="w-full h-[200px]" ref={divEl}></div>;
 });
+
+export default MonacoEditor;

@@ -1,7 +1,7 @@
 import React, { FC, useRef, useState, useEffect } from 'react';
 import MonacoEditor from '../monacoeditor/monacoEditor';
 
-export default ({language, value, onChange}): FC => {
+const Editor = ({language, value, onChange}): FC => {
     const editorRef = useRef();
 
     useEffect(() => {
@@ -25,5 +25,6 @@ export default ({language, value, onChange}): FC => {
             ref={editorRef}
             language={language} value={value || ''} 
     />
-
 }
+
+export default Editor;

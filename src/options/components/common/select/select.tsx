@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({value, classes, name, options, onChange}) => {
+const Select = ({value, classes, name, options, onChange}) => {
     return <div className={`inline-block ${classes}`}>
         <select
             className="w-full"
@@ -14,3 +14,4 @@ export default ({value, classes, name, options, onChange}) => {
         </select>
     </div>
 }
+export default Select;

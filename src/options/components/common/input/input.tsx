@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default ({value = '', error = null, name, placeholder, type, classes, onChange}) => {
+const Input =  ({value = '', error = null, name, placeholder, type, classes, onChange}) => {
 
     return <div className={`inline-block ${classes}`}>
     <input className={`shadow appearance-none border 
@@ -17,3 +17,5 @@ export default ({value = '', error = null, name, placeholder, type, classes, onC
     {error ?  <p className="text-red-500 text-xs">{error}</p> : ''}
     </div>
 }
+
+export default Input;

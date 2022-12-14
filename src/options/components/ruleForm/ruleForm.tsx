@@ -8,11 +8,10 @@ import { PostMessageAction } from '../../../models/postMessageActionModel'
 import { formConfig } from './config';
 import { FormType, FormTypeMap, MatchType, MimeType, FormFieldRender } from '../../../models/formFieldModel';
 import { escapSymbols, addProtocol, addProtocolRegExp, encode } from '../../utils';
-
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 
-export default () => {
+const RuleForm = () => {
     const location: any = useLocation();
     const params: any = useParams();
     const [state, setState] = useState({});
@@ -177,3 +176,5 @@ export default () => {
         </div>
     </>
 }
+
+export default RuleForm;
