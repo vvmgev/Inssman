@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       (async() => {
         const rule: Rule = await RuleService.generateRule(request.data)
         StorageService.set({[rule.id]: request.data});
-        sendResponse(await RuleService.add([rule]))
+        sendResponse(await RuleService.add([rule], [rule]))
       })()
       return true;
       break;

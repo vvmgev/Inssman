@@ -24,6 +24,7 @@ export default () => {
                         <Route path="/" element={<RuleList />} />
                         <Route path="/create-list" element={<Content />} />
                         <Route path="/create-rule" element={<CreateRuleForm />} />
+                        <Route path="/edit-rule/:id" element={<CreateRuleForm />} />
                     </Routes>
                 </div>
             <Footer />

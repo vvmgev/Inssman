@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, Fragment } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Input from '../common/input/input';
 import Button from '../common/button/button';
 import Select from '../common/select/select';
@@ -8,15 +8,19 @@ import { PostMessageAction } from '../../../models/postMessageActionModel'
 import { formConfig } from './config';
 import { FormType, FormTypeMap, MatchType, MimeType, FormFieldRender } from '../../../models/formFieldModel';
 import { escapSymbols, addProtocol, addProtocolRegExp, encode } from '../../utils';
+
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 
 export default () => {
-    const [state, setState] = useState({});
     const location: any = useLocation();
-    const { formType, rule } = location.state;
+    const params: any = useParams();
+    const [state, setState] = useState({});
+    console.log('location', location);
+    console.log('params', params);
+    const { formType, rule } = location.state || {};
     const isUpdate: boolean = Boolean(rule);
-    console.log(formType, rule)
+    console.log('qwqwqw', formType, rule)
     const config = formConfig[FormType[formType]];
 
     const updateState = (name, value) => {
@@ -32,10 +36,15 @@ export default () => {
         const name: string = event.target.name;
         const value: string = event.target.value;
         const error = validate(name, value);
-        updateState(name, {value, error})
+        if(FormFieldRender.includes(name)) {
+            updateState(name, {value, error});
+            return;
+        }
+        updateState(name, value) 
     }
 
     useEffect(() => {
+        console.log('useEffect');
         if(rule) {
             Object.entries(rule).forEach(item => {
                 const [key, value] = item;
@@ -124,11 +133,11 @@ export default () => {
                 name={field.name}
                 classes={field.classes}
                 error={state[field.name]?.error}
-                placeholder={field.placeholder || field.placeholders[MatchType[state.matchType?.value]]}
+                placeholder={(field.placeholders && field.placeholders[MatchType[state.matchType?.value]]) || field.placeholder}
                 onChange={onChangeField}/>
             case 'select':
             return <Select
-                value={state[field.name]?.value || field.defaultValue}
+                value={state[field.name] || field.defaultValue}
                 classes={field.classes}
                 name={field.name}
                 options={field.options}
@@ -160,7 +169,7 @@ export default () => {
         <div className="p-3">
             <form onSubmit={submitForm}>
                 <h1>{FormType[formType]}</h1>
-                {config.fields.map(field => <span key={field.id}>{generateField(field)}</span>)}
+                {config.fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}
                 <div>
                     <Button>{isUpdate ? 'Update' : 'Create'}</Button>
                 </div>

@@ -6,14 +6,18 @@ export const formConfig = {
                 id: 4,
                 name: 'name',
                 type: 'text',
-                classes: 'w-[50%]',
-                placeholder: 'name',
+                classes: 'w-1/3',
+                placeholder: 'Rule Name',
                 validations: {
                     required: {
                         rule: /^\s*$/,
                         message: 'Field is required'
                     },
                 }
+            },
+            {
+                id: 44,
+                type: 'break',
             },
             {
                 id: 3,
@@ -24,6 +28,7 @@ export const formConfig = {
                     previous.push({value: current[0], label: current[1]})
                     return previous;
                 }, []),
+                defaultValue: MatchType.CONTAIN.toUpperCase()
             },
             {
                 id: 1,
@@ -31,6 +36,18 @@ export const formConfig = {
                 placeholder: 'some placeholder urlFilter',
                 type: 'text',
                 classes: 'w-1/4',
+                validations: {
+                    required: {
+                        rule: /^\s*$/,
+                        message: 'Field is required'
+                    },
+                },
+                placeholders: {
+                    [MatchType.CONTAIN] : 'cotain',
+                    [MatchType.EQUAL] : 'equal',
+                    [MatchType.REGEXP] : 'REGEXP',
+                    [MatchType.WILDCARD] : 'WILDCARD',
+                },
             },
             {
                 id: 2,
@@ -38,6 +55,12 @@ export const formConfig = {
                 placeholder: 'redirect to some placeholder',
                 type: 'text',
                 classes: 'w-1/4',
+                validations: {
+                    required: {
+                        rule: /^\s*$/,
+                        message: 'Field is required'
+                    },
+                }
             },
         ]
     },
@@ -65,6 +88,7 @@ export const formConfig = {
                     previous.push({value: current[0], label: current[1]})
                     return previous;
                 }, []),
+                defaultValue: MatchType.CONTAIN.toUpperCase()
             },
             {
                 id: 1,
@@ -80,7 +104,13 @@ export const formConfig = {
                         rule: /\w{30}/,
                         message: 'Maximum'
                     },
-                }
+                },
+                placeholders: {
+                    [MatchType.CONTAIN] : 'cotain',
+                    [MatchType.EQUAL] : 'equal',
+                    [MatchType.REGEXP] : 'REGEXP',
+                    [MatchType.WILDCARD] : 'WILDCARD',
+                },
             },
         ]
     },

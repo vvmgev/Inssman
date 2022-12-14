@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { PostMessageAction } from '../../../models/postMessageActionModel';
 import Button from '../common/button/button';
 import StorageService from '../../../services/StorageService';
+import { FormType } from '../../../models/formFieldModel'
 import Rule = chrome.declarativeNetRequest.Rule
 
 export default (): FC => {
@@ -35,7 +36,8 @@ export default (): FC => {
         <div>
             <ul className="bg-white rounded-lg w-full text-gray-900">
                 {rules.map(rule => <li key={rule.id} className="px-6 py-2 border-b border-gray-200 w-full">
-                    <Link to={'/create-rule'} state={{formType: rule.formType, rule}}>{rule.name}</Link>
+                    <Link to={`/edit-rule/${rule.id}`}>{rule.name}</Link>
+                    <div>{FormType[rule.formType]}</div>
                     <Button onClick={() => handleDelete(rule)}>Delete</Button>
                     </li>)}
             </ul>

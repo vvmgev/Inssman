@@ -10,11 +10,11 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 
 class RuleService {
-    async add(rules: Rule[]): Promise<void> {
+    async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
         // const qq : number[] = rules.map(as => as.id);
         // const ww: number[] = (await this.getRules()).map(item => item.id);
         // return this.updateDynamicRules({addRules: rules, removeRuleIds: [...qq, ...ww]})
-        return this.updateDynamicRules({ addRules: rules })
+        return this.updateDynamicRules({ addRules: rules, removeRuleIds: removeRules.map(rule => rule.id) })
     }
 
     remove(rules: Rule[]): Promise<void> {
