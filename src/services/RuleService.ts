@@ -51,7 +51,7 @@ class RuleService {
         return {
             ...(formField.urlFilter && {urlFilter: formField.urlFilter}),
             ...(formField.regexFilter && {regexFilter: formField.regexFilter}),
-            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME]
+            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
             // some properties are not implemented
             // see docs
         }
