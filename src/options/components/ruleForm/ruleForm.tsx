@@ -102,13 +102,13 @@ const RuleForm = () => {
             data.regexFilter = data.urlFilter;
             delete data.urlFilter;
         }
-        if(MatchType[data?.matchType] === MatchType.WILDCARD && FormTypeMap[formType] === RuleActionType.REDIRECT) {
-            data.regexFilter = escapSymbols(data.urlFilter);
-            data.regexFilterOriginal = data.urlFilter;
-            delete data.urlFilter;
-            data.regexSubstitution = data.url;
-            delete data.url;
-        }
+        // if(MatchType[data?.matchType] === MatchType.WILDCARD && FormTypeMap[formType] === RuleActionType.REDIRECT) {
+        //     data.regexFilter = escapSymbols(data.urlFilter);
+        //     data.regexFilterOriginal = data.urlFilter;
+        //     delete data.urlFilter;
+        //     data.regexSubstitution = data.url;
+        //     delete data.url;
+        // }
         if(FormType[formType] === FormType.MODIFY_RESPONSE) {
             data.url = encode(MimeType[state.language.value.toUpperCase()], state.editor.value);
         }
@@ -120,8 +120,6 @@ const RuleForm = () => {
         );
         console.log('data', data);
     }, [state])
-
-
     
     const generateField = (field: any) => {
         switch (field.type) {

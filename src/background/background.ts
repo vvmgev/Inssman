@@ -4,7 +4,6 @@ import { StorageKey } from '../models/storageModel';
 import { PostMessageAction } from '../models/postMessageActionModel';
 const { RuleActionType } = chrome.declarativeNetRequest;
 import Rule = chrome.declarativeNetRequest.Rule;
-import { getCssModule } from 'mini-css-extract-plugin';
 
 
 chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
@@ -37,7 +36,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const id: number = await StorageService.setNextId();
         const rule: Rule = await RuleService.generateRule({id, ...request.data})
         StorageService.set({[rule.id]: request.data});
-        sendResponse(await RuleService.add([rule]))
+        sendResponse(await RuleService.add([rule]));
       })()
       return true;
       break;

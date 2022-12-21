@@ -11,9 +11,6 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 class RuleService {
     async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
-        // const qq : number[] = rules.map(as => as.id);
-        // const ww: number[] = (await this.getRules()).map(item => item.id);
-        // return this.updateDynamicRules({addRules: rules, removeRuleIds: [...qq, ...ww]})
         return this.updateDynamicRules({ addRules: rules, removeRuleIds: removeRules.map(rule => rule.id) })
     }
 
@@ -35,32 +32,26 @@ class RuleService {
         return chrome.declarativeNetRequest.getDynamicRules();
     }
 
-    generateAction(formField: FormField): RuleAction {
+    generateAction(formField: any): RuleAction {
         return {
-            type: FormTypeMap[formField.formType],
-            redirect : {
-                ...(formField.url && {url: formField.url}),
-                ...(formField.extensionPath && {extensionPath: formField.extensionPath}),
-                ...(formField.regexSubstitution && {regexSubstitution: formField.regexSubstitution}),
-                // "transform" property is not implemented
+            type: formField.ruleActionType,
+            redirect: {
+                [formField.redirectPropertyType]: formField.redirectTo,
             }
         }
     }
 
-    generateCondition(formField: FormField): RuleCondition {
+    generateCondition(formField: any): RuleCondition {
         return {
-            ...(formField.urlFilter && {urlFilter: formField.urlFilter}),
-            ...(formField.regexFilter && {regexFilter: formField.regexFilter}),
+            ...{[formField.filterType]: formField.target},
             resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
-            // some properties are not implemented
-            // see docs
         }
     }
 
     async generateRule(formField: FormField): Promise<Rule> {
         const rule: any = {
             id: formField.id,
-            priority: 1, 
+            priority: formField.id || 1, 
             action: this.generateAction(formField),
             condition: this.generateCondition(formField),
         };

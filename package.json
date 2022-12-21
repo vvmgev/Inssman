@@ -30,6 +30,7 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-script": "^2.0.5",
+    "tailwindcss": "^3.2.4",
     "ts-loader": "^9.2.8",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2"
@@ -39,7 +40,6 @@
     "css-loader": "^6.7.1",
     "postcss": "^8.4.13",
     "postcss-loader": "^6.2.1",
-    "style-loader": "^3.3.1",
-    "tailwindcss": "^3.0.24"
+    "style-loader": "^3.3.1"
   }
 }

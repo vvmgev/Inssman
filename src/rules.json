@@ -1,11 +1,11 @@
 [
     {
         "id": 7,
-        "priority": 1,
+        "priority": 11,
         "action": {
             "type": "redirect",
             "redirect": {
-                "regexSubstitution": "\\1://www.youtube.com/embed/\\2"
+                "regexSubstitution": "https://youtube.com/embed/\\2\\1"
             }
         },
         "condition": {
@@ -21,11 +21,43 @@
         "action": {
             "type": "redirect",
             "redirect": {
-                "regexSubstitution": "www.youtube.com/embed/"
+                "regexSubstitution": "https://www.youtube.com"
             }
         },
         "condition": {
-            "regexFilter": "(www\\.youtube\\.com\/watch\\?v=)",
+            "regexFilter": "example-([0-9]+).com",
+            "resourceTypes": [
+                "main_frame"
+            ]
+        }
+    },
+    {
+        "id": 766,
+        "priority": 1,
+        "action": {
+          "type": "redirect",
+          "redirect": {
+            "url": "https://google.com/"
+          }
+        },
+        "condition": {
+          "regexFilter": "https://www.(abc|def).xyz.com/",
+          "resourceTypes": [
+            "main_frame"
+          ]
+        }
+      },
+      {
+        "id": 1011,
+        "priority": 3,
+        "action": {
+            "type": "redirect",
+            "redirect": {
+                "url": "https://www.youtube.com"
+            }
+        },
+        "condition": {
+            "regexFilter": "^http(s)?://listt.am/?$",
             "resourceTypes": [
                 "main_frame"
             ]

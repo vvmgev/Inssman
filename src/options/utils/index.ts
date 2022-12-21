@@ -1,2 +1,2 @@
 export * from './base64';
-export * from './regExp'
+export * from './regExp';

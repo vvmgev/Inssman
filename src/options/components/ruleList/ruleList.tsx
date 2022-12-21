@@ -10,7 +10,6 @@ export default (): FC => {
     const [rules, setRules] = useState([]);
     const getRules = () => {
         chrome.runtime.sendMessage({action: PostMessageAction.GetRules}, (rules: Rule[]) => {
-            console.log(rules);
             setRules(rules);
         });
     };

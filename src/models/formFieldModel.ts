@@ -21,10 +21,22 @@ export const FormTypeMap = {
 }
 
 export enum MatchType {
-    CONTAIN = 'Contain',
-    EQUAL = 'Equal',
-    REGEXP = 'Regexp',
-    WILDCARD = 'Wildcard'
+    CONTAIN = 'contain',
+    EQUAL = 'equal',
+    REGEXP = 'regexp',
+    WILDCARD = 'wildcard'
+}
+
+export enum FilterType {
+    URLFILTER = 'urlFilter',
+    REGEXFILTER = 'regexFilter',
+}
+
+export const MatchTypeMap = {
+    [MatchType.CONTAIN]: FilterType.URLFILTER,
+    [MatchType.EQUAL]: FilterType.REGEXFILTER,
+    [MatchType.REGEXP]: FilterType.REGEXFILTER,
+    [MatchType.WILDCARD]: FilterType.REGEXFILTER,
 }
 
 export enum Language {
@@ -48,7 +60,7 @@ type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 //     url: 
 // }
 export interface FormField {
-    id?: number;
+    id: number;
     priority?: number;
     matchType?: MatchType;
     formType: FormType;

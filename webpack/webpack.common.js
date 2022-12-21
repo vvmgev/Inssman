@@ -3,6 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const tailwindcss = require('tailwindcss');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // extract css to files
+
 module.exports = {
    entry: {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
@@ -21,6 +22,11 @@ module.exports = {
    },
    resolve: {
       extensions: [".ts", '.tsx', ".js"],
+      alias: {
+         src: path.resolve(__dirname, '../src/'),
+         models: path.resolve(__dirname, '../src/models/'),
+         options: path.resolve(__dirname, '../src/options/'),
+      },
    },
    module: {
       rules: [
