@@ -3,6 +3,11 @@ import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
 
+export enum FormMode {
+    CREATE = 'create',
+    UPDATE = 'update',
+}
+
 export enum FormType {
     REDIRECT = 'Redirect Request',
     BLOCK = 'Block Request',

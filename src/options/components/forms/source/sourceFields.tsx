@@ -1,20 +1,22 @@
 import React, { useMemo } from 'react';
-import { MatchType } from '../../../../../src/models/formFieldModel';
+import { MatchType } from '../../../../models/formFieldModel';
 import Input from '../../common/input/input';
 import Select from '../../common/select/select';
 
-const TargetFields = ({ target, onChangeTarget, onChangeMatchType, matchType, targetProps = {}, matchTypeProps = {} }) => {
+const SourceFields = ({ source, onChangeTarget, onChangeMatchType, matchType, sourceProps = {}, matchTypeProps = {} }) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
   }, []), []);
 
-  const targetPlaceholder = useMemo(() => {
+  const sourcePlaceholder = useMemo(() => {
     switch(matchType) {
       case MatchType.EQUAL:
         return 'e.g http://example.com';
       case MatchType.REGEXP:
         return 'e.g. /example-([0-9]+)/ig';
+      case MatchType.WILDCARD:
+        return 'e.g. *://exmaple.com/*';
       case MatchType.CONTAIN:
       default:
         return 'e.g Example';
@@ -31,14 +33,14 @@ const TargetFields = ({ target, onChangeTarget, onChangeMatchType, matchType, ta
         {...matchTypeProps}
         />
       <Input
-        value={target}
-        name='target'
+        value={source}
+        name='source'
         onChange={onChangeTarget}
-        placeholder={targetPlaceholder}
-        {...targetProps}
+        placeholder={sourcePlaceholder}
+        {...sourceProps}
         />
     </>
   )
 }
 
-export default TargetFields;
+export default SourceFields;

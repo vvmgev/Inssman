@@ -10,6 +10,7 @@ export default (): FC => {
     const [rules, setRules] = useState([]);
     const getRules = () => {
         chrome.runtime.sendMessage({action: PostMessageAction.GetRules}, (rules: Rule[]) => {
+            console.log(rules);
             setRules(rules);
         });
     };
@@ -33,7 +34,7 @@ export default (): FC => {
         <div>
             <ul className="bg-white rounded-lg w-full text-gray-900">
                 {rules.map(rule => <li key={rule.id} className="px-6 py-2 border-b border-gray-200 w-full">
-                    <Link to={`/edit-rule/${rule.id}`}>{rule.name}</Link>
+                    <Link to={`/edit-rule/${rule.formType}/${rule.id}`}>{rule.name}</Link>
                     <div>{FormType[rule.formType]}</div>
                     <Button onClick={() => handleDelete(rule)}>Delete</Button>
                     </li>)}

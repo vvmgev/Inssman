@@ -42,6 +42,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       break;
     case PostMessageAction.UpdateRule:
       (async() => {
+        console.log(request.data);
         const rule: Rule = await RuleService.generateRule(request.data)
         StorageService.set({[rule.id]: request.data});
         sendResponse(await RuleService.add([rule], [rule]))
@@ -64,6 +65,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           return {...degenerateRule, ...(ruleData[rule.id])}
         }));
         sendResponse(rulesMap)
+      })()
+      return true;
+      break;
+    case PostMessageAction.GetRuleById:
+      (async () => {
+        const rule: Rule = await RuleService.getRuleById(request.id);
+        const degenerateRule = RuleService.degenerate(rule)
+        const ruleData = await StorageService.get(String(rule.id))
+        sendResponse({...degenerateRule, ...(ruleData[rule.id])})
       })()
       return true;
       break;

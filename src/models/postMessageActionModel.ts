@@ -3,6 +3,7 @@ export enum PostMessageAction {
     UpdateRule,
     DeleteRule,
     GetRules,
+    GetRuleById,
     EnableRule,
     DissableRule,
     Log,

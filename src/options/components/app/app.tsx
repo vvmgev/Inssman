@@ -28,6 +28,9 @@ const App = () => {
                         <Route path="/create-rule">
                             <Route path="redirect" element={<RedirectForm />} />  
                         </Route>
+                        <Route path="/edit-rule">
+                            <Route path="redirect/:id" element={<RedirectForm />} />  
+                        </Route>
                         <Route path="/edit-rule/:id" element={<RuleForm />} />
                     </Routes>
                 </div>

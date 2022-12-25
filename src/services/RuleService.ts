@@ -19,9 +19,9 @@ class RuleService {
         return this.updateDynamicRules({removeRuleIds})
     }
 
-    async getRuleById(id: number): Promise<Rule | undefined> {
+    async getRuleById(id: number): Promise<Rule> {
         const rules: Rule[] = await this.getRules();
-        return rules.find(rule => rule.id === id);
+        return rules.find(rule => rule.id === id) as Rule;
     }
 
     updateDynamicRules(updateRuleOptions: UpdateRuleOptions): Promise<void> {
@@ -36,7 +36,7 @@ class RuleService {
         return {
             type: formField.ruleActionType,
             redirect: {
-                [formField.redirectPropertyType]: formField.redirectTo,
+                [formField.redirectPropertyType]: formField.destination,
             }
         }
     }
@@ -55,8 +55,6 @@ class RuleService {
             action: this.generateAction(formField),
             condition: this.generateCondition(formField),
         };
-
-        console.log('rule', rule);
         return rule;
     }
 
