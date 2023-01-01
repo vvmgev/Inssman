@@ -6,7 +6,8 @@ import Input from 'src/options/components/common/input/input';
 import { backslashNumber, makeExactMatch, replaceAsterisk } from 'src/options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 const CancelForm = () => {
   const params = useParams();
@@ -19,29 +20,36 @@ const CancelForm = () => {
   const onChangeMatchType = event => setMatchType(event.target.value);
   const onChangeTitle = event => setName(event.target.value);
   const onSubmit = () => {
-    const rule: any = {
+    const form: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
       data: {
-        name,
-        matchType,
-        source,
-        filterType: MatchTypeMap[matchType],
-        ruleActionType: RuleActionType.BLOCK,
-        original: {
+        rule: {
+          action: {
+            type: RuleActionType.BLOCK,
+          },
+          condition: {
+            [MatchTypeMap[matchType]]: source,
+            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
+          }
+        },
+        ruleData: {
+          name,
+          matchType,
           source,
-        }
+          url: 'block',
+        },
       }
     };
     if (id) {
-      rule.data.id = id;
+      form.data.rule.id = id;
     }
     if (matchType === MatchType.EQUAL) {
-      rule.data.source = makeExactMatch(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = makeExactMatch(source);
     }
     if (matchType === MatchType.WILDCARD) {
-      rule.data.source = replaceAsterisk(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = replaceAsterisk(source);
     }
-    chrome.runtime.sendMessage(rule);
+    chrome.runtime.sendMessage(form);
   };
 
   useEffect(() => {
@@ -49,10 +57,10 @@ const CancelForm = () => {
       chrome.runtime.sendMessage({
         action: PostMessageAction.GetRuleById,
         id,
-      }, (data) => {
-        setSource(data.original.source);
-        setMatchType(data.matchType);
-        setName(data.name)
+      }, ({ruleData}) => {
+        setSource(ruleData.source);
+        setMatchType(ruleData.matchType);
+        setName(ruleData.name)
       });
     }
   }, []);

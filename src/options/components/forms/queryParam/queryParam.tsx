@@ -7,9 +7,10 @@ import { PostMessageAction } from 'src/models/postMessageActionModel';
 import { makeExactMatch, replaceAsterisk } from 'src/options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import Select from '../../common/select/select';
 import QueryParamFields from '../components/queryParamFields';
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 const QueryParamForm = () => {
   const params = useParams();
@@ -52,33 +53,45 @@ const QueryParamForm = () => {
   }, [queryParams]);
 
   const onSubmit = () => {
-    const rule: any = {
+    const form: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
       data: {
-        name,
-        matchType,
-        source,
-        queryParams: getQueryParams(),
-        removeParams: getRemoveQueryParams(),
-        filterType: MatchTypeMap[matchType],
-        ruleActionType: RuleActionType.REDIRECT,
-        original: {
+        rule: {
+          action: {
+            type: RuleActionType.REDIRECT,
+            redirect: {
+              transform:{
+                queryTransform: {
+                  addOrReplaceParams: getQueryParams(),
+                  removeParams: getRemoveQueryParams(),
+                }
+              }
+            }
+          },
+          condition: {
+            [MatchTypeMap[matchType]]: source,
+            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
+          },
+        },
+        ruleData: {
+          name,
+          matchType,
           source,
-          queryParams: getQueryParams(),
-          removeParams: getRemoveQueryParams(),
-        }
+          queryParams,
+          url: 'query-param',
+        },
       }
     };
     if (id) {
-      rule.data.id = id;
+      form.data.rule.id = id;
     }
     if (matchType === MatchType.EQUAL) {
-      rule.data.source = makeExactMatch(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = makeExactMatch(source);
     }
     if (matchType === MatchType.WILDCARD) {
-      rule.data.source = replaceAsterisk(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = replaceAsterisk(source);
     }
-    chrome.runtime.sendMessage(rule);
+    chrome.runtime.sendMessage(form);
   };
 
   useEffect(() => {
@@ -86,10 +99,11 @@ const QueryParamForm = () => {
       chrome.runtime.sendMessage({
         action: PostMessageAction.GetRuleById,
         id,
-      }, (data) => {
-        setSource(data.original.source);
-        setMatchType(data.matchType);
-        setName(data.name);
+      }, ({ruleData}) => {
+        setSource(ruleData.source);
+        setMatchType(ruleData.matchType);
+        setName(ruleData.name);
+        setQueryParams(ruleData.queryParams);
       });
     }
   }, []);
@@ -97,10 +111,10 @@ const QueryParamForm = () => {
   return <>
           <Form onSubmit={onSubmit} mode={mode}>
             <Input
-                value={name}
-                name='title'
-                onChange={onChangeTitle} 
-                placeholder='Title'
+              value={name}
+              name='title'
+              onChange={onChangeTitle} 
+              placeholder='Title'
             />
             <SourceFields
               matchType={matchType}
@@ -108,8 +122,12 @@ const QueryParamForm = () => {
               source={source}
               onChangeSource={onChangeSource}
             />
-            <QueryParamFields onChangeType={onChangeQueryParamAction} onChangeParam={onChangeParam} queryParams={queryParams} />
-            <Button onClick={onAddQueryParam} >Add</Button>
+            <QueryParamFields
+              onChangeType={onChangeQueryParamAction}
+              onChangeParam={onChangeParam}
+              queryParams={queryParams}
+            />
+            <Button onClick={onAddQueryParam}>Add</Button>
            </Form>
     </>
 };

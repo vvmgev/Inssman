@@ -50,10 +50,10 @@ const RedirectForm = () => {
       form.data.rule.id = id;
     }
     if (matchType === MatchType.EQUAL) {
-      form.data.rule.source = makeExactMatch(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = makeExactMatch(source);
     }
     if (matchType === MatchType.WILDCARD) {
-      form.data.rule.source = replaceAsterisk(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = replaceAsterisk(source);
     }
     chrome.runtime.sendMessage(form);
   };
