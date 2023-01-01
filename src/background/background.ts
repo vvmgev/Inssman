@@ -31,29 +31,18 @@ chrome.declarativeNetRequest.getDynamicRules().then((data) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
-    case PostMessageAction.AddRuleNew:
-      (async() => {
-        const id: number = await StorageService.setNextId();
-        StorageService.set({[id]: request.data.info});
-        sendResponse(await RuleService.add([request.data.rule]));
-      })()
-      return true;
-      break;
     case PostMessageAction.AddRule:
       (async() => {
         const id: number = await StorageService.setNextId();
-        const rule: Rule = await RuleService.generateRule({id, ...request.data})
-        StorageService.set({[rule.id]: request.data});
-        sendResponse(await RuleService.add([rule]));
+        StorageService.set({[id]: request.data.ruleData});
+        sendResponse(await RuleService.add([{id, ...request.data.rule}]));
       })()
       return true;
       break;
     case PostMessageAction.UpdateRule:
       (async() => {
-        console.log(request.data);
-        const rule: Rule = await RuleService.generateRule(request.data)
-        StorageService.set({[rule.id]: request.data});
-        sendResponse(await RuleService.add([rule], [rule]))
+        StorageService.set({[request.data.rule.id]: request.data.ruleData});
+        sendResponse(await RuleService.add([request.data.rule], [request.data.rule]))
       })()
       return true;
       break;
@@ -68,10 +57,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       (async () => {
         const rules: Rule[] = await RuleService.getRules();
         const rulesMap =  await Promise.all(rules.map(async (rule) => {
-          console.log('rule', rule);
           const ruleData = await StorageService.get(String(rule.id))
-          const degenerateRule = RuleService.degenerate(rule)
-          return {...degenerateRule, ...(ruleData[rule.id])}
+          return {ruleData, rule};
         }));
         sendResponse(rulesMap)
       })()
@@ -80,9 +67,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case PostMessageAction.GetRuleById:
       (async () => {
         const rule: Rule = await RuleService.getRuleById(request.id);
-        const degenerateRule = RuleService.degenerate(rule)
         const ruleData = await StorageService.get(String(rule.id))
-        sendResponse({...degenerateRule, ...(ruleData[rule.id])})
+        sendResponse({rule, ruleData: ruleData[rule.id]})
       })()
       return true;
       break;

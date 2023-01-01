@@ -3,10 +3,11 @@ import { useParams } from "react-router-dom";
 import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Input from 'src/options/components/common/input/input';
-import { backslashNumber, makeExactMatch, replaceAsterisk } from 'src/options/utils';
+import { addProtocol, backslashNumber, makeExactMatch, replaceAsterisk } from 'src/options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 const RedirectForm = () => {
   const params = useParams();
@@ -21,32 +22,40 @@ const RedirectForm = () => {
   const onChangeMatchType = event => setMatchType(event.target.value);
   const onChangeTitle = event => setName(event.target.value);
   const onSubmit = () => {
-    const rule: any = {
+    const form: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
       data: {
-        name,
-        destination,
-        matchType,
-        source,
-        filterType: MatchTypeMap[matchType],
-        ruleActionType: RuleActionType.REDIRECT,
-        redirectPropertyType: destination.match(backslashNumber) ? 'regexSubstitution' : 'url',
-        original: {
+        rule: {
+          action: {
+            type: RuleActionType.REDIRECT,
+            redirect: {
+              [destination.match(backslashNumber) ? 'regexSubstitution' : 'url']: addProtocol(destination),
+            }
+          },
+          condition: {
+            [MatchTypeMap[matchType]]: source,
+            resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
+          }
+        },
+        ruleData: {
+          name,
           source,
           destination,
-        }
+          matchType,
+          url: 'redirect',
+        },
       }
     };
     if (id) {
-      rule.data.id = id;
+      form.data.rule.id = id;
     }
     if (matchType === MatchType.EQUAL) {
-      rule.data.source = makeExactMatch(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = makeExactMatch(source);
     }
     if (matchType === MatchType.WILDCARD) {
-      rule.data.source = replaceAsterisk(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = replaceAsterisk(source);
     }
-    chrome.runtime.sendMessage(rule);
+    chrome.runtime.sendMessage(form);
   };
 
   useEffect(() => {
@@ -54,11 +63,11 @@ const RedirectForm = () => {
       chrome.runtime.sendMessage({
         action: PostMessageAction.GetRuleById,
         id,
-      }, (data) => {
-        setDestination(data.original.destination);
-        setSource(data.original.source);
-        setMatchType(data.matchType);
-        setName(data.name)
+      }, ({ruleData}) => {
+        setDestination(ruleData.destination);
+        setSource(ruleData.source);
+        setMatchType(ruleData.matchType);
+        setName(ruleData.name)
       });
     }
   }, []);
