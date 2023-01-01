@@ -10,6 +10,8 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType
 
 
 class RuleService {
+    #DEFAULT_PRIOPRITY = 1;
+
     async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
         return this.updateDynamicRules({ addRules: rules, removeRuleIds: removeRules.map(rule => rule.id) })
     }
@@ -33,17 +35,31 @@ class RuleService {
     }
 
     generateAction(formField: any): RuleAction {
-        return {
+        const action: RuleAction = {
             type: formField.ruleActionType,
-            redirect: {
-                [formField.redirectPropertyType]: formField.destination,
+        }
+        if(formField.redirectPropertyType) {
+            action[formField.redirectPropertyType] = formField.destination;
+        }
+
+        if(formField.queryParams || formField.removeParams) {
+            action.redirect = {
+                transform:{
+                  queryTransform: {
+                    ...(formField.queryParams && {addOrReplaceParams: formField.queryParams}),
+                    ...(formField.removeParams && {removeParams: formField.removeParams}),
+                }
+              }
             }
         }
+        
+
+        return action;
     }
 
     generateCondition(formField: any): RuleCondition {
         return {
-            ...{[formField.filterType]: formField.target},
+            ...{[formField.filterType]: formField.source},
             resourceTypes: [ResourceType.MAIN_FRAME, ResourceType.SUB_FRAME, ResourceType.XMLHTTPREQUEST]
         }
     }
@@ -51,7 +67,17 @@ class RuleService {
     async generateRule(formField: FormField): Promise<Rule> {
         const rule: any = {
             id: formField.id,
-            priority: formField.id || 1, 
+            priority: formField.priority || this.#DEFAULT_PRIOPRITY,
+            action: this.generateAction(formField),
+            condition: this.generateCondition(formField),
+        };
+        return rule;
+    }
+
+    async generateRuleNew(formField: FormField): Promise<Rule> {
+        const rule: any = {
+            id: formField.id,
+            priority: formField.priority || this.#DEFAULT_PRIOPRITY,
             action: this.generateAction(formField),
             condition: this.generateCondition(formField),
         };

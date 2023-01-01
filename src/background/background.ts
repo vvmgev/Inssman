@@ -31,6 +31,14 @@ chrome.declarativeNetRequest.getDynamicRules().then((data) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
+    case PostMessageAction.AddRuleNew:
+      (async() => {
+        const id: number = await StorageService.setNextId();
+        StorageService.set({[id]: request.data.info});
+        sendResponse(await RuleService.add([request.data.rule]));
+      })()
+      return true;
+      break;
     case PostMessageAction.AddRule:
       (async() => {
         const id: number = await StorageService.setNextId();
@@ -60,6 +68,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       (async () => {
         const rules: Rule[] = await RuleService.getRules();
         const rulesMap =  await Promise.all(rules.map(async (rule) => {
+          console.log('rule', rule);
           const ruleData = await StorageService.get(String(rule.id))
           const degenerateRule = RuleService.degenerate(rule)
           return {...degenerateRule, ...(ruleData[rule.id])}

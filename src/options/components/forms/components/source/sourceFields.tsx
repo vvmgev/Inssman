@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { MatchType } from '../../../../models/formFieldModel';
-import Input from '../../common/input/input';
-import Select from '../../common/select/select';
+import { MatchType } from '../../../../../models/formFieldModel';
+import Input from '../../../common/input/input';
+import Select from '../../../common/select/select';
 
-const SourceFields = ({ source, onChangeTarget, onChangeMatchType, matchType, sourceProps = {}, matchTypeProps = {} }) => {
+const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, sourceProps = {}, matchTypeProps = {} }) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -35,7 +35,7 @@ const SourceFields = ({ source, onChangeTarget, onChangeMatchType, matchType, so
       <Input
         value={source}
         name='source'
-        onChange={onChangeTarget}
+        onChange={onChangeSource}
         placeholder={sourcePlaceholder}
         {...sourceProps}
         />

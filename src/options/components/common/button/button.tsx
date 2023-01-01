@@ -6,7 +6,13 @@ interface IPops {
 }
 
 const Button = ({children, onClick}: IPops) => {
-    return <button onClick={(e) => onClick && onClick(e)} className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white">
+    const handler = event => {
+        event.preventDefault();
+        if(onClick) {
+            onClick(event);
+        };
+    }
+    return <button onClick={handler} className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white">
         {children}
     </button>
 }

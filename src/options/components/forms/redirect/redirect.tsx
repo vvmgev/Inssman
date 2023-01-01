@@ -4,8 +4,8 @@ import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Input from 'src/options/components/common/input/input';
 import { backslashNumber, makeExactMatch, replaceAsterisk } from 'src/options/utils';
-import Form from '../form/form';
-import SourceFields from '../source/sourceFields';
+import Form from '../components/form/form';
+import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 const RedirectForm = () => {
@@ -24,7 +24,6 @@ const RedirectForm = () => {
     const rule: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
       data: {
-        id,
         name,
         destination,
         matchType,
@@ -38,6 +37,9 @@ const RedirectForm = () => {
         }
       }
     };
+    if (id) {
+      rule.data.id = id;
+    }
     if (matchType === MatchType.EQUAL) {
       rule.data.source = makeExactMatch(source);
     }
@@ -73,7 +75,7 @@ const RedirectForm = () => {
               matchType={matchType}
               onChangeMatchType={onChangeMatchType}
               source={source}
-              onChangeTarget={onChangeSource}
+              onChangeSource={onChangeSource}
               />
             <Input
               value={destination}

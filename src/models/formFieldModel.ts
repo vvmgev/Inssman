@@ -2,6 +2,7 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
+import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
 
 export enum FormMode {
     CREATE = 'create',
@@ -85,3 +86,13 @@ export const FormFieldRender = [
     'urlFilter',
     'regexFilter',
 ]
+
+export enum QueryParamAction {
+    ADD = 'add',
+    REPLACE = 'replace',
+    REMOVE = 'remove',
+  }
+  
+  export interface QueryParams extends QueryKeyValue {
+    action: QueryParamAction
+}

@@ -57,10 +57,30 @@
             }
         },
         "condition": {
-            "regexFilter": "^http(s)?://listt.am/?$",
+            "regexFilter": "^http(s)?://listttt.am/?$",
             "resourceTypes": [
                 "main_frame"
             ]
         }
-    }
+      },
+      {
+        "id": 6666,
+        "priority": 1,
+        "action": {
+          "type": "redirect",
+          "redirect": {
+            "transform": {
+              "queryTransform": {
+                "addOrReplaceParams": [
+                  {
+                    "key": "key",
+                    "value": "value"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "condition": { "regexFilter": "^http(s)?://listt.am/?$", "resourceTypes": ["main_frame"] }
+      }
 ]
