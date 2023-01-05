@@ -8,6 +8,7 @@ import SourceFields from '../components/source/sourceFields';
 import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import { FormType } from '../../../../models/formFieldModel';
 
 const ModifyHeaderForm = ({ onSave, mode, id, error }) => {
   const [source, setSource] = useState<string>('');
@@ -59,7 +60,7 @@ const ModifyHeaderForm = ({ onSave, mode, id, error }) => {
           source,
           matchType,
           headers,
-          url: 'modify-header',
+          formType: FormType.MODIFY_HEADER,
         },
       }
     };

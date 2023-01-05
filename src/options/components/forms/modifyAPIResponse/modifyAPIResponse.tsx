@@ -3,6 +3,7 @@ import { EditorLanguage, FormMode, IForm, MatchType, MatchTypeMap, MimeTypeMap }
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Input from 'src/options/components/common/input/input';
 import { encode } from 'src/options/utils';
+import { FormType } from '../../../../models/formFieldModel';
 import Select from '../../common/select/select';
 import Editor from '../../editor/editor';
 import Form from '../components/form/form';
@@ -40,7 +41,7 @@ const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
           matchType,
           editorLang,
           editorValue,
-          url: 'modify-response',
+          formType: FormType.MODIFY_RESPONSE
         },
       }
     };

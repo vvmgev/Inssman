@@ -7,7 +7,7 @@ import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition
 
-
+type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
 export interface IForm {
     action?: PostMessageAction,
@@ -20,7 +20,7 @@ export interface IForm {
             destination?: string,
             editorValue?: string,
             editorLang?: string,
-            url: string,
+            formType: string,
         }
     }
 }
@@ -31,20 +31,19 @@ export enum FormMode {
 }
 
 export enum FormType {
-    REDIRECT = 'Redirect Request',
-    BLOCK = 'Block Request',
-    // REPLACE = 'Replace Reuqest',
-    // MODIFY_HEADER = 'Modify Request Header',
-    // INSERT_SCRIPT = 'Insert Script',
-    MODIFY_RESPONSE = 'Modify Response',
-    // DELAY = 'Delay Request',
-    // QUERY_PARAM = 'Query Param'
+    REDIRECT = 'redirect',
+    BLOCK = 'block',
+    MODIFY_HEADER = 'modify-header',
+    MODIFY_RESPONSE = 'modify-response',
+    QUERY_PARAM = 'query-param'
 }
 
 export const FormTypeMap = {
-    REDIRECT: RuleActionType.REDIRECT,
-    BLOCK: RuleActionType.BLOCK,
-    MODIFY_RESPONSE: RuleActionType.REDIRECT
+    [FormType.REDIRECT]: 'Redirect',
+    [FormType.BLOCK]: 'Block',
+    [FormType.MODIFY_RESPONSE]: 'Modify Response',
+    [FormType.MODIFY_HEADER]: 'Modify Header',
+    [FormType.QUERY_PARAM]: 'Query Param',
 }
 
 export enum MatchType {
@@ -87,12 +86,6 @@ export const MimeTypeMap = {
     [EditorLanguage.JSON]: MimeType.JSON,
 }
 
-type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-// export interface FormField extends WithOptional<Rule, 'id' | 'priority' | 'action' | 'condition' >{
-//     matchType: MatchType;
-//     formType: FormType;
-//     url: 
-// }
 export interface FormField {
     id: number;
     priority?: number;

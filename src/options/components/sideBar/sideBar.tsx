@@ -8,7 +8,7 @@ import PencilSVG  from '../../../assets/icons/pencil.svg'
 import ListSVG  from '../../../assets/icons/list.svg';
 
 const SideBar = () => {
-  return <div className="flex items-center h-screen">
+  return <div className="flex items-center h-full">
     <ul className="py-5 rounded-tr-3xl rounded-br-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-b border-slate-700 w-full">
       <li className="px-10 mb-2">
         <Link to='/'>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Input from 'src/options/components/common/input/input';
+import { FormType } from '../../../../models/formFieldModel';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
@@ -28,7 +29,7 @@ const CancelForm = ({id, mode, onSave, error}) => {
           title,
           matchType,
           source,
-          url: 'block',
+          formType: FormType.BLOCK,
         },
       }
     };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Input from 'src/options/components/common/input/input';
 import { FormMode, IForm, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
@@ -6,6 +6,7 @@ import { addProtocol, backslashNumber } from 'src/options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import { FormType } from '../../../../models/formFieldModel';
 
 const RedirectForm = ({ onSave, mode, id, error }) => {
   const [destination, setDestination] = useState<string>('');
@@ -35,7 +36,7 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
           source,
           destination,
           matchType,
-          url: 'redirect',
+          formType: FormType.REDIRECT,
         },
       }
     };
@@ -55,6 +56,13 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
       });
     }
   }, []);
+
+  const placeholders = useMemo(() => ({
+    [MatchType.EQUAL]: 'http://example.com',
+    [MatchType.REGEXP]: '/example-([0-9]+)/ig',
+    [MatchType.WILDCARD]: `http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
+    [MatchType.CONTAIN]: 'http://example.com',
+  }), []);
 
   return <>
           <Form onSubmit={onSubmit} mode={mode}>
@@ -76,12 +84,12 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
             </div>
             <div className="flex mt-5 items-center">
               <div className="min-w-[100px]">Redirect to</div>
-                <div className="w-1/3">
+                <div className="w-3/5">
                   <Input
                     value={destination}
                     name='destination'
                     onChange={onChangeDestination} 
-                    placeholder='http://example.com'
+                    placeholder={placeholders[matchType]}
                   />
                 </div>
             </div>

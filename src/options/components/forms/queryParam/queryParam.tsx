@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Input from 'src/options/components/common/input/input';
-import Button from 'src/options/components/common/button/button';
 import { FormMode, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import QueryParamFields from '../components/queryParamFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import { FormType } from '../../../../models/formFieldModel';
 
 const QueryParamForm = ({ onSave, mode, id, error }) => {
   const [source, setSource] = useState<string>('');
@@ -73,7 +73,7 @@ const QueryParamForm = ({ onSave, mode, id, error }) => {
           matchType,
           source,
           queryParams,
-          url: 'query-param',
+          formType: FormType.QUERY_PARAM,
         },
       }
     };

@@ -9,19 +9,12 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
     return previous;
   }, []), []);
 
-  const sourcePlaceholder = useMemo(() => {
-    switch(matchType) {
-      case MatchType.EQUAL:
-        return 'e.g http://google.com';
-      case MatchType.REGEXP:
-        return 'e.g. /google-([0-9]+)/ig';
-      case MatchType.WILDCARD:
-        return 'e.g. *://google.com/*';
-      case MatchType.CONTAIN:
-      default:
-        return 'e.g google';
-    }
-  }, [matchType]);
+  const placeholders = useMemo(() => ({
+    [MatchType.EQUAL]: 'e.g http://google.com',
+    [MatchType.REGEXP]: 'e.g. /google-([0-9]+)/ig',
+    [MatchType.WILDCARD]: 'e.g. *://google.com/*',
+    [MatchType.CONTAIN]: 'e.g http://google.com',
+  }), []);
 
   return (
     <div className="flex items-center w-full">
@@ -38,7 +31,7 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
           value={source}
           name='source'
           onChange={onChangeSource}
-          placeholder={sourcePlaceholder}
+          placeholder={placeholders[matchType]}
           {...sourceProps}
           />
       </div>

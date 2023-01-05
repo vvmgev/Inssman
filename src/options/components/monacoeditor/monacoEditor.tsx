@@ -61,7 +61,7 @@ const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }: any,
 		editor.current?.setPosition(position);
 	}, [value]);
 
-	return <div className="w-full h-[200px]" ref={divEl}></div>;
+	return <div className="w-full h-[400px]" ref={divEl}></div>;
 });
 
 export default MonacoEditor;
