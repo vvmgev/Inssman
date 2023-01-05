@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import Input from 'src/options/components/common/input/input';
-import { backslashNumber, makeExactMatch, replaceAsterisk } from 'src/options/utils';
+import { makeExactMatch, replaceAsterisk } from 'src/options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
@@ -12,39 +12,46 @@ const ReplaceForm = () => {
   const params = useParams();
   const id = params.id ? Number(params.id) : null;
   const mode = id ? FormMode.UPDATE : FormMode.CREATE;
-  const [destination, setDestination] = useState<string>('');
   const [source, setSource] = useState<string>('');
   const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
   const [name, setName] = useState<string>('');
   const onChangeSource = event => setSource(event.target.value);
-  const onChangeDestination = event => setDestination(event.target.value);
   const onChangeMatchType = event => setMatchType(event.target.value);
   const onChangeTitle = event => setName(event.target.value);
   const onSubmit = () => {
-    const rule: any = {
+    const form: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
       data: {
-        name,
-        matchType,
-        source,
-        filterType: MatchTypeMap[matchType],
-        ruleActionType: RuleActionType.REDIRECT,
-        redirectPropertyType: source.match(backslashNumber) ? 'regexSubstitution' : 'url',
-        original: {
+        rule: {
+          action: {
+            type: RuleActionType.REDIRECT,
+            redirect: {
+              regexSubstitution: source
+              // [destination.match(backslashNumber) ? 'regexSubstitution' : 'url']: addProtocol(destination),
+
+            }
+          },
+          condition: {
+            [MatchTypeMap[matchType]]: source
+          }
+        },
+        ruleData: {
+          name,
+          matchType,
           source,
-        }
+        },
       }
     };
     if (id) {
-      rule.data.id = id;
+      form.data.rule.id = id;
     }
     if (matchType === MatchType.EQUAL) {
-      rule.data.source = makeExactMatch(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = makeExactMatch(source);
     }
     if (matchType === MatchType.WILDCARD) {
-      rule.data.source = replaceAsterisk(source);
+      form.data.rule.condition[MatchTypeMap[matchType]] = replaceAsterisk(source);
     }
-    chrome.runtime.sendMessage(rule);
+    chrome.runtime.sendMessage(form);
   };
 
   useEffect(() => {
@@ -75,10 +82,14 @@ const ReplaceForm = () => {
               onChangeSource={onChangeSource}
             />
             <Input
-              value={name}
-              name='title'
-              onChange={onChangeTitle} 
-              placeholder='Title'
+              name='Replace'
+              onChange={() => {}} 
+              placeholder='Replace'
+            />
+            <Input
+              name='With'
+              onChange={() => {}} 
+              placeholder='With'
             />
            </Form>
     </>

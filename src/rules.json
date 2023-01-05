@@ -82,5 +82,30 @@
           }
         },
         "condition": { "regexFilter": "^http(s)?://listt.am/?$", "resourceTypes": ["main_frame"] }
+      },
+      {
+        "id": 103423,
+        "priority": 2,
+        "action": {
+          "type": "redirect",
+          "redirect": {
+            "url": "http://google.com"
+          }
+        },
+        "condition": { "urlFilter": "list", "resourceTypes": ["main_frame"] }
+      },
+
+      {
+        "id": 10111221212,
+        "priority": 2,
+        "action": {
+          "type": "modifyHeaders",
+          "responseHeaders": [
+            { "header": "h1", "operation": "remove" },
+            { "header": "h2", "operation": "set", "value": "v2" },
+            { "header": "h3", "operation": "append", "value": "v3" }
+          ]
+        },
+        "condition": { "urlFilter": "google.com", "resourceTypes": ["main_frame"] }
       }
 ]

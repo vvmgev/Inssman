@@ -12,19 +12,20 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
   const sourcePlaceholder = useMemo(() => {
     switch(matchType) {
       case MatchType.EQUAL:
-        return 'e.g http://example.com';
+        return 'e.g http://google.com';
       case MatchType.REGEXP:
-        return 'e.g. /example-([0-9]+)/ig';
+        return 'e.g. /google-([0-9]+)/ig';
       case MatchType.WILDCARD:
-        return 'e.g. *://exmaple.com/*';
+        return 'e.g. *://google.com/*';
       case MatchType.CONTAIN:
       default:
-        return 'e.g Example';
+        return 'e.g google';
     }
   }, [matchType]);
 
   return (
-    <>
+    <div className="flex items-center w-full">
+      <div className="min-w-[100px]">If Request</div>
       <Select
         onChange={onChangeMatchType}
         value={matchType}
@@ -32,14 +33,16 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
         name='matchType'
         {...matchTypeProps}
         />
-      <Input
-        value={source}
-        name='source'
-        onChange={onChangeSource}
-        placeholder={sourcePlaceholder}
-        {...sourceProps}
-        />
-    </>
+      <div className="ml-5 w-1/3">
+        <Input
+          value={source}
+          name='source'
+          onChange={onChangeSource}
+          placeholder={sourcePlaceholder}
+          {...sourceProps}
+          />
+      </div>
+    </div>
   )
 }
 

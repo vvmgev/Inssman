@@ -1,4 +1,4 @@
-import { FormType, MatchType, Language } from '../../../models/formFieldModel';
+import { FormType, MatchType, EditorLanguage } from '../../../models/formFieldModel';
 export const formConfig = {
     [FormType.REDIRECT] : {
         fields : [
@@ -163,11 +163,11 @@ export const formConfig = {
                 name: 'language',
                 type: 'select',
                 classes: 'w-[10%]',
-                options: Object.entries(Language).reduce((previous: any, current: any) => {
+                options: Object.entries(EditorLanguage).reduce((previous: any, current: any) => {
                     previous.push({value: current[0], label: current[1]})
                     return previous;
                 }, []),
-                defaultValue: Language.JAVASCRIPT,
+                defaultValue: EditorLanguage.HTML,
             },
             {
                 id: 4,

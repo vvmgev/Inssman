@@ -3,16 +3,17 @@ import React from 'react';
 interface IPops {
     children?: any;
     onClick?: Function;
+    classes?: string;
 }
 
-const Button = ({children, onClick}: IPops) => {
+const Button = ({children, onClick, classes}: IPops) => {
     const handler = event => {
         event.preventDefault();
         if(onClick) {
             onClick(event);
         };
     }
-    return <button onClick={handler} className="bg-sky-500 hover:bg-sky-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-white">
+    return <button onClick={handler} className={`bg-slate-400 hover:bg-slate-500 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full ${classes}`}>
         {children}
     </button>
 }

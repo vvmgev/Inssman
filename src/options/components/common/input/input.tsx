@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 
 
-const Input: FC = ({onChange, classes, error, ...props}: any ) => {
-    return <div className={`inline-block ${classes}`}>
-    <input className={`shadow appearance-none border 
-                      rounded w-full py-2 px-3 text-gray-700
-                      leading-tight focus:border-sky-500 focus:outline-none focus:shadow-outline
+const Input = ({onChange, classes, error, ...props}: any ) => {
+    return <div className={`inline-block w-full ${classes || ''}`}>
+    <input className={`drop-shadow-xl shadow-inner appearance-none bg-slate-700/50
+                      rounded w-full p-3 text-white border-none
+                      leading-tight focus:border-none focus:outline-none focus:shadow-outline
                       ${error ? 'border border-red-500' : ''}`}
                       autoComplete="off"
                       onChange={onChange}

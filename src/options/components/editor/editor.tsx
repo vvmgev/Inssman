@@ -1,8 +1,8 @@
-import React, { FC, useRef, useState, useEffect } from 'react';
+import React, {useRef, useEffect } from 'react';
 import MonacoEditor from '../monacoeditor/monacoEditor';
 
-const Editor = ({language, value, onChange}): FC => {
-    const editorRef = useRef();
+const Editor = ({language, value, onChange}) => {
+    const editorRef = useRef<any>();
 
     useEffect(() => {
         if(language) {

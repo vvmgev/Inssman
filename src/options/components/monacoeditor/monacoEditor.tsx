@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import * as monaco from 'monaco-editor';
 
 // @ts-ignore
@@ -20,12 +20,14 @@ self.MonacoEnvironment = {
 	}
 };
 
-const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }, ref) => {
+const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }: any, ref) => {
 	const divEl = useRef<HTMLDivElement>(null);
-	let editor: monaco.editor.IStandaloneCodeEditor;
+	let editor = useRef<monaco.editor.IStandaloneCodeEditor>();
+
 
 	const getModel = () => monaco.editor.getModels()[0];
-	const onChange = (...rest) => onChangeHandler && onChangeHandler(rest) 
+	const onChange = (...rest) => onChangeHandler && onChangeHandler(rest);
+	const setValue = value => getModel().setValue(value);
 
 	useImperativeHandle(ref, () => ({
 		getValue: () => monaco.editor.getModels()[0].getValue(),
@@ -38,19 +40,26 @@ const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }, ref)
 
 	useEffect(() => {
 		if (divEl.current) {
-			editor = monaco.editor.create(divEl.current, {
+			editor.current = monaco.editor.create(divEl.current, {
 				value: [value].join('\n'),
-				language
+				language,
+				theme: 'vs-dark',
 			});
 		}
 		return () => {
-			editor.dispose();
+			editor.current?.dispose();
 		};
 	}, []);
 
 	useEffect(() => {
 		getModel().onDidChangeContent(onChange)
-	}, [])
+	}, []);
+
+	useEffect(() => {
+		const position: any  = editor.current?.getPosition();
+		setValue(value);
+		editor.current?.setPosition(position);
+	}, [value]);
 
 	return <div className="w-full h-[200px]" ref={divEl}></div>;
 });

@@ -1,8 +1,29 @@
+import { PostMessageAction } from "./postMessageActionModel"
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
+import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import RuleCondition = chrome.declarativeNetRequest.RuleCondition
+
+
+export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
+export interface IForm {
+    action?: PostMessageAction,
+    data: {
+        rule: IRule,
+        ruleData: {
+            title: string,
+            source: string,
+            matchType: string,
+            destination?: string,
+            editorValue?: string,
+            editorLang?: string,
+            url: string,
+        }
+    }
+}
 
 export enum FormMode {
     CREATE = 'create',
@@ -45,11 +66,11 @@ export const MatchTypeMap = {
     [MatchType.WILDCARD]: FilterType.REGEXFILTER,
 }
 
-export enum Language {
-    JAVASCRIPT = 'JavaScript',
-    HTML = 'Html',
-    CSS = 'Css',
-    JSON = 'Json'
+export enum EditorLanguage {
+    HTML = 'html',
+    CSS = 'css',
+    JAVASCRIPT = 'javascript',
+    JSON = 'json'
 }
 
 export enum MimeType {
@@ -57,6 +78,13 @@ export enum MimeType {
     HTML = 'text/html',
     CSS = 'text/css',
     JSON = 'application/json',
+}
+
+export const MimeTypeMap = {
+    [EditorLanguage.HTML]: MimeType.HTML,
+    [EditorLanguage.CSS]: MimeType.CSS,
+    [EditorLanguage.JAVASCRIPT]: MimeType.JAVASCRIPT,
+    [EditorLanguage.JSON]: MimeType.JSON,
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -91,7 +119,12 @@ export enum QueryParamAction {
     ADD = 'add',
     REPLACE = 'replace',
     REMOVE = 'remove',
-  }
+}
+
+export enum HeaderModificationType {
+    REQUEST = 'request',
+    RESPONSE = 'response',
+}
   
   export interface QueryParams extends QueryKeyValue {
     action: QueryParamAction

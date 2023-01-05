@@ -17,6 +17,7 @@ module.exports = {
    },
    output: {
       path: path.join(__dirname, "../", "dist"),
+      // publicPath: "../dist/",
       filename: "[name]/[name].js",
       clean: true
    },
@@ -26,6 +27,7 @@ module.exports = {
          src: path.resolve(__dirname, '../src/'),
          models: path.resolve(__dirname, '../src/models/'),
          options: path.resolve(__dirname, '../src/options/'),
+         assets: path.resolve(__dirname, '../src/assets/'),
       },
    },
    module: {
@@ -37,15 +39,18 @@ module.exports = {
          },
          {
             test: /\.css$/i,
-            // include: path.resolve(__dirname, "../", "src"),
             use: ["style-loader", "css-loader", "postcss-loader"],
           },
           {
 				test: /\.ttf$/,
 				use: ['file-loader'],
             exclude: /node_modules/,
-			}
-      ],
+			},
+         {
+            test: /\.svg/,
+            use: ["@svgr/webpack"],
+          },
+      ]
    },
    plugins: [
       new CopyPlugin({
