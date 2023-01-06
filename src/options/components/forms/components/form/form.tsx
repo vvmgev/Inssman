@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import Button from 'components/common/button/button';
 
 const Form = ({ children, onSubmit, error, mode = 'create' }) => {
