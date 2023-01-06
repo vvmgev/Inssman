@@ -14,7 +14,7 @@ export interface IForm {
     data: {
         rule: IRule,
         ruleData: {
-            title: string,
+            name: string,
             source: string,
             matchType: string,
             destination?: string,

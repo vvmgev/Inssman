@@ -22,12 +22,14 @@ module.exports = {
       clean: true
    },
    resolve: {
-      extensions: [".ts", '.tsx', ".js"],
+      roots: [path.resolve('./src')],
+      extensions: [".ts", '.tsx', ".js", ".svg"],
       alias: {
-         src: path.resolve(__dirname, '../src/'),
-         models: path.resolve(__dirname, '../src/models/'),
-         options: path.resolve(__dirname, '../src/options/'),
-         assets: path.resolve(__dirname, '../src/assets/'),
+         src: path.resolve(__dirname, '..', 'src'),
+         models: path.resolve(__dirname, '..','src', 'models'),
+         options: path.resolve(__dirname, '..', 'src', 'options'),
+         components: path.resolve(__dirname, '..', 'src', 'options', 'components'),
+         assets: path.resolve(__dirname, '..', 'src', 'assets'),
       },
    },
    module: {

@@ -14,7 +14,14 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "jsx": "react"
+        "jsx": "react",
+        "paths": {
+            "src/*": ["src/*"],
+            "models/*": ["src/models/*"],
+            "options/*": ["src/options/*"],
+            "assets/*": ["src/assets/*"],
+            "components/*": ["src/options/components/*"],
+        },
     },
     "compileOnSave": true,
     "files": [

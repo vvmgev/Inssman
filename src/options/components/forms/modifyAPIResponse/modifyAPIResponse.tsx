@@ -1,24 +1,30 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { EditorLanguage, FormMode, IForm, MatchType, MatchTypeMap, MimeTypeMap } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import Input from 'src/options/components/common/input/input';
-import { encode } from 'src/options/utils';
-import { FormType } from '../../../../models/formFieldModel';
-import Select from '../../common/select/select';
+import { EditorLanguage, FormMode, IForm, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import Input from 'components/common/input/input';
+import { encode } from 'options/utils';
+import { FormType } from 'models/formFieldModel';
+import Select from 'components/common/select/select';
 import Editor from '../../editor/editor';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
-const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
+const ModifyAPIResponse = ({ onSave, mode, id, error, onChange }) => {
   const [source, setSource] = useState<string>('');
   const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [title, setTitle] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [editorLang, setEditorLang] = useState<EditorLanguage>(EditorLanguage.HTML);
   const [editorValue, setEditorValue] = useState<string>('');
-  const onChangeSource = event => setSource(event.target.value);
+  const onChangeSource = event => {
+    onChange(event);
+    setSource(event.target.value);
+  }
   const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeTitle = event => setTitle(event.target.value);
+  const onChangeName = event => {
+    onChange(event);
+    setName(event.target.value);
+  }
   const onChangeEditorLang = event => setEditorLang(event.target.value);
   const onChangeEditorValue = event => setEditorValue(event.target.value);
   const onSubmit = () => {
@@ -36,7 +42,7 @@ const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
           }
         },
         ruleData: {
-          title,
+          name,
           source,
           matchType,
           editorLang,
@@ -59,9 +65,10 @@ const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
         action: PostMessageAction.GetRuleById,
         id,
       }, ({ruleData}) => {
+        console.log(ruleData);
         setSource(ruleData.source);
         setMatchType(ruleData.matchType);
-        setTitle(ruleData.title);
+        setName(ruleData.name);
         setEditorLang(ruleData.editorLang)
         setEditorValue(ruleData.editorValue)
       });
@@ -70,13 +77,14 @@ const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
 
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode}>
+          <Form onSubmit={onSubmit} mode={mode} error={error}>
             <div className="w-1/5">
               <Input
-                  value={title}
-                  name='title'
-                  onChange={onChangeTitle} 
-                  placeholder="Rule Title"
+                  value={name}
+                  name='name'
+                  onChange={onChangeName} 
+                  placeholder="Rule Name"
+                  error={error?.name}
               />
             </div>
             <div className="mt-5">
@@ -85,6 +93,9 @@ const ModifyAPIResponse = ({ onSave, mode, id, error }) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
+                sourceProps={{
+                  error: error?.source
+                }}
               />
             </div>
             <div className="mt-5">

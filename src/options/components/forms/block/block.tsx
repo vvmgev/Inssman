@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import Input from 'src/options/components/common/input/input';
-import { FormType } from '../../../../models/formFieldModel';
+import { FormMode, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import Input from 'components/common/input/input';
+import { FormType } from 'models/formFieldModel';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
-const CancelForm = ({id, mode, onSave, error}) => {
+const CancelForm = ({id, mode, onSave, error, onChange}) => {
   const [source, setSource] = useState<string>('');
   const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [title, setTitle] = useState<string>('');
-  const onChangeSource = event => setSource(event.target.value);
+  const [name, setName] = useState<string>('');
+  const onChangeSource = event => {
+    onChange(event);
+    setSource(event.target.value)
+  };
   const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeTitle = event => setTitle(event.target.value);
+  const onChangeName = event => {
+    onChange(event);
+    setName(event.target.value);
+  }
   const onSubmit = () => {
     const form: any = {
       data: {
@@ -26,7 +32,7 @@ const CancelForm = ({id, mode, onSave, error}) => {
           }
         },
         ruleData: {
-          title,
+          name,
           matchType,
           source,
           formType: FormType.BLOCK,
@@ -44,19 +50,20 @@ const CancelForm = ({id, mode, onSave, error}) => {
       }, ({ruleData}) => {
         setSource(ruleData.source);
         setMatchType(ruleData.matchType);
-        setTitle(ruleData.title)
+        setName(ruleData.name)
       });
     }
   }, []);
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode}>
+          <Form onSubmit={onSubmit} mode={mode} error={error}>
             <div className="w-1/5">
               <Input
-                  value={title}
-                  name='title'
-                  onChange={onChangeTitle} 
-                  placeholder="Rule Title"
+                  value={name}
+                  name='name'
+                  onChange={onChangeName} 
+                  placeholder="Rule Name"
+                  error={error?.name}
               />
             </div>
             <div className="flex mt-5 items-center w-full">
@@ -65,9 +72,11 @@ const CancelForm = ({id, mode, onSave, error}) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
+                sourceProps={{
+                  error: error?.source
+                }}
               />
             </div>
-            {error && <h1>{error}</h1>}
            </Form>
     </>
 };

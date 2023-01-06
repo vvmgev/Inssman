@@ -1,22 +1,31 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import Input from 'src/options/components/common/input/input';
-import { FormMode, IForm, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import { addProtocol, backslashNumber } from 'src/options/utils';
+import Input from 'components/common/input/input';
+import { FormMode, IForm, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import { addProtocol, backslashNumber } from 'options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import { FormType } from '../../../../models/formFieldModel';
+import { FormType } from 'models/formFieldModel';
 
-const RedirectForm = ({ onSave, mode, id, error }) => {
+const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
   const [destination, setDestination] = useState<string>('');
   const [source, setSource] = useState<string>('');
   const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [title, setTitle] = useState<string>('');
-  const onChangeSource = event => setSource(event.target.value);
-  const onChangeDestination = event => setDestination(event.target.value);
+  const [name, setName] = useState<string>('');
+  const onChangeSource = event => {
+    onChange(event);
+    setSource(event.target.value);
+  }
+  const onChangeDestination = event => {
+    onChange(event);
+    setDestination(event.target.value);
+  };
   const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeTitle = event => setTitle(event.target.value);
+  const onChangeName = event => {
+    onChange(event);
+    setName(event.target.value);
+  }
   const onSubmit = () => {
     const form: IForm = {
       data: {
@@ -32,7 +41,7 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
           }
         },
         ruleData: {
-          title,
+          name,
           source,
           destination,
           matchType,
@@ -52,7 +61,7 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
         setDestination(ruleData.destination);
         setSource(ruleData.source);
         setMatchType(ruleData.matchType);
-        setTitle(ruleData.title)
+        setName(ruleData.name)
       });
     }
   }, []);
@@ -65,13 +74,14 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
   }), []);
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode}>
+          <Form onSubmit={onSubmit} mode={mode} error={error}>
             <div className="w-1/5">
               <Input
-                  value={title}
-                  name='title'
-                  onChange={onChangeTitle} 
-                  placeholder="Rule Title"
+                  value={name}
+                  name='name'
+                  onChange={onChangeName} 
+                  placeholder="Rule Name"
+                  error={error?.name}
               />
             </div>
             <div className="flex mt-5 items-center w-full">
@@ -80,6 +90,10 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
+                sourceProps={{
+                  error: error?.source
+                }}
+
               />
             </div>
             <div className="flex mt-5 items-center">
@@ -90,6 +104,7 @@ const RedirectForm = ({ onSave, mode, id, error }) => {
                     name='destination'
                     onChange={onChangeDestination} 
                     placeholder={placeholders[matchType]}
+                    error={error?.destination}
                   />
                 </div>
             </div>

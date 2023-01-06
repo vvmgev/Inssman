@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import CreateRuleList from '../createRuleList/createRuleList';
 import RuleList from '../ruleList/ruleList'
 import RedirectForm from '../forms/redirect/redirect';
 import CancelForm from '../forms/block/block';
@@ -19,7 +18,6 @@ const RuleRoutes = () => {
 
   return <Routes>
     <Route path="/" element={<RuleList />} />
-    <Route path="/create-list" element={<CreateRuleList />} />
     <Route path="/create-rule">
         <Route path="redirect" element={<RedirectFormHOC />} />  
         <Route path="block" element={<CancelFormHOC />} />  

@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
-import { HeaderModificationType } from 'src/models/formFieldModel';
-import Button from 'src/options/components//common/button/button';
+import { HeaderModificationType } from 'models/formFieldModel';
 import Input from '../../common/input/input';
 import Select from '../../common/select/select';
-import RemoveSVG  from '../../../../assets/icons/remove.svg';
+import RemoveSVG  from 'assets/icons/remove.svg';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
 const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader }) => {

@@ -1,11 +1,19 @@
 import React from 'react';
-import { FormMode, IForm, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import { makeExactMatch, replaceAsterisk } from 'src/options/utils';
+import { FormMode, IForm, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import { makeExactMatch, replaceAsterisk } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
+type Error = {
+  [key: string]: ErrorMessage;
+}
+
+type ErrorMessage = {
+  message: string,
+}
+
 type State = {
-  error: null | string,
+  error: Error | null,
   mode: FormMode,
   id: null | number,
 };
@@ -23,9 +31,30 @@ const FormHOC = (Component: any) => {
       }
     }
 
+    validate = (name, value) => {
+      let hasError = !value;
+      this.setState({
+        error: {
+          ...this.state.error,
+          [name]: (hasError ? {message: `${name} is required`} : null)
+        }
+      });
+      return hasError;
+    }
+
+    onChange = (event) => {
+      this.validate(event.target.name, event.target.value);
+    }
+
     onSave = (form: IForm) => {
       const { id } = this.state;
       const { data: { ruleData }} = form;
+      if((ruleData?.name && this.validate('name', ruleData.name)) ||
+         (ruleData?.source && this.validate('source', ruleData.source)) ||
+         (ruleData?.destination && this.validate('destination', ruleData.destination))) {
+        return;
+      }
+
       form.action = this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule;
       if (!(form.data.rule.condition as any).resourceTypes || !(form.data.rule.condition as any).resourceTypes.length) {
         (form.data.rule.condition as any).resourceTypes = [
@@ -55,7 +84,10 @@ const FormHOC = (Component: any) => {
       }
       chrome.runtime.sendMessage(form, (data) => {
         if(data?.error) {
-          this.setState({error: data.message})
+          this.setState({error: {
+            ...this.state.error,
+            background: {message: data.message}
+          }})
           return;
         }
         (this.props as any).navigate('/')
@@ -63,9 +95,7 @@ const FormHOC = (Component: any) => {
     }
 
     render() {
-      return <div>
-        <Component onSave={this.onSave} error={this.state.error} mode={this.state.mode} id={this.state.id} />
-      </div>
+      return <Component onChange={this.onChange} onSave={this.onSave} error={this.state.error} mode={this.state.mode} id={this.state.id} />
     }
   }
 }

@@ -13,7 +13,7 @@ const Button = ({children, onClick, classes}: IPops) => {
             onClick(event);
         };
     }
-    return <button onClick={handler} className={`bg-slate-400 hover:bg-slate-500 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full ${classes}`}>
+    return <button onClick={handler} className={`bg-slate-200 hover:bg-slate-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full ${classes}`}>
         {children}
     </button>
 }

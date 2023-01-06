@@ -1,1 +1,0 @@
-export * as CodeSVG from './code.svg';

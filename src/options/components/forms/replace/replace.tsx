@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { FormMode, MatchType, MatchTypeMap } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import Input from 'src/options/components/common/input/input';
-import { makeExactMatch, replaceAsterisk } from 'src/options/utils';
+import { FormMode, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import Input from 'components/common/input/input';
+import { makeExactMatch, replaceAsterisk } from 'options/utils';
 import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
@@ -17,7 +17,7 @@ const ReplaceForm = () => {
   const [name, setName] = useState<string>('');
   const onChangeSource = event => setSource(event.target.value);
   const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeTitle = event => setName(event.target.value);
+  const onChangeName = event => setName(event.target.value);
   const onSubmit = () => {
     const form: any = {
       action: mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
@@ -71,9 +71,9 @@ const ReplaceForm = () => {
           <Form onSubmit={onSubmit} mode={mode}>
             <Input
                 value={name}
-                name='title'
-                onChange={onChangeTitle} 
-                placeholder='Title'
+                name='name'
+                onChange={onChangeName} 
+                placeholder='Name'
               />
             <SourceFields
               matchType={matchType}

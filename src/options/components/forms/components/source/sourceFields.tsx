@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { MatchType } from '../../../../../models/formFieldModel';
-import Input from '../../../common/input/input';
-import Select from '../../../common/select/select';
+import { MatchType } from 'models/formFieldModel';
+import Input from 'components/common/input/input';
+import Select from 'components/common/select/select';
 
 const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, sourceProps = {}, matchTypeProps = {} }) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
