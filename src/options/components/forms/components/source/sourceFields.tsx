@@ -26,7 +26,7 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
         name='matchType'
         {...matchTypeProps}
         />
-      <div className="ml-5 w-1/3">
+      <div className="ml-5 w-2/4">
         <Input
           value={source}
           name='source'
