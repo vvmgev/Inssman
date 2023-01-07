@@ -31,7 +31,7 @@ By creating a single **Rule** you can.
 3. Insert the **URL**
 4. Press **Create**
 
-
+<img width="1053" alt="Screenshot 2023-01-07 at 20 28 31" src="https://user-images.githubusercontent.com/11613729/211160790-7740364a-4c47-479a-88f6-ec1e7ae39fff.png">
 
 ### **Modify Query Parameters**
 1. Insert a **Rule** name
@@ -42,7 +42,7 @@ By creating a single **Rule** you can.
 6. Insert header **Value**
 7. Press **Create**
 
-<img width="1053" alt="Screenshot 2023-01-07 at 20 11 32" src="https://user-images.githubusercontent.com/11613729/211160093-c0e9e8ca-d24c-4fd4-bcd5-0755b0737ebb.png">
+<img width="1053" alt="Screenshot 2023-01-07 at 20 11 32" src="https://user-images.githubusercontent.com/11613729/211160722-e244205b-0276-419e-8fdb-66a4144a75b4.png">
 
 ### **Modify Header**
 1. Insert a **Rule** name
