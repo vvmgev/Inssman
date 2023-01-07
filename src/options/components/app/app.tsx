@@ -5,7 +5,6 @@ import Footer from '../footer/footer'
 import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 
-
 const App = () => {
     return <div className="bg-[linear-gradient(140deg,_rgba(15,_23,_42,_1)_0%,_rgba(15,_23,_42,_1)_39%,_rgba(42,_61,_108,_1)_80%)]
       h-screen text-gray-300 text-sm
@@ -22,7 +21,7 @@ const App = () => {
         <div className="float-right inline-block h-full w-5/6 relative z-10">
           <div className="h-full flex flex-col justify-between">
             <Header />
-            <div className="mx-[10%] max-h-[90%] overflow-y-auto">
+            <div className="min-h-[350px] mx-[10%] max-h-[80%] overflow-y-auto">
               <RuleRoutes />
             </div>
             <Footer />

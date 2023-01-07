@@ -11,15 +11,13 @@ const error2 = 'must not provide a header value for a header to be removed'
 
 const handleError = (error: any) => {
   const message = error.message;
-  console.log('message', message);
   if (message.includes(error1)) {
     return error1;
   }
   if (message.includes(error2)) {
     return error2;
   }
-
-  return 'Unhandled error';
+  return 'Unhandled error  = ' + message;
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -27,9 +25,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case PostMessageAction.AddRule:
       (async() => {
         try {
-          const id: number = await StorageService.setNextId();
-          StorageService.set({[id]: request.data.ruleData});
+          const id: number = await StorageService.generateNextId();
           await RuleService.add([{id, ...request.data.rule}]);
+          StorageService.set({[id]: request.data.ruleData});
+          StorageService.setId(id);
           sendResponse();
         } catch (error: any) {
           sendResponse({error: true, message: handleError(error)})
@@ -40,8 +39,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case PostMessageAction.UpdateRule:
       (async() => {
         try {
-          StorageService.set({[request.data.rule.id]: request.data.ruleData});
           await RuleService.add([request.data.rule], [request.data.rule])
+          StorageService.set({[request.data.rule.id]: request.data.ruleData});
           sendResponse()
         } catch (error: any) {
           sendResponse({error: true, message: handleError(error)})

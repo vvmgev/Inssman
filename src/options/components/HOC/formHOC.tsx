@@ -4,16 +4,12 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { makeExactMatch, replaceAsterisk } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
-type Error = {
-  [key: string]: ErrorMessage;
-}
-
-type ErrorMessage = {
-  message: string,
+type FormError = {
+  [key: string]: { message: string };
 }
 
 type State = {
-  error: Error | null,
+  error: FormError | null,
   mode: FormMode,
   id: null | number,
 };
@@ -49,9 +45,9 @@ const FormHOC = (Component: any) => {
     onSave = (form: IForm) => {
       const { id } = this.state;
       const { data: { ruleData }} = form;
-      if((ruleData?.name && this.validate('name', ruleData.name)) ||
-         (ruleData?.source && this.validate('source', ruleData.source)) ||
-         (ruleData?.destination && this.validate('destination', ruleData.destination))) {
+      if((typeof ruleData.name === 'string' && this.validate('name', ruleData.name)) ||
+         (typeof ruleData.source === 'string' && this.validate('source', ruleData.source)) ||
+         (typeof ruleData.destination === 'string' && this.validate('destination', ruleData.destination))) {
         return;
       }
 

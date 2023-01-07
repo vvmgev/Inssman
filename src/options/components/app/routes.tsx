@@ -5,7 +5,7 @@ import RedirectForm from '../forms/redirect/redirect';
 import CancelForm from '../forms/block/block';
 import QueryParamForm from '../forms/queryParam/queryParam';
 import ModifyHeaderForm from '../forms/modifyHeader/modifyHeader';
-import ModifyAPIResponseForm from '../forms/ModifyAPIResponse/ModifyAPIResponse';
+import ModifyAPIResponseForm from '../forms/modifyResponse/modifyResponse';
 import FormHOC from '../HOC/formHOC';
 import withParams from '../HOC/withParams';
 

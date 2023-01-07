@@ -4,7 +4,7 @@ import CodeSVG  from 'assets/icons/code.svg';
 import RedirectSVG  from 'assets/icons/redirect.svg';
 import BlockSVG  from 'assets/icons/block.svg';
 import QuestionSVG  from 'assets/icons/question.svg';
-import PencilSVG  from 'assets/icons/pencil.svg'
+import PencilSquareSVG  from 'assets/icons/pencilSquare.svg'
 import ListSVG  from 'assets/icons/list.svg';
 
 const paths = [
@@ -31,7 +31,7 @@ const paths = [
   {
     path: '/create-rule/modify-response',
     text: 'Modify Response',
-    icon: <PencilSVG />
+    icon: <PencilSquareSVG />
   },
 ]
 
@@ -44,7 +44,7 @@ const SideBar = () => {
           <div className={`${location.pathname === '/' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}><ListSVG /><span>Rules</span></div>  
         </Link>
       </li>
-      <li className="px-10 mb-2 text-slate-400"><div>Create</div></li>
+      <li className="px-10 mt-5 mb-2 text-slate-400"><div>Create Rule</div></li>
       {paths.map(({icon, text, path}, index) => (
         <li className="px-10 mb-2" key={index}>
           <Link to={path}>
