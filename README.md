@@ -22,6 +22,8 @@ By creating a single **Rule** you can.
 3. Insert the **URL** where need to redirect
 4. Press **Create**
 
+<img width="1053" alt="Screenshot 2023-01-07 at 20 06 04" src="https://user-images.githubusercontent.com/11613729/211159948-0038fb61-27fc-4fe5-bcd9-ce4f296eb056.png">
+
 ### **Block Request**
 1. Insert a **Rule** name
 2. Choose **Match Type** (details)
