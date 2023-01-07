@@ -2,23 +2,11 @@ import RuleService from '../services/RuleService';
 import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import Rule = chrome.declarativeNetRequest.Rule;
+import handleError from './errorHandler';
 
 chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
 chrome.runtime.onInstalled.addListener(() => {});
 
-const error1 = 'Only standard HTTP request headers that can specify multiple values for a single entry are supported';
-const error2 = 'must not provide a header value for a header to be removed'
-
-const handleError = (error: any) => {
-  const message = error.message;
-  if (message.includes(error1)) {
-    return error1;
-  }
-  if (message.includes(error2)) {
-    return error2;
-  }
-  return 'Unhandled error  = ' + message;
-}
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
@@ -31,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           StorageService.setId(id);
           sendResponse();
         } catch (error: any) {
-          sendResponse({error: true, message: handleError(error)})
+          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.AddRule], data: request.data})})
         }
       })()
       return true;
@@ -43,34 +31,46 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           StorageService.set({[request.data.rule.id]: request.data.ruleData});
           sendResponse()
         } catch (error: any) {
-          sendResponse({error: true, message: handleError(error)})
+          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})
         }
       })()
       return true;
       break;
     case PostMessageAction.DeleteRule:
       (async () => {
-        await RuleService.remove([request.data.rule])
-        sendResponse();
+        try {
+          await RuleService.remove([request.data.rule])
+          sendResponse();  
+        } catch (error) {
+          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRule], data: request.data})})
+        }
       })()
       return true;
       break;
     case PostMessageAction.GetRules:
       (async () => {
-        const rules: Rule[] = await RuleService.getRules();
-        const rulesMap =  await Promise.all(rules.map(async (rule) => {
-          const ruleData = await StorageService.get(String(rule.id))
-          return {ruleData, rule};
-        }));
-        sendResponse(rulesMap)
+        try {
+          const rules: Rule[] = await RuleService.getRules();
+          const rulesMap =  await Promise.all(rules.map(async (rule) => {
+            const ruleData = await StorageService.get(String(rule.id))
+            return {ruleData, rule};
+          }));
+          sendResponse(rulesMap);  
+        } catch (error) {
+          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
+        }
       })()
       return true;
       break;
     case PostMessageAction.GetRuleById:
       (async () => {
-        const rule: Rule = await RuleService.getRuleById(request.id);
-        const ruleData = await StorageService.get(String(rule.id))
-        sendResponse({rule, ruleData: ruleData[rule.id]})
+        try {
+          const rule: Rule = await RuleService.getRuleById(request.id);
+          const ruleData = await StorageService.get(String(rule.id))
+          sendResponse({rule, ruleData: ruleData[rule.id]})  
+        } catch (error) {
+          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.GetRuleById], data: request.data})})
+        }
       })()
       return true;
       break;

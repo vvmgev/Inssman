@@ -101,7 +101,7 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
   }, []);
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error}>
+          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.QUERY_PARAM}>
           <div className="w-1/5">
               <Input
                   value={name}

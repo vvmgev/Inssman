@@ -56,7 +56,7 @@ const CancelForm = ({id, mode, onSave, error, onChange}) => {
   }, []);
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error}>
+          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.BLOCK}>
             <div className="w-1/5">
               <Input
                   value={name}

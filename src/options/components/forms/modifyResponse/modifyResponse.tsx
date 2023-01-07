@@ -10,7 +10,7 @@ import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
-const ModifyAPIResponse = ({ onSave, mode, id, error, onChange }) => {
+const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
   const [source, setSource] = useState<string>('');
   const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
   const [name, setName] = useState<string>('');
@@ -77,7 +77,7 @@ const ModifyAPIResponse = ({ onSave, mode, id, error, onChange }) => {
 
 
   return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error}>
+          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.MODIFY_RESPONSE}>
             <div className="w-1/5">
               <Input
                   value={name}
@@ -118,4 +118,4 @@ const ModifyAPIResponse = ({ onSave, mode, id, error, onChange }) => {
     </>
 };
 
-export default ModifyAPIResponse;
+export default ModifyResponse;
