@@ -1,4 +1,4 @@
-<h1 align="center">Welcom to HTTP Interceptor</h2>
+<h1 align="center">Welcome HTTP Interceptor</h2>
 
 
 ## | Introduction
