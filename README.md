@@ -17,7 +17,7 @@ By creating a single **Rule** you can.
 # | Documentation 📚 
 <a name="redirectRequest"></a>
 
-### **Redirect Request**
+### **Redirect Request** 🔀 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL** which need to redirect
@@ -28,7 +28,7 @@ By creating a single **Rule** you can.
 
 <a name="blockRequest"></a>
 
-### **Block Request**
+### **Block Request** 🚫 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
@@ -38,7 +38,7 @@ By creating a single **Rule** you can.
 
 <a name="modifyQueryParameters"></a>
 
-### **Modify Query Parameters**
+### **Modify Query Parameters** ❔
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
@@ -51,7 +51,7 @@ By creating a single **Rule** you can.
 
 <a name="modifyHeader"></a>
 
-### **Modify Header**
+### **Modify Header** 🌐
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the URL you want to add/remove/append params
@@ -65,7 +65,7 @@ By creating a single **Rule** you can.
 
 <a name="modifyResponse"></a>
 
-### **Modify Response**
+### **Modify Response** 📰
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
