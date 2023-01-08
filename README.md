@@ -155,11 +155,11 @@ Word &nbsp;- ^https:\\/\\/example\\-1\\.(abc|def)\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>https://</span>**example.abc.com** \
 Result - Match ✅ 
 
-Word &nbsp;- http(s)?:\/\/example-([1-5])\.com \
+Word &nbsp;- http(s)?:\\/\\/example-([1-5])\.com \
 URL &nbsp;&nbsp; - <span>http://</span>**example-1.com** \
 Result - Match ✅ 
 
-Word &nbsp;- ^https:\/\/example\.com\/?$ \
+Word &nbsp;- ^https:\\/\\/example\.com\/?$ \
 URL &nbsp;&nbsp; - <span>http://</span>example.net \
 Result - No Match ❌
 
