@@ -14,11 +14,11 @@ By creating a single **Rule** you can.
 - **[Modify Response Header](#modifyResponseHeader)** like add/remove/append
 - **[Modify Response](#modifyResponse)** allows return response such as HTML/CSS/JS/JSON file
 
-## | Documentation
+## | Documentation 📚 
 <a name="redirectRequest"></a>
 ### **Redirect Request**
 1. Insert a **Rule** name
-2. Choose **Match Type** (details)
+2. Choose **Match Type** [(see details)](#matchType)
 3. Insert the **URL** which need to redirect
 3. Insert the **URL** where need to redirect
 4. Press **Create**
@@ -29,7 +29,7 @@ By creating a single **Rule** you can.
 
 ### **Block Request**
 1. Insert a **Rule** name
-2. Choose **Match Type** (details)
+2. Choose **Match Type** [(see details)](#matchType)
 3. Insert the **URL**
 4. Press **Create**
 
@@ -39,7 +39,7 @@ By creating a single **Rule** you can.
 
 ### **Modify Query Parameters**
 1. Insert a **Rule** name
-2. Choose **Match Type** (details)
+2. Choose **Match Type** [(see details)](#matchType)
 3. Insert the **URL**
 4. Choose **Action Type**
 5. Insert header **Key**
@@ -52,7 +52,7 @@ By creating a single **Rule** you can.
 
 ### **Modify Header**
 1. Insert a **Rule** name
-2. Choose **Match Type** (details)
+2. Choose **Match Type** [(see details)](#matchType)
 3. Insert the URL you want to add/remove/append params
 4. Choose **Action Type**
 4. Choose **Request/Response** 
@@ -74,3 +74,7 @@ By creating a single **Rule** you can.
 
 <img width="1053" alt="Screenshot 2023-01-07 at 20 16 51" src="https://user-images.githubusercontent.com/11613729/211160363-e3e40664-8c37-4a9d-8f11-dcdf07cb9a00.png">
 
+<br /><br />
+<a name="matchType"></a>
+
+### **Match Type**
