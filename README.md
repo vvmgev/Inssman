@@ -80,9 +80,6 @@ By creating a single **Rule** you can.
 
 # **| Match Operators ✨**
 
-<img width="132" alt="Screenshot 2023-01-08 at 16 17 07" src="https://user-images.githubusercontent.com/11613729/211195583-d1780ce1-46c9-45c6-a41a-662ef02cec61.png">
-
-
 ## Contain operator
 
 Contain operator searches provided word in the whole URL
@@ -205,7 +202,7 @@ Word&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
 URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>https://</span>**www.example.com**/?age=12&gender=male \
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = http, \2 = www, \3 = ?age=12&gender=male \
 Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/\1/\2/\3 \
-Redirected URL - <span>https://</span>google.com/https/www/?id=12&gender=male
+Redirected URL - <span>https://</span>google.com/https/www/?id=12&gender=male \
 Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ 
 
 
