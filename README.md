@@ -190,7 +190,7 @@ URL &nbsp;&nbsp; - <span>http://</span>**example**.com \
 Result - Match ✅ 
 
 Word &nbsp;- https://*example.com \
-URL &nbsp;&nbsp; - <span>https://</span><span>wwww</span>**example.com** \
+URL &nbsp;&nbsp; - <span>https://</span><span>wwww.</span>**example.com** \
 Result - Match ✅ 
 
 Wilcard operator also has the same options as Regexp operator. \
