@@ -164,7 +164,7 @@ URL &nbsp;&nbsp; - <span>http://</span>example.net \
 Result - No Match ❌
 
 Word &nbsp;- http(s)?:\/\/example-([1-5])\.com \
-URL &nbsp;&nbsp; - <span>http://</span>**example-7.com** \
+URL &nbsp;&nbsp; - <span>http://</span>example-7.com \
 Result - No Match ❌
 
 For **[Redirect Request](#redirectRequest)** there is more powerful options. Each matched group can be replaced in some parts of the destination URL. Each backslash number (\\1 or \\2) can be replaced accordingly
