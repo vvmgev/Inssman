@@ -193,7 +193,7 @@ Word &nbsp;- https://*example.com \
 URL &nbsp;&nbsp; - <span>https://</span>**www.example.com** \
 Result - Match ✅ 
 
-Wilcard operator also has the same options as Regexp operator. \ 
+Wilcard operator also has the same options as Regexp operator. \
 Each asterisk can be replaced backslash number (\\1 or \\2).
 
 Example ⬇️
