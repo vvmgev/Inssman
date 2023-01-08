@@ -79,6 +79,10 @@ By creating a single **Rule** you can.
 <a name="matcOperator"></a>
 
 # **| Match Operators ✨**
+
+<img width="132" alt="Screenshot 2023-01-08 at 16 17 07" src="https://user-images.githubusercontent.com/11613729/211195583-d1780ce1-46c9-45c6-a41a-662ef02cec61.png">
+
+
 ## Contain operator
 
 Contain operator searches provided word in the whole URL
