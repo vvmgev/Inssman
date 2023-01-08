@@ -65,7 +65,7 @@ By creating a single **Rule** you can.
 
 <a name="modifyResponse"></a>
 
-### **Modify Response** 📰
+### **Modify Response** 🗞️ 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
