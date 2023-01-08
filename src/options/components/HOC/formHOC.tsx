@@ -52,6 +52,8 @@ const FormHOC = (Component: any) => {
       }
 
       form.action = this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule;
+      // TODO need make it dynamic from UI
+      form.data.rule.condition.isUrlFilterCaseSensitive = false;
       if (!(form.data.rule.condition as any).resourceTypes || !(form.data.rule.condition as any).resourceTypes.length) {
         (form.data.rule.condition as any).resourceTypes = [
           ResourceType.MAIN_FRAME,

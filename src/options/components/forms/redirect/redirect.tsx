@@ -37,7 +37,7 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
             }
           },
           condition: {
-            [MatchTypeMap[matchType]]: source
+            [MatchTypeMap[matchType]]: source,
           }
         },
         ruleData: {
@@ -68,7 +68,7 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'http://example.com',
-    [MatchType.REGEXP]: '/example-([0-9]+)/ig',
+    [MatchType.REGEXP]: '^http(s):\/\/example\.com\/?$',
     [MatchType.WILDCARD]: `http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
     [MatchType.CONTAIN]: 'http://example.com',
   }), []);

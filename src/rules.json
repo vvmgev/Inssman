@@ -37,11 +37,11 @@
         "action": {
           "type": "redirect",
           "redirect": {
-            "url": "https://google.com/"
+            "regexSubstitution": "https://google.com/\\1"
           }
         },
         "condition": {
-          "regexFilter": "https://www.(abc|def).xyz.com/",
+          "regexFilter": "^https://www.(abc|def).xyz.com/",
           "resourceTypes": [
             "main_frame"
           ]
