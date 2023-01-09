@@ -25,6 +25,15 @@ export interface IForm {
     }
 }
 
+export enum FIELDS {
+    SOURCE = 'source',
+    NAME = 'name',
+    DESTINATION = 'destination',
+}
+
+export const ValidateFields = [FIELDS.SOURCE, FIELDS.NAME, FIELDS.DESTINATION]
+
+
 export enum FormMode {
     CREATE = 'create',
     UPDATE = 'update',

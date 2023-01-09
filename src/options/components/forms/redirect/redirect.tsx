@@ -16,7 +16,7 @@ const defaultData = {
   destination: '',
 }
 
-const RedirectForm = ({ onSave, mode, id, error, onChange, ruleData, setRuleData }) => {
+const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
@@ -62,6 +62,7 @@ const RedirectForm = ({ onSave, mode, id, error, onChange, ruleData, setRuleData
                   onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
+                  required
               />
             </div>
             <div className="flex mt-5 items-center w-full">

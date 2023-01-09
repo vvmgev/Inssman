@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormMode, IForm, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { FormMode, IForm, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { makeExactMatch, replaceAsterisk } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
@@ -38,12 +38,27 @@ const FormHOC = (Component: any) => {
 
     validate = (name, value) => {
       let hasError = !value;
-      this.setState({
+      this.setState(state => ({
+        ...state,
         error: {
-          ...this.state.error,
+          ...state.error,
           [name]: (hasError ? {message: `${name} is required`} : null)
         }
-      });
+      }))
+      return hasError;
+    }
+
+    validateAll = () => {
+      let hasError = false;
+      const { ruleData } = this.state;
+      ValidateFields.forEach(field => {
+        if(field in ruleData) {
+          const fieldHasError = this.validate(field, ruleData[field]);
+          if(fieldHasError && !hasError) {
+            hasError = true;
+          }
+        }
+      })
       return hasError;
     }
 
@@ -54,17 +69,16 @@ const FormHOC = (Component: any) => {
           ...state.ruleData,
           [event.target.name]: event.target.value
         }
-        
       }))
-      this.validate(event.target.name, event.target.value);
+      if(ValidateFields.includes(event.target.name)) {
+        this.validate(event.target.name, event.target.value);
+      }
     }
 
     onSave = (form: IForm) => {
       const { id } = this.state;
       const { ruleData } = this.state;
-      if((typeof ruleData.name === 'string' && this.validate('name', ruleData.name)) ||
-         (typeof ruleData.source === 'string' && this.validate('source', ruleData.source)) ||
-         (typeof ruleData.destination === 'string' && this.validate('destination', ruleData.destination))) {
+      if(this.validateAll()) {
         return;
       }
 
