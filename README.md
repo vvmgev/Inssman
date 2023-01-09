@@ -160,7 +160,7 @@ URL &nbsp;&nbsp; - <span>http://</span>**example-1.com** \
 Result - Match ✅ 
 
 Word &nbsp;- ^http:\/\/example\\.com\\/?$ \
-URL &nbsp;&nbsp; - <span>http://</span>example.net \
+URL &nbsp;&nbsp; - <span>http://</span>example.<span>net</span> \
 Result - No Match ❌
 
 Word &nbsp;- http(s)?:\/\/example-([1-5])\.com \
