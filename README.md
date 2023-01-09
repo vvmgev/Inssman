@@ -160,7 +160,7 @@ URL &nbsp;&nbsp; - <span>http://</span>**example-1.com** \
 Result - Match ✅ 
 
 Word &nbsp;- ^http:\/\/example\.com\/?$ \
-URL &nbsp;&nbsp; - <span>http://</span>example.net \
+URL &nbsp;&nbsp; - <span>http://</span>example.<span>net</span> \
 Result - No Match ❌
 
 Word &nbsp;- http(s)?:\/\/example-([1-5])\.com \
@@ -190,7 +190,7 @@ URL &nbsp;&nbsp; - <span>http://</span>**example**.com \
 Result - Match ✅ 
 
 Word &nbsp;- https://*example.com \
-URL &nbsp;&nbsp; - <span>https://</span><span>www.</span>**example.com** \
+URL &nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com** \
 Result - Match ✅ 
 
 Wilcard operator also has the same options as Regexp operator. \
@@ -199,7 +199,7 @@ Each asterisk can be replaced backslash number (\\1 or \\2).
 Example ⬇️
 
 Word&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- \*://\*\.example.com/\* \
-URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>https://</span><span>www.</span>**example.com**/?age=12&gender=male \
+URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com**/?age=12&gender=male \
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = http, \2 = www, \3 = ?age=12&gender=male \
 Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/\1/\2/\3 \
 Redirected URL - <span>https://</span>google.com/https/www/?id=12&gender=male \
