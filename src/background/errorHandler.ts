@@ -1,4 +1,5 @@
 const error1 = 'Only standard HTTP request headers that can specify multiple values for a single entry are supported';
+// with key and value for remove
 const error2 = 'must not provide a header value for a header to be removed'
 // match type contains
 // source regexp

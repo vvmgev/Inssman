@@ -81,7 +81,6 @@ const FormHOC = (Component: any) => {
         form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
       }
       chrome.runtime.sendMessage(form, (data) => {
-        console.log('data', data);
         if(data?.error) {
           this.setState({error: {
             ...this.state.error,

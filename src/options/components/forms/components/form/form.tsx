@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Button from 'components/common/button/button';
 
 const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
-  console.log(error);
   return <>
       <div className="py-5 px-5 text-lg rounded-tr-3xl rounded-tl-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-slate-700 w-full">
         <div className="flex justify-between ">

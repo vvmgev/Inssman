@@ -65,7 +65,6 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
         action: PostMessageAction.GetRuleById,
         id,
       }, ({ruleData}) => {
-        console.log(ruleData);
         setSource(ruleData.source);
         setMatchType(ruleData.matchType);
         setName(ruleData.name);

@@ -4,7 +4,7 @@ import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import RemoveSVG  from 'assets/icons/remove.svg';
 
-const QueryParamFields = ({ queryParams, onChangeParam, onChangeType, onRemove, error }) => {
+const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
 
   const queryParamActionOptions = useMemo(() => Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
@@ -17,26 +17,28 @@ const QueryParamFields = ({ queryParams, onChangeParam, onChangeType, onRemove, 
         <div key={index} className="flex mt-5 gap-5 items-center">
           <Select
             options={queryParamActionOptions}
-            name="queryParamAction"
+            name="action"
             value={param.action}
-            onChange={onChangeType.bind(null, index)}
+            onChange={event => onChangeParam(event, index)}
             classes="flex-[1]"
             error={error?.queryParamAction}
           />
           <Input
+            name="key"
             value={param.key}
-            onChange={onChangeParam.bind(null, 'key', index)}
+            onChange={event => onChangeParam(event, index)}
             placeholder="Key"
             classes="flex-[2]"
           />
           <Input
+            name="value"
             value={param.value}
-            onChange={onChangeParam.bind(null, 'value', index)}
+            onChange={event => onChangeParam(event, index)}
             disabled={param.action === QueryParamAction.REMOVE}
             placeholder="Value"
             classes="flex-[2]"
           />
-          <div className="cursor-pointer" onClick={e => onRemove(e, index)}><RemoveSVG /></div>
+          <div className="cursor-pointer" onClick={event => onRemove(event, index)}><RemoveSVG /></div>
         </div>
       )
     })}

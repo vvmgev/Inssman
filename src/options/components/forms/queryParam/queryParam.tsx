@@ -23,20 +23,18 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
     setName(event.target.value);
   }
   const onAddQueryParam = () => setQueryParams(queryParams => [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]);
-  const onChangeQueryParamAction = (index, event) => {
+
+  const onChangeParam = (event, index) => {
     setQueryParams(queryParams => {
       const newQueryParams = [...queryParams]
-      newQueryParams[index].action = event.target.value;
-      return [...newQueryParams];
-    })
-  };
-  const onChangeParam = (property, index, event) => {
-    setQueryParams(queryParams => {
-      const newQueryParams = [...queryParams]
-      newQueryParams[index][property] = event.target.value;
+      newQueryParams[index][event.target.name] = event.target.value;
       return newQueryParams
     })
   };
+
+  const onRemoveQueryParam = (_, deletingIndex) => {
+    setQueryParams(queryParams => queryParams.filter((_, index) => index !== deletingIndex));
+  }
 
   const getQueryParams = useCallback(() => {
     return queryParams.filter(queryParam => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE).map(queryParam => ({
@@ -50,10 +48,6 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
   const getRemoveQueryParams = useCallback(() => {
     return queryParams.filter(queryParam => queryParam.key.length && queryParam.action === QueryParamAction.REMOVE).map(queryParam => queryParam.key);
   }, [queryParams]);
-
-  const onRemoveQueryParam = (_, deletingIndex) => {
-    setQueryParams(queryParams => queryParams.filter((_, index) => index !== deletingIndex));
-  }
 
   const onSubmit = () => {
     const form: any = {
@@ -122,7 +116,6 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
             </div>
             <div className="w-2/3">
               <QueryParamFields
-                onChangeType={onChangeQueryParamAction}
                 onChangeParam={onChangeParam}
                 queryParams={queryParams}
                 onRemove={onRemoveQueryParam}
