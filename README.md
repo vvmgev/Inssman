@@ -125,7 +125,7 @@ URL &nbsp;&nbsp; - <span>http://</span>**example.com**/ \
 Result - Match ✅ 
 
 Word &nbsp;- example.com \
-URL &nbsp;&nbsp; - <span>http://w</span>ww.example.com/ \
+URL &nbsp;&nbsp; - <span>http://</span><span>w</span>ww.example.com/ \
 Result - No Match ❌
 
 Word &nbsp;- example.com \
