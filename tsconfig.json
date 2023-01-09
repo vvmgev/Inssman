@@ -23,6 +23,9 @@
             "components/*": ["src/options/components/*"],
         },
     },
+    "include": [
+        "src"
+    ],
     "compileOnSave": true,
     "files": [
         "src/types/index.ts",
