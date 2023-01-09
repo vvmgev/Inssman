@@ -12,6 +12,7 @@ type State = {
   error: FormError,
   mode: FormMode,
   id: null | number,
+  ruleData: any
 };
 
 const FormHOC = (Component: any) => {
@@ -22,10 +23,18 @@ const FormHOC = (Component: any) => {
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
         error: {},
+        ruleData: {},
         mode,
         id,
       }
     }
+
+    setRuleData = ruleData => {
+      this.setState({
+        ...this.state,
+        ruleData,
+      });
+    };
 
     validate = (name, value) => {
       let hasError = !value;
@@ -39,12 +48,20 @@ const FormHOC = (Component: any) => {
     }
 
     onChange = (event) => {
+      this.setState(state => ({
+        ...state,
+        ruleData: {
+          ...state.ruleData,
+          [event.target.name]: event.target.value
+        }
+        
+      }))
       this.validate(event.target.name, event.target.value);
     }
 
     onSave = (form: IForm) => {
       const { id } = this.state;
-      const { data: { ruleData }} = form;
+      const { ruleData } = this.state;
       if((typeof ruleData.name === 'string' && this.validate('name', ruleData.name)) ||
          (typeof ruleData.source === 'string' && this.validate('source', ruleData.source)) ||
          (typeof ruleData.destination === 'string' && this.validate('destination', ruleData.destination))) {
@@ -93,7 +110,23 @@ const FormHOC = (Component: any) => {
     }
 
     render() {
-      return <Component onChange={this.onChange} onSave={this.onSave} error={this.state.error} mode={this.state.mode} id={this.state.id} />
+      return <Component
+        setRuleData={this.setRuleData}
+        ruleData={this.state.ruleData}
+        onChange={this.onChange}
+        onSave={this.onSave}
+        error={this.state.error}
+        mode={this.state.mode}
+        id={this.state.id} />
+    }
+
+    componentDidMount(): void {
+      if(this.state.mode === FormMode.UPDATE) {
+        chrome.runtime.sendMessage({
+          action: PostMessageAction.GetRuleById,
+          id: this.state.id,
+        }, ({ruleData}) => this.setState({ruleData}));
+      }
     }
   }
 }

@@ -9,22 +9,26 @@ import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
-const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
-  const [source, setSource] = useState<string>('');
-  const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [name, setName] = useState<string>('');
-  const [headers, setHeaders] = useState([{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]);
-  const onChangeSource = event => {
-    onChange(event);
-    setSource(event.target.value);
-  }
-  const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeName = event => {
-    onChange(event);
-    setName(event.target.value);
-  }
-  const onAddHeader = () => setHeaders(headers => [...headers, {header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]);
-  const onRemoveHeader = (_, index) => setHeaders(headers => headers.filter((_, headerIndex) => headerIndex !== index))
+const defaultData = {
+  name: '',
+  matchType: MatchType.CONTAIN,
+  source: '',
+  formType: FormType.MODIFY_HEADER,
+  headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
+}
+
+const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange }) => {
+  const {name = defaultData.name,
+         matchType = defaultData.matchType,
+         source = defaultData.source,
+         headers = defaultData.headers} = ruleData;
+  
+  const onAddHeader = () => {
+    onChange({target: { name: 'headers', value: [...headers, {header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]}});
+  };
+  const onRemoveHeader = (_, index) => {
+    onChange({target: { name: 'headers', value: headers.filter((_, headerIndex) => headerIndex !== index)}});
+  };
   const getRequestHeaders = useCallback(() => {
     return headers.filter(header => header.header.length && header.type === HeaderModificationType.REQUEST).map(header => ({
       header: header.header,
@@ -39,13 +43,14 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
       ...(header.operation !== HeaderOperation.REMOVE && {value: header.value})
     }))
   }, [headers]);
+
   const onChangeHeader = (event, index) => {
-    setHeaders(headers => {
-      const newHeaders = [...headers]
-      newHeaders[index][event.target.name] = event.target.value;
-      return newHeaders
-    })
+    const newHeaders = [...headers]
+    newHeaders[index][event.target.name] = event.target.value;
+    onChange({target: { name: 'headers', value: newHeaders }});
   };
+
+
   const onSubmit = () => {
     const form: any = {
       data: {
@@ -60,29 +65,14 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
             [MatchTypeMap[matchType]]: source,
           }
         },
-        ruleData: {
-          name,
-          source,
-          matchType,
-          headers,
-          formType: FormType.MODIFY_HEADER,
-        },
       }
     };
     onSave(form);
   };
 
   useEffect(() => {
-    if(mode === FormMode.UPDATE) {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.GetRuleById,
-        id,
-      }, ({ruleData}) => {
-        setSource(ruleData.source);
-        setMatchType(ruleData.matchType);
-        setName(ruleData.name)
-        setHeaders(ruleData.headers)
-      });
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
     }
   }, []);
 
@@ -92,7 +82,7 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
               <Input
                   value={name}
                   name='name'
-                  onChange={onChangeName} 
+                  onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
               />
@@ -100,9 +90,10 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
             <div className="flex mt-5 items-center w-full">
               <SourceFields
                 matchType={matchType}
-                onChangeMatchType={onChangeMatchType}
+                onChange={onChange}
+                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChangeSource}
+                onChangeSource={onChange}
                 error={error}
               />
             </div>

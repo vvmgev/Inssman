@@ -7,19 +7,18 @@ import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
-const CancelForm = ({id, mode, onSave, error, onChange}) => {
-  const [source, setSource] = useState<string>('');
-  const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [name, setName] = useState<string>('');
-  const onChangeSource = event => {
-    onChange(event);
-    setSource(event.target.value)
-  };
-  const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeName = event => {
-    onChange(event);
-    setName(event.target.value);
-  }
+const defaultData = {
+  name: '',
+  source: '',
+  matchType: MatchType.CONTAIN,
+  formType: FormType.BLOCK,
+}
+
+const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
+  const { name = defaultData.name,
+          source = defaultData.source,
+          matchType = defaultData.matchType} = ruleData;
+
   const onSubmit = () => {
     const form: any = {
       data: {
@@ -31,27 +30,14 @@ const CancelForm = ({id, mode, onSave, error, onChange}) => {
             [MatchTypeMap[matchType]]: source,
           }
         },
-        ruleData: {
-          name,
-          matchType,
-          source,
-          formType: FormType.BLOCK,
-        },
       }
     };
     onSave(form);
   };
 
   useEffect(() => {
-    if(mode === FormMode.UPDATE) {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.GetRuleById,
-        id,
-      }, ({ruleData}) => {
-        setSource(ruleData.source);
-        setMatchType(ruleData.matchType);
-        setName(ruleData.name)
-      });
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
     }
   }, []);
 
@@ -61,7 +47,7 @@ const CancelForm = ({id, mode, onSave, error, onChange}) => {
               <Input
                   value={name}
                   name='name'
-                  onChange={onChangeName} 
+                  onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
               />
@@ -69,9 +55,10 @@ const CancelForm = ({id, mode, onSave, error, onChange}) => {
             <div className="flex mt-5 items-center w-full">
               <SourceFields
                 matchType={matchType}
-                onChangeMatchType={onChangeMatchType}
+                onChange={onChange}
+                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChangeSource}
+                onChangeSource={onChange}
                 error={error}
               />
             </div>

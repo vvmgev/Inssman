@@ -8,33 +8,33 @@ import QueryParamFields from '../components/queryParamFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
 
-const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
-  const [source, setSource] = useState<string>('');
-  const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [name, setName] = useState<string>('');
-  const [queryParams, setQueryParams] = useState<QueryParams[]>([{key: '', value: '', action: QueryParamAction.ADD}]);
-  const onChangeSource = event => {
-    onChange(event);
-    setSource(event.target.value);
-  }
-  const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeName = event => {
-    onChange(event);
-    setName(event.target.value);
-  }
-  const onAddQueryParam = () => setQueryParams(queryParams => [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]);
+const defaultData = {
+  name: '',
+  matchType: MatchType.CONTAIN,
+  source: '',
+  queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
+  formType: FormType.QUERY_PARAM,
+}
+
+const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+  const { name = defaultData.name,
+          matchType = defaultData.matchType,
+          source = defaultData.source,
+          queryParams = defaultData.queryParams} = ruleData;
+
+  const onAddQueryParam = () => {
+    onChange({target: { name: 'queryParams', value: [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}});
+  };
 
   const onChangeParam = (event, index) => {
-    setQueryParams(queryParams => {
-      const newQueryParams = [...queryParams]
-      newQueryParams[index][event.target.name] = event.target.value;
-      return newQueryParams
-    })
+    const newQueryParams = [...queryParams]
+    newQueryParams[index][event.target.name] = event.target.value;
+    onChange({target: { name: 'queryParams', value: newQueryParams }});
   };
 
   const onRemoveQueryParam = (_, deletingIndex) => {
-    setQueryParams(queryParams => queryParams.filter((_, index) => index !== deletingIndex));
-  }
+    onChange({target: { name: 'queryParams', value: queryParams.filter((_, index) => index !== deletingIndex)}});
+  };
 
   const getQueryParams = useCallback(() => {
     return queryParams.filter(queryParam => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE).map(queryParam => ({
@@ -68,29 +68,14 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
             [MatchTypeMap[matchType]]: source,
           },
         },
-        ruleData: {
-          name,
-          matchType,
-          source,
-          queryParams,
-          formType: FormType.QUERY_PARAM,
-        },
       }
     };
     onSave(form);
   };
 
   useEffect(() => {
-    if(mode === FormMode.UPDATE) {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.GetRuleById,
-        id,
-      }, ({ruleData}) => {
-        setSource(ruleData.source);
-        setMatchType(ruleData.matchType);
-        setName(ruleData.name);
-        setQueryParams(ruleData.queryParams);
-      });
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
     }
   }, []);
 
@@ -100,7 +85,7 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
               <Input
                   value={name}
                   name='name'
-                  onChange={onChangeName} 
+                  onChange={onChange}
                   placeholder="Rule Name"
                   error={error?.name}
               />
@@ -108,9 +93,10 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
             <div className="flex mt-5 items-center w-full">
               <SourceFields
                 matchType={matchType}
-                onChangeMatchType={onChangeMatchType}
+                onChange={onChange}
+                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChangeSource}
+                onChangeSource={onChange}
                 error={error}
               />
             </div>

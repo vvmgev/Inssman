@@ -10,23 +10,22 @@ import Form from '../components/form/form';
 import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
-const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
-  const [source, setSource] = useState<string>('');
-  const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [name, setName] = useState<string>('');
-  const [editorLang, setEditorLang] = useState<EditorLanguage>(EditorLanguage.HTML);
-  const [editorValue, setEditorValue] = useState<string>('');
-  const onChangeSource = event => {
-    onChange(event);
-    setSource(event.target.value);
-  }
-  const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeName = event => {
-    onChange(event);
-    setName(event.target.value);
-  }
-  const onChangeEditorLang = event => setEditorLang(event.target.value);
-  const onChangeEditorValue = event => setEditorValue(event.target.value);
+const defaultData = {
+  name: '',
+  matchType: MatchType.CONTAIN,
+  source: '',
+  formType: FormType.MODIFY_RESPONSE,
+  editorLang: EditorLanguage.HTML,
+  editorValue: '',
+}
+
+const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+  const { name = defaultData.name,
+          matchType = defaultData.matchType,
+          source = defaultData.source,
+          editorLang = defaultData.editorLang,
+          editorValue = defaultData.editorValue} = ruleData;
+          
   const onSubmit = () => {
     const form: IForm = {
       data: {
@@ -41,14 +40,6 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
             [MatchTypeMap[matchType]]: source,
           }
         },
-        ruleData: {
-          name,
-          source,
-          matchType,
-          editorLang,
-          editorValue,
-          formType: FormType.MODIFY_RESPONSE
-        },
       }
     };
     onSave(form);
@@ -60,17 +51,8 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
   }, []), []);
 
   useEffect(() => {
-    if(mode === FormMode.UPDATE) {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.GetRuleById,
-        id,
-      }, ({ruleData}) => {
-        setSource(ruleData.source);
-        setMatchType(ruleData.matchType);
-        setName(ruleData.name);
-        setEditorLang(ruleData.editorLang)
-        setEditorValue(ruleData.editorValue)
-      });
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
     }
   }, []);
 
@@ -81,7 +63,7 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
               <Input
                   value={name}
                   name='name'
-                  onChange={onChangeName} 
+                  onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
               />
@@ -89,16 +71,17 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
             <div className="mt-5">
               <SourceFields
                 matchType={matchType}
-                onChangeMatchType={onChangeMatchType}
+                onChange={onChange}
+                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChangeSource}
+                onChangeSource={onChange}
                 error={error}
               />
             </div>
             <div className="mt-5">
               <span className="mr-5">Select Response Type</span>
               <Select
-                onChange={onChangeEditorLang}
+                onChange={onChange}
                 value={editorLang}
                 options={editorLangOptions}
                 name='editorLang'
@@ -108,7 +91,7 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
               <Editor 
                 language={editorLang}
                 value={editorValue}
-                onChange={onChangeEditorValue}
+                onChange={onChange}
               />
             </div>
            </Form>

@@ -13,7 +13,7 @@ export interface IForm {
     action?: PostMessageAction,
     data: {
         rule: IRule,
-        ruleData: {
+        ruleData?: {
             name: string,
             source: string,
             matchType: string,

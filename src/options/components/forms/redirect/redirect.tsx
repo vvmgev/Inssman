@@ -8,24 +8,19 @@ import SourceFields from '../components/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
 
-const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
-  const [destination, setDestination] = useState<string>('');
-  const [source, setSource] = useState<string>('');
-  const [matchType, setMatchType] = useState<MatchType>(MatchType.CONTAIN);
-  const [name, setName] = useState<string>('');
-  const onChangeSource = event => {
-    onChange(event);
-    setSource(event.target.value);
-  }
-  const onChangeDestination = event => {
-    onChange(event);
-    setDestination(event.target.value);
-  };
-  const onChangeMatchType = event => setMatchType(event.target.value);
-  const onChangeName = event => {
-    onChange(event);
-    setName(event.target.value);
-  }
+const defaultData = {
+  name: '',
+  matchType: MatchType.CONTAIN,
+  source: '',
+  formType: FormType.REDIRECT,
+  destination: '',
+}
+
+const RedirectForm = ({ onSave, mode, id, error, onChange, ruleData, setRuleData }) => {
+  const { name = defaultData.name,
+          matchType = defaultData.matchType,
+          source = defaultData.source,
+          destination = defaultData.destination} = ruleData;
   const onSubmit = () => {
     const form: IForm = {
       data: {
@@ -40,29 +35,14 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
             [MatchTypeMap[matchType]]: source,
           }
         },
-        ruleData: {
-          name,
-          source,
-          destination,
-          matchType,
-          formType: FormType.REDIRECT,
-        },
       }
     };
     onSave(form);
   };
 
   useEffect(() => {
-    if(mode === FormMode.UPDATE) {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.GetRuleById,
-        id,
-      }, ({ruleData}) => {
-        setDestination(ruleData.destination);
-        setSource(ruleData.source);
-        setMatchType(ruleData.matchType);
-        setName(ruleData.name)
-      });
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
     }
   }, []);
 
@@ -79,7 +59,7 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
               <Input
                   value={name}
                   name='name'
-                  onChange={onChangeName} 
+                  onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
               />
@@ -87,9 +67,10 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
             <div className="flex mt-5 items-center w-full">
               <SourceFields
                 matchType={matchType}
-                onChangeMatchType={onChangeMatchType}
+                onChange={onChange}
+                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChangeSource}
+                onChangeSource={onChange}
                 error={error}
 
               />
@@ -100,7 +81,7 @@ const RedirectForm = ({ onSave, mode, id, error, onChange }) => {
                   <Input
                     value={destination}
                     name='destination'
-                    onChange={onChangeDestination} 
+                    onChange={onChange} 
                     placeholder={placeholders[matchType]}
                     error={error?.destination}
                   />

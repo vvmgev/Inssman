@@ -3,7 +3,7 @@ import { MatchType } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 
-const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, sourceProps = {}, matchTypeProps = {}, error }) => {
+const SourceFields = ({ source, onChangeSource, onChangeMatchType, onChange, matchType, sourceProps = {}, matchTypeProps = {}, error }) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -20,7 +20,7 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
     <div className="flex items-center w-full">
       <div className="min-w-[100px]">If Request</div>
       <Select
-        onChange={onChangeMatchType}
+        onChange={onChange}
         value={matchType}
         options={matchTypeOptions}
         name='matchType'
@@ -31,7 +31,7 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, matchType, so
         <Input
           value={source}
           name='source'
-          onChange={onChangeSource}
+          onChange={onChange}
           placeholder={placeholders[matchType]}
           error={error?.source}
           {...sourceProps}

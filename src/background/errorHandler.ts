@@ -6,6 +6,8 @@ const error2 = 'must not provide a header value for a header to be removed'
 // with backslash \1
 const error3 = 'Unhandled error = Rule with id 95 can\'t specify the "regexSubstitution" key without specifying the "regexFilter" key';
 
+// Unhandled Error = Rule With Id 108 Does Not Specify A Value For "Action.RequestHeaders" Or "Action.ResponseHeaders" Key. At Least One Of These Keys Must Be Specified With A Non-Empty List.
+
 const handleError = (error: any, data) => {
   const message = error.message;
   if (message.includes(error1)) {
