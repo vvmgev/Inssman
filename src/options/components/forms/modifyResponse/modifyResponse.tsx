@@ -93,9 +93,7 @@ const ModifyResponse = ({ onSave, mode, id, error, onChange }) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
-                sourceProps={{
-                  error: error?.source
-                }}
+                error={error}
               />
             </div>
             <div className="mt-5">

@@ -4,7 +4,7 @@ import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import RemoveSVG  from 'assets/icons/remove.svg';
 
-const QueryParamFields = ({ queryParams, onChangeParam, onChangeType, onRemove }) => {
+const QueryParamFields = ({ queryParams, onChangeParam, onChangeType, onRemove, error }) => {
 
   const queryParamActionOptions = useMemo(() => Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
@@ -21,6 +21,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onChangeType, onRemove }
             value={param.action}
             onChange={onChangeType.bind(null, index)}
             classes="flex-[1]"
+            error={error?.queryParamAction}
           />
           <Input
             value={param.key}

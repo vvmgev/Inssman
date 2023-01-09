@@ -78,7 +78,6 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
         action: PostMessageAction.GetRuleById,
         id,
       }, ({ruleData}) => {
-        console.log('ruleData', ruleData);
         setSource(ruleData.source);
         setMatchType(ruleData.matchType);
         setName(ruleData.name)
@@ -104,15 +103,14 @@ const ModifyHeaderForm = ({ onSave, mode, id, error, onChange }) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
-                sourceProps={{
-                  error: error?.source
-                }}
+                error={error}
               />
             </div>
             <ModifyHeaderFields
               onChangeHeader={onChangeHeader}
               headers={headers}
               onRemoveHeader={onRemoveHeader}
+              error={error}
             />
             <div className="border inline-block mt-5 border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer" onClick={onAddHeader}>Add</div>
            </Form>

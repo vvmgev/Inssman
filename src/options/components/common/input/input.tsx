@@ -16,7 +16,6 @@ const Input = ({onChange, classes, error, starts, ...props}: any ) => {
                       onChange={onChange}
                       {...props} />
       </div>
-      {error ?  <p className="text-red-500 text-xs capitalize">{error.message}</p> : ''}
     </div>
 }
 

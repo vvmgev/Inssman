@@ -5,7 +5,7 @@ import Select from '../../common/select/select';
 import RemoveSVG  from 'assets/icons/remove.svg';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
-const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader }) => {
+const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -26,6 +26,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader }) => {
             value={header.operation}
             onChange={event => onChangeHeader(event, index)}
             classes="flex-[1]"
+            error={error?.operation}
           />
           <Select
             options={headerModificationTypeOptions}
@@ -33,6 +34,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader }) => {
             value={header.type}
             onChange={event => onChangeHeader(event, index)}
             classes="flex-[1]"
+            error={error?.type}
           />
           <Input
             name="header"

@@ -117,9 +117,7 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
-                sourceProps={{
-                  error: error?.source
-                }}
+                error={error}
               />
             </div>
             <div className="w-2/3">
@@ -128,6 +126,7 @@ const QueryParamForm = ({ onSave, mode, id, error, onChange }) => {
                 onChangeParam={onChangeParam}
                 queryParams={queryParams}
                 onRemove={onRemoveQueryParam}
+                error={error}
               />
             </div>
             <div className="border inline-block mt-5 border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer" onClick={onAddQueryParam}>Add</div>

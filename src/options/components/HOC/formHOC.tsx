@@ -9,7 +9,7 @@ type FormError = {
 }
 
 type State = {
-  error: FormError | null,
+  error: FormError,
   mode: FormMode,
   id: null | number,
 };
@@ -21,7 +21,7 @@ const FormHOC = (Component: any) => {
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
-        error: null,
+        error: {},
         mode,
         id,
       }
@@ -81,10 +81,11 @@ const FormHOC = (Component: any) => {
         form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
       }
       chrome.runtime.sendMessage(form, (data) => {
+        console.log('data', data);
         if(data?.error) {
           this.setState({error: {
             ...this.state.error,
-            background: {message: data.message}
+            [data.info.fieldName]: {message: data.info.message}
           }})
           return;
         }

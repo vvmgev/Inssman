@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from 'components/common/button/button';
 
 const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
+  console.log(error);
   return <>
       <div className="py-5 px-5 text-lg rounded-tr-3xl rounded-tl-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-slate-700 w-full">
         <div className="flex justify-between ">
@@ -22,6 +23,7 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
         <form>
           {children}
         </form>
+        {Object.values(error).map((item: any, index: number) => item?.message && <p key={index} className="capitalize text-red-500 text-base">{item.message}</p>)}
         <div className="flex justify-end mt-5">
           <Link to={`/${formType}`}>
             <div className="border border-slate-500 py-2 px-4 rounded cursor-pointer text-slate-400" >View Example</div>

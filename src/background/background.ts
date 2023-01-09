@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           StorageService.setId(id);
           sendResponse();
         } catch (error: any) {
-          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.AddRule], data: request.data})})
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.AddRule], data: request.data})})
         }
       })()
       return true;
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           StorageService.set({[request.data.rule.id]: request.data.ruleData});
           sendResponse()
         } catch (error: any) {
-          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})
         }
       })()
       return true;
@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           await RuleService.remove([request.data.rule])
           sendResponse();  
         } catch (error) {
-          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRule], data: request.data})})
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRule], data: request.data})})
         }
       })()
       return true;
@@ -57,7 +57,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           }));
           sendResponse(rulesMap);  
         } catch (error) {
-          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
         }
       })()
       return true;
@@ -69,7 +69,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           const ruleData = await StorageService.get(String(rule.id))
           sendResponse({rule, ruleData: ruleData[rule.id]})  
         } catch (error) {
-          sendResponse({error: true, message: handleError(error, {action: PostMessageAction[PostMessageAction.GetRuleById], data: request.data})})
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRuleById], data: request.data})})
         }
       })()
       return true;

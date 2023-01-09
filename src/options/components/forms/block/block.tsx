@@ -72,9 +72,7 @@ const CancelForm = ({id, mode, onSave, error, onChange}) => {
                 onChangeMatchType={onChangeMatchType}
                 source={source}
                 onChangeSource={onChangeSource}
-                sourceProps={{
-                  error: error?.source
-                }}
+                error={error}
               />
             </div>
            </Form>

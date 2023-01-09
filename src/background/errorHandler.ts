@@ -8,12 +8,21 @@ const error3 = 'Unhandled error = Rule with id 95 can\'t specify the "regexSubst
 const handleError = (error: any, data) => {
   const message = error.message;
   if (message.includes(error1)) {
-    return error1;
+    return {
+      fieldName: 'operation',
+      message: error1,
+    }
   }
   if (message.includes(error2)) {
-    return error2;
+    return {
+      fieldName: 'operation',
+      message: error2,
+    }
   }
-  return 'Unhandled error = ' + message;
+  return {
+      fieldName: 'general',
+      message: 'Unhandled error = ' + message,
+  }
 }
 
 export default handleError;
