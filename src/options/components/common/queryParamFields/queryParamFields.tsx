@@ -38,7 +38,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             placeholder="Value"
             classes="flex-[2]"
           />
-          <div className="cursor-pointer" onClick={event => onRemove(event, index)}><RemoveSVG /></div>
+          <div className="cursor-pointer" onClick={event => onRemove(event, index)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
         </div>
       )
     })}

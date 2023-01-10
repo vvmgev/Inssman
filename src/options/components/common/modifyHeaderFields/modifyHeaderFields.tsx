@@ -49,9 +49,10 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
             value={header.value}
             onChange={event => onChangeHeader(event, index)}
             disabled={header.operation === HeaderOperation.REMOVE}
+            hidden={header.operation === HeaderOperation.REMOVE}
             classes="flex-[2]"
           />
-          <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><RemoveSVG /></div>
+          <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
         </div>
       )
     })}

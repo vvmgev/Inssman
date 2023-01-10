@@ -19,9 +19,9 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
                 <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" >View Example</div>
               </a>
               </div>
-            {mode === 'update' && <div>
+            {/* {mode === 'update' && <div>
               <Button classes="bg-red-400 hover:bg-red-500" onClick={onSubmit}>Delete</Button>
-            </div>} 
+            </div>}  */}
             <div>
               <Button onClick={onSubmit}>{mode === 'create' ? 'Create' : 'Edit'}</Button>
             </div>
