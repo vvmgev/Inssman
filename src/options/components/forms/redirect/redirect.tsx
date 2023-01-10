@@ -3,10 +3,10 @@ import Input from 'components/common/input/input';
 import { FormMode, IForm, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { addProtocol, backslashNumber } from 'options/utils';
-import Form from '../components/form/form';
-import SourceFields from '../components/source/sourceFields';
+import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
+import SourceFields from '../source/sourceFields';
 
 const defaultData = {
   name: '',

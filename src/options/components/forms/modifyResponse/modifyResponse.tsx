@@ -5,9 +5,9 @@ import { encode } from 'options/utils';
 import { FormType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
 import Editor from '../../editor/editor';
-import Form from '../components/form/form';
-import SourceFields from '../components/source/sourceFields';
+import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import SourceFields from '../source/sourceFields';
 
 const defaultData = {
   name: '',

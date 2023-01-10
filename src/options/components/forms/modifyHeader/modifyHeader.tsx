@@ -3,11 +3,11 @@ import { FormMode, HeaderModificationType, MatchType, MatchTypeMap } from 'model
 import { PostMessageAction } from 'models/postMessageActionModel';
 import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
-import Form from '../components/form/form';
-import SourceFields from '../components/source/sourceFields';
+import Form from '../form/form';
 import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import SourceFields from '../source/sourceFields';
 
 const defaultData = {
   name: '',

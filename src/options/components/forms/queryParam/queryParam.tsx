@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Input from 'components/common/input/input';
 import { FormMode, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
-import Form from '../components/form/form';
-import SourceFields from '../components/source/sourceFields';
-import QueryParamFields from '../components/queryParamFields';
+import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
+import SourceFields from '../source/sourceFields';
+import QueryParamFields from '../queryParamFields/queryParamFields';
 
 const defaultData = {
   name: '',
