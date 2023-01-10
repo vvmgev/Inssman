@@ -28,7 +28,7 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
           action: {
             type: RuleActionType.REDIRECT,
             redirect: {
-              [destination.match(backslashNumber) ? 'regexSubstitution' : 'url']: addProtocol(destination),
+              [destination.match(backslashNumber)  ? 'regexSubstitution' : 'url']: addProtocol(destination),
             }
           },
           condition: {

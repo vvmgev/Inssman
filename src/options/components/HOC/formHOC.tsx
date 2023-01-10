@@ -36,6 +36,18 @@ const FormHOC = (Component: any) => {
       });
     };
 
+    setError = (fieldName, message) => {
+      this.setState(state => ({
+        ...state,
+        error: {
+          ...state.error,
+          [fieldName]: {
+            message,
+          }
+        }
+      }))
+    }
+
     validate = (name, value) => {
       let hasError = !value;
       this.setState(state => ({
@@ -81,7 +93,7 @@ const FormHOC = (Component: any) => {
       if(this.validateAll()) {
         return;
       }
-
+      form.data.ruleData = ruleData;
       form.action = this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule;
       // TODO need make it dynamic from UI
       form.data.rule.condition.isUrlFilterCaseSensitive = false;
@@ -112,11 +124,10 @@ const FormHOC = (Component: any) => {
         form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
       }
       chrome.runtime.sendMessage(form, (data) => {
+        console.log('data', data);
         if(data?.error) {
-          this.setState({error: {
-            ...this.state.error,
-            [data.info.fieldName]: {message: data.info.message}
-          }})
+          console.log('chrome.runtime.sendMessage', data);
+          this.setError(data.info.fieldName, data.info.message)
           return;
         }
         (this.props as any).navigate('/')
@@ -124,14 +135,16 @@ const FormHOC = (Component: any) => {
     }
 
     render() {
+      console.log(this.state.error);
+
       return <Component
         setRuleData={this.setRuleData}
         ruleData={this.state.ruleData}
+        setError={this.setError}
         onChange={this.onChange}
         onSave={this.onSave}
         error={this.state.error}
-        mode={this.state.mode}
-        id={this.state.id} />
+        mode={this.state.mode} />
     }
 
     componentDidMount(): void {

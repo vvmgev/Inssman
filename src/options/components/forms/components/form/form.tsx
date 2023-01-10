@@ -16,7 +16,6 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
             </div>
           </div>
         </div>
-        {error?.background && <div className="text-red-500 text-base">{error.background.message}</div>}
       </div>
       <div className="p-3 bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-b border-slate-700 w-full rounded-bl-xl rounded-br-xl">
         <form>

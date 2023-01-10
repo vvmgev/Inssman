@@ -40,6 +40,8 @@ export default () => {
       [FormType.MODIFY_RESPONSE]: <PencilSVG />,
   };
 
+  console.log(data);
+
   return <div>
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
         {!data.length && <div className="w-full h-full pl-5 py-5">

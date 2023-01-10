@@ -3,5 +3,5 @@ const webpackConfig = require('./webpack.common');
 module.exports = {
    ...webpackConfig,
    mode: "development",
-   devtool: 'source-map',
+   devtool: 'inline-source-map',
 };

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { EditorLanguage, FormMode, IForm, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
 import Input from 'components/common/input/input';
 import { encode } from 'options/utils';
 import { FormType } from 'models/formFieldModel';

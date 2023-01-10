@@ -4,6 +4,13 @@ import UpdateRulesetOptions = chrome.declarativeNetRequest.UpdateRulesetOptions;
 class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
+    constructor() {
+        const a = async() => {
+            this.remove(await this.getRules());
+        }
+        // a();
+    }
+
     async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
         return this.updateDynamicRules({ addRules: rules, removeRuleIds: removeRules.map(rule => rule.id) })
     }
