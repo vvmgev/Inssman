@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({onChange, classes, error, starts, ...props}: any ) => {
+const Input = ({onChange, classes, error, starts, disabled, ...props}: any ) => {
     return <div className={`inline-block w-full ${classes || ''}`}>
       <div className="flex items-stretch">
         {starts && <div className={`pl-3 rounded-tl rounded-bl bg-slate-700/50 flex justify-center items-center
@@ -11,9 +11,11 @@ const Input = ({onChange, classes, error, starts, ...props}: any ) => {
                       leading-tight focus:outline-none focus:shadow-outline
                       ${error ? 'border border-red-500' : ''}
                       ${error && starts ? 'border-l-0' : ''}
+                      ${disabled ? 'cursor-not-allowed' : ''}
                       `}
                       autoComplete="off"
                       onChange={onChange}
+                      disabled={disabled}
                       {...props} />
       </div>
     </div>
