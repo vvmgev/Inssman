@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormMode, IForm, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { makeExactMatch, replaceAsterisk } from 'options/utils';
+import { capitalizeFirstLetter, makeExactMatch, replaceAsterisk } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
@@ -54,7 +54,7 @@ const FormHOC = (Component: any) => {
         ...state,
         error: {
           ...state.error,
-          [name]: (hasError ? {message: `${name} is required`} : null)
+          [name]: (hasError ? {message: `${capitalizeFirstLetter(name)} is required`} : null)
         }
       }))
       return hasError;

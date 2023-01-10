@@ -45,7 +45,7 @@ const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }: any,
 				value: [value].join('\n'),
 				language,
 				theme: 'vs-dark',
-				// autoIndent: true,
+				autoIndent: 'advanced',
 				formatOnPaste: true,
 				formatOnType: true,
 				minimap: { enabled: false }

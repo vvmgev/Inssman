@@ -4,8 +4,8 @@ const sourceError = 'specifies an incorrect value for the "regexFilter"';
 const actionError = 'standard HTTP request headers that can specify multiple values for a single entry are supported';
 
 const errors = {
-  [destinationError]: 'may you have backslash with number (\\1) please remove or change Match type',
-  [destinationError2]: 'may you have backslash with number (\\1) please remove or change Match type',
+  [destinationError]: 'May you have backslash with number (\\1) please remove or change Match type',
+  [destinationError2]: 'May you have backslash with number (\\1) please remove or change Match type',
   [sourceError]: 'Specified an incorrect value',
   [actionError]: 'Only standard HTTP request headers that can specify multiple values',
 }
