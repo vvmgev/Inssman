@@ -7,7 +7,7 @@ import Select from 'components/common/select/select';
 import Editor from '../../editor/editor';
 import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import SourceFields from '../source/sourceFields';
+import SourceFields from '../../common/source/sourceFields';
 
 const defaultData = {
   name: '',

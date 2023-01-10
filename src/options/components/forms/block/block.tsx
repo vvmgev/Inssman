@@ -5,7 +5,7 @@ import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
-import SourceFields from '../source/sourceFields';
+import SourceFields from '../../common/source/sourceFields';
 
 const defaultData = {
   name: '',

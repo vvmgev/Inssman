@@ -4,10 +4,10 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
-import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
+import ModifyHeaderFields from '../../common/modifyHeaderFields/modifyHeaderFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import SourceFields from '../source/sourceFields';
+import SourceFields from '../../common/source/sourceFields';
 
 const defaultData = {
   name: '',

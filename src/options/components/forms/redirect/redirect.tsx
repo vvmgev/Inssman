@@ -6,7 +6,7 @@ import { addProtocol, backslashNumber } from 'options/utils';
 import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
-import SourceFields from '../source/sourceFields';
+import SourceFields from '../../common/source/sourceFields';
 
 const defaultData = {
   name: '',

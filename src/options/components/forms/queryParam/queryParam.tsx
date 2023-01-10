@@ -4,8 +4,8 @@ import { FormMode, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from
 import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
-import SourceFields from '../source/sourceFields';
-import QueryParamFields from '../queryParamFields/queryParamFields';
+import SourceFields from '../../common/source/sourceFields';
+import QueryParamFields from '../../common/queryParamFields/queryParamFields';
 
 const defaultData = {
   name: '',
