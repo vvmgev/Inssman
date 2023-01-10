@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
-import { EditorLanguage, FormMode, IForm, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
+import { EditorLanguage, FormMode, IForm, IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import { encode } from 'options/utils';
 import { FormType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
 import Editor from '../../editor/editor';
 import Form from '../form/form';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import SourceFields from '../../common/source/sourceFields';
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 const defaultData = {
   name: '',
@@ -26,19 +26,15 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
           editorValue = defaultData.editorValue} = ruleData;
           
   const onSubmit = () => {
-    const form: IForm = {
-      data: {
-        rule: {
-          action: {
-            type: RuleActionType.REDIRECT,
-            redirect: {
-              url: encode(MimeTypeMap[editorLang], editorValue),
-            }
-          },
-          condition: {
-            [MatchTypeMap[matchType]]: source,
-          }
-        },
+    const form: IRule = {
+      action: {
+        type: RuleActionType.REDIRECT,
+        redirect: {
+          url: encode(MimeTypeMap[editorLang], editorValue),
+        }
+      },
+      condition: {
+        [MatchTypeMap[matchType]]: source,
       }
     };
     onSave(form);

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { FormMode, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
+import React, { useEffect } from 'react';
+import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import SourceFields from '../../common/source/sourceFields';
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const defaultData = {
   name: '',
@@ -20,16 +19,12 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
           matchType = defaultData.matchType} = ruleData;
 
   const onSubmit = () => {
-    const form: any = {
-      data: {
-        rule: {
-          action: {
-            type: RuleActionType.BLOCK,
-          },
-          condition: {
-            [MatchTypeMap[matchType]]: source,
-          }
-        },
+    const form: IRule = {
+      action: {
+        type: RuleActionType.BLOCK,
+      },
+      condition: {
+        [MatchTypeMap[matchType]]: source,
       }
     };
     onSave(form);

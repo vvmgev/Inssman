@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Input from 'components/common/input/input';
-import { FormMode, IForm, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
+import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
 import Form from '../form/form';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+
 
 const defaultData = {
   name: '',
@@ -22,19 +22,15 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
           source = defaultData.source,
           destination = defaultData.destination} = ruleData;
   const onSubmit = () => {
-    const form: IForm = {
-      data: {
-        rule: {
-          action: {
-            type: RuleActionType.REDIRECT,
-            redirect: {
-              [destination.match(backslashNumber)  ? 'regexSubstitution' : 'url']: addProtocol(destination),
-            }
-          },
-          condition: {
-            [MatchTypeMap[matchType]]: source,
-          }
-        },
+    const form: IRule = {
+      action: {
+        type: RuleActionType.REDIRECT,
+        redirect: {
+          [destination.match(backslashNumber)  ? 'regexSubstitution' : 'url']: addProtocol(destination),
+        }
+      },
+      condition: {
+        [MatchTypeMap[matchType]]: source,
       }
     };
     onSave(form);

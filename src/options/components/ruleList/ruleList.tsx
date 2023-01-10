@@ -67,7 +67,7 @@ export default () => {
             .reverse().map(({rule, ruleData}) => <li key={rule.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData[rule.id].name)}</div>
               <div className="flex items-center gap-1 flex-1">
-                  <span>{IconsMap[ruleData[rule.id].formType]}</span>
+                  <span className="w-[18px]">{IconsMap[ruleData[rule.id].formType]}</span>
                   <div>{FormTypeMap[ruleData[rule.id].formType]}</div>
               </div>
               <div className="flex-1 flex">{cutString(ruleData[rule.id].source)}</div>

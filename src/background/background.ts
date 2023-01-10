@@ -9,6 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {});
 
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('request', request);
   switch (request.action) {
     case PostMessageAction.AddRule:
       (async() => {

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback} from 'react';
-import { FormMode, HeaderModificationType, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
+import React, { useEffect, useCallback } from 'react';
+import { FormMode, HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
@@ -52,19 +51,15 @@ const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange
 
 
   const onSubmit = () => {
-    const form: any = {
-      data: {
-        rule: {
-          action: {
-            type: RuleActionType.MODIFY_HEADERS,
-            ...(getRequestHeaders().length && {requestHeaders: getRequestHeaders()}),
-            ...(getResponseHeaders().length && {responseHeaders: getResponseHeaders()})
+    const form: IRule = {
+      action: {
+        type: RuleActionType.MODIFY_HEADERS,
+        ...(getRequestHeaders().length && {requestHeaders: getRequestHeaders()}),
+        ...(getResponseHeaders().length && {responseHeaders: getResponseHeaders()})
 
-          },
-          condition: {
-            [MatchTypeMap[matchType]]: source,
-          }
-        },
+      },
+      condition: {
+        [MatchTypeMap[matchType]]: source,
       }
     };
     onSave(form);

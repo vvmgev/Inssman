@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import Input from 'components/common/input/input';
-import { FormMode, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from 'models/formFieldModel';
+import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from 'models/formFieldModel';
 import Form from '../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
@@ -49,25 +49,21 @@ const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   }, [queryParams]);
 
   const onSubmit = () => {
-    const form: any = {
-      data: {
-        rule: {
-          action: {
-            type: RuleActionType.REDIRECT,
-            redirect: {
-              transform:{
-                queryTransform: {
-                  addOrReplaceParams: getQueryParams(),
-                  removeParams: getRemoveQueryParams(),
-                }
-              }
+    const form: IRule = {
+      action: {
+        type: RuleActionType.REDIRECT,
+        redirect: {
+          transform:{
+            queryTransform: {
+              addOrReplaceParams: getQueryParams(),
+              removeParams: getRemoveQueryParams(),
             }
-          },
-          condition: {
-            [MatchTypeMap[matchType]]: source,
-          },
-        },
-      }
+          }
+        }
+      },
+      condition: {
+        [MatchTypeMap[matchType]]: source,
+      },
     };
     onSave(form);
   };

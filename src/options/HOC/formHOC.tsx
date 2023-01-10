@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormMode, IForm, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
+import { FormMode, IForm, IRule, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch, replaceAsterisk } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
@@ -87,18 +87,20 @@ const FormHOC = (Component: any) => {
       }
     }
 
-    onSave = (form: IForm) => {
-      const { id } = this.state;
-      const { ruleData } = this.state;
+    onSave = (rule: IRule) => {
+      const { ruleData, id } = this.state;
       if(this.validateAll()) {
         return;
       }
-      form.data.ruleData = ruleData;
-      form.action = this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule;
+      const form: IForm = {
+          rule,
+          ruleData
+      }
       // TODO need make it dynamic from UI
-      form.data.rule.condition.isUrlFilterCaseSensitive = false;
-      if (!(form.data.rule.condition as any).resourceTypes || !(form.data.rule.condition as any).resourceTypes.length) {
-        (form.data.rule.condition as any).resourceTypes = [
+      form.rule.condition.isUrlFilterCaseSensitive = false;
+      // TODO need make it dynamic from UI
+      if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
+        (form.rule.condition as any).resourceTypes = [
           ResourceType.MAIN_FRAME,
           ResourceType.SUB_FRAME,
           ResourceType.XMLHTTPREQUEST,
@@ -115,15 +117,18 @@ const FormHOC = (Component: any) => {
         ]
       }
       if (id) {
-        form.data.rule.id = id;
+        form.rule.id = id;
       }
       if (ruleData.matchType === MatchType.EQUAL) {
-        form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
+        form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
       }
       if (ruleData.matchType === MatchType.WILDCARD) {
-        form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
+        form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
       }
-      chrome.runtime.sendMessage(form, (data) => {
+      chrome.runtime.sendMessage({
+        action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
+        data: form
+      }, (data) => {
         if(data?.error) {
           this.setError(data.info.fieldName, data.info.message)
           return;

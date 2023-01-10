@@ -1,5 +1,4 @@
 import React from 'react';
-import { PostMessageAction } from "./postMessageActionModel"
 import PencilSVG  from 'assets/icons/pencil.svg';
 import BlockSVG  from 'assets/icons/block.svg';
 import RedirectSVG  from 'assets/icons/redirect.svg';
@@ -11,20 +10,18 @@ import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
+export interface IRuleData {
+    name: string,
+    source: string,
+    matchType: string,
+    formType: string,
+    destination?: string,
+    editorValue?: string,
+    editorLang?: string,
+}
 export interface IForm {
-    action?: PostMessageAction,
-    data: {
-        rule: IRule,
-        ruleData?: {
-            name: string,
-            source: string,
-            matchType: string,
-            destination?: string,
-            editorValue?: string,
-            editorLang?: string,
-            formType: string,
-        }
-    }
+    rule: IRule,
+    ruleData?: IRuleData
 }
 
 export enum FIELDS {
