@@ -11,9 +11,9 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, onChange, mat
 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://google.com',
-    [MatchType.REGEXP]: 'e.g. /google-([0-9]+)/ig',
+    [MatchType.REGEXP]: 'e.g ^http(s):\/\/example\.com\/?$',
     [MatchType.WILDCARD]: 'e.g. *://google.com/*',
-    [MatchType.CONTAIN]: 'e.g http://google.com',
+    [MatchType.CONTAIN]: 'e.g google',
   }), []);
 
   return (

@@ -47,10 +47,10 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
   }, []);
 
   const placeholders = useMemo(() => ({
-    [MatchType.EQUAL]: 'http://example.com',
-    [MatchType.REGEXP]: '^http(s):\/\/example\.com\/?$',
-    [MatchType.WILDCARD]: `http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
-    [MatchType.CONTAIN]: 'http://example.com',
+    [MatchType.EQUAL]: 'e.g http://example.com',
+    [MatchType.REGEXP]: 'e.g http://example.com',
+    [MatchType.WILDCARD]: `e.g http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
+    [MatchType.CONTAIN]: 'e.g http://example.com',
   }), []);
 
   return <>

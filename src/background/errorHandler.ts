@@ -2,7 +2,6 @@ const error2 = 'must not provide a header value for a header to be removed'
 // match type contains
 // source regexp
 // with backslash \1
-
 // Unhandled Error = Rule With Id 108 Does Not Specify A Value For "Action.RequestHeaders" Or "Action.ResponseHeaders" Key. At Least One Of These Keys Must Be Specified With A Non-Empty List.
 
 const destinationError = 'specifies an incorrect value for the "action.redirect.regexSubstitution"';
