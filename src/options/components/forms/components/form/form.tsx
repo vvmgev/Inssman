@@ -18,13 +18,13 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
         </div>
       </div>
       <div className="p-3 bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-b border-slate-700 w-full rounded-bl-xl rounded-br-xl">
+      {Object.values(error).map((item: any, index: number) => item?.message && <p key={index} className="capitalize text-red-500 text-base mb-1">{item.message}</p>)}
         <form>
           {children}
         </form>
-        {Object.values(error).map((item: any, index: number) => item?.message && <p key={index} className="capitalize text-red-500 text-base">{item.message}</p>)}
         <div className="flex justify-end mt-5">
           <Link to={`/${formType}`}>
-            <div className="border border-slate-500 py-2 px-4 rounded cursor-pointer text-slate-400" >View Example</div>
+            <div className="border border-slate-500 py-2 px-4 rounded cursor-pointer text-slate-200" >View Example</div>
           </Link>
         </div>
       </div>

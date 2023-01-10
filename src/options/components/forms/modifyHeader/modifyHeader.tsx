@@ -103,7 +103,7 @@ const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange
               onRemoveHeader={onRemoveHeader}
               error={error}
             />
-            <div className="border inline-block mt-5 border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer" onClick={onAddHeader}>Add</div>
+            <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddHeader}>Add</div>
            </Form>
     </>
 };

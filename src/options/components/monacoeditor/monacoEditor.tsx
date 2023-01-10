@@ -36,6 +36,7 @@ const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }: any,
 		},
 		getModel,
 		onChange,
+		pritter: () => editor.current?.getAction('editor.action.formatDocument').run(),
 	  }));
 
 	useEffect(() => {
@@ -44,6 +45,10 @@ const MonacoEditor = forwardRef(({ value, language = '', onChangeHandler }: any,
 				value: [value].join('\n'),
 				language,
 				theme: 'vs-dark',
+				// autoIndent: true,
+				formatOnPaste: true,
+				formatOnType: true,
+				minimap: { enabled: false }
 			});
 		}
 		return () => {

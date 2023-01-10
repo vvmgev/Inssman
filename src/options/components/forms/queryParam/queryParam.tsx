@@ -108,7 +108,7 @@ const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
                 error={error}
               />
             </div>
-            <div className="border inline-block mt-5 border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer" onClick={onAddQueryParam}>Add</div>
+            <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddQueryParam}>Add</div>
            </Form>
     </>
 };
