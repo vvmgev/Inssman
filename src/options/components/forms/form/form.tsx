@@ -27,9 +27,9 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
           {children}
         </form>
         <div className="flex justify-end mt-5">
-          <Link to={`/${formType}`}>
+          <a href={`https://github.com/vvmgev/Overrider#${formType}`} target="_blank" rel="noopener noreferrer">
             <div className="border border-slate-500 py-2 px-4 rounded cursor-pointer text-slate-200" >View Example</div>
-          </Link>
+          </a>
         </div>
       </div>
     </>

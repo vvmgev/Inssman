@@ -75,6 +75,7 @@ const FormHOC = (Component: any) => {
     }
 
     onChange = (event) => {
+      console.log('event', event);
       this.setState(state => ({
         ...state,
         ruleData: {
@@ -123,10 +124,9 @@ const FormHOC = (Component: any) => {
       if (ruleData.matchType === MatchType.WILDCARD) {
         form.data.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
       }
+      console.log('form', form);
       chrome.runtime.sendMessage(form, (data) => {
-        console.log('data', data);
         if(data?.error) {
-          console.log('chrome.runtime.sendMessage', data);
           this.setError(data.info.fieldName, data.info.message)
           return;
         }

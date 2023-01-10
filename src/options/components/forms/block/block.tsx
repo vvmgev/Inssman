@@ -50,6 +50,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
                   onChange={onChange} 
                   placeholder="Rule Name"
                   error={error?.name}
+                  starts="sdsads"
               />
             </div>
             <div className="flex mt-5 items-center w-full">
