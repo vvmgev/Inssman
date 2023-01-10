@@ -41,14 +41,16 @@ const SideBar = () => {
     <ul className="py-5 rounded-tr-3xl rounded-br-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-b border-slate-700 w-full">
       <li className="px-10 mb-2">
         <Link to='/'>
-          <div className={`${location.pathname === '/' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}><ListSVG /><span>Rules</span></div>  
+          <div className={`${location.pathname === '/' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}><span className="w-[24px]">{<ListSVG />}</span><span>All Rules</span></div>  
         </Link>
       </li>
       <li className="px-10 mt-5 mb-2 text-slate-400"><div>Create Rule</div></li>
       {paths.map(({icon, text, path}, index) => (
         <li className="px-10 mb-2" key={index}>
           <Link to={path}>
-          <div className={`${location.pathname === path ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}>{icon}<span>{text}</span></div>
+          <div className={`${location.pathname === path ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}>
+            <span className="w-[24px]">{icon}</span>
+            <span>{text}</span></div>
           </Link>
         </li>
       ))}

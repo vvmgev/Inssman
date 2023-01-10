@@ -1,11 +1,13 @@
+import React from 'react';
 import { PostMessageAction } from "./postMessageActionModel"
+import PencilSVG  from 'assets/icons/pencil.svg';
+import BlockSVG  from 'assets/icons/block.svg';
+import RedirectSVG  from 'assets/icons/redirect.svg';
+import QuestionSVG  from 'assets/icons/question.svg';
+import CodeSVG  from 'assets/icons/code.svg';
 import ResourceType = chrome.declarativeNetRequest.ResourceType
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import RequestMethod = chrome.declarativeNetRequest.RequestMethod
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
-import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import RuleCondition = chrome.declarativeNetRequest.RuleCondition
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
@@ -48,12 +50,20 @@ export enum FormType {
 }
 
 export const FormTypeMap = {
-    [FormType.REDIRECT]: 'Redirect',
     [FormType.BLOCK]: 'Block',
+    [FormType.REDIRECT]: 'Redirect',
     [FormType.MODIFY_RESPONSE]: 'Modify Response',
     [FormType.MODIFY_HEADER]: 'Modify Header',
     [FormType.QUERY_PARAM]: 'Query Param',
 }
+
+export const IconsMap = {
+    [FormType.BLOCK]: <BlockSVG />,
+    [FormType.REDIRECT]: <RedirectSVG />,
+    [FormType.QUERY_PARAM]: <QuestionSVG />,
+    [FormType.MODIFY_HEADER]: <CodeSVG />,
+    [FormType.MODIFY_RESPONSE]: <PencilSVG />,
+};
 
 export enum MatchType {
     CONTAIN = 'contain',
@@ -128,6 +138,6 @@ export enum HeaderModificationType {
     RESPONSE = 'response',
 }
   
-  export interface QueryParams extends QueryKeyValue {
+export interface QueryParams extends QueryKeyValue {
     action: QueryParamAction
 }

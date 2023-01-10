@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PostMessageAction } from '../../../models/postMessageActionModel';
-import { FormType } from '../../../models/formFieldModel';
+import { IconsMap } from '../../../models/formFieldModel';
 import StorageService from '../../../services/StorageService';
 import RemoveSVG  from 'assets/icons/remove.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
@@ -30,14 +30,6 @@ export default () => {
               getData();
           },
       );
-  };
-
-  const icons = {
-      [FormType.BLOCK]: <BlockSVG />,
-      [FormType.REDIRECT]: <RedirectSVG />,
-      [FormType.QUERY_PARAM]: <QuestionSVG />,
-      [FormType.MODIFY_HEADER]: <CodeSVG />,
-      [FormType.MODIFY_RESPONSE]: <PencilSVG />,
   };
 
   return <div>
@@ -75,13 +67,13 @@ export default () => {
             .reverse().map(({rule, ruleData}) => <li key={rule.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData[rule.id].name)}</div>
               <div className="flex items-center gap-1 flex-1">
-                  <span>{icons[ruleData[rule.id].formType]}</span>
+                  <span>{IconsMap[ruleData[rule.id].formType]}</span>
                   <div>{FormTypeMap[ruleData[rule.id].formType]}</div>
               </div>
               <div className="flex-1 flex">{cutString(ruleData[rule.id].source)}</div>
               <div className="flex gap-5 flex-1 justify-end">
-                  <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData[rule.id].formType}/${rule.id}`}><PencilSVG /></Link>
-                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(rule)}><RemoveSVG /></div>
+                  <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData[rule.id].formType}/${rule.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
+                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(rule)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
               </div>
               </li>)}
           </ul>

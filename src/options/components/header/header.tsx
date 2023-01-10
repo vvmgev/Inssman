@@ -9,8 +9,8 @@ const Header =  () => {
         <div className="flex gap-5 mr-10 p-5 py-7
             rounded-br-3xl rounded-bl-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl
             shadow-inner border-r border-l border-b border-slate-700">
-            <Link to="/" className="flex gap-3 items-center hover:text-sky-500"><GithubSVG /> Github</Link>
-            <Link to="/" className="flex gap-3 items-center hover:text-sky-500"><DocumentSVG />Docs</Link>
+            <Link to="/" className="flex gap-3 items-center hover:text-sky-500"><span className="w-[24px]">{<GithubSVG />}</span>Github</Link>
+            <Link to="/" className="flex gap-3 items-center hover:text-sky-500"><span className="w-[24px]">{<DocumentSVG />}</span>Docs</Link>
         </div>
     </div>
 }
