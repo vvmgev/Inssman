@@ -13,7 +13,6 @@ const Editor = ({language, value, onChange}) => {
 
 
     const handleChangeEditor = () => {
-        console.log(editorRef.current.getValue());
         onChange({
             target: {
                 name: 'editorValue',
