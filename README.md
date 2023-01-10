@@ -7,15 +7,15 @@ This extension designed for developers. HTTP Interceptor built the top of last A
 <br />
 
 By creating a single **Rule** you can.
-- **[Redirect Request](#redirectRequest)** to another url
-- **[Block Request](#redirectRequest)**
-- **[Modify Query Parameters](#modifyQueryParameters)** like add/remove/replace
-- **[Modify Request Header](#modifyRequestHeader)** like add/remove/append
-- **[Modify Response Header](#modifyResponseHeader)** like add/remove/append
-- **[Modify Response](#modifyResponse)** allows return response such as HTML/CSS/JS/JSON file
+- **[Redirect Request](#redirect)** to another url
+- **[Block Request](#block)**
+- **[Modify Query Parameters](#query-param)** like add/remove/replace
+- **[Modify Request Header](#modify-header)** like add/remove/append
+- **[Modify Response Header](#modify-header)** like add/remove/append
+- **[Modify Response](#modify-response)** allows return response such as HTML/CSS/JS/JSON file
 
 # | Documentation 📚 
-<a name="redirectRequest"></a>
+<a name="redirect"></a>
 
 ### **Redirect Request** 🔀 
 1. Insert **Rule** name
@@ -26,7 +26,7 @@ By creating a single **Rule** you can.
 
 <img width="1053" alt="Screenshot 2023-01-07 at 20 13 19" src="https://user-images.githubusercontent.com/11613729/211160525-7d13a8ad-cd34-4175-bf1c-da7422575f6d.png">
 
-<a name="blockRequest"></a>
+<a name="block"></a>
 
 ### **Block Request** 🚫 
 1. Insert **Rule** name
@@ -36,7 +36,7 @@ By creating a single **Rule** you can.
 
 <img width="1053" alt="Screenshot 2023-01-07 at 20 28 31" src="https://user-images.githubusercontent.com/11613729/211160790-7740364a-4c47-479a-88f6-ec1e7ae39fff.png">
 
-<a name="modifyQueryParameters"></a>
+<a name="query-param"></a>
 
 ### **Modify Query Parameters** ❔
 1. Insert **Rule** name
@@ -49,7 +49,7 @@ By creating a single **Rule** you can.
 
 <img width="1053" alt="Screenshot 2023-01-07 at 20 11 32" src="https://user-images.githubusercontent.com/11613729/211160722-e244205b-0276-419e-8fdb-66a4144a75b4.png">
 
-<a name="modifyHeader"></a>
+<a name="modify-header"></a>
 
 ### **Modify Header** 🌐
 1. Insert **Rule** name
@@ -63,7 +63,7 @@ By creating a single **Rule** you can.
  
 <img width="1053" alt="Screenshot 2023-01-07 at 20 15 21" src="https://user-images.githubusercontent.com/11613729/211160557-1835bf58-0e01-4b6d-a400-e36d84c7f7c4.png">
 
-<a name="modifyResponse"></a>
+<a name="modify-response"></a>
 
 ### **Modify Response** 🗞️ 
 1. Insert **Rule** name
