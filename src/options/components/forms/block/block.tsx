@@ -51,9 +51,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
               <SourceFields
                 matchType={matchType}
                 onChange={onChange}
-                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChange}
                 error={error}
               />
             </div>

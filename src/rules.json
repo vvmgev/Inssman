@@ -92,7 +92,40 @@
             "url": "http://google.com"
           }
         },
-        "condition": { "urlFilter": "list", "resourceTypes": ["main_frame"] }
+        "condition": { "urlFilter": "(.*)", "resourceTypes": ["main_frame"] }
+      },
+
+      {
+        "action": {
+            "requestHeaders": [
+                {
+                    "header": "qwerty",
+                    "operation": "set",
+                    "value": "123"
+                }
+            ],
+            "type": "modifyHeaders"
+        },
+        "condition": {
+            "isUrlFilterCaseSensitive": false,
+            "resourceTypes": [
+                "main_frame",
+                "sub_frame",
+                "xmlhttprequest",
+                "csp_report",
+                "font",
+                "image",
+                "media",
+                "object",
+                "ping",
+                "script",
+                "stylesheet",
+                "websocket",
+                "other"
+            ],
+            "regexFilter": "(.*)"
+        },
+        "id": 137234234
       },
 
       {

@@ -86,9 +86,7 @@ const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange
               <SourceFields
                 matchType={matchType}
                 onChange={onChange}
-                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChange}
                 error={error}
               />
             </div>

@@ -3,7 +3,7 @@ import { MatchType } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 
-const SourceFields = ({ source, onChangeSource, onChangeMatchType, onChange, matchType, sourceProps = {}, matchTypeProps = {}, error }) => {
+const SourceFields = ({ source, onChange, matchType, error, sourceProps = {}, matchTypeProps = {}, showAllButton = true}) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -15,6 +15,11 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, onChange, mat
     [MatchType.WILDCARD]: 'e.g. *://google.com/*',
     [MatchType.CONTAIN]: 'e.g google',
   }), []);
+
+  const applyToAllHandler = () => {
+    onChange({target: {name: 'matchType', value: MatchType.REGEXP}});
+    onChange({target: {name: 'source', value: '.*'}});
+  }
 
   return (
     <div className="flex items-center w-full">
@@ -37,6 +42,9 @@ const SourceFields = ({ source, onChangeSource, onChangeMatchType, onChange, mat
           {...sourceProps}
           />
       </div>
+      {showAllButton && <div className="ml-5 w-1/4" onClick={applyToAllHandler}>
+        <div className="border inline-block border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer">Apply to all URLs</div>
+      </div>}
     </div>
   )
 }

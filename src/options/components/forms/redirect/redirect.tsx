@@ -65,11 +65,9 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
               <SourceFields
                 matchType={matchType}
                 onChange={onChange}
-                onChangeMatchType={onChange}
                 source={source}
-                onChangeSource={onChange}
                 error={error}
-
+                showAllButton={false}
               />
             </div>
             <div className="flex mt-5 items-center">
