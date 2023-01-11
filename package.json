@@ -24,6 +24,7 @@
     "copy-webpack-plugin": "^10.2.4",
     "deepcopy": "^2.1.0",
     "file-loader": "^6.2.0",
+    "firebase": "^9.15.0",
     "mini-css-extract-plugin": "^2.6.0",
     "postcss-preset-env": "^7.5.0",
     "react": "^18.1.0",

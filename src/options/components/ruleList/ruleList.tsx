@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import RemoveSVG  from 'assets/icons/remove.svg';
+import PencilSVG  from 'assets/icons/pencil.svg';
+import SearchSVG  from 'assets/icons/search.svg';
 import { PostMessageAction } from '../../../models/postMessageActionModel';
 import { IconsMap } from '../../../models/formFieldModel';
 import StorageService from '../../../services/StorageService';
-import RemoveSVG  from 'assets/icons/remove.svg';
-import PencilSVG  from 'assets/icons/pencil.svg';
-import BlockSVG  from 'assets/icons/block.svg';
-import RedirectSVG  from 'assets/icons/redirect.svg';
-import QuestionSVG  from 'assets/icons/question.svg';
-import CodeSVG  from 'assets/icons/code.svg';
-import SearchSVG  from 'assets/icons/search.svg';
 import { FormTypeMap } from '../../../models/formFieldModel';
 import Input from '../common/input/input';
 import Rule = chrome.declarativeNetRequest.Rule
@@ -31,8 +27,6 @@ export default () => {
           },
       );
   };
-
-  console.log(data);
 
   return <div>
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
