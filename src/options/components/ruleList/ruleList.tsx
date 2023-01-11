@@ -31,9 +31,9 @@ export default () => {
   return <div>
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
         {!data.length && <div className="w-full h-full pl-5 py-5">
-          <p className="text-2xl">Welcome to Name!</p>
+          <p className="text-2xl">Welcome to Inssman!</p>
           <p className="mt-5 text-lg">Creating a rule gives you control over HTTP requests and responses.</p>
-          <p>With Name you can easly do following</p>
+          <p>With Inssman you can easly do following</p>
           <ul className="ml-3 mt-3 list-disc">
             <li className="mt-1">Redirect any type of request</li>
             <li className="mt-1">Block requests</li>
