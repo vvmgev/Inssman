@@ -45,7 +45,7 @@ export const formConfig = {
                 placeholders: {
                     [MatchType.CONTAIN] : 'cotain',
                     [MatchType.EQUAL] : 'equal',
-                    [MatchType.REGEXP] : 'REGEXP',
+                    // [MatchType.REGEXP] : 'REGEXP',
                     // [MatchType.WILDCARD] : 'WILDCARD',
                 },
             },
@@ -108,7 +108,7 @@ export const formConfig = {
                 placeholders: {
                     [MatchType.CONTAIN] : 'cotain',
                     [MatchType.EQUAL] : 'equal',
-                    [MatchType.REGEXP] : 'REGEXP',
+                    // [MatchType.REGEXP] : 'REGEXP',
                     // [MatchType.WILDCARD] : 'WILDCARD',
                 },
             },
@@ -148,7 +148,7 @@ export const formConfig = {
                 placeholders: {
                     [MatchType.CONTAIN] : 'cotain',
                     [MatchType.EQUAL] : 'equal',
-                    [MatchType.REGEXP] : 'REGEXP',
+                    // [MatchType.REGEXP] : 'REGEXP',
                     // [MatchType.WILDCARD] : 'WILDCARD',
                 },
                 validations: {

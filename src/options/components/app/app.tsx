@@ -26,3 +26,8 @@ const App = () => {
 }
 
 export default App;
+
+chrome.declarativeNetRequest.isRegexSupported(
+  {isCaseSensitive: false, regex: '(a)+(b)*/'} as any,
+  console.log
+)

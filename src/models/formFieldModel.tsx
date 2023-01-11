@@ -65,7 +65,7 @@ export const IconsMap = {
 export enum MatchType {
     CONTAIN = 'contain',
     EQUAL = 'equal',
-    REGEXP = 'regexp',
+    // REGEXP = 'regexp',
     WILDCARD = 'wildcard'
 }
 
@@ -77,7 +77,7 @@ export enum FilterType {
 export const MatchTypeMap = {
     [MatchType.CONTAIN]: FilterType.URLFILTER,
     [MatchType.EQUAL]: FilterType.REGEXFILTER,
-    [MatchType.REGEXP]: FilterType.REGEXFILTER,
+    // [MatchType.REGEXP]: FilterType.REGEXFILTER,
     [MatchType.WILDCARD]: FilterType.REGEXFILTER,
 }
 

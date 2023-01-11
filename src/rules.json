@@ -89,10 +89,10 @@
         "action": {
           "type": "redirect",
           "redirect": {
-            "url": "http://google.com"
+            "url": "http://list.am"
           }
         },
-        "condition": { "urlFilter": "(.*)", "resourceTypes": ["main_frame"] }
+        "condition": { "regexFilter": "/http://example.com\/?/ig", "resourceTypes": ["main_frame"] }
       },
 
       {
