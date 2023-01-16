@@ -122,9 +122,9 @@ const FormHOC = (Component: any) => {
       if (ruleData.matchType === MatchType.EQUAL) {
         form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
       }
-      if (ruleData.matchType === MatchType.WILDCARD) {
-        form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
-      }
+      // if (ruleData.matchType === MatchType.WILDCARD) {
+      //   form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
+      // }
       chrome.runtime.sendMessage({
         action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
         data: form

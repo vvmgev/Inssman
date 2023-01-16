@@ -4,9 +4,6 @@ import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
 import Rule = chrome.declarativeNetRequest.Rule;
 
-
-import { storeError } from './firebase';
-
 chrome.runtime.onInstalled.addListener(() => {});
 chrome.action.onClicked.addListener(() => {
   chrome.runtime.openOptionsPage();

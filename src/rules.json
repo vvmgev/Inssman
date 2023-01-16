@@ -1,144 +1,30 @@
 [
     {
-        "id": 7,
-        "priority": 11,
-        "action": {
-            "type": "redirect",
-            "redirect": {
-                "regexSubstitution": "https://youtube.com/embed/\\2\\1"
-            }
-        },
-        "condition": {
-        "regexFilter":"^(.*):\\/\\/fb.com\/test\/?(.*)?",
+      "action": {
+          "redirect": {
+              "regexSubstitution": "http://google.com/\\1"
+          },
+          "type": "redirect"
+      },
+      "condition": {
+          "isUrlFilterCaseSensitive": false,
+          "regexFilter": "example.com/(.*)",
           "resourceTypes": [
-            "main_frame"
+              "main_frame",
+              "sub_frame",
+              "xmlhttprequest",
+              "csp_report",
+              "font",
+              "image",
+              "media",
+              "object",
+              "ping",
+              "script",
+              "stylesheet",
+              "websocket",
+              "other"
           ]
-        }
       },
-      {
-        "id": 10,
-        "priority": 3,
-        "action": {
-            "type": "redirect",
-            "redirect": {
-                "regexSubstitution": "https://www.youtube.com"
-            }
-        },
-        "condition": {
-            "regexFilter": "example-([0-9]+).com",
-            "resourceTypes": [
-                "main_frame"
-            ]
-        }
-    },
-    {
-        "id": 766,
-        "priority": 1,
-        "action": {
-          "type": "redirect",
-          "redirect": {
-            "regexSubstitution": "https://google.com/\\1"
-          }
-        },
-        "condition": {
-          "regexFilter": "^https://www.(abc|def).xyz.com/",
-          "resourceTypes": [
-            "main_frame"
-          ]
-        }
-      },
-      {
-        "id": 1011,
-        "priority": 3,
-        "action": {
-            "type": "redirect",
-            "redirect": {
-                "url": "https://www.youtube.com"
-            }
-        },
-        "condition": {
-            "regexFilter": "^http(s)?://listttt.am/?$",
-            "resourceTypes": [
-                "main_frame"
-            ]
-        }
-      },
-      {
-        "id": 6666,
-        "priority": 1,
-        "action": {
-          "type": "redirect",
-          "redirect": {
-            "transform": {
-              "queryTransform": {
-                "addOrReplaceParams": [
-                  {
-                    "key": "key",
-                    "value": "value"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "condition": { "regexFilter": "^http(s)?://listt.am/?$", "resourceTypes": ["main_frame"] }
-      },
-      {
-        "id": 103423,
-        "priority": 2,
-        "action": {
-          "type": "redirect",
-          "redirect": {
-            "url": "http://list.am"
-          }
-        },
-        "condition": { "regexFilter": "/http://example.com\/?/ig", "resourceTypes": ["main_frame"] }
-      },
-
-      {
-        "action": {
-            "requestHeaders": [
-                {
-                    "header": "qwerty",
-                    "operation": "set",
-                    "value": "123"
-                }
-            ],
-            "type": "modifyHeaders"
-        },
-        "condition": {
-            "isUrlFilterCaseSensitive": false,
-            "resourceTypes": [
-                "main_frame",
-                "sub_frame",
-                "xmlhttprequest",
-                "csp_report",
-                "font",
-                "image",
-                "media",
-                "object",
-                "ping",
-                "script",
-                "stylesheet",
-                "websocket",
-                "other"
-            ],
-            "regexFilter": "(.*)"
-        },
-        "id": 137234234
-      },
-
-      {
-        "id": 10111221212,
-        "priority": 2,
-        "action": {
-          "type": "modifyHeaders",
-          "responseHeaders": [
-            { "header": "h1", "operation": "remove" },
-            { "header": "h2", "operation": "set", "value": "v2" },
-            { "header": "h3", "operation": "append", "value": "v3" }
-          ]
-        },
-        "condition": { "urlFilter": "google.com", "resourceTypes": ["main_frame"] }
-      }
+      "id": 5
+  }
 ]

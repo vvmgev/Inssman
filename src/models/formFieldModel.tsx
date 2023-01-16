@@ -66,7 +66,7 @@ export enum MatchType {
     CONTAIN = 'contain',
     EQUAL = 'equal',
     // REGEXP = 'regexp',
-    WILDCARD = 'wildcard'
+    // WILDCARD = 'wildcard'
 }
 
 export enum FilterType {
@@ -78,7 +78,7 @@ export const MatchTypeMap = {
     [MatchType.CONTAIN]: FilterType.URLFILTER,
     [MatchType.EQUAL]: FilterType.REGEXFILTER,
     // [MatchType.REGEXP]: FilterType.REGEXFILTER,
-    [MatchType.WILDCARD]: FilterType.REGEXFILTER,
+    // [MatchType.WILDCARD]: FilterType.REGEXFILTER,
 }
 
 export enum EditorLanguage {

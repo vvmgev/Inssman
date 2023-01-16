@@ -42,12 +42,12 @@ module.exports = {
          {
             test: /\.css$/i,
             use: ["style-loader", "css-loader", "postcss-loader"],
-          },
-          {
-				test: /\.ttf$/,
-				use: ['file-loader'],
+         },
+         {
+            test: /\.ttf$/,
+            use: ['file-loader'],
             exclude: /node_modules/,
-			},
+         },
          {
             test: /\.svg/,
             use: ["@svgr/webpack"],
@@ -61,6 +61,7 @@ module.exports = {
             {from : "src/options/options.html", to: "options"},
             {from : "src/images", to: "images"},
             {from : "src/manifest.json", to: "."},
+            {from : "src/assets/images", to: "assets/images"},
             {from : "src/rules.json", to: "."},
          ]
       }),

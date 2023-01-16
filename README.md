@@ -133,9 +133,9 @@ URL &nbsp;&nbsp; - <span>http://</span>example.com/user \
 Result - No Match ❌
 
 
-## Regexp operator
+<!-- ## Regexp operator -->
 
-Regexp operator uses the **regular expression** to match the URL
+<!-- Regexp operator uses the **regular expression** to match the URL
 
 Examples ⬇️
 
@@ -176,10 +176,10 @@ URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = example-abc, \2 = example-def \
 Destination&nbsp; &nbsp; &nbsp; &nbsp; - <span>https://</span>googl.com/\\1/\\2 \
 Redirected URL  - <span>https://</span>google.com/example-abc/example-def \
-Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Match ✅ 
+Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Match ✅  -->
 
 
-## Wilcard operator
+<!-- ## Wilcard operator
 
 Wilcard operator uses the **asterisk (*)** to match the URL
 
@@ -192,19 +192,27 @@ Result - Match ✅
 Word &nbsp;- https://*example.com \
 URL &nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com** \
 Result - Match ✅ 
-
+<!-- 
 Wilcard operator also has the same options as Regexp operator. \
-Each asterisk can be replaced backslash number (\\1 or \\2).
+Each asterisk can be replaced backslash number (\\1 or \\2). -->
 
-Example ⬇️
+<!-- For **[Redirect Request](#redirectRequest)** there is more powerful options. Each match with asterisk can be replaced in some parts of the destination URL with backslash number (\\1 or \\2)
+
+Examples ⬇️
+
+Word&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://<span>example.com/\*/\*/\* \
+URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com**/article/edit/12 \
+Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = article, \2 = edit, \3 = 12 \
+Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/\1/\2/\3 \
+Redirected URL - <span>https://</span>google.com/article/edit/12 \
+Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ 
 
 Word&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- \*://\*\.example.com/\* \
 URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com**/?age=12&gender=male \
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = http, \2 = www, \3 = ?age=12&gender=male \
 Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/\1/\2/\3 \
 Redirected URL - <span>https://</span>google.com/https/www/?id=12&gender=male \
-Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ 
-
+Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ -->
 
 
 

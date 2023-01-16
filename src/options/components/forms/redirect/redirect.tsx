@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Input from 'components/common/input/input';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
@@ -45,7 +45,7 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://example.com',
     // [MatchType.REGEXP]: 'e.g http://example.com',
-    [MatchType.WILDCARD]: `e.g http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
+    // [MatchType.WILDCARD]: `e.g http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
     [MatchType.CONTAIN]: 'e.g http://example.com',
   }), []);
 

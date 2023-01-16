@@ -3,7 +3,7 @@ import { MatchType } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 
-const SourceFields = ({ source, onChange, matchType, error, sourceProps = {}, matchTypeProps = {}, showAllButton = true}) => {
+const SourceFields = ({ source, onChange, matchType, error, sourceProps = {}, matchTypeProps = {}, showAllButton = false}) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -12,13 +12,13 @@ const SourceFields = ({ source, onChange, matchType, error, sourceProps = {}, ma
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://google.com',
     // [MatchType.REGEXP]: 'e.g ^http(s):\/\/example\.com\/?$',
-    [MatchType.WILDCARD]: 'e.g. *://google.com/*',
+    // [MatchType.WILDCARD]: 'e.g. *://google.com/*',
     [MatchType.CONTAIN]: 'e.g google',
   }), []);
 
   const applyToAllHandler = () => {
-    onChange({target: {name: 'matchType', value: MatchType.WILDCARD}});
-    onChange({target: {name: 'source', value: '*'}});
+    // onChange({target: {name: 'matchType', value: MatchType.WILDCARD}});
+    // onChange({target: {name: 'source', value: '*'}});
   }
 
   return (
