@@ -24,8 +24,8 @@ By creating a single **Rule** you can.
 3. Insert the **URL** where need to redirect
 4. Press **Create**
 
-[Opens in new tab](https://external.ink?to=/placeholder.com)
-<a href="https://youtu.be/8vrGE-F8DEQ" target="_blank"><img width="1503" alt="Screenshot 2023-01-18 at 13 49 21" src="https://user-images.githubusercontent.com/11613729/213141940-9c62c000-3826-4442-83d9-ee12119307a4.png"></a>
+
+<a href="https://youtu.be/8vrGE-F8DEQ" target="_blank" rel="noopener"><img width="1503" alt="Screenshot 2023-01-18 at 13 49 21" src="https://user-images.githubusercontent.com/11613729/213141940-9c62c000-3826-4442-83d9-ee12119307a4.png"></a>
 
 <a name="block"></a>
 
