@@ -57,7 +57,7 @@ export default () => {
                 placeholder="Search By Rule Name"
                 onChange={onChangeSearch}
                 value={search}
-                starts={<SearchSVG />}
+                starts={<span className="w-[24px]"><SearchSVG /></span>}
                 />
             </div>
             </li>
