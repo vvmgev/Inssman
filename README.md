@@ -15,6 +15,7 @@ By creating a single **Rule** you can.
 - **[Modify Response](#modify-response)** allows return response such as HTML/CSS/JS/JSON file
 
 # | Documentation 📚 
+<a name="documentation"></a>
 <a name="redirect"></a>
 
 ### **Redirect Request** 🔀 
