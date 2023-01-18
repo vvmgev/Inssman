@@ -24,7 +24,8 @@ By creating a single **Rule** you can.
 3. Insert the **URL** where need to redirect
 4. Press **Create**
 
-[<img width="1503" alt="Screenshot 2023-01-18 at 13 49 21" src="https://user-images.githubusercontent.com/11613729/213143553-3c042aad-ce55-4ec1-9520-de46b8389bab.png">](https://youtu.be/8vrGE-F8DEQ)
+
+[<img width="1503" alt="Screenshot 2023-01-18 at 14 41 37" src="https://user-images.githubusercontent.com/11613729/213155378-5eeefa8e-d389-4da9-8890-2d1930b9d74c.png">](https://youtu.be/5ln4m-Ybgns)
 
 <a name="block"></a>
 
@@ -34,7 +35,9 @@ By creating a single **Rule** you can.
 3. Insert the **URL**
 4. Press **Create**
 
-<img width="1053" alt="Screenshot 2023-01-07 at 20 28 31" src="https://user-images.githubusercontent.com/11613729/211160790-7740364a-4c47-479a-88f6-ec1e7ae39fff.png">
+
+[<img width="1503" alt="Screenshot 2023-01-18 at 14 34 59" src="https://user-images.githubusercontent.com/11613729/213155459-f966a084-bdab-4ca2-96bd-0f27e8f1a326.png">](https://youtu.be/zlh_3kZjYGM)
+
 
 <a name="query-param"></a>
 
@@ -47,7 +50,8 @@ By creating a single **Rule** you can.
 6. Insert header **Value**
 7. Press **Create**
 
-<img width="1053" alt="Screenshot 2023-01-07 at 20 11 32" src="https://user-images.githubusercontent.com/11613729/211160722-e244205b-0276-419e-8fdb-66a4144a75b4.png">
+[<img width="1503" alt="Screenshot 2023-01-18 at 14 14 38" src="https://user-images.githubusercontent.com/11613729/213155600-7fd84b43-6e50-4afc-a317-3bf979542087.png">](https://youtu.be/zM-yWfZPIwI)
+
 
 <a name="modify-header"></a>
 
@@ -61,7 +65,8 @@ By creating a single **Rule** you can.
 6. Insert header **Value**
 7. Press **Create**
  
-<img width="1053" alt="Screenshot 2023-01-07 at 20 15 21" src="https://user-images.githubusercontent.com/11613729/211160557-1835bf58-0e01-4b6d-a400-e36d84c7f7c4.png">
+[<img width="1503" alt="Screenshot 2023-01-18 at 14 45 42" src="https://user-images.githubusercontent.com/11613729/213155724-926ca40f-7dd4-4ef5-98fb-06149d4b6d04.png">](https://youtu.be/VPO0sut2IHM)
+
 
 <a name="modify-response"></a>
 
@@ -73,7 +78,7 @@ By creating a single **Rule** you can.
 5. Insert header **Value**
 6. Press **Create**
 
-<img width="1053" alt="Screenshot 2023-01-07 at 20 16 51" src="https://user-images.githubusercontent.com/11613729/211160363-e3e40664-8c37-4a9d-8f11-dcdf07cb9a00.png">
+[<img width="1503" alt="Screenshot 2023-01-18 at 14 49 52" src="https://user-images.githubusercontent.com/11613729/213155984-d29d3a48-41fb-4ff2-aa33-257898400ecc.png">](https://youtu.be/d3GU5e1jq7I)
 
 <br /><br />
 <a name="matcOperator"></a>
