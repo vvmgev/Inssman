@@ -24,7 +24,8 @@ By creating a single **Rule** you can.
 3. Insert the **URL** where need to redirect
 4. Press **Create**
 
-<img width="1053" alt="Screenshot 2023-01-07 at 20 13 19" src="https://user-images.githubusercontent.com/11613729/211160525-7d13a8ad-cd34-4175-bf1c-da7422575f6d.png">
+
+[<img width="1503" alt="Screenshot 2023-01-18 at 13 45 13" src="https://user-images.githubusercontent.com/11613729/213141580-fd0bc100-0baa-40c9-bdc8-513319c44119.png">](https://youtu.be/8vrGE-F8DEQ)
 
 <a name="block"></a>
 
