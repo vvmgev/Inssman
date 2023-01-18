@@ -5,6 +5,7 @@ import Header from '../header/header';
 import Footer from '../footer/footer'
 import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
+import BrowserSupport from './browserSupport';
 
 const App = () => {
     return <BackgroundAnimation>
@@ -16,7 +17,9 @@ const App = () => {
           <div className="h-full flex flex-col justify-between">
             <Header />
             <div className="min-h-[350px] mx-[10%] max-h-[80%] overflow-y-auto">
-              <RuleRoutes />
+              <BrowserSupport>
+                <RuleRoutes />
+              </BrowserSupport>
             </div>
             <Footer />
           </div>

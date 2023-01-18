@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormMode, IForm, IRule, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { capitalizeFirstLetter, makeExactMatch, replaceAsterisk } from 'options/utils';
+import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
