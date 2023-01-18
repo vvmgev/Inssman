@@ -25,7 +25,7 @@ By creating a single **Rule** you can.
 4. Press **Create**
 
 
-[<img width="1503" alt="Screenshot 2023-01-18 at 14 41 37" src="https://user-images.githubusercontent.com/11613729/213155378-5eeefa8e-d389-4da9-8890-2d1930b9d74c.png">](https://youtu.be/5ln4m-Ybgns)
+[<img width="1003" alt="Screenshot 2023-01-18 at 14 41 37" src="https://user-images.githubusercontent.com/11613729/213155378-5eeefa8e-d389-4da9-8890-2d1930b9d74c.png">](https://youtu.be/5ln4m-Ybgns)
 
 <a name="block"></a>
 
