@@ -14,8 +14,8 @@ By creating a single **Rule** you can.
 - **[Modify Response Header](#modify-header)** like add/remove/append
 - **[Modify Response](#modify-response)** allows return response such as HTML/CSS/JS/JSON file
 
-# | Documentation 📚 
 <a name="documentation"></a>
+# | Documentation 📚 
 <a name="redirect"></a>
 
 ### **Redirect Request** 🔀 
