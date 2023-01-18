@@ -26,18 +26,3 @@ const App = () => {
 }
 
 export default App;
-
-chrome.declarativeNetRequest.isRegexSupported(
-  {isCaseSensitive: false, regex: '(a)+(b)*/'} as any,
-  console.log
-)
-
-
-chrome.webRequest.onBeforeRequest.addListener(
-  function(details) {
-    console.log(details);
-    return {cancel: details.url.indexOf("://www.evil.com/") != -1};
-  },
-  {urls: ["<all_urls>"]},
-  // ["blocking"]
-);

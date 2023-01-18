@@ -24,7 +24,7 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
           source = defaultData.source,
           editorLang = defaultData.editorLang,
           editorValue = defaultData.editorValue} = ruleData;
-          
+
   const onSubmit = () => {
     const form: IRule = {
       action: {

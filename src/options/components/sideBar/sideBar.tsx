@@ -39,8 +39,8 @@ const paths = [
 const SideBar = () => {
   const location = useLocation();
   return <div className="flex flex-col h-full justify-between">
-    <div className="h-30 py-3 hover:cursor-pointer px-2 rounded-br-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-b border-slate-700 w-full">
-      <Logo/>
+    <div className="h-30 py-3 px-2 rounded-br-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-b border-slate-700 w-full">
+      <Link className="hover:cursor-pointer" to="/"><Logo /></Link>
     </div>
     <ul className="py-5 rounded-tr-3xl rounded-br-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl shadow-inner border-r border-t border-b border-slate-700 w-full">
       <li className="px-10 mb-2">

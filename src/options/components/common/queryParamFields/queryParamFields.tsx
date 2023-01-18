@@ -35,6 +35,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             value={param.value}
             onChange={event => onChangeParam(event, index)}
             disabled={param.action === QueryParamAction.REMOVE}
+            hidden={param.action === QueryParamAction.REMOVE}
             placeholder="Value"
             classes="flex-[2]"
           />

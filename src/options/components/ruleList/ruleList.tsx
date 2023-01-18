@@ -61,7 +61,7 @@ export default () => {
                 />
             </div>
             </li>
-            {data.filter(({rule, ruleData}) => ruleData[rule.id].name.includes(search))
+            {data.filter(({rule, ruleData}) => ruleData[rule.id]?.name.includes(search))
             .reverse().map(({rule, ruleData}) => <li key={rule.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData[rule.id].name)}</div>
               <div className="flex items-center gap-1 flex-1">

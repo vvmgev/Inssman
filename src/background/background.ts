@@ -3,6 +3,7 @@ import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
 import Rule = chrome.declarativeNetRequest.Rule;
+import { storeError } from './firebase';
 
 chrome.runtime.onInstalled.addListener(() => {});
 chrome.action.onClicked.addListener(() => {
@@ -16,8 +17,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         try {
           const id: number = await StorageService.generateNextId();
           await RuleService.add([{id, ...request.data.rule}]);
-          StorageService.set({[id]: request.data.ruleData});
-          StorageService.setId(id);
+          await StorageService.set({[id]: request.data.ruleData});
+          await StorageService.setId(id);
           sendResponse();
         } catch (error: any) {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.AddRule], data: request.data})})
@@ -29,7 +30,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       (async() => {
         try {
           await RuleService.add([request.data.rule], [request.data.rule])
-          StorageService.set({[request.data.rule.id]: request.data.ruleData});
+          await StorageService.set({[request.data.rule.id]: request.data.ruleData});
           sendResponse()
         } catch (error: any) {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})

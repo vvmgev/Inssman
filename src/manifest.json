@@ -1,27 +1,16 @@
 {
-  "name": "Inssman",
-  "description": "Build an Extension!",
+  "name": "Inssman: Modify HTTP Header/Request/Response",
+  "description": "Intercept HTTP(S) Request, Modify Headers, Change Response, Block Request, Redirect, Custom HTML/CSS/JS/JSON",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "./background/background.js"
   },
-   "declarative_net_request": {
-    "rule_resources": [{
-      "id": "ruleset_1",
-      "enabled": true,
-      "path": "rules.json"
-    }]
-  },
   "permissions": [
     "storage",
-    "activeTab",
-    "scripting",
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
-    "declarativeNetRequestFeedback",
-    "tabs",
-    "webRequest"
+    "declarativeNetRequestFeedback"
   ],
   "host_permissions": [
     "<all_urls>"

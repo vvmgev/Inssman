@@ -5,10 +5,11 @@ class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
     constructor() {
-        const a = async() => {
-            this.remove(await this.getRules());
-        }
-        // a();
+        // this.removeAll();
+    }
+
+    async removeAll(): Promise<void> {
+        return this.remove(await this.getRules());
     }
 
     async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
@@ -35,3 +36,4 @@ class RuleService {
 }
 
 export default new RuleService();
+

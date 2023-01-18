@@ -8,15 +8,16 @@ import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import SourceFields from '../../common/source/sourceFields';
 
-const defaultData = {
+const getDefaultData = () => ({
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
   formType: FormType.MODIFY_HEADER,
   headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
-}
+});
 
 const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange }) => {
+  const defaultData = getDefaultData();
   const {name = defaultData.name,
          matchType = defaultData.matchType,
          source = defaultData.source,

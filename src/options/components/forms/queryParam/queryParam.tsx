@@ -7,15 +7,16 @@ import { FormType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import QueryParamFields from '../../common/queryParamFields/queryParamFields';
 
-const defaultData = {
+const getDefaultData = () => ({
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
   queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
   formType: FormType.QUERY_PARAM,
-}
+});
 
 const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+  const defaultData = getDefaultData();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
