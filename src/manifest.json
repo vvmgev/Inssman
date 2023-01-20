@@ -6,6 +6,11 @@
   "background": {
     "service_worker": "./background/background.js"
   },
+  "options_page": "options/options.html",
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
   "permissions": [
     "storage",
     "declarativeNetRequest",
@@ -28,10 +33,5 @@
     "32": "/assets/images/icons/inssman_32.png",
     "48": "/assets/images/icons/inssman_48.png",
     "128": "/assets/images/icons/inssman_128.png"
-  },
-  "options_page": "options/options.html",
-  "options_ui": {
-    "page": "options/options.html",
-    "open_in_tab": true
   }
 }
