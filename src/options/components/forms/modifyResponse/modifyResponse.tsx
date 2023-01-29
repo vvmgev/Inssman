@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { EditorLanguage, FormMode, IForm, IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import { encode } from 'options/utils';
@@ -19,11 +19,13 @@ const defaultData = {
 }
 
 const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+  const editorRef = useRef<any>();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
           editorLang = defaultData.editorLang,
-          editorValue = defaultData.editorValue} = ruleData;
+          editorValue = defaultData.editorValue
+        } = ruleData;
 
   const onSubmit = () => {
     const form: IRule = {
@@ -48,7 +50,9 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   useEffect(() => {
     if(mode === FormMode.CREATE) {
       setRuleData(defaultData);
+      return;
     }
+    editorRef.current.setValue(editorValue);
   }, []);
 
 
@@ -81,11 +85,7 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
               />
             </div>
             <div className='mt-5'>
-              <Editor 
-                language={editorLang}
-                value={editorValue}
-                onChange={onChange}
-              />
+              <Editor editorRef={editorRef} language={editorLang} onChange={onChange} />
             </div>
            </Form>
     </>

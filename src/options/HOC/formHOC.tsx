@@ -12,7 +12,7 @@ type State = {
   error: FormError,
   mode: FormMode,
   id: null | number,
-  ruleData: any
+  ruleData: any,
 };
 
 const FormHOC = (Component: any) => {
@@ -138,6 +138,11 @@ const FormHOC = (Component: any) => {
     }
 
     render() {
+      const { mode, ruleData } = this.state;
+      if(mode === FormMode.UPDATE && !Object.keys(ruleData).length) {
+        return <></>
+      }
+      
       return <Component
         setRuleData={this.setRuleData}
         ruleData={this.state.ruleData}
