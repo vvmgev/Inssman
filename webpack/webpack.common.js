@@ -60,16 +60,16 @@ module.exports = {
       ]
    },
    plugins: [
-      // new HtmlWebpackPlugin({
-      //    inject: true,
-      //    template: './src/options/options.html',
-      //    filename:  'options/options.html',
-      //    chunks: ['options']
-      // }),
+      new HtmlWebpackPlugin({
+         inject: true,
+         template: './src/options/options.html',
+         filename:  'options/options.html',
+         chunks: ['options']
+      }),
       new CopyPlugin({
          patterns: [
             {from : "src/popup/popup.html", to: "popup"},
-            {from : "src/options/options.html", to: "options"},
+            // {from : "src/options/options.html", to: "options"},
             {from : "src/assets/images", to: "assets/images"},
             {from : "src/manifest.json", to: "."},
          ]
