@@ -4,9 +4,9 @@ import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
 import ModifyHeaderFields from '../../common/modifyHeaderFields/modifyHeaderFields';
+import SourceFields from '../../common/source/sourceFields';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import SourceFields from '../../common/source/sourceFields';
 
 const getDefaultData = () => ({
   name: '',

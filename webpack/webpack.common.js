@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
    entry: {
@@ -15,7 +16,10 @@ module.exports = {
    },
    output: {
       path: path.join(__dirname, "../", "dist"),
-      filename: "[name]/[name].js",
+      // filename: (pathData) => {
+      //    return (pathData.chunk.name === 'options') ? '[name]/[name].[contenthash].js' : '[name]/[name].js';
+      //  },
+      filename: '[name]/[name].js',
       clean: true
    },
    resolve: {
@@ -48,10 +52,20 @@ module.exports = {
          {
             test: /\.svg/,
             use: ["@svgr/webpack"],
-          },
+         },
+         // {
+         //    test: /\.html$/,
+         //    loader: 'html-loader'
+         // },
       ]
    },
    plugins: [
+      // new HtmlWebpackPlugin({
+      //    inject: true,
+      //    template: './src/options/options.html',
+      //    filename:  'options/options.html',
+      //    chunks: ['options']
+      // }),
       new CopyPlugin({
          patterns: [
             {from : "src/popup/popup.html", to: "popup"},

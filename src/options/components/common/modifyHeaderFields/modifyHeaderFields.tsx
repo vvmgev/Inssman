@@ -4,6 +4,8 @@ import Input from '../input/input';
 import Select from '../select/select';
 import RemoveSVG  from 'assets/icons/remove.svg';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import InputAutocomplete from '../InputAutocomplete/InputAutocomplete';
+import HTTPHeaders from '../../forms/modifyHeader/HTTPHeaders';
 
 const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
@@ -36,13 +38,18 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
             classes="flex-[1]"
             error={error?.type}
           />
-          <Input
-            name="header"
-            placeholder="Key"
-            value={header.header}
-            onChange={event => onChangeHeader(event, index)}
-            classes="flex-[2]"
-          />
+          <div className='flex-[2]'>
+            <InputAutocomplete
+              inputProps={{
+                name: "header",
+                placeholder: "Key",
+                value: header.header,
+                onChange: event => onChangeHeader(event, index),
+                classes: "flex-[2]"
+              }}
+              list={HTTPHeaders[header.type]}
+            />
+          </div>
           <Input
             name="value"
             placeholder="Value"
