@@ -1,5 +1,13 @@
 import { StorageKey } from "../models/storageModel";
 class StorageService {
+
+    constructor() {
+      // this.get().then(rules => {
+      //   console.log('storage rules', rules);
+      // })
+      // chrome.storage.local.clear();
+    }
+
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
       return chrome.storage.local.get(keys);
     }

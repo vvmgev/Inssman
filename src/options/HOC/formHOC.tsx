@@ -32,7 +32,10 @@ const FormHOC = (Component: any) => {
     setRuleData = ruleData => {
       this.setState({
         ...this.state,
-        ruleData,
+        ruleData: {
+          ...this.state.ruleData,
+          ...ruleData,
+        },
       });
     };
 
@@ -86,7 +89,7 @@ const FormHOC = (Component: any) => {
         this.validate(event.target.name, event.target.value);
       }
     }
-
+    
     onSave = (rule: IRule) => {
       const { ruleData, id } = this.state;
       if(this.validateAll()) {
@@ -96,35 +99,38 @@ const FormHOC = (Component: any) => {
           rule,
           ruleData
       }
-      // TODO need make it dynamic from UI
-      form.rule.condition.isUrlFilterCaseSensitive = false;
-      // TODO need make it dynamic from UI
-      if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
-        (form.rule.condition as any).resourceTypes = [
-          ResourceType.MAIN_FRAME,
-          ResourceType.SUB_FRAME,
-          ResourceType.XMLHTTPREQUEST,
-          ResourceType.CSP_REPORT,
-          ResourceType.FONT,
-          ResourceType.IMAGE,
-          ResourceType.MEDIA,
-          ResourceType.OBJECT,
-          ResourceType.PING,
-          ResourceType.SCRIPT,
-          ResourceType.STYLESHEET,
-          ResourceType.WEBSOCKET,
-          ResourceType.OTHER,
-        ]
+      if(form.rule) {
+        // TODO need make it dynamic from UI
+        form.rule.condition.isUrlFilterCaseSensitive = false;
+        // TODO need make it dynamic from UI
+        if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
+          (form.rule.condition as any).resourceTypes = [
+            ResourceType.MAIN_FRAME,
+            ResourceType.SUB_FRAME,
+            ResourceType.XMLHTTPREQUEST,
+            ResourceType.CSP_REPORT,
+            ResourceType.FONT,
+            ResourceType.IMAGE,
+            ResourceType.MEDIA,
+            ResourceType.OBJECT,
+            ResourceType.PING,
+            ResourceType.SCRIPT,
+            ResourceType.STYLESHEET,
+            ResourceType.WEBSOCKET,
+            ResourceType.OTHER,
+          ]
+        }
+        if (id) {
+          form.rule.id = id;
+        }
+        if (ruleData.matchType === MatchType.EQUAL) {
+          form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
+        }
+        // if (ruleData.matchType === MatchType.WILDCARD) {
+        //   form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
+        // }
       }
-      if (id) {
-        form.rule.id = id;
-      }
-      if (ruleData.matchType === MatchType.EQUAL) {
-        form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
-      }
-      // if (ruleData.matchType === MatchType.WILDCARD) {
-      //   form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
-      // }
+      
       chrome.runtime.sendMessage({
         action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
         data: form
@@ -157,7 +163,7 @@ const FormHOC = (Component: any) => {
       if(this.state.mode === FormMode.UPDATE) {
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRuleById,
-          id: this.state.id,
+          data: {id: this.state.id},
         }, ({ruleData}) => this.setState({ruleData}));
       }
     }

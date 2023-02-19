@@ -22,6 +22,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
     {headers.map((header, index) => {
       return (
         <div key={index} className="flex items-center mt-5 w-3/3 gap-5">
+          <span className="mr-4">Operator</span>
           <Select
             options={modifyHeaderActionOptions}
             name="operation"

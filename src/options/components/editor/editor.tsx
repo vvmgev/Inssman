@@ -11,7 +11,7 @@ const Editor = ({language, editorRef, onChange = (data: any) => {}}) => {
         })
     }
 
-    return <div className="relative">
+    return <div className="relative w-full h-full">
         <MonacoEditor
           onChangeHandler={handleChangeEditor}
           ref={editorRef}

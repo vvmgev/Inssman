@@ -2,9 +2,21 @@ import RuleService from '../services/RuleService';
 import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
+import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
-chrome.runtime.onInstalled.addListener(() => {});
+chrome.runtime.onInstalled.addListener(() => {
+  const addId = async () => {
+    Object.entries(await StorageService.get()).filter(async ([key, value]) => {
+      if(typeof value === 'object' && typeof value.id === 'undefined') {
+        await StorageService.set({[key]: {...value, id: Number(key)}});
+      }
+    });
+  };
+  addId();
+});
+
+
 chrome.action.onClicked.addListener(() => {
   chrome.runtime.openOptionsPage();
 });
@@ -16,8 +28,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       (async() => {
         try {
           const id: number = await StorageService.generateNextId();
-          await RuleService.add([{id, ...request.data.rule}]);
-          await StorageService.set({[id]: request.data.ruleData});
+          if(request.data.rule) {
+            await RuleService.add([{id, ...request.data.rule}]);
+          }
+          await StorageService.set({[id]: { ...request.data.ruleData, id }});
           await StorageService.setId(id);
           sendResponse();
         } catch (error: any) {
@@ -29,8 +43,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     case PostMessageAction.UpdateRule:
       (async() => {
         try {
-          await RuleService.add([request.data.rule], [request.data.rule])
-          await StorageService.set({[request.data.rule.id]: request.data.ruleData});
+          if(request.data.rule) {
+            await RuleService.add([request.data.rule], [request.data.rule])
+          }
+          await StorageService.set({[request.data.ruleData.id]: request.data.ruleData});
           sendResponse()
         } catch (error: any) {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})
@@ -45,6 +61,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           sendResponse();  
         } catch (error) {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRule], data: request.data})})
+        }
+      })()
+      return true;
+      break;
+    case PostMessageAction.DeleteRuleById:
+      (async () => {
+        try {
+          await RuleService.removeById(request.data.id);
+          await StorageService.remove(String(request.data.id))
+          sendResponse();  
+        } catch (error) {
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRuleById], data: request.data})})
         }
       })()
       return true;
@@ -64,12 +92,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })()
       return true;
       break;
+    case PostMessageAction.GetStorageRules:
+      (async () => {
+        try {
+          sendResponse(Object.values(await StorageService.get()).filter(rule => typeof rule === 'object'));  
+        } catch (error) {
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
+        }
+      })()
+      return true;
+      break;
     case PostMessageAction.GetRuleById:
       (async () => {
         try {
-          const rule: Rule = await RuleService.getRuleById(request.id);
-          const ruleData = await StorageService.get(String(rule.id))
-          sendResponse({rule, ruleData: ruleData[rule.id]})  
+          const rule: Rule = await RuleService.getRuleById(request.data.id);
+          const ruleData = await StorageService.get(String(request.data.id));
+          sendResponse({rule, ruleData: ruleData[request.data.id]});
         } catch (error) {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRuleById], data: request.data})})
         }
