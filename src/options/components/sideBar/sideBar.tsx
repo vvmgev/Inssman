@@ -6,6 +6,7 @@ import BlockSVG  from 'assets/icons/block.svg';
 import QuestionSVG  from 'assets/icons/question.svg';
 import PencilSquareSVG  from 'assets/icons/pencilSquare.svg'
 import ListSVG  from 'assets/icons/list.svg';
+import WrenchSVG  from 'assets/icons/wrench.svg';
 import Logo  from 'assets/images/logo.svg';
 import ColorCover from '../colorCover/colorCover';
 
@@ -34,6 +35,11 @@ const paths = [
     path: '/create-rule/modify-response',
     text: 'Modify Response',
     icon: <PencilSquareSVG />
+  },
+  {
+    path: '/create-rule/inject-file',
+    text: 'Inject File',
+    icon: <WrenchSVG />
   },
 ]
 

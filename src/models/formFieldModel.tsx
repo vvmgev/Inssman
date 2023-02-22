@@ -3,6 +3,7 @@ import PencilSVG  from 'assets/icons/pencil.svg';
 import BlockSVG  from 'assets/icons/block.svg';
 import RedirectSVG  from 'assets/icons/redirect.svg';
 import QuestionSVG  from 'assets/icons/question.svg';
+import WrenchSVG  from 'assets/icons/wrench.svg';
 import CodeSVG  from 'assets/icons/code.svg';
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import Rule = chrome.declarativeNetRequest.Rule
@@ -18,9 +19,14 @@ export interface IRuleData {
     destination?: string,
     editorValue?: string,
     editorLang?: string,
+    fileSourceType?: InjectFileSource,
+    fileSource?: string,
+    tagSelector?: string,
+    tagSelectorOperator?: InjectFileOperator,
+    shouldRemoveHeader?: boolean,
 }
 export interface IForm {
-    rule: IRule,
+    rule?: IRule,
     ruleData?: IRuleData
 }
 
@@ -28,9 +34,10 @@ export enum FIELDS {
     SOURCE = 'source',
     NAME = 'name',
     DESTINATION = 'destination',
+    FILESOURCE = 'fileSource'
 }
 
-export const ValidateFields = [FIELDS.SOURCE, FIELDS.NAME, FIELDS.DESTINATION]
+export const ValidateFields = [FIELDS.SOURCE, FIELDS.NAME, FIELDS.DESTINATION];
 
 
 export enum FormMode {
@@ -43,7 +50,8 @@ export enum FormType {
     BLOCK = 'block',
     MODIFY_HEADER = 'modify-header',
     MODIFY_RESPONSE = 'modify-response',
-    QUERY_PARAM = 'query-param'
+    QUERY_PARAM = 'query-param',
+    INJECT_FILE = 'inject-file',
 }
 
 export const FormTypeMap = {
@@ -52,6 +60,7 @@ export const FormTypeMap = {
     [FormType.MODIFY_RESPONSE]: 'Modify Response',
     [FormType.MODIFY_HEADER]: 'Modify Header',
     [FormType.QUERY_PARAM]: 'Query Param',
+    [FormType.INJECT_FILE]: 'Inject File',
 }
 
 export const IconsMap = {
@@ -60,6 +69,7 @@ export const IconsMap = {
     [FormType.QUERY_PARAM]: <QuestionSVG />,
     [FormType.MODIFY_HEADER]: <CodeSVG />,
     [FormType.MODIFY_RESPONSE]: <PencilSVG />,
+    [FormType.INJECT_FILE]: <WrenchSVG />,
 };
 
 export enum MatchType {
@@ -81,6 +91,13 @@ export const MatchTypeMap = {
     // [MatchType.WILDCARD]: FilterType.REGEXFILTER,
 }
 
+export enum MimeType {
+    JAVASCRIPT = 'text/javascript',
+    HTML = 'text/html',
+    CSS = 'text/css',
+    JSON = 'application/json',
+}
+
 export enum EditorLanguage {
     HTML = 'html',
     CSS = 'css',
@@ -88,11 +105,41 @@ export enum EditorLanguage {
     JSON = 'json'
 }
 
-export enum MimeType {
-    JAVASCRIPT = 'text/javascript',
-    HTML = 'text/html',
-    CSS = 'text/css',
-    JSON = 'application/json',
+export enum InjectFileType {
+    CSS = 'css',
+    JAVASCRIPT = 'javascript',
+    HTML = 'html',
+}
+
+export enum InjectFileTagName {
+    CSS = 'style',
+    JAVASCRIPT = 'script',
+    EXTERNAL_CSS = 'link',
+    HTML = 'span',
+}
+
+export enum InjectFileSource {
+    CODE = 'code',
+    URL = 'url',
+}
+
+export enum InjectFileOperator {
+    BEFOREBEGIN = 'beforebegin',
+    AFTERBEGIN = 'afterbegin',
+    BEFOREEND = 'beforeend',
+    AFTEREND = 'afterend',
+    INNERHTML = 'innerHTML'
+}
+
+export const InjectFileTagMap = {
+    [InjectFileType.JAVASCRIPT]: InjectFileTagName.JAVASCRIPT,
+    [InjectFileType.CSS]: InjectFileTagName.CSS,
+    [InjectFileType.HTML]: InjectFileTagName.HTML,
+}
+
+export const InjectFileTypeMap = {
+    [InjectFileTagName.JAVASCRIPT]: MimeType.JAVASCRIPT,
+    [InjectFileTagName.CSS]: MimeType.CSS,
 }
 
 export const MimeTypeMap = {

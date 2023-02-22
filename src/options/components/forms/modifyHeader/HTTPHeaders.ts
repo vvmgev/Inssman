@@ -72,6 +72,7 @@ const HTTPHeaders: HTTPHeadersType = {
     'Content-MD5',
     'Content-Range',
     'Content-Type',
+    'Content-Security-Policy',
     'Date',
     'Delta-Base',
     'ETag',

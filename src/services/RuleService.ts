@@ -5,6 +5,9 @@ class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
     constructor() {
+        // this.getRules().then(rules => {
+        //     console.log('qwqwq rules', rules);
+        // });
         // this.removeAll();
     }
 
@@ -19,6 +22,10 @@ class RuleService {
     remove(rules: Rule[]): Promise<void> {
         const removeRuleIds: number[] = rules.map(rule => rule.id);
         return this.updateDynamicRules({removeRuleIds})
+    }
+
+    removeById(id: number): Promise<void> {
+        return this.updateDynamicRules({removeRuleIds: [id]})
     }
 
     async getRuleById(id: number): Promise<Rule> {

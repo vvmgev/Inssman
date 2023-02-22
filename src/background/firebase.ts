@@ -17,6 +17,9 @@ export const db = getDatabase(app);
 export const errorRef = ref(db, 'errors');
 
 export const storeError = (error) => {
+  if(process.env.NODE_ENV === 'development') {
+    return;
+  }
   try {
     push(errorRef, error);
   } catch (error) {}

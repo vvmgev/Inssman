@@ -15,7 +15,7 @@ const defaultData = {
   source: '',
   formType: FormType.MODIFY_RESPONSE,
   editorLang: EditorLanguage.HTML,
-  editorValue: '',
+  editorValue: ''
 }
 
 const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
@@ -50,7 +50,6 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   useEffect(() => {
     if(mode === FormMode.CREATE) {
       setRuleData(defaultData);
-      return;
     }
     editorRef.current.setValue(editorValue);
   }, []);

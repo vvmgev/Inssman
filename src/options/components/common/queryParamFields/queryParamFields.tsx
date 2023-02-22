@@ -15,12 +15,13 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
     {queryParams.map((param, index) => {
       return (
         <div key={index} className="flex mt-5 gap-5 items-center">
+          <span className="mr-4">Operator</span>
           <Select
             options={queryParamActionOptions}
             name="action"
             value={param.action}
             onChange={event => onChangeParam(event, index)}
-            classes="flex-[1]"
+            classes="flex-[2]"
             error={error?.queryParamAction}
           />
           <Input
@@ -28,7 +29,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             value={param.key}
             onChange={event => onChangeParam(event, index)}
             placeholder="Key"
-            classes="flex-[2]"
+            classes="flex-[3]"
           />
           <Input
             name="value"
@@ -37,7 +38,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             disabled={param.action === QueryParamAction.REMOVE}
             hidden={param.action === QueryParamAction.REMOVE}
             placeholder="Value"
-            classes="flex-[2]"
+            classes="flex-[3]"
           />
           <div className="cursor-pointer" onClick={event => onRemove(event, index)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
         </div>

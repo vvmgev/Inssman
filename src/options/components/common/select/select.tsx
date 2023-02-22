@@ -19,7 +19,7 @@ const Select = ({value, classes = '', name, options, onChange, error}: Props) =>
             value={value}
         >
             {options.map((item, id) => {
-                return <option key={id} value={item.value}>{item.label}</option>
+                return <option className="color-white bg-slate-700/50" key={id} value={item.value}>{item.label}</option>
             })}
         </select>
     </div>

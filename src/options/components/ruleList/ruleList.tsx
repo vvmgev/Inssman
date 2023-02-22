@@ -5,30 +5,23 @@ import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import { PostMessageAction } from '../../../models/postMessageActionModel';
 import { IconsMap } from '../../../models/formFieldModel';
-import StorageService from '../../../services/StorageService';
 import { FormTypeMap } from '../../../models/formFieldModel';
 import Input from '../common/input/input';
-import Rule = chrome.declarativeNetRequest.Rule
 
 export default () => {
   const COUNT_SYMBOLS = 22;
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState<string>('');
   const onChangeSearch = event => setSearch(event.target.value);
-  const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetRules}, setData);
+  const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
-  const handleDelete = (rule: Rule) => {
+  const handleDelete = (id: number) => {
       chrome.runtime.sendMessage({
-          action: PostMessageAction.DeleteRule, data: {rule} }, 
-          () => {
-              StorageService.remove(String(rule.id))
-              getData();
-          },
+          action: PostMessageAction.DeleteRuleById, data: {id} }, 
+          () => getData()
       );
   };
-
-  console.log(data);
 
   return <div>
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
@@ -61,17 +54,17 @@ export default () => {
                 />
             </div>
             </li>
-            {data.filter(({rule, ruleData}) => ruleData[rule.id]?.name.includes(search))
-            .reverse().map(({rule, ruleData}) => <li key={rule.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
-              <div className="flex-1 flex" >{cutString(ruleData[rule.id].name)}</div>
+            {data.filter((ruleData) => ruleData.name.includes(search))
+            .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
+              <div className="flex-1 flex" >{cutString(ruleData.name)}</div>
               <div className="flex items-center gap-1 flex-1">
-                  <span className="w-[18px]">{IconsMap[ruleData[rule.id].formType]}</span>
-                  <div>{FormTypeMap[ruleData[rule.id].formType]}</div>
+                  <span className="w-[18px]">{IconsMap[ruleData.formType]}</span>
+                  <div>{FormTypeMap[ruleData.formType]}</div>
               </div>
-              <div className="flex-1 flex">{cutString(ruleData[rule.id].source)}</div>
+              <div className="flex-1 flex">{cutString(ruleData.source)}</div>
               <div className="flex gap-5 flex-1 justify-end">
-                  <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData[rule.id].formType}/${rule.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
-                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(rule)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
+                  <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.formType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
+                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData.id)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
               </div>
               </li>)}
           </ul>

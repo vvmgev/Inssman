@@ -8,6 +8,7 @@ module.exports = {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
       popup: path.resolve(__dirname, "../src/popup", "popup.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
+      analytics: path.resolve(__dirname, "../src/analytics", "analytics.ts"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 		'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
 		'css.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/css/css.worker'),
