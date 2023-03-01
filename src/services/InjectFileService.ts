@@ -34,11 +34,12 @@ class InjectFileService {
       })
     });
     chrome.storage.onChanged.addListener(changes => {
-      const change = Object.values(changes)[0];
-      const { newValue } = change;
-      if(newValue?.formType === FormType.INJECT_FILE) {
-        this.getRules();
-      }
+      const changesArr = Object.values(changes);
+      changesArr.forEach(({ newValue, oldValue }) => {
+        if(newValue?.formType === FormType.INJECT_FILE || oldValue?.formType === FormType.INJECT_FILE) {
+          this.getRules();
+        }
+      })
     });
   };
 
