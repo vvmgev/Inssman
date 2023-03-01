@@ -9,7 +9,7 @@ const errors = {
   [destinationError]: 'May you have backslash with number (\\1) please remove or change Match type',
   [destinationError2]: 'May you have backslash with number (\\1) please remove or change Match type',
   [sourceError]: 'Incorrect value',
-  [actionError]: 'Only standard HTTP request headers that can specify multiple values',
+  [actionError]: 'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
 }
 
 const handleError = (error: any, data) => {
