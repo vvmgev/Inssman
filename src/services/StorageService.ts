@@ -5,7 +5,7 @@ class StorageService {
       // this.get().then(rules => {
       //   console.log('storage rules', rules);
       // })
-      // chrome.storage.local.clear();
+      // this.reset();
     }
 
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
@@ -36,6 +36,11 @@ class StorageService {
 
     async generateNextId(): Promise<number> {
       return ((await this.getLastId()) || 1) + 1;
+    }
+
+    async reset(): Promise<void>{
+      await chrome.storage.local.clear();
+      await this.set({[StorageKey.NEXT_ID]: 0});
     }
 }
 

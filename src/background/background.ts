@@ -114,6 +114,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })()
       return true;
       break;
+    case PostMessageAction.Reset:
+      (async () => {
+        try {
+          await RuleService.reset();
+          await StorageService.reset();
+          sendResponse();
+        } catch (error) {
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.Reset]})})
+        }
+      })()
+      return true;
+      break;
     default:
       break;
   }

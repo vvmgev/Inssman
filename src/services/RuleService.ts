@@ -8,11 +8,7 @@ class RuleService {
         // this.getRules().then(rules => {
         //     console.log('qwqwq rules', rules);
         // });
-        // this.removeAll();
-    }
-
-    async removeAll(): Promise<void> {
-        return this.remove(await this.getRules());
+        // this.reset();
     }
 
     async add(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
@@ -39,6 +35,10 @@ class RuleService {
 
     getRules(): Promise<Rule[]> {
         return chrome.declarativeNetRequest.getDynamicRules();
+    }
+
+    async reset(): Promise<void> {
+        return this.remove(await this.getRules());
     }
 }
 

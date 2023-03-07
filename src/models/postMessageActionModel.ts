@@ -10,4 +10,5 @@ export enum PostMessageAction {
     EnableRule,
     DissableRule,
     Log,
+    Reset,
 }
