@@ -6,7 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
    entry: {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
-      popup: path.resolve(__dirname, "../src/popup", "popup.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       analytics: path.resolve(__dirname, "../src/analytics", "analytics.ts"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
@@ -69,8 +68,6 @@ module.exports = {
       }),
       new CopyPlugin({
          patterns: [
-            {from : "src/popup/popup.html", to: "popup"},
-            // {from : "src/options/options.html", to: "options"},
             {from : "src/assets/images", to: "assets/images"},
             {from : "src/manifest.json", to: "."},
          ]
