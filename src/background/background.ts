@@ -70,7 +70,8 @@ class Background {
 
   async getRuleById(data): Promise<any> {
     const rule: Rule = await RuleService.getRuleById(data.id);
-    return await StorageService.get(String(data.id));
+    const ruleData = await StorageService.get(String(data.id));
+    return {rule, ruleData: ruleData[data.id]};
   }
 
   async addRule(data): Promise<void> {
