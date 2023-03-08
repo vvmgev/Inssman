@@ -30,8 +30,6 @@ class Background {
 
   messageHandler = (request, sender, sendResponse): boolean => {
     const { action, data } = request;
-    console.log(action);
-    console.log(PostMessageAction);
     (async () => {
       let responseData: any;
       try {
