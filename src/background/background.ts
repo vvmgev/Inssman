@@ -5,128 +5,107 @@ import handleError from './errorHandler';
 import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
-chrome.runtime.onInstalled.addListener(() => {
-  const addId = async () => {
+
+class Background {
+  constructor() {
+    this.convertOldDataToNew();
+    this.registerListener();
+  };
+
+  // temproray function
+  // should be removed
+  async convertOldDataToNew() {
     Object.entries(await StorageService.get()).filter(async ([key, value]) => {
       if(typeof value === 'object' && typeof value.id === 'undefined') {
         await StorageService.set({[key]: {...value, id: Number(key)}});
       }
     });
   };
-  addId();
-});
 
+  registerListener(): void {
+    chrome.runtime.onInstalled.addListener(this.convertOldDataToNew);
+    chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
+    chrome.runtime.onMessage.addListener(this.messageHandler);
+  };
 
-chrome.action.onClicked.addListener(() => {
-  chrome.runtime.openOptionsPage();
-});
+  messageHandler = (request, sender, sendResponse): boolean => {
+    const { action, data } = request;
+    console.log(action);
+    console.log(PostMessageAction);
+    (async () => {
+      let responseData: any;
+      try {
+        if(action === PostMessageAction.GetRules) {
+          responseData = this.getRules();
+        } else if(action === PostMessageAction.GetStorageRules) {
+          responseData = this.getStorageRules();
+        } else if(action === PostMessageAction.GetRuleById) {
+          responseData = this.getRuleById(data);
+        } else if(action === PostMessageAction.AddRule) {
+          responseData = this.addRule(data);
+        } else if(action === PostMessageAction.UpdateRule) {
+          responseData = this.updateRule(data);
+        } else if(action === PostMessageAction.DeleteRule) {
+          responseData = this.deleteRule(data);
+        } else if(action === PostMessageAction.DeleteRuleById) {
+          responseData = this.deleteRuleById(data);
+        } else if(action === PostMessageAction.Reset) {
+          responseData = this.reset();
+        }
+        sendResponse(await responseData);
+      } catch (error) {
+        sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: request.data})})
+      }
+    })();
+    return true;
+  };
 
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  switch (request.action) {
-    case PostMessageAction.AddRule:
-      (async() => {
-        try {
-          const id: number = await StorageService.generateNextId();
-          if(request.data.rule) {
-            await RuleService.add([{id, ...request.data.rule}]);
-          }
-          await StorageService.set({[id]: { ...request.data.ruleData, id }});
-          await StorageService.setId(id);
-          sendResponse();
-        } catch (error: any) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.AddRule], data: request.data})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.UpdateRule:
-      (async() => {
-        try {
-          if(request.data.rule) {
-            await RuleService.add([request.data.rule], [request.data.rule])
-          }
-          await StorageService.set({[request.data.ruleData.id]: request.data.ruleData});
-          sendResponse()
-        } catch (error: any) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.UpdateRule], data: request.data})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.DeleteRule:
-      (async () => {
-        try {
-          await RuleService.remove([request.data.rule])
-          sendResponse();  
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRule], data: request.data})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.DeleteRuleById:
-      (async () => {
-        try {
-          await RuleService.removeById(request.data.id);
-          await StorageService.remove(String(request.data.id))
-          sendResponse();  
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.DeleteRuleById], data: request.data})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.GetRules:
-      (async () => {
-        try {
-          const rules: Rule[] = await RuleService.getRules();
-          const rulesMap =  await Promise.all(rules.map(async (rule) => {
-            const ruleData = await StorageService.get(String(rule.id))
-            return {ruleData, rule};
-          }));
-          sendResponse(rulesMap);  
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.GetStorageRules:
-      (async () => {
-        try {
-          sendResponse(Object.values(await StorageService.get()).filter(rule => typeof rule === 'object'));  
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRules]})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.GetRuleById:
-      (async () => {
-        try {
-          const rule: Rule = await RuleService.getRuleById(request.data.id);
-          const ruleData = await StorageService.get(String(request.data.id));
-          sendResponse({rule, ruleData: ruleData[request.data.id]});
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.GetRuleById], data: request.data})})
-        }
-      })()
-      return true;
-      break;
-    case PostMessageAction.Reset:
-      (async () => {
-        try {
-          await RuleService.reset();
-          await StorageService.reset();
-          sendResponse();
-        } catch (error) {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[PostMessageAction.Reset]})})
-        }
-      })()
-      return true;
-      break;
-    default:
-      break;
+  async getRules(): Promise<any> {
+    const rules: Rule[] = await RuleService.getRules();
+    return await Promise.all(rules.map(async (rule) => {
+      const ruleData = await StorageService.get(String(rule.id))
+      return {ruleData, rule};
+    }));
   }
-})
+
+  async getRuleById(data): Promise<any> {
+    const rule: Rule = await RuleService.getRuleById(data.id);
+    return await StorageService.get(String(data.id));
+  }
+
+  async addRule(data): Promise<void> {
+    const id: number = await StorageService.generateNextId();
+    if(data.rule) {
+      await RuleService.add([{id, ...data.rule}]);
+    }
+    await StorageService.set({[id]: { ...data.ruleData, id }});
+    await StorageService.setId(id);
+  }
+  
+  async updateRule(data): Promise<void> {
+    if(data.rule) {
+      await RuleService.add([data.rule], [data.rule])
+    }
+    await StorageService.set({[data.ruleData.id]: data.ruleData});
+  }
+
+  async getStorageRules(): Promise<{ [key: string]: any}> {
+    return Object.values(await StorageService.get()).filter(rule => typeof rule === 'object');
+  }
+
+  async deleteRule(data): Promise<void> {
+    await RuleService.remove([data.rule])
+  }
+
+  async deleteRuleById(data): Promise<void> {
+    await RuleService.removeById(data.id);
+    await StorageService.remove(String(data.id))
+  }
+
+  async reset(): Promise<void> {
+    await RuleService.reset();
+    await StorageService.reset();
+  }
+}
+
+new Background();
