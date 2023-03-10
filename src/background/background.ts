@@ -49,6 +49,8 @@ class Background {
           responseData = this.deleteRuleById(data);
         } else if(action === PostMessageAction.Reset) {
           responseData = this.reset();
+        } else if(action === PostMessageAction.GetUserId) {
+          responseData = this.getUserId();
         }
         sendResponse(await responseData);
       } catch (error) {
@@ -105,6 +107,11 @@ class Background {
     await RuleService.reset();
     await StorageService.reset();
   }
+
+  async getUserId(): Promise<any> {
+    return await StorageService.getUserId();
+  }
+
 }
 
 new Background();

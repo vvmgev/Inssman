@@ -1,15 +1,19 @@
 import React from 'react';
+import TrackService from 'src/services/TrackService';
 
-interface IPops {
+
+interface IProps {
+    trackName: string;
     children?: any;
     onClick?: Function;
     classes?: string;
 }
 
-const Button = ({children, onClick, classes}: IPops) => {
+const Button = ({trackName, children, onClick, classes}: IProps) => {
     const handler = event => {
         event.preventDefault();
         if(onClick) {
+            TrackService.trackEvent(trackName);
             onClick(event);
         };
     }
