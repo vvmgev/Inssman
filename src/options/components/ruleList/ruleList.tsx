@@ -7,6 +7,7 @@ import { PostMessageAction } from '../../../models/postMessageActionModel';
 import { IconsMap } from '../../../models/formFieldModel';
 import { FormTypeMap } from '../../../models/formFieldModel';
 import Input from '../common/input/input';
+import TrackService from 'src/services/TrackService';
 
 export default () => {
   const COUNT_SYMBOLS = 22;
@@ -16,9 +17,10 @@ export default () => {
   const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
-  const handleDelete = (id: number) => {
+  const handleDelete = (ruleData) => {
+      TrackService.trackEvent(`${FormTypeMap[ruleData.formType]} Rule Deleted`);
       chrome.runtime.sendMessage({
-          action: PostMessageAction.DeleteRuleById, data: {id} }, 
+          action: PostMessageAction.DeleteRuleById, data: {id: ruleData.id} }, 
           () => getData()
       );
   };
@@ -64,7 +66,7 @@ export default () => {
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
               <div className="flex gap-5 flex-1 justify-end">
                   <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.formType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
-                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData.id)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
+                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
               </div>
               </li>)}
           </ul>

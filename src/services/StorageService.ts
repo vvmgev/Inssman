@@ -42,6 +42,16 @@ class StorageService {
       await chrome.storage.local.clear();
       await this.set({[StorageKey.NEXT_ID]: 0});
     }
+
+    async getUserId(): Promise<any> {
+      const data = await this.get([StorageKey.USER_ID]);
+      let userId: number | undefined;
+      if(typeof data[StorageKey.USER_ID] === 'undefined') {
+        userId = Date.now();
+        await this.set({[StorageKey.USER_ID]: userId});
+      }
+      return (userId && {[StorageKey.USER_ID]: userId}) || data;
+    }
 }
 
 export default new StorageService();

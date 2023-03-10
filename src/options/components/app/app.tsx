@@ -6,6 +6,7 @@ import Footer from '../footer/footer'
 import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 import BrowserSupport from './browserSupport';
+import '../../../services/TrackService';
 
 const App = () => {
     return <BackgroundAnimation>

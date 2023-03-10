@@ -23,7 +23,11 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
             <Button classes="bg-red-400 hover:bg-red-500" onClick={onSubmit}>Delete</Button>
           </div>}  */}
           <div>
-            <Button onClick={onSubmit}>{mode === 'create' ? 'Create' : 'Edit'}</Button>
+            <Button
+              trackName={`${FormTypeMap[formType]} Rule Created`}
+              onClick={onSubmit}>
+                {mode === 'create' ? 'Create' : 'Edit'}
+            </Button>
           </div>
         </div>
       </div>
