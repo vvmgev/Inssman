@@ -16,7 +16,6 @@ class TrackService {
     trackEvent(name: string) {
         if(process.env.NODE_ENV === 'development') return;
         try {
-            console.log(this.#userId);
             track(name);
         } catch (error) {
             
