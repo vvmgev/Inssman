@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { EditorLanguage, FormMode, IForm, IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
-import Input from 'components/common/input/input';
+import { EditorLanguage, FormMode, IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
 import { encode } from 'options/utils';
 import { FormType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
 import Editor from '../../editor/editor';
 import Form from '../form/form';
 import SourceFields from '../../common/source/sourceFields';
+import RuleName from '../../common/ruleName/ruleName';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 const defaultData = {
@@ -58,13 +58,7 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   return <>
           <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.MODIFY_RESPONSE}>
             <div className="w-1/5">
-              <Input
-                  value={name}
-                  name='name'
-                  onChange={onChange} 
-                  placeholder="Rule Name"
-                  error={error?.name}
-              />
+              <RuleName value={name} onChange={onChange} error={error} />
             </div>
             <div className="mt-5">
               <SourceFields

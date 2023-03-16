@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import Input from 'components/common/input/input';
 import { FormType } from 'models/formFieldModel';
 import Form from '../form/form';
 import SourceFields from '../../common/source/sourceFields';
+import RuleName from '../../common/ruleName/ruleName';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const defaultData = {
@@ -39,13 +39,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
   return <>
           <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.BLOCK}>
             <div className="w-1/5">
-              <Input
-                  value={name}
-                  name='name'
-                  onChange={onChange} 
-                  placeholder="Rule Name"
-                  error={error?.name}
-              />
+              <RuleName value={name} onChange={onChange} error={error} />
             </div>
             <div className="flex mt-5 items-center w-full">
               <SourceFields

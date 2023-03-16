@@ -1,11 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
-import Input from 'components/common/input/input';
-import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction, QueryParams } from 'models/formFieldModel';
+import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
 import Form from '../form/form';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import { FormType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import QueryParamFields from '../../common/queryParamFields/queryParamFields';
+import RuleName from '../../common/ruleName/ruleName';
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 
 const getDefaultData = () => ({
   name: '',
@@ -78,13 +78,7 @@ const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   return <>
           <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.QUERY_PARAM}>
           <div className="w-1/5">
-              <Input
-                  value={name}
-                  name='name'
-                  onChange={onChange}
-                  placeholder="Rule Name"
-                  error={error?.name}
-              />
+            <RuleName value={name} onChange={onChange} error={error} />
             </div>
             <div className="flex mt-5 items-center w-full">
               <SourceFields

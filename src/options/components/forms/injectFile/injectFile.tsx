@@ -6,6 +6,7 @@ import { FormType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import Editor from '../../editor/editor';
 import Select from '../../common/select/select';
+import RuleName from '../../common/ruleName/ruleName';
 // import Checkbox from '../../common/checkbox/checkbox';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
@@ -92,14 +93,7 @@ const InjectFileForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
   return <>
           <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.INJECT_FILE}>
             <div className="w-1/5">
-              <Input 
-                  value={name}
-                  name='name'
-                  onChange={onChange} 
-                  placeholder="Rule Name"
-                  error={error?.name}
-                  required
-              />
+              <RuleName value={name} onChange={onChange} error={error} />
             </div>
             <div className="flex mt-5 items-center w-full">
               <SourceFields
