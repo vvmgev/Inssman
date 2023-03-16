@@ -18,7 +18,7 @@ export default () => {
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
   const handleDelete = (ruleData) => {
-      TrackService.trackEvent(`${FormTypeMap[ruleData.formType]} Rule Deleted`);
+      TrackService.trackEvent(`${FormTypeMap[ruleData.formType]} Rule Delete Event`);
       chrome.runtime.sendMessage({
           action: PostMessageAction.DeleteRuleById, data: {id: ruleData.id} }, 
           () => getData()

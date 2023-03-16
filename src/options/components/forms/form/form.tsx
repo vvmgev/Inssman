@@ -24,7 +24,7 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
           </div>}  */}
           <div>
             <Button
-              trackName={`${FormTypeMap[formType]} Rule Created`}
+              trackName={`${FormTypeMap[formType]} Rule Create Event`}
               onClick={onSubmit}>
                 {mode === 'create' ? 'Create' : 'Edit'}
             </Button>
