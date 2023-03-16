@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
+import { PostMessageAction } from "src/models/postMessageActionModel";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxGHh-YxvgknA78UWRK8QuFWvTuu-B-hU",
@@ -20,9 +21,11 @@ export const storeError = (error) => {
   if(process.env.NODE_ENV === 'development') {
     return;
   }
-  try {
-    push(errorRef, error);
-  } catch (error) {}
+  chrome.runtime.sendMessage({ action: PostMessageAction.GetUserId }, ({ userId }) => {
+    try {
+      push(errorRef, {...error, userId});
+    } catch (error) {}
+  });
 }
 
   
