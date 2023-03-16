@@ -4,12 +4,14 @@ const destinationError = 'specifies an incorrect value for the "action.redirect.
 const destinationError2 = 'specify the "regexSubstitution" key without specifying the "regexFilter" key';
 const sourceError = 'specifies an incorrect value for the "regexFilter"';
 const actionError = 'standard HTTP request headers that can specify multiple values for a single entry are supported';
+const emptyHeaders = 'does not specify a value for "action.requestHeaders" or "action.responseHeaders" key';
 
 const errors = {
   [destinationError]: 'May you have backslash with number (\\1) please remove or change Match type',
   [destinationError2]: 'May you have backslash with number (\\1) please remove or change Match type',
   [sourceError]: 'Incorrect value',
   [actionError]: 'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
+  [emptyHeaders]: 'May you need to specify headers for request or response, press "Add" button',
 }
 
 const handleError = (error: any, data) => {
@@ -19,6 +21,12 @@ const handleError = (error: any, data) => {
     return {
       fieldName: 'general',
       message: errors[actionError],
+    }
+  }
+  if (message.includes(emptyHeaders)) {
+    return {
+      fieldName: 'general',
+      message: errors[emptyHeaders],
     }
   }
   if (message.includes(destinationError)) {
