@@ -38,7 +38,7 @@ class StorageService {
       return ((await this.getLastId()) || 1) + 1;
     }
 
-    async reset(): Promise<void>{
+    async erase(): Promise<void>{
       await chrome.storage.local.clear();
       await this.set({[StorageKey.NEXT_ID]: 0});
     }

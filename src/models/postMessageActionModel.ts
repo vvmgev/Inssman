@@ -4,12 +4,11 @@ export enum PostMessageAction {
     UpdateRuleNew,
     DeleteRule,
     DeleteRuleById,
-    GetRules,
     GetStorageRules,
     GetRuleById,
     EnableRule,
     DissableRule,
     Log,
-    Reset,
+    ERASE,
     GetUserId,
 }

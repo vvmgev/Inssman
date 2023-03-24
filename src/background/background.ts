@@ -33,9 +33,7 @@ class Background {
     (async () => {
       let responseData: any;
       try {
-        if(action === PostMessageAction.GetRules) {
-          responseData = this.getRules();
-        } else if(action === PostMessageAction.GetStorageRules) {
+        if(action === PostMessageAction.GetStorageRules) {
           responseData = this.getStorageRules();
         } else if(action === PostMessageAction.GetRuleById) {
           responseData = this.getRuleById(data);
@@ -47,8 +45,8 @@ class Background {
           responseData = this.deleteRule(data);
         } else if(action === PostMessageAction.DeleteRuleById) {
           responseData = this.deleteRuleById(data);
-        } else if(action === PostMessageAction.Reset) {
-          responseData = this.reset();
+        } else if(action === PostMessageAction.ERASE) {
+          responseData = this.erase();
         } else if(action === PostMessageAction.GetUserId) {
           responseData = this.getUserId();
         }
@@ -59,14 +57,6 @@ class Background {
     })();
     return true;
   };
-
-  async getRules(): Promise<any> {
-    const rules: Rule[] = await RuleService.getRules();
-    return await Promise.all(rules.map(async (rule) => {
-      const ruleData = await StorageService.get(String(rule.id))
-      return {ruleData, rule};
-    }));
-  }
 
   async getRuleById(data): Promise<any> {
     const rule: Rule = await RuleService.getRuleById(data.id);
@@ -103,9 +93,9 @@ class Background {
     await StorageService.remove(String(data.id))
   }
 
-  async reset(): Promise<void> {
-    await RuleService.reset();
-    await StorageService.reset();
+  async erase(): Promise<void> {
+    await RuleService.erase();
+    await StorageService.erase();
   }
 
   async getUserId(): Promise<any> {

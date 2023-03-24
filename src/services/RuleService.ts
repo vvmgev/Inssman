@@ -37,7 +37,7 @@ class RuleService {
         return chrome.declarativeNetRequest.getDynamicRules();
     }
 
-    async reset(): Promise<void> {
+    async erase(): Promise<void> {
         return this.remove(await this.getRules());
     }
 }
