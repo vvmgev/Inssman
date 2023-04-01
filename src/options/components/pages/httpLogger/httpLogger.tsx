@@ -10,36 +10,36 @@ const HTTPLogger = () => {
   const [search, setSearch] = useState<string>('');
   const onChangeSearch = event => setSearch(event.target.value);
 
-  useEffect(() => {
-    const onMessage = message => {
-      const newRequest: any = {};
-      const { type: messageType, requestHeadersDetails } = message;
-      const { requestId, requestHeaders, responseHeaders, method, url, type, ip, fromCache, statusCode } = requestHeadersDetails;
-      newRequest.method = method;
-      newRequest.url = url;
-      newRequest.type = type;
+  const onMessage = message => {
+    const newRequest: any = {};
+    const { type: messageType, requestHeadersDetails } = message;
+    const { requestId, requestHeaders, responseHeaders, method, url, type, ip, fromCache, statusCode } = requestHeadersDetails;
+    newRequest.method = method;
+    newRequest.url = url;
+    newRequest.type = type;
 
-      if(messageType === ListenerType.BEFORESENDHEADERS ) {
-        newRequest.requestHeaders = requestHeaders;
-      }
-
-      if(messageType === ListenerType.HEADERSRECEIVED ) {
-        newRequest.responseHeaders = responseHeaders;
-      }
-
-      if(messageType === ListenerType.COMPLETED ) {
-        newRequest.ip = ip;
-        newRequest.fromCache = fromCache;
-        newRequest.statusCode = statusCode;
-      }
-      setRequestList(data => {
-        return {
-          ...data,
-          [requestId]: {...(data[requestId] || {} ), ...newRequest }
-        }
-      });
+    if(messageType === ListenerType.BEFORESENDHEADERS ) {
+      newRequest.requestHeaders = requestHeaders;
     }
 
+    if(messageType === ListenerType.HEADERSRECEIVED ) {
+      newRequest.responseHeaders = responseHeaders;
+    }
+
+    if(messageType === ListenerType.COMPLETED ) {
+      newRequest.ip = ip;
+      newRequest.fromCache = fromCache;
+      newRequest.statusCode = statusCode;
+    }
+    setRequestList(data => {
+      return {
+        ...data,
+        [requestId]: {...(data[requestId] || {} ), ...newRequest }
+      }
+    });
+  }
+
+  useEffect(() => {
     const port = chrome.runtime.connect({name: WebRequestClients.MAIN});
     port.onMessage.addListener(onMessage);
 
