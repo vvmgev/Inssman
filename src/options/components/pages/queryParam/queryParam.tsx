@@ -1,18 +1,19 @@
 import React, { useEffect, useCallback } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
-import Form from '../form/form';
-import { FormType } from 'models/formFieldModel';
+import Form from '../../form/form';
+import { PageType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import QueryParamFields from '../../common/queryParamFields/queryParamFields';
 import RuleName from '../../common/ruleName/ruleName';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import ColorCover from '../../common/colorCover/colorCover';
 
 const getDefaultData = () => ({
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
   queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
-  formType: FormType.QUERY_PARAM,
+  pageType: PageType.QUERY_PARAM,
 });
 
 const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
@@ -75,30 +76,32 @@ const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
     }
   }, []);
 
-  return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.QUERY_PARAM}>
-          <div className="w-1/5">
-            <RuleName value={name} onChange={onChange} error={error} />
-            </div>
-            <div className="flex mt-5 items-center w-full">
-              <SourceFields
-                matchType={matchType}
-                onChange={onChange}
-                source={source}
-                error={error}
-              />
-            </div>
-            <div className="w-2/3">
-              <QueryParamFields
-                onChangeParam={onChangeParam}
-                queryParams={queryParams}
-                onRemove={onRemoveQueryParam}
-                error={error}
-              />
-            </div>
-            <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddQueryParam}>Add</div>
-           </Form>
-    </>
+  return <div className="h-[150px] min-h-[550px] mt-[50px]">
+    <ColorCover>
+      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.QUERY_PARAM}>
+        <div className="w-1/5">
+          <RuleName value={name} onChange={onChange} error={error} />
+        </div>
+        <div className="flex mt-5 items-center w-full">
+          <SourceFields
+            matchType={matchType}
+            onChange={onChange}
+            source={source}
+            error={error}
+          />
+        </div>
+        <div className="w-full">
+          <QueryParamFields
+            onChangeParam={onChangeParam}
+            queryParams={queryParams}
+            onRemove={onRemoveQueryParam}
+            error={error}
+          />
+        </div>
+        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddQueryParam}>Add</div>
+      </Form>
+      </ColorCover>
+    </div>
 };
 
 export default QueryParamForm;

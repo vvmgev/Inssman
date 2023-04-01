@@ -1,7 +1,7 @@
 import React from 'react';
 import GithubSVG from 'assets/icons/github.svg'
 import DocumentSVG from 'assets/icons/document.svg'
-import ColorCover from '../colorCover/colorCover';
+import ColorCover from '../common/colorCover/colorCover';
 
 
 const Header =  () => {

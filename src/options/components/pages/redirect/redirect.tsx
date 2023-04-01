@@ -2,18 +2,19 @@ import React, { useEffect, useMemo } from 'react';
 import Input from 'components/common/input/input';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
-import Form from '../form/form';
-import { FormType } from 'models/formFieldModel';
+import Form from '../../form/form';
+import { PageType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import RuleName from '../../common/ruleName/ruleName';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
+import ColorCover from '../../common/colorCover/colorCover';
 
 
 const defaultData = {
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
-  formType: FormType.REDIRECT,
+  pageType: PageType.REDIRECT,
   destination: '',
 }
 
@@ -50,34 +51,36 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
     [MatchType.CONTAIN]: 'e.g http://example.com',
   }), []);
 
-  return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.REDIRECT}>
-            <div className="w-1/5">
-              <RuleName value={name} onChange={onChange} error={error} />
-            </div>
-            <div className="flex mt-5 items-center w-full">
-              <SourceFields
-                matchType={matchType}
-                onChange={onChange}
-                source={source}
-                error={error}
-                showAllButton={false}
-              />
-            </div>
-            <div className="flex mt-5 items-center">
-              <div className="min-w-[100px]">Redirect to</div>
-                <div className="w-3/5">
-                  <Input
-                    value={destination}
-                    name='destination'
-                    onChange={onChange} 
-                    placeholder={placeholders[matchType]}
-                    error={error?.destination}
-                  />
-                </div>
-            </div>
-           </Form>
-    </>
+  return <div className="h-[150px] min-h-[300px] mt-[50px]">
+      <ColorCover>
+        <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.REDIRECT}>
+          <div className="w-1/5">
+            <RuleName value={name} onChange={onChange} error={error} />
+          </div>
+          <div className="flex mt-5 items-center w-full">
+            <SourceFields
+              matchType={matchType}
+              onChange={onChange}
+              source={source}
+              error={error}
+              showAllButton={false}
+            />
+          </div>
+          <div className="flex mt-5 items-center">
+            <div className="min-w-[100px]">Redirect to</div>
+              <div className="w-3/5">
+                <Input
+                  value={destination}
+                  name='destination'
+                  onChange={onChange} 
+                  placeholder={placeholders[matchType]}
+                  error={error?.destination}
+                />
+              </div>
+          </div>
+        </Form>
+      </ColorCover>
+    </div>
 };
 
 export default RedirectForm;

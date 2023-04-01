@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import Input from 'components/common/input/input';
 import { InjectFileType, FormMode, MatchType, InjectFileSource, InjectFileOperator, MatchTypeMap, IRule } from 'models/formFieldModel';
-import Form from '../form/form';
-import { FormType } from 'models/formFieldModel';
+import Form from '../../form/form';
+import { PageType } from 'models/formFieldModel';
 import SourceFields from '../../common/source/sourceFields';
 import Editor from '../../editor/editor';
 import Select from '../../common/select/select';
@@ -10,6 +10,7 @@ import RuleName from '../../common/ruleName/ruleName';
 // import Checkbox from '../../common/checkbox/checkbox';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import ColorCover from '../../common/colorCover/colorCover';
 
 const defaultData = {
   name: '',
@@ -17,7 +18,7 @@ const defaultData = {
   source: '',
   editorLang: InjectFileType.JAVASCRIPT,
   editorValue: '',
-  formType: FormType.INJECT_FILE,
+  pageType: PageType.INJECT_FILE,
   fileSourceType: InjectFileSource.CODE,
   fileSource: '',
   tagSelector: '',
@@ -90,86 +91,88 @@ const InjectFileForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
     [InjectFileType.CSS]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css',
   }), []);
 
-  return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.INJECT_FILE}>
-            <div className="w-1/5">
-              <RuleName value={name} onChange={onChange} error={error} />
-            </div>
-            <div className="flex mt-5 items-center w-full">
-              <SourceFields
-                matchType={matchType}
-                onChange={onChange}
-                source={source}
-                error={error}
-                showAllButton={false}
-              />
-            </div>
-            <div className="flex mt-5 items-center w-full">
-              <span className="mr-5">Select File Type</span>
+  return <div className="h-[150px] min-h-[550px] mt-[50px]">
+    <ColorCover>
+      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.INJECT_FILE}>
+        <div className="w-1/5">
+          <RuleName value={name} onChange={onChange} error={error} />
+        </div>
+        <div className="flex mt-5 items-center w-full">
+          <SourceFields
+            matchType={matchType}
+            onChange={onChange}
+            source={source}
+            error={error}
+            showAllButton={false}
+          />
+        </div>
+        <div className="flex mt-5 items-center w-full">
+          <span className="mr-5">Select File Type</span>
+          <Select
+            onChange={onChange}
+            value={editorLang}
+            options={editorLangOptions}
+            name='editorLang'
+          />
+          {editorLang !== InjectFileType.HTML && <>
+            <span className="mr-5 ml-5">Select Source Type</span>
+            <Select
+              onChange={onChange}
+              value={fileSourceType}
+              options={injectFileSourceOptions}
+              name='fileSourceType'
+            />
+          </>}
+          {editorLang === InjectFileType.HTML && <>
+            <span className="mr-5 ml-5">Operator</span>
+            <div className="w-1/7">
               <Select
                 onChange={onChange}
-                value={editorLang}
-                options={editorLangOptions}
-                name='editorLang'
+                value={tagSelectorOperator}
+                options={injectFileOperatorOptions}
+                name='tagSelectorOperator'
               />
-              {editorLang !== InjectFileType.HTML && <>
-                <span className="mr-5 ml-5">Select Source Type</span>
-                <Select
-                  onChange={onChange}
-                  value={fileSourceType}
-                  options={injectFileSourceOptions}
-                  name='fileSourceType'
-                />
-              </>}
-              {editorLang === InjectFileType.HTML && <>
-                <span className="mr-5 ml-5">Operator</span>
-                <div className="w-1/7">
-                  <Select
-                    onChange={onChange}
-                    value={tagSelectorOperator}
-                    options={injectFileOperatorOptions}
-                    name='tagSelectorOperator'
-                  />
-                </div>
-                <span className="mr-5 ml-5">Tag Selector</span>
-                <div className="w-1/3">
-                  <Input
-                      value={tagSelector}
-                      name='tagSelector'
-                      onChange={onChange} 
-                      placeholder="document.getElementById('app')"
-                      error={error?.tagSelector}
-                  />
-                </div>
-              </>
-              }
             </div>
-            {/* <div className="flex mt-5 items-center w-full">
-              <Checkbox
-                name="shouldRemoveHeader"
-                label="Remove Header"
-                onChange={onChange}
-                checked={shouldRemoveHeader}
-                />
-            </div> */}
-            <div className={`flex mt-5 items-center w-full ${(fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML) ? '' : 'hidden'}`}>
-              <Editor editorRef={editorRef} language={editorLang} onChange={onChange} />
+            <span className="mr-5 ml-5">Tag Selector</span>
+            <div className="w-1/3">
+              <Input
+                  value={tagSelector}
+                  name='tagSelector'
+                  onChange={onChange} 
+                  placeholder="document.getElementById('app')"
+                  error={error?.tagSelector}
+              />
             </div>
-            {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && <div className="flex mt-5 items-center w-full">
-              <span className="mr-5">Select File Type</span>
-              <div className="w-2/3">
-                <Input
-                    value={fileSource}
-                    name='fileSource'
-                    onChange={onChange} 
-                    placeholder={`Source URL ( ${placeholders[editorLang]} )`}
-                    error={error?.fileSource}
-                    required
-                />
-              </div>
-            </div>}
-           </Form>
-    </>
+          </>
+          }
+        </div>
+        {/* <div className="flex mt-5 items-center w-full">
+          <Checkbox
+            name="shouldRemoveHeader"
+            label="Remove Header"
+            onChange={onChange}
+            checked={shouldRemoveHeader}
+            />
+        </div> */}
+        <div className={`flex mt-5 items-center w-full ${(fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML) ? '' : 'hidden'}`}>
+          <Editor editorRef={editorRef} language={editorLang} onChange={onChange} />
+        </div>
+        {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && <div className="flex mt-5 items-center w-full">
+          <span className="mr-5">Select File Type</span>
+          <div className="w-2/3">
+            <Input
+                value={fileSource}
+                name='fileSource'
+                onChange={onChange} 
+                placeholder={`Source URL ( ${placeholders[editorLang]} )`}
+                error={error?.fileSource}
+                required
+            />
+          </div>
+        </div>}
+        </Form>
+      </ColorCover>
+    </div>
 };
 
 export default InjectFileForm;

@@ -16,13 +16,17 @@ const App = () => {
         </div>
         <div className="float-right inline-block h-full w-5/6 relative z-10">
           <div className="h-full flex flex-col justify-between">
-            <Header />
-            <div className="min-h-[350px] mx-[10%] max-h-[80%] overflow-y-auto">
-              <BrowserSupport>
-                <RuleRoutes />
-              </BrowserSupport>
+            <div className="h-[10%]">
+              <Header />
             </div>
-            <Footer />
+            <div className="h-[75%] mx-[10%]">
+                <BrowserSupport>
+                  <RuleRoutes />
+                </BrowserSupport>
+            </div>
+            <div className="h-[10%]">
+              <Footer />
+            </div>
           </div>
         </div>
       </HashRouter>

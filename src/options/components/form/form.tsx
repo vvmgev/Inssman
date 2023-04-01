@@ -1,21 +1,21 @@
 import React from 'react';
 import Button from 'components/common/button/button';
-import { FormTypeMap, IconsMap } from 'src/models/formFieldModel';
-import ColorCover from '../../colorCover/colorCover';
+import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
+import ColorCover from '../common/colorCover/colorCover';
 
-const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
-  return <ColorCover>
+const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
+  return <>
       <div className="flex justify-between mb-3">
         <span className="flex flex-col">
           <span>{mode === 'create' ? 'Create New Rule' : 'Edit Rule'}</span>
           <span className="text-xs gap-1 text-slate-400 flex items-center">
-            <span className="w-4">{IconsMap[formType]}</span>
-            {FormTypeMap[formType]}
+            <span className="w-4">{IconsMap[pageType]}</span>
+            {PageTypeMap[pageType]}
           </span>
         </span>
         <div className="flex gap-5">
           <div className="flex justify-end">
-            <a href={`https://github.com/vvmgev/Overrider#${formType}`} target="_blank" rel="noopener noreferrer">
+            <a href={`https://github.com/vvmgev/Overrider#${pageType}`} target="_blank" rel="noopener noreferrer">
               <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" >View Example</div>
             </a>
             </div>
@@ -24,7 +24,7 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
           </div>}  */}
           <div>
             <Button
-              trackName={`${FormTypeMap[formType]} Rule Create Event`}
+              trackName={`${PageTypeMap[pageType]} Rule Create Event`}
               onClick={onSubmit}>
                 {mode === 'create' ? 'Create' : 'Edit'}
             </Button>
@@ -35,7 +35,7 @@ const Form = ({ children, onSubmit, error, formType, mode = 'create' }) => {
       <form>
         {children}
       </form>
-    </ColorCover>
+    </>
 };
 
 export default Form;

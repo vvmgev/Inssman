@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import { FormType } from 'models/formFieldModel';
-import Form from '../form/form';
+import { PageType } from 'models/formFieldModel';
+import Form from '../../form/form';
 import SourceFields from '../../common/source/sourceFields';
 import RuleName from '../../common/ruleName/ruleName';
+import ColorCover from '../../common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const defaultData = {
   name: '',
   source: '',
   matchType: MatchType.CONTAIN,
-  formType: FormType.BLOCK,
+  pageType: PageType.BLOCK,
 }
 
 const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
@@ -36,8 +37,9 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
     }
   }, []);
 
-  return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.BLOCK}>
+  return <div className="h-[150px] min-h-[250px] mt-[50px]">
+        <ColorCover>
+          <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.BLOCK}>
             <div className="w-1/5">
               <RuleName value={name} onChange={onChange} error={error} />
             </div>
@@ -50,7 +52,8 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
               />
             </div>
            </Form>
-    </>
+      </ColorCover>
+    </div>
 };
 
 export default CancelForm;

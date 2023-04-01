@@ -1,6 +1,6 @@
-import { FormType, MatchType, EditorLanguage } from '../../../models/formFieldModel';
+import { PageType, MatchType, EditorLanguage } from '../../../models/formFieldModel';
 export const formConfig = {
-    [FormType.REDIRECT] : {
+    [PageType.REDIRECT] : {
         fields : [
             {
                 id: 4,
@@ -64,7 +64,7 @@ export const formConfig = {
             },
         ]
     },
-    [FormType.BLOCK] : {
+    [PageType.BLOCK] : {
         fields : [
             {
                 id: 4,
@@ -114,7 +114,7 @@ export const formConfig = {
             },
         ]
     },
-    [FormType.MODIFY_RESPONSE] : {
+    [PageType.MODIFY_RESPONSE] : {
         fields : [
             {
                 id: 5,

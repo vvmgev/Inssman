@@ -2,6 +2,7 @@ import RuleService from '../services/RuleService';
 import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
+import '../services/WebRequestService';
 import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 

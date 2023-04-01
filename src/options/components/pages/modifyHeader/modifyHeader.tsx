@@ -1,19 +1,19 @@
 import React, { useEffect, useCallback } from 'react';
 import { FormMode, HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
-import Input from 'components/common/input/input';
-import { FormType } from 'models/formFieldModel';
-import Form from '../form/form';
-import ModifyHeaderFields from '../../common/modifyHeaderFields/modifyHeaderFields';
+import { PageType } from 'models/formFieldModel';
+import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
 import SourceFields from '../../common/source/sourceFields';
 import RuleName from '../../common/ruleName/ruleName';
+import Form from '../../form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import ColorCover from '../../common/colorCover/colorCover';
 
 const getDefaultData = () => ({
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
-  formType: FormType.MODIFY_HEADER,
+  pageType: PageType.MODIFY_HEADER,
   headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
 });
 
@@ -73,28 +73,30 @@ const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange
     }
   }, []);
 
-  return <>
-          <Form onSubmit={onSubmit} mode={mode} error={error} formType={FormType.MODIFY_HEADER}>
-            <div className="w-1/5">
-              <RuleName value={name} onChange={onChange} error={error} />
-            </div>
-            <div className="flex mt-5 items-center w-full">
-              <SourceFields
-                matchType={matchType}
-                onChange={onChange}
-                source={source}
-                error={error}
-              />
-            </div>
-            <ModifyHeaderFields
-              onChangeHeader={onChangeHeader}
-              headers={headers}
-              onRemoveHeader={onRemoveHeader}
-              error={error}
-            />
-            <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddHeader}>Add</div>
-           </Form>
-    </>
+  return <div className="h-[150px] min-h-[550px] mt-[50px]">
+    <ColorCover>
+      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_HEADER}>
+        <div className="w-1/5">
+          <RuleName value={name} onChange={onChange} error={error} />
+        </div>
+        <div className="flex mt-5 items-center w-full">
+          <SourceFields
+            matchType={matchType}
+            onChange={onChange}
+            source={source}
+            error={error}
+          />
+        </div>
+        <ModifyHeaderFields
+          onChangeHeader={onChangeHeader}
+          headers={headers}
+          onRemoveHeader={onRemoveHeader}
+          error={error}
+        />
+        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddHeader}>Add</div>
+        </Form>
+    </ColorCover>
+    </div>
 };
 
 export default ModifyHeaderForm;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ColorCover from '../../colorCover/colorCover';
+import ColorCover from '../colorCover/colorCover';
 import Portal from '../../portal/portal';
 import Input from '../input/input';
 

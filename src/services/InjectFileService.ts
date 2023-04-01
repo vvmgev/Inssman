@@ -1,4 +1,4 @@
-import { FormType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, MatchType, InjectFileSource } from "src/models/formFieldModel";
+import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, MatchType, InjectFileSource } from "src/models/formFieldModel";
 import StorageService from "./StorageService";
 import { IRuleData } from 'models/formFieldModel';
 
@@ -13,7 +13,7 @@ class InjectFileService {
   registerListener(): void {
     chrome.webNavigation.onCommitted.addListener(transation => {
       this.rulesData.forEach((ruleData: IRuleData) => {
-        if(ruleData.formType === FormType.INJECT_FILE) {
+        if(ruleData.pageType === PageType.INJECT_FILE) {
           if( ruleData.matchType === MatchType.CONTAIN && transation.url.includes(ruleData.source) || 
               ruleData.matchType === MatchType.EQUAL && transation.url === ruleData.source ) {
                 if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
@@ -36,7 +36,7 @@ class InjectFileService {
     chrome.storage.onChanged.addListener(changes => {
       const changesArr = Object.values(changes);
       changesArr.forEach(({ newValue, oldValue }) => {
-        if(newValue?.formType === FormType.INJECT_FILE || oldValue?.formType === FormType.INJECT_FILE) {
+        if(newValue?.pageType === PageType.INJECT_FILE || oldValue?.pageType === PageType.INJECT_FILE) {
           this.getRules();
         }
       })

@@ -6,9 +6,10 @@ import BlockSVG  from 'assets/icons/block.svg';
 import QuestionSVG  from 'assets/icons/question.svg';
 import PencilSquareSVG  from 'assets/icons/pencilSquare.svg'
 import ListSVG  from 'assets/icons/list.svg';
+import ListBulletSVG  from 'assets/icons/listBullet.svg';
 import WrenchSVG  from 'assets/icons/wrench.svg';
 import Logo  from 'assets/images/logo.svg';
-import ColorCover from '../colorCover/colorCover';
+import ColorCover from '../common/colorCover/colorCover';
 
 const paths = [
   {
@@ -40,6 +41,11 @@ const paths = [
     path: '/create-rule/inject-file',
     text: 'Inject File',
     icon: <WrenchSVG />
+  },
+  {
+    path: '/http-logger',
+    text: 'HTTP Logger',
+    icon: <ListBulletSVG />
   },
 ]
 

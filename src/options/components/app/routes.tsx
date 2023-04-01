@@ -1,14 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import RuleList from '../ruleList/ruleList'
-import RedirectForm from '../forms/redirect/redirect';
-import CancelForm from '../forms/block/block';
-import QueryParamForm from '../forms/queryParam/queryParam';
-import ModifyHeaderForm from '../forms/modifyHeader/modifyHeader';
-import ModifyResponseForm from '../forms/modifyResponse/modifyResponse';
+import RedirectForm from '../pages/redirect/redirect';
+import CancelForm from '../pages/block/block';
+import QueryParamForm from '../pages/queryParam/queryParam';
+import ModifyHeaderForm from '../pages/modifyHeader/modifyHeader';
+import ModifyResponseForm from '../pages/modifyResponse/modifyResponse';
 import FormHOC from 'src/options/HOC/formHOC';
 import withParams from 'src/options/HOC/withParams';
-import InjectFileForm from '../forms/injectFile/injectFile';
+import InjectFileForm from '../pages/injectFile/injectFile';
+import HTTPLogger from '../pages/httpLogger/httpLogger';
 
 const RuleRoutes = () => {
   const RedirectFormHOC = withParams(FormHOC(RedirectForm));
@@ -36,6 +37,7 @@ const RuleRoutes = () => {
         <Route path="modify-response/:id" element={<ModifyResponseFormHOC key={10} />} />
         <Route path="inject-file/:id" element={<InjectFileFormHOC key={11} />} />
     </Route>
+    <Route path="http-logger" element={<HTTPLogger key={12} />} />
   </Routes>
 }
 

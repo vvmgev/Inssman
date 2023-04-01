@@ -15,7 +15,7 @@ export interface IRuleData {
     name: string,
     source: string,
     matchType: string,
-    formType: string,
+    pageType: string,
     destination?: string,
     editorValue?: string,
     editorLang?: string,
@@ -45,31 +45,32 @@ export enum FormMode {
     UPDATE = 'update',
 }
 
-export enum FormType {
+export enum PageType {
     REDIRECT = 'redirect',
     BLOCK = 'block',
     MODIFY_HEADER = 'modify-header',
     MODIFY_RESPONSE = 'modify-response',
     QUERY_PARAM = 'query-param',
     INJECT_FILE = 'inject-file',
+    HTTP_LOGGER = 'http-logger',
 }
 
-export const FormTypeMap = {
-    [FormType.BLOCK]: 'Block',
-    [FormType.REDIRECT]: 'Redirect',
-    [FormType.MODIFY_RESPONSE]: 'Modify Response',
-    [FormType.MODIFY_HEADER]: 'Modify Header',
-    [FormType.QUERY_PARAM]: 'Query Param',
-    [FormType.INJECT_FILE]: 'Inject File',
+export const PageTypeMap = {
+    [PageType.BLOCK]: 'Block',
+    [PageType.REDIRECT]: 'Redirect',
+    [PageType.MODIFY_RESPONSE]: 'Modify Response',
+    [PageType.MODIFY_HEADER]: 'Modify Header',
+    [PageType.QUERY_PARAM]: 'Query Param',
+    [PageType.INJECT_FILE]: 'Inject File',
 }
 
 export const IconsMap = {
-    [FormType.BLOCK]: <BlockSVG />,
-    [FormType.REDIRECT]: <RedirectSVG />,
-    [FormType.QUERY_PARAM]: <QuestionSVG />,
-    [FormType.MODIFY_HEADER]: <CodeSVG />,
-    [FormType.MODIFY_RESPONSE]: <PencilSVG />,
-    [FormType.INJECT_FILE]: <WrenchSVG />,
+    [PageType.BLOCK]: <BlockSVG />,
+    [PageType.REDIRECT]: <RedirectSVG />,
+    [PageType.QUERY_PARAM]: <QuestionSVG />,
+    [PageType.MODIFY_HEADER]: <CodeSVG />,
+    [PageType.MODIFY_RESPONSE]: <PencilSVG />,
+    [PageType.INJECT_FILE]: <WrenchSVG />,
 };
 
 export enum MatchType {
@@ -153,7 +154,7 @@ export interface FormField {
     id: number;
     priority?: number;
     matchType?: MatchType;
-    formType: FormType;
+    pageType: PageType;
     url: string;
     extensionPath: string;
     regexSubstitution: string;

@@ -15,13 +15,13 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
     {queryParams.map((param, index) => {
       return (
         <div key={index} className="flex mt-5 gap-5 items-center">
-          <span className="mr-4">Operator</span>
+          <span className="mr-4">Operator&nbsp;</span>
           <Select
             options={queryParamActionOptions}
             name="action"
             value={param.action}
             onChange={event => onChangeParam(event, index)}
-            classes="flex-[2]"
+            classes="flex-[1]"
             error={error?.queryParamAction}
           />
           <Input

@@ -1,0 +1,117 @@
+import React, { useEffect, useState } from 'react';
+import { ListenerType, WebRequestClients } from 'src/models/WebRequestModel';
+import ColorCover from '../../common/colorCover/colorCover';
+
+const HTTPLogger = () => {
+  const [requestList, setRequestList] = useState<any>({});
+  const [activeReuquestId, setActiveRequestId] = useState();
+
+  useEffect(() => {
+    const onMessage = message => {
+      const newRequest: any = {};
+      const { type: messageType, requestHeadersDetails } = message;
+      const { requestId, requestHeaders, responseHeaders, method, url, type, ip, fromCache, statusCode } = requestHeadersDetails;
+      newRequest.method = method;
+      newRequest.url = url;
+      newRequest.type = type;
+
+      if(messageType === ListenerType.BEFORESENDHEADERS ) {
+        newRequest.requestHeaders = requestHeaders;
+      }
+
+      if(messageType === ListenerType.HEADERSRECEIVED ) {
+        newRequest.responseHeaders = responseHeaders;
+      }
+
+      if(messageType === ListenerType.COMPLETED ) {
+        newRequest.ip = ip;
+        newRequest.fromCache = fromCache;
+        newRequest.statusCode = statusCode;
+      }
+      setRequestList(data => {
+        return {
+          ...data,
+          [requestId]: {...(data[requestId] || {} ), ...newRequest }
+        }
+      });
+    }
+
+    const port = chrome.runtime.connect({name: WebRequestClients.MAIN});
+    port.onMessage.addListener(onMessage);
+
+    return () => {
+      port.postMessage('disconnect');
+    };
+  }, []); 
+
+  return <div className="h-full">
+    <ColorCover classes="max-h-[300px]">
+      <ul>
+        <li className="text-sm max-h-[90%] overflow-y-auto border-b border-slate-700 w-full flex justify-between items-center">
+          <div className="flex-[1]">ID</div>
+          <div className="flex-[1]">Status Code</div>
+          <div className="flex-[1]">Method</div>
+          <div className="flex-[1]">Type</div>
+          <div className="flex-[1]">IP</div>
+          <div className="flex-[1]">From Cache</div>
+          <div className="flex-[3]">URL</div>
+        </li>
+        {Object.entries(requestList).map(([requestId, request]: any) => (
+          <li key={requestId}
+              onClick={() => setActiveRequestId(requestId)}
+              className={`text-sm max-h-[90%] overflow-y-auto border-b border-slate-700
+                          w-full flex justify-between items-center py-3 hover:bg-slate-800 hover:bg-opacity-40
+                          ${requestId === activeReuquestId ? 'text-sky-500' : ''}
+                          `}>
+            <div className="flex-[1]">{requestId || 'unknown'}</div>
+            <div className="flex-[1]">{request.statusCode || 'unknown'}</div>
+            <div className="flex-[1]">{request.method || 'unknown'}</div>
+            <div className="flex-[1]">{request.type || 'unknown'}</div>
+            <div className="flex-[1]">{request.ip || 'unknown'}</div>
+            <div className="flex-[1]">{String(request.fromCache)}</div>
+            <div className="flex-[3] text-ellipsis whitespace-nowrap w-[1px]">{request.url || 'unknown'}</div>
+          </li>
+        ))}
+      </ul>
+    </ColorCover>
+    <ColorCover classes="max-h-[400px] mt-[10px]">
+      {activeReuquestId && (
+        <>
+        {requestList[activeReuquestId]?.requestHeaders && (
+          <>
+            <div className="text-xl font-extrabold">Request Headers</div>
+            <hr />
+            <ul>
+              {requestList[activeReuquestId]?.requestHeaders?.map(({name, value}, index) => {
+                return <div key={index} className="text-sm overflow-y-auto border-b border-slate-700 w-full gap-2 flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
+                    <span className="font-bold">{name}:</span>
+                    <span className="font-light">{value}</span>
+                  </div>
+              })}
+            </ul>
+            
+          </>
+        )}
+        {requestList[activeReuquestId]?.responseHeaders && (
+          <>
+            <div className="text-xl font-black">Response Headers</div>
+            <hr />
+            <ul>
+              {requestList[activeReuquestId]?.responseHeaders?.map(({name, value}, index) => {
+                return <div key={index} className="text-sm overflow-y-auto border-b border-slate-700 w-full gap-2 flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
+                    <span className="font-bold">{name}:</span>
+                    <span className="font-light">{value}</span>
+                  </div>
+              })}
+            </ul>
+            
+          </>
+        )}
+        </>
+      )}
+      
+    </ColorCover>
+    </div>
+};
+
+export default HTTPLogger;

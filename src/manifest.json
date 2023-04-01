@@ -17,10 +17,12 @@
     "declarativeNetRequestWithHostAccess",
     "declarativeNetRequestFeedback",
     "webNavigation",
-    "scripting"
+    "scripting",
+    "webRequest"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "<all_urls>",
+    "*://*/*"
   ],
   "action": {
     "default_icon": {

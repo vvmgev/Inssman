@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import { HeaderModificationType } from 'models/formFieldModel';
-import Input from '../input/input';
-import Select from '../select/select';
+import Input from '../../common/input/input';
+import Select from '../../common/select/select';
 import RemoveSVG  from 'assets/icons/remove.svg';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import InputAutocomplete from '../InputAutocomplete/InputAutocomplete';
-import HTTPHeaders from '../../forms/modifyHeader/HTTPHeaders';
+import InputAutocomplete from '../../common/InputAutocomplete/InputAutocomplete';
+import HTTPHeaders from '../modifyHeader/HTTPHeaders';
 
 const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
@@ -21,7 +21,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
   return <>
     {headers.map((header, index) => {
       return (
-        <div key={index} className="flex items-center mt-5 w-3/3 gap-5">
+        <div key={index} className="flex items-center mt-5 w-full gap-5">
           <span className="mr-4">Operator</span>
           <Select
             options={modifyHeaderActionOptions}
