@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ListenerType, WebRequestClients } from 'src/models/WebRequestModel';
+import SearchSVG  from 'assets/icons/search.svg';
 import ColorCover from '../../common/colorCover/colorCover';
+import Input from '../../common/input/input';
 
 const HTTPLogger = () => {
   const [requestList, setRequestList] = useState<any>({});
   const [activeReuquestId, setActiveRequestId] = useState();
+  const [search, setSearch] = useState<string>('');
+  const onChangeSearch = event => setSearch(event.target.value);
 
   useEffect(() => {
     const onMessage = message => {
@@ -42,10 +46,20 @@ const HTTPLogger = () => {
     return () => {
       port.postMessage('disconnect');
     };
-  }, []); 
+  }, []);
 
   return <div className="h-full">
     <ColorCover classes="max-h-[300px]">
+      <div className="text-sm flex justify-end">
+        <div className="w-[250px]">
+          <Input
+            placeholder="Search By URL"
+            onChange={onChangeSearch}
+            value={search}
+            starts={<span className="w-[24px]"><SearchSVG /></span>}
+          />
+        </div>
+      </div>
       <ul>
         <li className="text-sm max-h-[90%] overflow-y-auto border-b border-slate-700 w-full flex justify-between items-center">
           <div className="flex-[1]">ID</div>
@@ -56,7 +70,9 @@ const HTTPLogger = () => {
           <div className="flex-[1]">From Cache</div>
           <div className="flex-[3]">URL</div>
         </li>
-        {Object.entries(requestList).map(([requestId, request]: any) => (
+        {Object.entries(requestList)
+        .filter(([_, request]: any) => request.url.includes(search) )
+        .map(([requestId, request]: any) => (
           <li key={requestId}
               onClick={() => setActiveRequestId(requestId)}
               className={`text-sm max-h-[90%] overflow-y-auto border-b border-slate-700
