@@ -39,6 +39,11 @@ const HTTPLogger = () => {
     });
   }
 
+  const handleClearLogs = () => {
+    setRequestList({});
+    setActiveRequestId(undefined);
+  }
+
   useEffect(() => {
     const port = chrome.runtime.connect({name: WebRequestClients.MAIN});
     port.onMessage.addListener(onMessage);
@@ -49,8 +54,9 @@ const HTTPLogger = () => {
   }, []);
 
   return <div className="h-full">
-    <ColorCover classes="max-h-[300px]">
-      <div className="text-sm flex justify-end h-[10%]">
+    <ColorCover classes="max-h-[300px] pb-0 pt-[10px]">
+      <div className="text-sm flex justify-end h-[15%] gap-5 items-center">
+      <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" onClick={handleClearLogs}>Clear Logs</div>
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
@@ -69,7 +75,7 @@ const HTTPLogger = () => {
           <div className="flex-[1]">From Cache</div>
           <div className="flex-[3]">URL</div>
       </div>
-      <ul className="h-[80%] overflow-y-auto">
+      <ul className="h-[75%] overflow-y-auto">
         {Object.entries(requestList)
         .filter(([_, request]: any) => request.url.includes(search) )
         .map(([requestId, request]: any) => (
