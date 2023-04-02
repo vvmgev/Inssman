@@ -3,7 +3,7 @@ import ColorCover from '../colorCover/colorCover';
 import Portal from '../../portal/portal';
 import Input from '../input/input';
 
-const InputAutocomplete = ({ inputProps, list}: any ) => {
+const InputAutocomplete = ({ inputProps, list, id}: any ) => {
   const [inputFocused, setInputFocused] = useState<boolean>(false);
   const onFocus = () => setInputFocused(true);
   const onBlur = () => setTimeout(() => setInputFocused(false), 400);
@@ -13,10 +13,10 @@ const InputAutocomplete = ({ inputProps, list}: any ) => {
     setInputFocused(false);
   };
 
-  return <div id="autocomplete" className='relative'>
+  return <div id={`autocomplete-${id}`} className='relative'>
     <Input {...inputProps} onFocus={onFocus} onBlur={onBlur}/>
     {inputFocused && inputProps.value.length > 0 && isMatch &&
-      <Portal parentId='autocomplete'>
+      <Portal parentId={`autocomplete-${id}`}>
         <ColorCover classes="rounded-2xl p-0 bg-opacity-70">
             <ul className='max-h-[200px] overflow-y-auto'>
               {list.map((item, index) => item.toLowerCase().includes(inputProps.value.toLowerCase()) && (

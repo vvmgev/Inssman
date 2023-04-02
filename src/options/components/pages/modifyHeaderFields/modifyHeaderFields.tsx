@@ -48,6 +48,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                 onChange: event => onChangeHeader(event, index),
                 classes: "flex-[2]"
               }}
+              id={index}
               list={HTTPHeaders[header.type]}
             />
           </div>
