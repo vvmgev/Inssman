@@ -50,7 +50,7 @@ const HTTPLogger = () => {
 
   return <div className="h-full">
     <ColorCover classes="max-h-[300px]">
-      <div className="text-sm flex justify-end">
+      <div className="text-sm flex justify-end h-[10%]">
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
@@ -60,8 +60,7 @@ const HTTPLogger = () => {
           />
         </div>
       </div>
-      <ul>
-        <li className="text-sm max-h-[90%] overflow-y-auto border-b border-slate-700 w-full flex justify-between items-center">
+      <div className="text-sm border-b border-slate-700 w-full flex justify-between items-center h-[10%]">
           <div className="flex-[1]">ID</div>
           <div className="flex-[1]">Status Code</div>
           <div className="flex-[1]">Method</div>
@@ -69,7 +68,8 @@ const HTTPLogger = () => {
           <div className="flex-[1]">IP</div>
           <div className="flex-[1]">From Cache</div>
           <div className="flex-[3]">URL</div>
-        </li>
+      </div>
+      <ul className="h-[80%] overflow-y-auto">
         {Object.entries(requestList)
         .filter(([_, request]: any) => request.url.includes(search) )
         .map(([requestId, request]: any) => (
