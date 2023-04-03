@@ -5,6 +5,7 @@ chrome.runtime.onConnect.addListener(port => {
         let WR: WebRequest | null = new WebRequest(port);
         port.onMessage.addListener((message) => {
             if(message === 'disconnect') {
+                port.disconnect();
                 WR?.removeListener();
                 WR = null;
             }
@@ -15,7 +16,10 @@ chrome.runtime.onConnect.addListener(port => {
                 });
             }     
         });
-        port.onDisconnect.addListener(() => WR?.removeListener());
+        port.onDisconnect.addListener(() => {
+            WR?.removeListener();
+            WR = null;
+        });
     }
 });
 
@@ -43,24 +47,22 @@ class WebRequest {
     }
 
     beforeRequest = (requestHeadersDetails): void => {
-        if(this.port) this.port.postMessage({type : ListenerType.BEFOREREQUEST , requestHeadersDetails});
-
+        this.port.postMessage({type : ListenerType.BEFOREREQUEST , requestHeadersDetails});
     }
 
-
     beforeSendHeaders = (requestHeadersDetails): void => {
-        if(this.port) this.port.postMessage({type : ListenerType.BEFORESENDHEADERS , requestHeadersDetails});
+        this.port.postMessage({type : ListenerType.BEFORESENDHEADERS , requestHeadersDetails});
     }
 
     headersReceived = (requestHeadersDetails): void => {
-        if(this.port) this.port.postMessage({type : ListenerType.HEADERSRECEIVED , requestHeadersDetails});
+        this.port.postMessage({type : ListenerType.HEADERSRECEIVED , requestHeadersDetails});
     }
 
     completed = (requestHeadersDetails): void => {
-        if(this.port) this.port.postMessage({type : ListenerType.COMPLETED , requestHeadersDetails});
+        this.port.postMessage({type : ListenerType.COMPLETED , requestHeadersDetails});
     }
 
     errorOccurred = (requestHeadersDetails): void => {
-        if(this.port) this.port.postMessage({type : ListenerType.ERROROCCURRED , requestHeadersDetails});
+        this.port.postMessage({type : ListenerType.ERROROCCURRED , requestHeadersDetails});
     }
 };
