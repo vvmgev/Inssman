@@ -7,6 +7,7 @@ module.exports = {
    entry: {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
+      HTTPLoggerPopup: path.resolve(__dirname, "../src/HTTPLoggerPopup", "HTTPLoggerPopup.tsx"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 		'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
 		'css.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/css/css.worker'),
@@ -64,6 +65,12 @@ module.exports = {
          template: './src/options/options.html',
          filename:  'options/options.html',
          chunks: ['options']
+      }),
+      new HtmlWebpackPlugin({
+         inject: true,
+         template: './src/HTTPLoggerPopup/HTTPLoggerPopup.html',
+         filename:  'HTTPLoggerPopup/HTTPLoggerPopup.html',
+         chunks: ['HTTPLoggerPopup']
       }),
       new CopyPlugin({
          patterns: [

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import RemoveSVG  from 'assets/icons/remove.svg';
+import CrossSVG  from 'assets/icons/cross.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import { PostMessageAction } from '../../../models/postMessageActionModel';
@@ -67,7 +67,7 @@ export default () => {
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
               <div className="flex gap-5 flex-1 justify-end">
                   <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
-                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
+                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
               </div>
               </li>)}
           </ul>

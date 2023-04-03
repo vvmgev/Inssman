@@ -8,6 +8,12 @@ chrome.runtime.onConnect.addListener(port => {
                 WR?.removeListener();
                 WR = null;
             }
+            if(message === 'openWindow') {
+                chrome.windows.create({
+                    url: chrome.runtime.getURL("HTTPLoggerPopup/HTTPLoggerPopup.html"),
+                    type: "popup"
+                });
+            }     
         });
         port.onDisconnect.addListener(() => WR?.removeListener());
     }

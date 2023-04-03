@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { QueryParamAction } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
-import RemoveSVG  from 'assets/icons/remove.svg';
+import CrossSVG  from 'assets/icons/cross.svg';
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
 
@@ -40,7 +40,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             placeholder="Value"
             classes="flex-[3]"
           />
-          <div className="cursor-pointer" onClick={event => onRemove(event, index)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
+          <div className="cursor-pointer" onClick={event => onRemove(event, index)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
         </div>
       )
     })}

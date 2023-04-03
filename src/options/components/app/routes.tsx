@@ -10,6 +10,7 @@ import FormHOC from 'src/options/HOC/formHOC';
 import withParams from 'src/options/HOC/withParams';
 import InjectFileForm from '../pages/injectFile/injectFile';
 import HTTPLogger from '../pages/httpLogger/httpLogger';
+import { WebRequestClients } from 'src/models/WebRequestModel';
 
 const RuleRoutes = () => {
   const RedirectFormHOC = withParams(FormHOC(RedirectForm));
@@ -37,7 +38,7 @@ const RuleRoutes = () => {
         <Route path="modify-response/:id" element={<ModifyResponseFormHOC key={10} />} />
         <Route path="inject-file/:id" element={<InjectFileFormHOC key={11} />} />
     </Route>
-    <Route path="http-logger" element={<HTTPLogger key={12} />} />
+    <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={12} />} />
   </Routes>
 }
 

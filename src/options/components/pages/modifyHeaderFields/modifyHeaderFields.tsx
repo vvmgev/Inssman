@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { HeaderModificationType } from 'models/formFieldModel';
 import Input from '../../common/input/input';
 import Select from '../../common/select/select';
-import RemoveSVG  from 'assets/icons/remove.svg';
+import CrossSVG  from 'assets/icons/cross.svg';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import InputAutocomplete from '../../common/InputAutocomplete/InputAutocomplete';
 import HTTPHeaders from '../modifyHeader/HTTPHeaders';
@@ -61,7 +61,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
             hidden={header.operation === HeaderOperation.REMOVE}
             classes="flex-[2]"
           />
-          <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><span className="w-[24px] inline-block"><RemoveSVG /></span></div>
+          <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
         </div>
       )
     })}

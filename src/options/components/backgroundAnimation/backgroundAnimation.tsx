@@ -7,7 +7,7 @@ const BackgroundAnimation = ({children}) => <div className="bg-[linear-gradient(
       before:animate-backgroundBefore before:border-2 before:blur-[50px]
       after:content-[''] after:inline-block after:w-[300px] after:h-[300px] after:absolute
       after:bg-[linear-gradient(rgba(91,_55,_235,_0.4),rgba(55,_235,_169,_0.4))] after:rounded-[30%_70%_70%_30%_/_30%_30%_70%_70%]
-      after:animate-backgroundAfter after:border-2 after:blur-[50px]">
+      after:animate-backgroundAfter after:border-2 after:blur-[50px] overflow-hidden">
         {children}
     </div>;
 

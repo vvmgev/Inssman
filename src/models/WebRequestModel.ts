@@ -1,6 +1,6 @@
 export enum WebRequestClients {
     MAIN = 'main',
-    TAB = 'tab',
+    POPUP = 'POPUP',
     DEVTOOL = 'devtool'
 }
 

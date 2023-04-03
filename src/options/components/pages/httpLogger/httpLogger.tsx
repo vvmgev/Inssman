@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { ListenerType, WebRequestClients } from 'src/models/WebRequestModel';
+import React, { useEffect, useState, useRef } from 'react';
+import { ListenerType } from 'src/models/WebRequestModel';
 import SearchSVG  from 'assets/icons/search.svg';
 import ColorCover from '../../common/colorCover/colorCover';
 import Input from '../../common/input/input';
+import CrossSVG  from 'assets/icons/cross.svg';
+import DoubleSquareSVG  from 'assets/icons/doubleSquare.svg';
 
-const HTTPLogger = () => {
+const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '', infoBoxClasses = '' }) => {
+  const portRef = useRef<any>();
   const [requestList, setRequestList] = useState<any>({});
   const [activeReuquestId, setActiveRequestId] = useState();
   const [search, setSearch] = useState<string>('');
@@ -44,19 +47,33 @@ const HTTPLogger = () => {
     setActiveRequestId(undefined);
   }
 
-  useEffect(() => {
-    const port = chrome.runtime.connect({name: WebRequestClients.MAIN});
-    port.onMessage.addListener(onMessage);
+  const handleOpenWindow = () => {
+    portRef.current.postMessage('openWindow');
+    // setTimeout(window.close);
+  }
 
+  useEffect(() => {
+    const port = chrome.runtime.connect({name: clientName});
+    portRef.current = port;
+    
     return () => {
       port.postMessage('disconnect');
     };
   }, []);
 
   return <div className="h-full">
-    <ColorCover classes="max-h-[300px] pb-0 pt-[10px]">
+    <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
       <div className="text-sm flex justify-end h-[15%] gap-5 items-center">
-      <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" onClick={handleClearLogs}>Clear Logs</div>
+        {showOpenWindowBtn && (
+          <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400 flex gap-2 items-center" onClick={handleOpenWindow}>
+            <span className="w-[24px] inline-block"><DoubleSquareSVG /></span>
+            <span>Open In Window</span>
+          </div>
+        )}
+        <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400 flex gap-2 items-center" onClick={handleClearLogs}>
+          <span className="w-[24px] inline-block"><CrossSVG /></span>
+          <span>Clear Logs</span>
+        </div>
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
@@ -96,7 +113,7 @@ const HTTPLogger = () => {
         ))}
       </ul>
     </ColorCover>
-    <ColorCover classes="max-h-[400px] mt-[10px]">
+    <ColorCover classes={`max-h-[400px] mt-[10px] ${infoBoxClasses}`}>
       {activeReuquestId && (
         <>
         {requestList[activeReuquestId]?.requestHeaders && (
