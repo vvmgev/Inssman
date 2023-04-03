@@ -49,11 +49,12 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
 
   const handleOpenWindow = () => {
     portRef.current.postMessage('openWindow');
-    // setTimeout(window.close);
+    setTimeout(window.close);
   }
 
   useEffect(() => {
     const port = chrome.runtime.connect({name: clientName});
+    port.onMessage.addListener(onMessage);
     portRef.current = port;
     
     return () => {
