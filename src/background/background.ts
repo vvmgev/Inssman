@@ -25,7 +25,6 @@ class Background {
 
   registerListener(): void {
     chrome.runtime.onInstalled.addListener(this.convertOldDataToNew);
-    chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
     chrome.runtime.onMessage.addListener(this.messageHandler);
   };
 

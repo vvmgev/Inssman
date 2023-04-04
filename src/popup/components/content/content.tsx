@@ -1,0 +1,31 @@
+import React, { Fragment } from 'react';
+import { paths } from 'src/options/components/app/paths';
+import ColorCover from 'src/options/components/common/colorCover/colorCover';
+
+const Content = () => {
+    return <ColorCover>
+        <div className="flex items-center flex-row justify-between align-center mb-[15px]">
+            <div className="text-xl">Create Rule</div>
+            <a href={chrome.runtime.getURL('options/options.html')} target="_blank">
+              <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" >View All Rules</div>
+            </a>
+        </div>
+        <div className="flex flex-row flex-wrap">
+            {paths.map(({icon, text, path}, index) => (
+                <Fragment key={index}>
+                    {index % 3 === 0 ? <div className="w-full"></div> : null}
+                    <ColorCover classes="w-[30%] m-[1%] hover:bg-opacity-70">
+                        <a href={chrome.runtime.getURL(`options/options.html#${path}`)} target="_blank">
+                            <div className="flex flex-col items-center align-center gap-3 hover:text-sky-500">
+                                <div className="w-[24px]">{icon}</div>
+                                <div>{text}</div>
+                            </div>
+                        </a>
+                    </ColorCover>
+                </Fragment>
+            ))}
+        </div>
+    </ColorCover>
+}
+
+export default Content;
