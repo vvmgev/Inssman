@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ListenerType } from 'src/models/WebRequestModel';
-import SearchSVG  from 'assets/icons/search.svg';
-import ColorCover from '../../common/colorCover/colorCover';
-import Input from '../../common/input/input';
+import ColorCover from 'components/common/colorCover/colorCover';
+import Input from 'components/common/input/input';
 import CrossSVG  from 'assets/icons/cross.svg';
 import DoubleSquareSVG  from 'assets/icons/doubleSquare.svg';
+import SearchSVG  from 'assets/icons/search.svg';
 
 const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '', infoBoxClasses = '' }) => {
   const portRef = useRef<any>();

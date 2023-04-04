@@ -8,7 +8,7 @@ module.exports = {
       background: path.resolve(__dirname, "../src/background", "background.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
-      HTTPLoggerPopup: path.resolve(__dirname, "../src/HTTPLoggerPopup", "HTTPLoggerPopup.tsx"),
+      HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 		'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
 		'css.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/css/css.worker'),
@@ -31,7 +31,9 @@ module.exports = {
          models: path.resolve(__dirname, '..','src', 'models'),
          options: path.resolve(__dirname, '..', 'src', 'options'),
          components: path.resolve(__dirname, '..', 'src', 'options', 'components'),
+         pages: path.resolve(__dirname, '..', 'src', 'options', 'pages'),
          assets: path.resolve(__dirname, '..', 'src', 'assets'),
+         services: path.resolve(__dirname, '..', 'src', 'services'),
       },
    },
    module: {
@@ -69,9 +71,9 @@ module.exports = {
       }),
       new HtmlWebpackPlugin({
          inject: true,
-         template: './src/HTTPLoggerPopup/HTTPLoggerPopup.html',
-         filename:  'HTTPLoggerPopup/HTTPLoggerPopup.html',
-         chunks: ['HTTPLoggerPopup']
+         template: './src/HTTPLoggerWindow/HTTPLoggerWindow.html',
+         filename:  'HTTPLoggerWindow/HTTPLoggerWindow.html',
+         chunks: ['HTTPLoggerWindow']
       }),
       new HtmlWebpackPlugin({
          inject: true,

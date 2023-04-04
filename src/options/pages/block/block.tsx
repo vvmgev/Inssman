@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
-import Form from '../../form/form';
-import SourceFields from '../../common/source/sourceFields';
-import RuleName from '../../common/ruleName/ruleName';
-import ColorCover from '../../common/colorCover/colorCover';
+import Form from 'components/form/form';
+import SourceFields from 'components/common/source/sourceFields';
+import RuleName from 'components/common/ruleName/ruleName';
+import ColorCover from 'components/common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const defaultData = {

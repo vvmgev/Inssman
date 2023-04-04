@@ -1,12 +1,13 @@
 import React, { useEffect, useCallback } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
-import Form from '../../form/form';
+import Form from 'components/form/form';
 import { PageType } from 'models/formFieldModel';
-import SourceFields from '../../common/source/sourceFields';
-import QueryParamFields from '../../common/queryParamFields/queryParamFields';
-import RuleName from '../../common/ruleName/ruleName';
+import SourceFields from 'components/common/source/sourceFields';
+import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
+import RuleName from 'components/common/ruleName/ruleName';
+import ColorCover from 'components/common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import ColorCover from '../../common/colorCover/colorCover';
+
 
 const getDefaultData = () => ({
   name: '',

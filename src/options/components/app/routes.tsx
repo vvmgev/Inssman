@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import RuleList from '../ruleList/ruleList'
-import RedirectForm from '../pages/redirect/redirect';
-import CancelForm from '../pages/block/block';
-import QueryParamForm from '../pages/queryParam/queryParam';
-import ModifyHeaderForm from '../pages/modifyHeader/modifyHeader';
-import ModifyResponseForm from '../pages/modifyResponse/modifyResponse';
-import FormHOC from 'src/options/HOC/formHOC';
-import withParams from 'src/options/HOC/withParams';
-import InjectFileForm from '../pages/injectFile/injectFile';
-import HTTPLogger from '../pages/httpLogger/httpLogger';
-import { WebRequestClients } from 'src/models/WebRequestModel';
+import RedirectForm from 'pages/redirect/redirect';
+import CancelForm from 'pages/block/block';
+import QueryParamForm from 'pages/queryParam/queryParam';
+import ModifyHeaderForm from 'pages/modifyHeader/modifyHeader';
+import ModifyResponseForm from 'pages/modifyResponse/modifyResponse';
+import InjectFileForm from 'pages/injectFile/injectFile';
+import HTTPLogger from 'pages/httpLogger/httpLogger';
+import FormHOC from 'options/HOC/formHOC';
+import withParams from 'options/HOC/withParams';
+import RuleList from 'components/ruleList/ruleList'
+import { WebRequestClients } from 'models/WebRequestModel';
 
 const RuleRoutes = () => {
   const RedirectFormHOC = withParams(FormHOC(RedirectForm));

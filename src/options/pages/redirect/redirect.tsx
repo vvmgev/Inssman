@@ -2,12 +2,13 @@ import React, { useEffect, useMemo } from 'react';
 import Input from 'components/common/input/input';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
-import Form from '../../form/form';
+import Form from 'components/form/form';
 import { PageType } from 'models/formFieldModel';
-import SourceFields from '../../common/source/sourceFields';
-import RuleName from '../../common/ruleName/ruleName';
+import SourceFields from 'components/common/source/sourceFields';
+import RuleName from 'components/common/ruleName/ruleName';
+import ColorCover from 'components/common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import ColorCover from '../../common/colorCover/colorCover';
+
 
 
 const defaultData = {

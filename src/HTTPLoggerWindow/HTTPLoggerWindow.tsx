@@ -1,9 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import HTTPLogger from 'src/options/components/pages/httpLogger/httpLogger';
-import BackgroundAnimation from 'src/options/components/backgroundAnimation/backgroundAnimation';
+import HTTPLogger from 'src/options/pages/httpLogger/httpLogger';
+import BackgroundAnimation from 'src/options/components/common/backgroundAnimation/backgroundAnimation';
 import { WebRequestClients } from 'src/models/WebRequestModel';
-import './HTTPLoggerPopup.css';
+import './HTTPLoggerWindow.css';
 
 const container = document.getElementById("root");
 const root = createRoot(container);

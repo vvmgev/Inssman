@@ -3,12 +3,12 @@ import { EditorLanguage, FormMode, IRule, MatchType, MatchTypeMap, MimeTypeMap }
 import { encode } from 'options/utils';
 import { PageType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
-import Editor from '../../editor/editor';
-import Form from '../../form/form';
-import SourceFields from '../../common/source/sourceFields';
-import RuleName from '../../common/ruleName/ruleName';
+import Editor from 'components/editor/editor';
+import Form from 'components/form/form';
+import SourceFields from 'components/common/source/sourceFields';
+import RuleName from 'components/common/ruleName/ruleName';
+import ColorCover from 'components/common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-import ColorCover from '../../common/colorCover/colorCover';
 
 const defaultData = {
   name: '',

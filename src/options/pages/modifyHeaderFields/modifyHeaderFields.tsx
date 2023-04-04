@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react';
 import { HeaderModificationType } from 'models/formFieldModel';
-import Input from '../../common/input/input';
-import Select from '../../common/select/select';
+import Input from 'components/common/input/input';
+import Select from 'components/common/select/select';
 import CrossSVG  from 'assets/icons/cross.svg';
-import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import InputAutocomplete from '../../common/InputAutocomplete/InputAutocomplete';
+import InputAutocomplete from 'components/common/InputAutocomplete/InputAutocomplete';
 import HTTPHeaders from '../modifyHeader/HTTPHeaders';
+import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+
 
 const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {

@@ -1,4 +1,4 @@
-import { PageType, MatchType, EditorLanguage } from '../../../models/formFieldModel';
+import { PageType, MatchType, EditorLanguage } from 'models/formFieldModel';
 export const formConfig = {
     [PageType.REDIRECT] : {
         fields : [

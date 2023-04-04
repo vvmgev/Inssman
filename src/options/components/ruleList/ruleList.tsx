@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import CrossSVG  from 'assets/icons/cross.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
-import { PostMessageAction } from '../../../models/postMessageActionModel';
-import { IconsMap } from '../../../models/formFieldModel';
-import { PageTypeMap } from '../../../models/formFieldModel';
-import Input from '../common/input/input';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import { IconsMap } from 'models/formFieldModel';
+import { PageTypeMap } from 'models/formFieldModel';
+import Input from 'components/common/input/input';
 import TrackService from 'src/services/TrackService';
 
 export default () => {

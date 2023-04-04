@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import ColorCover from '../colorCover/colorCover';
-import Portal from '../../portal/portal';
-import Input from '../input/input';
+import ColorCover from 'components/common/colorCover/colorCover';
+import Portal from 'components/portal/portal';
+import Input from 'components/common/input/input';
 
 const InputAutocomplete = ({ inputProps, list, id}: any ) => {
   const [inputFocused, setInputFocused] = useState<boolean>(false);

@@ -2,12 +2,12 @@ import React, { useEffect, useCallback } from 'react';
 import { FormMode, HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
 import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
-import SourceFields from '../../common/source/sourceFields';
-import RuleName from '../../common/ruleName/ruleName';
-import Form from '../../form/form';
+import SourceFields from 'components/common/source/sourceFields';
+import RuleName from 'components/common/ruleName/ruleName';
+import Form from 'components/form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import ColorCover from '../../common/colorCover/colorCover';
+import ColorCover from 'components/common/colorCover/colorCover';
 
 const getDefaultData = () => ({
   name: '',
