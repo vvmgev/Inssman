@@ -1,5 +1,5 @@
 import React from 'react';
-import BackgroundAnimation from 'src/options/components/common/backgroundAnimation/backgroundAnimation';
+import BackgroundAnimation from 'options/components/common/backgroundAnimation/backgroundAnimation';
 import Content from './content/content';
 import Footer from './footer/footer';
 import Header from './header/header';
