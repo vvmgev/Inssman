@@ -8,12 +8,18 @@ import { IconsMap } from 'models/formFieldModel';
 import { PageTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import TrackService from 'src/services/TrackService';
+import OutlineButton from 'components/common/outlineButton/outlineButton';
+import ColorCover from '../common/colorCover/colorCover';
+import Button from '../common/button/button';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 export default () => {
   const COUNT_SYMBOLS = 22;
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState<string>('');
   const onChangeSearch = event => setSearch(event.target.value);
+  const onHandleDeleteRules = () => chrome.runtime.sendMessage({action: PostMessageAction.ERASE }, () => getData());
   const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
@@ -24,6 +30,7 @@ export default () => {
           () => getData()
       );
   };
+
 
   return <div className="h-[150px] min-h-[250px] mt-[50px]">
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
@@ -48,14 +55,31 @@ export default () => {
           <ul>
             <li className="text-lg py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 last:border-none border-b border-slate-700 w-full">
             <span>Rules</span>
-            <div className="text-sm">
+            <div className="flex items-center gap-5">
+              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}} trigger={<OutlineButton>Delete All Rules</OutlineButton>} modal position="right center">
+                {/* @ts-ignore */}
+                {(close: any) => (
+                  <ColorCover classes="bg-opacity-90">
+                  <div className="flex items-center justify-center flex-col gap-10">
+                    <div className="text-slate-200 text-2xl">Do You Want to Delete All Rules</div>
+                    <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
+                      <OutlineButton classes="min-w-[100px]" onClick={close} >No</OutlineButton>
+                      <Button classes="min-w-[100px] flex justify-center" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
+                    </div>
+                  </div>
+                </ColorCover>
+                )}
+              </Popup>
+              <div className="text-sm">
                 <Input
-                placeholder="Search By Rule Name"
-                onChange={onChangeSearch}
-                value={search}
-                starts={<span className="w-[24px]"><SearchSVG /></span>}
+                  placeholder="Search By Rule Name"
+                  onChange={onChangeSearch}
+                  value={search}
+                  starts={<span className="w-[24px]"><SearchSVG /></span>}
                 />
+              </div>
             </div>
+            
             </li>
             {data.filter((ruleData) => ruleData.name.includes(search))
             .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">

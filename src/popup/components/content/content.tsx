@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import { paths } from 'src/options/components/app/paths';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
+import OutlineButton from 'src/options/components/common/outlineButton/outlineButton';
 
 const Content = () => {
     return <ColorCover>
         <div className="flex items-center flex-row justify-between align-center mb-[15px]">
             <div className="text-xl">Create Rule</div>
             <a href={chrome.runtime.getURL('options/options.html')} target="_blank">
-              <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" >View All Rules</div>
+                <OutlineButton>View All Rules</OutlineButton>
             </a>
         </div>
         <div className="flex flex-row flex-wrap">

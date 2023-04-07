@@ -17,7 +17,7 @@ const Button = ({trackName, children, onClick, classes}: IProps) => {
             onClick(event);
         };
     }
-    return <button onClick={handler} className={`bg-slate-200 hover:bg-slate-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full ${classes}`}>
+    return <button onClick={handler} className={`bg-slate-200 hover:bg-slate-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full outline-0 ${classes}`}>
         {children}
     </button>
 }

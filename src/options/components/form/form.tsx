@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'components/common/button/button';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
-import ColorCover from '../common/colorCover/colorCover';
+import OutlineButton from '../common/outlineButton/outlineButton';
 
 const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
   return <>
@@ -16,7 +16,7 @@ const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
         <div className="flex gap-5">
           <div className="flex justify-end">
             <a href={`https://github.com/vvmgev/Overrider#${pageType}`} target="_blank" rel="noopener noreferrer">
-              <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400" >View Example</div>
+              <OutlineButton>View Example</OutlineButton>
             </a>
             </div>
           {/* {mode === 'update' && <div>

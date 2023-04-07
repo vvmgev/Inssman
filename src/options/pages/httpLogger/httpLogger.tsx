@@ -5,6 +5,7 @@ import Input from 'components/common/input/input';
 import CrossSVG  from 'assets/icons/cross.svg';
 import DoubleSquareSVG  from 'assets/icons/doubleSquare.svg';
 import SearchSVG  from 'assets/icons/search.svg';
+import OutlineButton from 'components/common/outlineButton/outlineButton';
 
 const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '', infoBoxClasses = '' }) => {
   const portRef = useRef<any>();
@@ -66,15 +67,20 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
     <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
       <div className="text-sm flex justify-end h-[15%] gap-5 items-center">
         {showOpenWindowBtn && (
-          <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400 flex gap-2 items-center" onClick={handleOpenWindow}>
-            <span className="w-[24px] inline-block"><DoubleSquareSVG /></span>
-            <span>Open In Window</span>
-          </div>
+          <OutlineButton onClick={handleOpenWindow}>
+            <div className="flex gap-2 items-center">
+              <span className="w-[24px] inline-block"><DoubleSquareSVG /></span>
+              <span>Open In Window</span>
+            </div>
+          </OutlineButton>
         )}
-        <div className="border border-slate-700 py-2 px-4 rounded cursor-pointer text-slate-400 flex gap-2 items-center" onClick={handleClearLogs}>
-          <span className="w-[24px] inline-block"><CrossSVG /></span>
-          <span>Clear Logs</span>
-        </div>
+        <OutlineButton>
+          <div className="flex gap-2 items-center" onClick={handleClearLogs}>
+            <span className="w-[24px] inline-block"><CrossSVG /></span>
+            <span>Clear Logs</span>
+          </div>
+        </OutlineButton>
+        
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
