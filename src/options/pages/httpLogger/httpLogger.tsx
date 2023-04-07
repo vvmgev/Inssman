@@ -13,6 +13,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
   const [activeReuquestId, setActiveRequestId] = useState();
   const [search, setSearch] = useState<string>('');
   const onChangeSearch = event => setSearch(event.target.value);
+  const onHandleClearSearch = () => setSearch('');
 
   const onMessage = message => {
     const newRequest: any = {};
@@ -87,6 +88,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
             onChange={onChangeSearch}
             value={search}
             starts={<span className="w-[24px]"><SearchSVG /></span>}
+            ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
           />
         </div>
       </div>

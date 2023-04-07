@@ -18,6 +18,7 @@ export default () => {
   const COUNT_SYMBOLS = 22;
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState<string>('');
+  const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
   const onHandleDeleteRules = () => chrome.runtime.sendMessage({action: PostMessageAction.ERASE }, () => getData());
   const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
@@ -76,6 +77,7 @@ export default () => {
                   onChange={onChangeSearch}
                   value={search}
                   starts={<span className="w-[24px]"><SearchSVG /></span>}
+                  ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
                 />
               </div>
             </div>
