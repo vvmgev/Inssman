@@ -4,6 +4,10 @@ import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
 import OutlineButton from '../common/outlineButton/outlineButton';
 
 const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
+  const onHandleSubmit = event => {
+    event.preventDefault();
+    onSubmit();
+  }
   return <>
       <div className="flex justify-between mb-3">
         <span className="flex flex-col">
@@ -18,7 +22,7 @@ const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
             <a href={`https://github.com/vvmgev/Overrider#${pageType}`} target="_blank" rel="noopener noreferrer">
               <OutlineButton>View Example</OutlineButton>
             </a>
-            </div>
+          </div>
           {/* {mode === 'update' && <div>
             <Button classes="bg-red-400 hover:bg-red-500" onClick={onSubmit}>Delete</Button>
           </div>}  */}
@@ -32,8 +36,9 @@ const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
         </div>
       </div>
       {Object.values(error).map((item: any, index: number) => item?.message && <p key={index} className="text-red-500 text-base mb-1">{item.message}</p>)}
-      <form>
+      <form onSubmit={onHandleSubmit}>
         {children}
+        <input type="submit" hidden />
       </form>
     </>
 };
