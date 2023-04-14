@@ -26,7 +26,7 @@ const defaultData = {
   shouldRemoveHeader: true,
 }
 
-const InjectFileForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const editorRef = useRef<any>();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -93,7 +93,7 @@ const InjectFileForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
 
   return <div className="h-[150px] min-h-[600px] mt-[50px]">
     <ColorCover>
-      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.INJECT_FILE}>
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.INJECT_FILE}>
         <div className="w-1/5">
           <RuleName value={name} onChange={onChange} error={error} />
         </div>

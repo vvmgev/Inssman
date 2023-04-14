@@ -17,7 +17,7 @@ const getDefaultData = () => ({
   pageType: PageType.QUERY_PARAM,
 });
 
-const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const defaultData = getDefaultData();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -79,7 +79,7 @@ const QueryParamForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }
 
   return <div className="h-[150px] min-h-[550px] mt-[50px]">
     <ColorCover>
-      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.QUERY_PARAM}>
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.QUERY_PARAM}>
         <div className="w-1/5">
           <RuleName value={name} onChange={onChange} error={error} />
         </div>

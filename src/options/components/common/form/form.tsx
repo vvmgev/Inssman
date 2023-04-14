@@ -3,7 +3,7 @@ import Button from 'components/common/button/button';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
 import OutlineButton from '../outlineButton/outlineButton';
 
-const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
+const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }) => {
   return <>
       <div className="flex justify-between mb-3">
         <span className="flex flex-col">
@@ -19,9 +19,7 @@ const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
               <OutlineButton>View Example</OutlineButton>
             </a>
           </div>
-          {/* {mode === 'update' && <div>
-            <Button classes="bg-red-400 hover:bg-red-500" onClick={onSubmit}>Delete</Button>
-          </div>}  */}
+          {mode === 'update' && <OutlineButton onClick={onDelete}>Delete</OutlineButton>} 
           <div>
             <Button
               trackName={`${PageTypeMap[pageType]} Rule Create Event`}

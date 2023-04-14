@@ -7,9 +7,7 @@ import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import ColorCover from 'components/common/colorCover/colorCover';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-
-
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const defaultData = {
   name: '',
@@ -19,7 +17,7 @@ const defaultData = {
   destination: '',
 }
 
-const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
@@ -54,7 +52,7 @@ const RedirectForm = ({ onSave, mode, error, onChange, ruleData, setRuleData }) 
 
   return <div className="h-[150px] min-h-[300px] mt-[50px]">
       <ColorCover>
-        <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.REDIRECT}>
+        <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.REDIRECT}>
           <div className="w-1/5">
             <RuleName value={name} onChange={onChange} error={error} />
           </div>

@@ -3,6 +3,7 @@ import { FormMode, IForm, IRule, MatchType, MatchTypeMap, ValidateFields } from 
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
+import TrackService from 'src/services/TrackService';
 
 type FormError = {
   [key: string]: { message: string };
@@ -89,6 +90,15 @@ const FormHOC = (Component: any) => {
         this.validate(event.target.name, event.target.value);
       }
     }
+
+    onDelete = (): void => {
+      TrackService.trackEvent(`Rule Delete By ID Event`);
+      const { id } = this.state;
+      chrome.runtime.sendMessage({
+          action: PostMessageAction.DeleteRuleById, data: { id } }, 
+          () => (this.props as any).navigate('/')
+      );
+    };
     
     onSave = (rule: IRule) => {
       const { ruleData, id } = this.state;
@@ -155,6 +165,7 @@ const FormHOC = (Component: any) => {
         setError={this.setError}
         onChange={this.onChange}
         onSave={this.onSave}
+        onDelete={this.onDelete}
         error={this.state.error}
         mode={this.state.mode} />
     }

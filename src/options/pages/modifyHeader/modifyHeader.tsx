@@ -17,7 +17,7 @@ const getDefaultData = () => ({
   headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
 });
 
-const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange }) => {
+const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error, onChange }) => {
   const defaultData = getDefaultData();
   const {name = defaultData.name,
          matchType = defaultData.matchType,
@@ -75,7 +75,7 @@ const ModifyHeaderForm = ({ onSave, mode, setRuleData, ruleData, error, onChange
 
   return <div className="h-[150px] min-h-[550px] mt-[50px]">
     <ColorCover>
-      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_HEADER}>
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_HEADER}>
         <div className="w-1/5">
           <RuleName value={name} onChange={onChange} error={error} />
         </div>

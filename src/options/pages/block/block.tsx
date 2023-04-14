@@ -14,7 +14,7 @@ const defaultData = {
   pageType: PageType.BLOCK,
 }
 
-const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
+const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData, onDelete}) => {
   const { name = defaultData.name,
           source = defaultData.source,
           matchType = defaultData.matchType} = ruleData;
@@ -39,7 +39,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData}) => {
 
   return <div className="h-[150px] min-h-[250px] mt-[50px]">
         <ColorCover>
-          <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.BLOCK}>
+          <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.BLOCK}>
             <div className="w-1/5">
               <RuleName value={name} onChange={onChange} error={error} />
             </div>

@@ -19,7 +19,7 @@ const defaultData = {
   editorValue: ''
 }
 
-const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }) => {
+const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const editorRef = useRef<any>();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -58,7 +58,7 @@ const ModifyResponse = ({ onSave, mode, error, onChange, ruleData, setRuleData }
 
   return <div className="h-[150px] min-h-[600px] mt-[50px]">
     <ColorCover>
-      <Form onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_RESPONSE}>
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_RESPONSE}>
         <div className="w-1/5">
           <RuleName value={name} onChange={onChange} error={error} />
         </div>
