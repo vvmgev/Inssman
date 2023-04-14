@@ -4,7 +4,7 @@ import { PageType } from 'models/formFieldModel';
 import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
-import Form from 'components/form/form';
+import Form from 'src/options/components/common/form/form';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import ColorCover from 'components/common/colorCover/colorCover';

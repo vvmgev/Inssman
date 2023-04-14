@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'components/common/button/button';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
-import OutlineButton from '../common/outlineButton/outlineButton';
+import OutlineButton from '../outlineButton/outlineButton';
 
 const Form = ({ children, onSubmit, error, pageType, mode = 'create' }) => {
   return <>

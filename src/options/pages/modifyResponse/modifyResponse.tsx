@@ -3,8 +3,8 @@ import { EditorLanguage, FormMode, IRule, MatchType, MatchTypeMap, MimeTypeMap }
 import { encode } from 'options/utils';
 import { PageType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
-import Editor from 'components/editor/editor';
-import Form from 'components/form/form';
+import Editor from 'src/options/components/common/editor/editor';
+import Form from 'src/options/components/common/form/form';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import ColorCover from 'components/common/colorCover/colorCover';

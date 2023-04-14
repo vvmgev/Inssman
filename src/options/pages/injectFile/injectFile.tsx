@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import Input from 'components/common/input/input';
 import { InjectFileType, FormMode, MatchType, InjectFileSource, InjectFileOperator, MatchTypeMap, IRule } from 'models/formFieldModel';
-import Form from 'components/form/form';
+import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
-import Editor from 'components/editor/editor';
+import Editor from 'src/options/components/common/editor/editor';
 import Select from 'components/common/select/select';
 import RuleName from 'components/common/ruleName/ruleName';
 import ColorCover from 'components/common/colorCover/colorCover';

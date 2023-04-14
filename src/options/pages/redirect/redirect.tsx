@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import Input from 'components/common/input/input';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
-import Form from 'components/form/form';
+import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';

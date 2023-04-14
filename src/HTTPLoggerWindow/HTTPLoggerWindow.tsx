@@ -10,7 +10,7 @@ const root = createRoot(container);
 root.render(
     <BackgroundAnimation>
         <div className="m-[10px] h-full">
-            <HTTPLogger clientName={WebRequestClients.POPUP}
+            <HTTPLogger clientName={WebRequestClients.WINDOW}
                         showOpenWindowBtn={false}
                         infoBoxClasses="!max-h-[50%] !h-[50%]"
                         listBoxClasses="!max-h-[50%] !h-[47%]" />

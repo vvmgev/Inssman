@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
-import Form from 'components/form/form';
+import Form from 'src/options/components/common/form/form';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import ColorCover from 'components/common/colorCover/colorCover';

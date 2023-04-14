@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
-import Form from 'components/form/form';
+import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
