@@ -19,7 +19,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
               <OutlineButton>View Example</OutlineButton>
             </a>
           </div>
-          {mode === 'update' && <OutlineButton onClick={onDelete}>Delete</OutlineButton>} 
+          {mode === 'update' && <OutlineButton classes='hover:border-red-400 hover:text-red-400' onClick={onDelete}>Delete</OutlineButton>} 
           <div>
             <Button
               trackName={`${PageTypeMap[pageType]} Rule Create Event`}

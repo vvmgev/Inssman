@@ -57,14 +57,16 @@ export default () => {
             <li className="text-lg py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 last:border-none border-b border-slate-700 w-full">
             <span>Rules</span>
             <div className="flex items-center gap-5">
-              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}} trigger={<div><OutlineButton>Delete All Rules</OutlineButton></div>} modal position="right center">
+              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
+                     trigger={<div><OutlineButton classes='hover:border-red-400 hover:text-red-400'>Delete All Rules?</OutlineButton></div>}
+                     modal position="right center">
                 {/* @ts-ignore */}
                 {(close: any) => (
                   <ColorCover classes="bg-opacity-90 py-15">
                   <div className="flex items-center justify-center flex-col gap-20">
                     <div className="text-slate-200 text-2xl">Delete All Rules?</div>
                     <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
-                      <OutlineButton classes="min-w-[100px]" onClick={close} >No</OutlineButton>
+                      <OutlineButton classes="min-w-[100px]" onClick={close}>No</OutlineButton>
                       <Button classes="min-w-[100px] flex justify-center" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
                     </div>
                   </div>
