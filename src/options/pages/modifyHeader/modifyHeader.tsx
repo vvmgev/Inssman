@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { FormMode, HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
-import ModifyHeaderFields from '../modifyHeaderFields/modifyHeaderFields';
+import ModifyHeaderFields from './modifyHeaderFields';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import Form from 'src/options/components/common/form/form';
