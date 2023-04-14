@@ -57,7 +57,7 @@ export default () => {
             <li className="text-lg py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 last:border-none border-b border-slate-700 w-full">
             <span>Rules</span>
             <div className="flex items-center gap-5">
-              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}} trigger={<OutlineButton>Delete All Rules</OutlineButton>} modal position="right center">
+              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}} trigger={<div><OutlineButton>Delete All Rules</OutlineButton></div>} modal position="right center">
                 {/* @ts-ignore */}
                 {(close: any) => (
                   <ColorCover classes="bg-opacity-90 py-15">
