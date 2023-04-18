@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import { HeaderModificationType } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
+import InputAutocomplete from 'components/common/InputAutocomplete/inputAutocomplete';
 import CrossSVG  from 'assets/icons/cross.svg';
-import InputAutocomplete from 'components/common/InputAutocomplete/InputAutocomplete';
 import HTTPHeaders from './HTTPHeaders';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
