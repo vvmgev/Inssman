@@ -65,12 +65,11 @@ class Background {
   }
 
   async addRule(data): Promise<void> {
-    const id: number = await StorageService.generateNextId();
+    const id: number = StorageService.generateNextId();
     if(data.rule) {
       await RuleService.add([{id, ...data.rule}]);
     }
     await StorageService.set({[id]: { ...data.ruleData, id }});
-    await StorageService.setId(id);
   }
   
   async updateRule(data): Promise<void> {
