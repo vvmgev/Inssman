@@ -20,16 +20,27 @@ class StorageService {
       return chrome.storage.local.remove(keys);
     }
 
+    async getLastId(): Promise<number> {
+      const data = await this.get(StorageKey.NEXT_ID);
+      return data[StorageKey.NEXT_ID];
+    }
+
     async getAll(): Promise<{ [key: string]: any }> {
       return this.get();
     }
 
-    generateNextId(): number {
-      return Date.now();
+    async setId(id: number): Promise<number> {
+      await this.set({[StorageKey.NEXT_ID]: id});
+      return id;
+    }
+
+    async generateNextId(): Promise<number> {
+      return ((await this.getLastId()) || 1) + 1;
     }
 
     async erase(): Promise<void>{
       await chrome.storage.local.clear();
+      await this.set({[StorageKey.NEXT_ID]: 0});
     }
 
     async getUserId(): Promise<any> {
