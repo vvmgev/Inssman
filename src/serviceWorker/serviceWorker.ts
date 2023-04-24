@@ -7,7 +7,7 @@ import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
 
-class Background {
+class ServiceWorker {
   constructor() {
     this.convertOldDataToNew();
     this.registerListener();
@@ -104,4 +104,4 @@ class Background {
 
 }
 
-new Background();
+new ServiceWorker();

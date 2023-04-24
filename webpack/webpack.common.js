@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
    entry: {
-      background: path.resolve(__dirname, "../src/background", "background.ts"),
+      serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
       HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),

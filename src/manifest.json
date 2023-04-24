@@ -4,7 +4,7 @@
   "version": "1.0.12",
   "manifest_version": 3,
   "background": {
-    "service_worker": "./background/background.js"
+    "service_worker": "./serviceWorker/serviceWorker.js"
   },
   "options_page": "options/options.html",
   "options_ui": {
