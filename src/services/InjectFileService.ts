@@ -68,6 +68,8 @@ class InjectFileService {
       },
       args: [replacedCode, selector, operator],
       world: 'MAIN',
+      //@ts-ignore
+      injectImmediately: true,
     });
   }
 
@@ -88,6 +90,8 @@ class InjectFileService {
       },
       args: [url, shouldRemove],
       world: 'MAIN',
+      //@ts-ignore
+      injectImmediately: true,
     });
   };
 
@@ -108,6 +112,8 @@ class InjectFileService {
       },
       args: [url, shouldRemove],
       world: 'MAIN',
+      //@ts-ignore
+      injectImmediately: true,
     });
   };
 
@@ -128,6 +134,8 @@ class InjectFileService {
       },
       args: [code, tag, InjectFileTypeMap[tag], shouldRemove],
       world: 'MAIN',
+      //@ts-ignore
+      injectImmediately: true,
     });
   };
 };
