@@ -15,6 +15,17 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 export const errorRef = ref(db, 'errors');
+export const versionRef = ref(db, 'version');
+
+export const storeVersion = (version) => {
+  if(process.env.NODE_ENV === 'development') {
+    return;
+  }
+  try {
+    push(versionRef, version);
+  } catch (error) {}
+}
+
 
 export const storeError = (error) => {
   if(process.env.NODE_ENV === 'development') {

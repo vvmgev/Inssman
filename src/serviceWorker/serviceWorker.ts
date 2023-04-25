@@ -2,29 +2,60 @@ import RuleService from '../services/RuleService';
 import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
+import manifest from '../manifest.json';
 import '../services/WebRequestService';
 import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
+import { storeVersion } from './firebase';
 
 
 class ServiceWorker {
   constructor() {
-    this.convertOldDataToNew();
     this.registerListener();
   };
+
+  tempFuncs = () => {
+    storeVersion(manifest.version);
+    this.convertOldDataToNew();
+  }
 
   // temproray function
   // should be removed
   async convertOldDataToNew() {
-    Object.entries(await StorageService.get()).filter(async ([key, value]) => {
-      if(typeof value === 'object' && typeof value.id === 'undefined') {
-        await StorageService.set({[key]: {...value, id: Number(key)}});
-      }
+    await new Promise<void>(async (resolve) => {
+      Object.entries(await StorageService.get()).filter(async ([key, value]) => {
+        if(typeof value === 'object' && typeof value.id === 'undefined') {
+          await StorageService.set({[key]: {...value, id: Number(key)}});
+        }
+        await Promise.resolve();
+      });
+      resolve();
     });
+    if(manifest.version < '1.0.13') {
+      const rules = await RuleService.getRules();
+      const ruleData = await StorageService.get();
+      await RuleService.erase();
+      await StorageService.erase();
+
+      for (const item of rules) {
+        try {
+          const newItem: any = item;
+          const ruleId = newItem.id;
+          const id: number = await RuleService.generateNextId();
+          newItem.id = id;
+          await RuleService.add([newItem as Rule]);
+          const ruleDataItem = ruleData[ruleId];
+          ruleDataItem.id = id;
+          await StorageService.set({[id]: {...ruleDataItem, id}});
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   };
 
   registerListener(): void {
-    chrome.runtime.onInstalled.addListener(this.convertOldDataToNew);
+    chrome.runtime.onInstalled.addListener(this.tempFuncs);
     chrome.runtime.onMessage.addListener(this.messageHandler);
   };
 
@@ -65,12 +96,11 @@ class ServiceWorker {
   }
 
   async addRule(data): Promise<void> {
-    const id: number = await StorageService.generateNextId();
+    const id: number = await RuleService.generateNextId();
     if(data.rule) {
       await RuleService.add([{id, ...data.rule}]);
     }
     await StorageService.set({[id]: { ...data.ruleData, id }});
-    await StorageService.setId(id);
   }
   
   async updateRule(data): Promise<void> {
