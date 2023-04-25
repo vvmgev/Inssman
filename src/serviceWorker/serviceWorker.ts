@@ -2,20 +2,19 @@ import RuleService from '../services/RuleService';
 import StorageService from '../services/StorageService';
 import { PostMessageAction } from '../models/postMessageActionModel';
 import handleError from './errorHandler';
-import manifest from '../manifest.json';
 import '../services/WebRequestService';
 import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 import { storeVersion } from './firebase';
 
-
 class ServiceWorker {
   constructor() {
     this.registerListener();
+    console.log(chrome.runtime.getManifest().version);
   };
 
   tempFuncs = () => {
-    storeVersion(manifest.version);
+    storeVersion(chrome.runtime.getManifest().version);
     this.convertOldDataToNew();
   }
 
@@ -31,7 +30,7 @@ class ServiceWorker {
       });
       resolve();
     });
-    if(manifest.version < '1.0.13') {
+    if(chrome.runtime.getManifest().version < '1.0.13') {
       const rules = await RuleService.getRules();
       const ruleData = await StorageService.get();
       await RuleService.erase();
