@@ -5,16 +5,13 @@ import handleError from './errorHandler';
 import '../services/WebRequestService';
 import '../services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
-import { storeVersion } from './firebase';
 
 class ServiceWorker {
   constructor() {
     this.registerListener();
-    console.log(chrome.runtime.getManifest().version);
   };
 
   tempFuncs = () => {
-    storeVersion(chrome.runtime.getManifest().version);
     this.convertOldDataToNew();
   }
 
