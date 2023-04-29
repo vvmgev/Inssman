@@ -7,6 +7,7 @@ import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 import BrowserSupport from './browserSupport';
 import 'services/TrackService';
+import BrowserSupportService from 'src/services/BrowserSupportService';
 
 const App = () => {
     return <BackgroundAnimation>
@@ -20,9 +21,7 @@ const App = () => {
               <Header />
             </div>
             <div className="h-[75%] mx-[10%]">
-                <BrowserSupport>
-                  <RuleRoutes />
-                </BrowserSupport>
+                {!BrowserSupportService.isSupportRules() ? <BrowserSupport /> : <RuleRoutes />}
             </div>
             <div className="h-[10%]">
               <Footer />
