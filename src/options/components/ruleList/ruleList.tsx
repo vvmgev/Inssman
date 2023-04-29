@@ -33,7 +33,7 @@ export default () => {
   };
 
 
-  return <div className="h-[150px] min-h-[250px] mt-[50px]">
+  return <div className="min-h-[250px] overflow-y-auto h-full mt-[50px]">
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
         {!data.length && <div className="w-full h-full pl-5 py-5">
           <p className="text-2xl">Welcome to Inssman!</p>

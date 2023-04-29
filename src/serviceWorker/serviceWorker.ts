@@ -1,9 +1,12 @@
-import RuleService from '../services/RuleService';
-import StorageService from '../services/StorageService';
-import { PostMessageAction } from '../models/postMessageActionModel';
+import RuleService from 'services/RuleService';
+import StorageService from 'services/StorageService';
+import BSService from 'services/BrowserSupportService';
+import { PostMessageAction } from 'models/postMessageActionModel';
 import handleError from './errorHandler';
-import '../services/WebRequestService';
-import '../services/InjectFileService';
+import { PageType } from 'src/models/formFieldModel';
+import { NAMESPACE } from 'src/models/contants';
+import 'services/WebRequestService';
+import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
 class ServiceWorker {
@@ -11,8 +14,8 @@ class ServiceWorker {
     this.registerListener();
   };
 
-  tempFuncs = () => {
-    this.convertOldDataToNew();
+  onInstalled = () => {
+    // this.convertOldDataToNew();
   }
 
   // temproray function
@@ -51,11 +54,35 @@ class ServiceWorker {
   };
 
   registerListener(): void {
-    chrome.runtime.onInstalled.addListener(this.tempFuncs);
-    chrome.runtime.onMessage.addListener(this.messageHandler);
+    chrome.runtime.onInstalled.addListener(this.onInstalled);
+    chrome.runtime.onMessage.addListener(this.onMessage);
+    chrome.tabs.onUpdated.addListener(this.onUpdatedTab)
   };
 
-  messageHandler = (request, sender, sendResponse): boolean => {
+  onUpdatedTab = async(tabId, _, tab): Promise<void> => {
+    if(BSService.isSupportScriptting()){
+      if (
+        tab.url?.startsWith("chrome://") ||
+        tab.url?.startsWith('chrome-extension') ||
+        tab.url?.startsWith('https://chrome.google.com')) return;
+      const rules = await this.getStorageRulesByPageType({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
+      chrome.scripting.executeScript({
+        target : {tabId},
+        func: (rules, NAMESPACE) => {
+          window[NAMESPACE as string].rules = rules;
+          window[NAMESPACE as string]?.start();
+        },
+        world: 'MAIN',
+        args: [rules, NAMESPACE],
+        // @ts-ignore
+        injectImmediately: true,
+      }).catch(() => {
+        // should be tracking here
+      });
+    }
+  }
+
+  onMessage = (request, sender, sendResponse): boolean => {
     const { action, data } = request;
     (async () => {
       let responseData: any;
@@ -72,10 +99,10 @@ class ServiceWorker {
           responseData = this.deleteRule(data);
         } else if(action === PostMessageAction.DeleteRuleById) {
           responseData = this.deleteRuleById(data);
-        } else if(action === PostMessageAction.ERASE) {
-          responseData = this.erase();
         } else if(action === PostMessageAction.GetUserId) {
           responseData = this.getUserId();
+        } else if(action === PostMessageAction.ERASE) {
+          responseData = this.erase();
         }
         sendResponse(await responseData);
       } catch (error) {
@@ -92,7 +119,7 @@ class ServiceWorker {
   }
 
   async addRule(data): Promise<void> {
-    const id: number = await RuleService.generateNextId();
+    const id: any = Object.values(await StorageService.get()).length;
     if(data.rule) {
       await RuleService.add([{id, ...data.rule}]);
     }
@@ -108,6 +135,15 @@ class ServiceWorker {
 
   async getStorageRules(): Promise<{ [key: string]: any}> {
     return Object.values(await StorageService.get()).filter(rule => typeof rule === 'object');
+  }
+
+  async getStorageRulesByPageType(options): Promise<{ [key: string]: any}> {
+    return this.getStorageRulesByProperty(options);
+  }
+
+  async getStorageRulesByProperty({ property, value }): Promise<{ [key: string]: any}> {
+    const rules = await this.getStorageRules();
+    return rules.filter((rule) => rule[property] === value);
   }
 
   async deleteRule(data): Promise<void> {

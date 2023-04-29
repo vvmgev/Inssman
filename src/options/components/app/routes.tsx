@@ -6,6 +6,7 @@ import QueryParamForm from 'pages/queryParam/queryParam';
 import ModifyHeaderForm from 'pages/modifyHeader/modifyHeader';
 import ModifyResponseForm from 'pages/modifyResponse/modifyResponse';
 import InjectFileForm from 'pages/injectFile/injectFile';
+import ModifyRequestBodyForm from 'pages/modifyRequestBody/modifyRequestBody';
 import HTTPLogger from 'pages/httpLogger/httpLogger';
 import FormHOC from 'options/HOC/formHOC';
 import withParams from 'options/HOC/withParams';
@@ -19,6 +20,7 @@ const RuleRoutes = () => {
   const ModifyHeaderFormHOC = withParams(FormHOC(ModifyHeaderForm));
   const ModifyResponseFormHOC = withParams(FormHOC(ModifyResponseForm));
   const InjectFileFormHOC = withParams(FormHOC(InjectFileForm));
+  const ModifyRequestBodyFormHOC = withParams(FormHOC(ModifyRequestBodyForm));
 
   return <Routes>
     <Route path="/" element={<RuleList />} />
@@ -28,17 +30,19 @@ const RuleRoutes = () => {
         <Route path="query-param" element={<QueryParamFormHOC key={2} />} />
         <Route path="modify-header" element={<ModifyHeaderFormHOC key={3} />} />
         <Route path="modify-response" element={<ModifyResponseFormHOC key={4} />} />
-        <Route path="inject-file" element={<InjectFileFormHOC key={5} />} />
+        <Route path="modify-request-body" element={<ModifyRequestBodyFormHOC key={5} />} />
+        <Route path="inject-file" element={<InjectFileFormHOC key={6} />} />
     </Route>
     <Route path="/edit-rule">
-        <Route path="redirect/:id" element={<RedirectFormHOC key={6} />} />
-        <Route path="block/:id" element={<CancelFormHOC key={7} />} />
-        <Route path="query-param/:id" element={<QueryParamFormHOC key={8} />} />
-        <Route path="modify-header/:id" element={<ModifyHeaderFormHOC key={9} />} />
-        <Route path="modify-response/:id" element={<ModifyResponseFormHOC key={10} />} />
-        <Route path="inject-file/:id" element={<InjectFileFormHOC key={11} />} />
+        <Route path="redirect/:id" element={<RedirectFormHOC key={7} />} />
+        <Route path="block/:id" element={<CancelFormHOC key={8} />} />
+        <Route path="query-param/:id" element={<QueryParamFormHOC key={9} />} />
+        <Route path="modify-header/:id" element={<ModifyHeaderFormHOC key={10} />} />
+        <Route path="modify-response/:id" element={<ModifyResponseFormHOC key={11} />} />
+        <Route path="modify-request-body/:id" element={<ModifyRequestBodyFormHOC key={12} />} />
+        <Route path="inject-file/:id" element={<InjectFileFormHOC key={13} />} />
     </Route>
-    <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={12} />} />
+    <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />} />
   </Routes>
 }
 

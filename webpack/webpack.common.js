@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
    entry: {
       serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
+      cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
       HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),

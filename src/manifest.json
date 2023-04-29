@@ -11,17 +11,26 @@
     "page": "options/options.html",
     "open_in_tab": true
   },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["cotentScript/cotentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    }
+  ],
   "permissions": [
     "storage",
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
     "declarativeNetRequestFeedback",
     "webNavigation",
+    "tabs",
     "scripting",
     "webRequest"
   ],
   "host_permissions": [
-    "<all_urls>",
     "*://*/*"
   ],
   "action": {

@@ -5,6 +5,7 @@ import RedirectSVG  from 'assets/icons/redirect.svg';
 import QuestionSVG  from 'assets/icons/question.svg';
 import WrenchSVG  from 'assets/icons/wrench.svg';
 import CodeSVG  from 'assets/icons/code.svg';
+import PaperClipSVG  from 'assets/icons/paperClip.svg';
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
@@ -52,6 +53,7 @@ export enum PageType {
     MODIFY_RESPONSE = 'modify-response',
     QUERY_PARAM = 'query-param',
     INJECT_FILE = 'inject-file',
+    MODIFY_REQUEST_BODY = 'modify-request-body',
     HTTP_LOGGER = 'http-logger',
 }
 
@@ -61,6 +63,7 @@ export const PageTypeMap = {
     [PageType.MODIFY_RESPONSE]: 'Modify Response',
     [PageType.MODIFY_HEADER]: 'Modify Header',
     [PageType.QUERY_PARAM]: 'Query Param',
+    [PageType.MODIFY_REQUEST_BODY]: 'Modify Request Body',
     [PageType.INJECT_FILE]: 'Inject File',
 }
 
@@ -70,6 +73,7 @@ export const IconsMap = {
     [PageType.QUERY_PARAM]: <QuestionSVG />,
     [PageType.MODIFY_HEADER]: <CodeSVG />,
     [PageType.MODIFY_RESPONSE]: <PencilSVG />,
+    [PageType.MODIFY_REQUEST_BODY]: <PaperClipSVG />,
     [PageType.INJECT_FILE]: <WrenchSVG />,
 };
 
