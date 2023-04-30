@@ -1,56 +1,19 @@
 import RuleService from 'services/RuleService';
 import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
-import { PostMessageAction } from 'models/postMessageActionModel';
 import handleError from './errorHandler';
+import { PostMessageAction } from 'models/postMessageActionModel';
 import { PageType } from 'src/models/formFieldModel';
 import { NAMESPACE } from 'src/models/contants';
+import { StorageKey } from 'src/models/storageModel';
 import 'services/WebRequestService';
 import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
+
 class ServiceWorker {
   constructor() {
     this.registerListener();
-  };
-
-  onInstalled = () => {
-    // this.convertOldDataToNew();
-  }
-
-  // temproray function
-  // should be removed
-  async convertOldDataToNew() {
-    await new Promise<void>(async (resolve) => {
-      Object.entries(await StorageService.get()).filter(async ([key, value]) => {
-        if(typeof value === 'object' && typeof value.id === 'undefined') {
-          await StorageService.set({[key]: {...value, id: Number(key)}});
-        }
-        await Promise.resolve();
-      });
-      resolve();
-    });
-    if(chrome.runtime.getManifest().version < '1.0.13') {
-      const rules = await RuleService.getRules();
-      const ruleData = await StorageService.get();
-      await RuleService.erase();
-      await StorageService.erase();
-
-      for (const item of rules) {
-        try {
-          const newItem: any = item;
-          const ruleId = newItem.id;
-          const id: number = await RuleService.generateNextId();
-          newItem.id = id;
-          await RuleService.add([newItem as Rule]);
-          const ruleDataItem = ruleData[ruleId];
-          ruleDataItem.id = id;
-          await StorageService.set({[id]: {...ruleDataItem, id}});
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
   };
 
   registerListener(): void {
@@ -59,13 +22,24 @@ class ServiceWorker {
     chrome.tabs.onUpdated.addListener(this.onUpdatedTab)
   };
 
+  onInstalled = async () => {
+    //temproary function to remove old rules;
+    const isCleared = (await StorageService.get(StorageKey.IS_CLEAR))[StorageKey.IS_CLEAR];
+    if(chrome.runtime.getManifest().version < '1.0.14' && !isCleared) {
+      await RuleService.erase();
+      await StorageService.erase();
+      await StorageService.set({[StorageKey.IS_CLEAR]: true});
+      await StorageService.set({[StorageKey.NEXT_ID]: 1});
+    }
+  }
+
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
     if(BSService.isSupportScriptting()){
       if (
         tab.url?.startsWith("chrome://") ||
         tab.url?.startsWith('chrome-extension') ||
         tab.url?.startsWith('https://chrome.google.com')) return;
-      const rules = await this.getStorageRulesByPageType({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
+      const rules = await this.getStorageRulesByProperty({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
       chrome.scripting.executeScript({
         target : {tabId},
         func: (rules, NAMESPACE) => {
@@ -119,11 +93,12 @@ class ServiceWorker {
   }
 
   async addRule(data): Promise<void> {
-    const id: any = Object.values(await StorageService.get()).length;
+    const id: number = await StorageService.generateNextId();
     if(data.rule) {
       await RuleService.add([{id, ...data.rule}]);
     }
     await StorageService.set({[id]: { ...data.ruleData, id }});
+    await StorageService.set({[StorageKey.NEXT_ID]: id});
   }
   
   async updateRule(data): Promise<void> {
@@ -134,11 +109,7 @@ class ServiceWorker {
   }
 
   async getStorageRules(): Promise<{ [key: string]: any}> {
-    return Object.values(await StorageService.get()).filter(rule => typeof rule === 'object');
-  }
-
-  async getStorageRulesByPageType(options): Promise<{ [key: string]: any}> {
-    return this.getStorageRulesByProperty(options);
+    return Object.values(await StorageService.get()).filter(rule => typeof rule === 'object' && typeof rule?.name === 'string');
   }
 
   async getStorageRulesByProperty({ property, value }): Promise<{ [key: string]: any}> {
