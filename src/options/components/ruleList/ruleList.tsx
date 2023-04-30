@@ -47,8 +47,8 @@ export default () => {
             <li className="mt-1">Add/remove/replace/append response headers</li>
             <li className="mt-1">Return custom HTML/CSS/JS/JSON file as a response</li>
             <li className="mt-1">HTTP Logger for request/response headers</li>
-            <li className="mt-1">Add/remove/replace/ request body (comming soon)</li>
-            {/* <li className="mt-1">Inject custom HTML/CSS/JavaScript file  (comming soon)</li> */}
+            <li className="mt-1">Modify request body</li>
+            <li className="mt-1">Inject custom HTML/CSS/JavaScript file</li>
             <li className="mt-1">Delay request (comming soon)</li>
           </ul>
         </div>}
