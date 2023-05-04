@@ -10,7 +10,6 @@ import 'services/WebRequestService';
 import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
-
 class ServiceWorker {
   constructor() {
     this.registerListener();

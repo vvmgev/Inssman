@@ -107,7 +107,10 @@ const FormHOC = (Component: any) => {
       }
       const form: IForm = {
           rule,
-          ruleData
+          ruleData: {
+            ...ruleData,
+            enabled: typeof ruleData.enabled !== undefined ? ruleData.enabled : true,
+          }
       }
       if(form.rule) {
         // TODO need make it dynamic from UI

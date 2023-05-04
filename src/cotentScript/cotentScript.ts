@@ -1,4 +1,5 @@
  // @ts-nocheck
+ import originalFetch from './originalFetch';
  import fetchIntercept from 'fetch-intercept';
  import { NAMESPACE } from 'src/models/contants';
  import { MatchType } from 'src/models/formFieldModel';
@@ -88,38 +89,39 @@
    }
    const unregisterFetch = () => {
      fetchIntercept.clear();
+     window.fetch = originalFetch;
    }
  
-   fetchIntercept.register({
-     request: function (url, config) {
-       const makeRequest = (outSideResolve) => {
-         return new Promise((resolve) => {
-           if(!['GET', 'HEAD'].includes(config?.method?.toUpperCase())){
-             const matchedRule = getMatchedByUrl(url);
-             if(matchedRule) {
-               config.body = matchedRule.editorValue;
-             }
-           }
-           if(typeof outSideResolve === 'function') {
-             outSideResolve([url, config]);
-           }
-           resolve([url, config]);
-         });
-       };
- 
-       if(!window[NAMESPACE].gotRules) {
-         let outSideResolve;
-         const promise = new Promise(async (resolve) => {
-           outSideResolve = resolve;
-         });
- 
-         window[NAMESPACE].queueRequests.push(() => makeRequest(outSideResolve));
-         return promise;
-       }
- 
-       return makeRequest();
-     },
-   });
+  fetchIntercept.register({
+    request: function (url, config) {
+      const makeRequest = (outSideResolve) => {
+        return new Promise((resolve) => {
+          if(!['GET', 'HEAD'].includes(config?.method?.toUpperCase())){
+            const matchedRule = getMatchedByUrl(url);
+            if(matchedRule) {
+              config.body = matchedRule.editorValue;
+            }
+          }
+          if(typeof outSideResolve === 'function') {
+            outSideResolve([url, config]);
+          }
+          resolve([url, config]);
+        });
+      };
+
+      if(!window[NAMESPACE].gotRules) {
+        let outSideResolve;
+        const promise = new Promise(async (resolve) => {
+          outSideResolve = resolve;
+        });
+
+        window[NAMESPACE].queueRequests.push(() => makeRequest(outSideResolve));
+        return promise;
+      }
+
+      return makeRequest();
+    },
+  });
  
  })(NAMESPACE);
  
