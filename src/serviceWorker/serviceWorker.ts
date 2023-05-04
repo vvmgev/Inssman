@@ -56,7 +56,7 @@ class ServiceWorker {
     }
   }
 
-  onMessage = (request, sender, sendResponse): boolean => {
+  onMessage = (request, _, sendResponse): boolean => {
     const { action, data } = request;
     (async () => {
       let responseData: any;

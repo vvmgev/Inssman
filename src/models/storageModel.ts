@@ -3,5 +3,6 @@ export enum StorageKey {
     REMOVE_RULE = 'removeRule',
     USER_ID = 'userId',
     NEXT_ID = 'nextId',
-    IS_CLEAR = 'isCLeared'
+    IS_CLEAR = 'isCLeared',
+    CONFIG = 'config',
 }
