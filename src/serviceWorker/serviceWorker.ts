@@ -26,8 +26,7 @@ class ServiceWorker {
     // Remove old rules;
     const isCleared = (await StorageService.get(StorageKey.IS_CLEAR))[StorageKey.IS_CLEAR];
     if(chrome.runtime.getManifest().version < '1.0.14' && !isCleared) {
-      await RuleService.erase();
-      await StorageService.erase();
+      await this.deleteRules();
       await StorageService.set({[StorageKey.IS_CLEAR]: true});
       await StorageService.set({[StorageKey.NEXT_ID]: 1});
     }
@@ -40,7 +39,6 @@ class ServiceWorker {
         await StorageService.set({[String(rule.id)]: rule})
       }
     });
-    
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
@@ -79,14 +77,12 @@ class ServiceWorker {
           responseData = this.addRule(data);
         } else if(action === PostMessageAction.UpdateRule) {
           responseData = this.updateRule(data);
-        } else if(action === PostMessageAction.DeleteRule) {
-          responseData = this.deleteRule(data);
+        } else if(action === PostMessageAction.DeleteRules) {
+          responseData = this.deleteRules();
         } else if(action === PostMessageAction.DeleteRuleById) {
           responseData = this.deleteRuleById(data);
         } else if(action === PostMessageAction.GetUserId) {
           responseData = this.getUserId();
-        } else if(action === PostMessageAction.ERASE) {
-          responseData = this.erase();
         } else if(action === PostMessageAction.ChangeRuleStatusById) {
           responseData = this.changeRuleStatus(data);
         }
@@ -129,18 +125,14 @@ class ServiceWorker {
     return rules.filter((rule) => rule[property] === value);
   }
 
-  async deleteRule(data): Promise<void> {
-    await RuleService.remove([data.rule])
+  async deleteRules(): Promise<void> {
+    await RuleService.remove(await RuleService.get());
+    await StorageService.remove(await StorageService.getRules());
   }
 
   async deleteRuleById(data): Promise<void> {
     await RuleService.removeById(data.id);
-    await StorageService.remove(String(data.id))
-  }
-
-  async erase(): Promise<void> {
-    await RuleService.erase();
-    await StorageService.erase();
+    await StorageService.removeById(String(data.id))
   }
 
   async getUserId(): Promise<any> {

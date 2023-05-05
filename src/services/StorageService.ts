@@ -7,7 +7,7 @@ class StorageService {
     }
 
     async getEnabledRules(): Promise<IRuleData[]> {
-      return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.enabled);
+      return Object.values(await this.getRules()).filter(rule => typeof rule === 'object' && rule.enabled);
     }
 
     async getRules(): Promise<IRuleData[]> {
@@ -18,8 +18,13 @@ class StorageService {
       return chrome.storage.local.set(items)
     }
 
-    async remove(keys: string | string[]): Promise<void> {
+    async remove(rules: IRuleData[]): Promise<void> {
+      const keys: string[] = rules.map(({id}) => String(id));
       return chrome.storage.local.remove(keys);
+    }
+
+    async removeById(key: string): Promise<void> {
+      return chrome.storage.local.remove(key);
     }
 
     async getAll(): Promise<{ [key: string]: any }> {
@@ -28,10 +33,6 @@ class StorageService {
 
     async generateNextId(): Promise<number> {
       return (((await this.get(StorageKey.NEXT_ID))[StorageKey.NEXT_ID]) || 1) + 1;
-    }
-
-    async erase(): Promise<void>{
-      await chrome.storage.local.clear();
     }
 
     async getUserId(): Promise<any> {

@@ -4,11 +4,15 @@ import UpdateRulesetOptions = chrome.declarativeNetRequest.UpdateRulesetOptions;
 class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
-    async set(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
+    get(): Promise<Rule[]> {
+        return chrome.declarativeNetRequest.getDynamicRules();
+    }
+
+    set(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
         return this.updateDynamicRules({ addRules: rules, removeRuleIds: removeRules.map(rule => rule.id) })
     }
 
-    async remove(rules: Rule[]): Promise<void> {
+    remove(rules: Rule[]): Promise<void> {
         const removeRuleIds: number[] = rules.map(rule => rule.id);
         return this.updateDynamicRules({removeRuleIds})
     }
@@ -24,14 +28,6 @@ class RuleService {
 
     updateDynamicRules(updateRuleOptions: UpdateRuleOptions): Promise<void> {
         return chrome.declarativeNetRequest.updateDynamicRules(updateRuleOptions);
-    }
-
-    get(): Promise<Rule[]> {
-        return chrome.declarativeNetRequest.getDynamicRules();
-    }
-
-    async erase(): Promise<void> {
-        return this.remove(await this.get());
     }
 }
 

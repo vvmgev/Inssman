@@ -21,7 +21,7 @@ export default () => {
   const [search, setSearch] = useState<string>('');
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
-  const onHandleDeleteRules = () => chrome.runtime.sendMessage({action: PostMessageAction.ERASE }, () => getData());
+  const onHandleDeleteRules = () => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => getData());
   const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
