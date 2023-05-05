@@ -3,7 +3,7 @@ import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
 import handleError from './errorHandler';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { PageType } from 'src/models/formFieldModel';
+import { IRuleData, PageType } from 'src/models/formFieldModel';
 import { NAMESPACE } from 'src/models/contants';
 import { StorageKey } from 'src/models/storageModel';
 import 'services/WebRequestService';
@@ -18,7 +18,7 @@ class ServiceWorker {
   registerListener(): void {
     chrome.runtime.onInstalled.addListener(this.onInstalled);
     chrome.runtime.onMessage.addListener(this.onMessage);
-    chrome.tabs.onUpdated.addListener(this.onUpdatedTab)
+    chrome.tabs.onUpdated.addListener(this.onUpdatedTab);
   };
 
   onInstalled = async () => {
@@ -33,11 +33,11 @@ class ServiceWorker {
     }
     // Temproary function
     // Add new property to old rules and make by default enabled
-    const rules = await this.getStorageRules();
+    const rules: IRuleData[] = await this.getStorageRules();
     rules.forEach(async (rule) => {
       if(typeof rule.enabled === 'undefined') {
         rule.enabled = true
-        await StorageService.set({[rule.id]: rule})
+        await StorageService.set({[String(rule.id)]: rule})
       }
     });
     
@@ -107,7 +107,7 @@ class ServiceWorker {
   async addRule(data): Promise<void> {
     const id: number = await StorageService.generateNextId();
     if(data.rule) {
-      await RuleService.add([{id, ...data.rule}]);
+      await RuleService.set([{id, ...data.rule}]);
     }
     await StorageService.set({[id]: { ...data.ruleData, id }});
     await StorageService.set({[StorageKey.NEXT_ID]: id});
@@ -115,17 +115,17 @@ class ServiceWorker {
   
   async updateRule(data): Promise<void> {
     if(data.rule) {
-      await RuleService.add([data.rule], [data.rule])
+      await RuleService.set([data.rule], [data.rule])
     }
     await StorageService.set({[data.ruleData.id]: data.ruleData});
   }
 
-  async getStorageRules(): Promise<{ [key: string]: any}> {
-    return Object.values(await StorageService.get()).filter(rule => typeof rule === 'object' && typeof rule?.name === 'string');
+  async getStorageRules(): Promise<IRuleData[]> {
+    return await StorageService.getRules();
   }
 
   async getStorageRulesByProperty({ property, value }): Promise<{ [key: string]: any}> {
-    const rules = await this.getStorageRules();
+    const rules: IRuleData[] = await StorageService.getRules();
     return rules.filter((rule) => rule[property] === value);
   }
 
@@ -152,7 +152,7 @@ class ServiceWorker {
     ruleData.enabled = checked;
     if(checked) {
       if(ruleData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        await RuleService.add([ruleData.rule]);
+        await RuleService.set([ruleData.rule]);
       }
       await StorageService.set({[id]: ruleData})
       return;
@@ -162,7 +162,6 @@ class ServiceWorker {
     await RuleService.removeById(id);
     await StorageService.set({[id]: ruleData})  
   }
-
 }
 
 new ServiceWorker();

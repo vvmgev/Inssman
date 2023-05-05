@@ -1,8 +1,17 @@
 import { StorageKey } from "models/storageModel";
+import { IRuleData } from "src/models/formFieldModel";
 class StorageService {
 
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
       return chrome.storage.local.get(keys);
+    }
+
+    async getEnabledRules(): Promise<IRuleData[]> {
+      return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.enabled);
+    }
+
+    async getRules(): Promise<IRuleData[]> {
+      return Object.values(await this.get()).filter(rule => typeof rule === 'object');
     }
 
     async set(items: { [key: string]: any }): Promise<void> {

@@ -44,7 +44,7 @@ class InjectFileService {
   };
 
   async getEnabledRules(): Promise<void> {
-    this.rulesData = Object.values(await StorageService.get()).filter(rule => typeof rule === 'object' && rule.enabled);
+    this.rulesData = await StorageService.getEnabledRules();
   };
 
   createHTML(tabId, code, selector, operator) {
