@@ -151,14 +151,16 @@ class ServiceWorker {
     const ruleData = (await StorageService.get(String(id)))[id];
     ruleData.enabled = checked;
     if(checked) {
-      await RuleService.add([ruleData.rule]);
+      if(ruleData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+        await RuleService.add([ruleData.rule]);
+      }
       await StorageService.set({[id]: ruleData})
       return;
     }
     const rule = await RuleService.getRuleById(id);
     ruleData.rule = rule;
     await RuleService.removeById(id);
-    await StorageService.set({[id]: ruleData})
+    await StorageService.set({[id]: ruleData})  
   }
 
 }
