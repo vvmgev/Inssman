@@ -2,8 +2,8 @@ import React from 'react';
 import { FormMode, IForm, IRule, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
-import ResourceType = chrome.declarativeNetRequest.ResourceType;
 import TrackService from 'src/services/TrackService';
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
   [key: string]: { message: string };
@@ -109,7 +109,7 @@ const FormHOC = (Component: any) => {
           rule,
           ruleData: {
             ...ruleData,
-            enabled: typeof ruleData.enabled !== undefined ? ruleData.enabled : true,
+            enabled: typeof ruleData.enabled !== 'undefined' ? ruleData.enabled : true,
           }
       }
       if(form.rule) {

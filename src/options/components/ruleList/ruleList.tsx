@@ -11,6 +11,7 @@ import TrackService from 'src/services/TrackService';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import ColorCover from '../common/colorCover/colorCover';
 import Button from '../common/button/button';
+import Switcher from '../common/switcher/switcher';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
@@ -31,7 +32,9 @@ export default () => {
           () => getData()
       );
   };
-
+  const onChangeRuleStatus = (event, id): void => {
+    chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
+  };
 
   return <div className="min-h-[250px] overflow-y-auto h-full mt-[50px]">
       <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
@@ -93,7 +96,10 @@ export default () => {
                   <div>{PageTypeMap[ruleData.pageType]}</div>
               </div>
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
-              <div className="flex gap-5 flex-1 justify-end">
+              <div className="flex-1 flex">
+                <Switcher checked={ruleData.enabled} onChange={(event) => onChangeRuleStatus(event, ruleData.id)}/>
+              </div>
+              <div className="flex-1 flex gap-5 justify-end">
                   <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
                   <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
               </div>

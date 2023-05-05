@@ -6,7 +6,7 @@ class InjectFileService {
   rulesData: IRuleData[] = [];
 
   constructor() {
-    this.getRules();
+    this.getEnabledRules();
     this.registerListener();
   };
 
@@ -37,14 +37,14 @@ class InjectFileService {
       const changesArr = Object.values(changes);
       changesArr.forEach(({ newValue, oldValue }) => {
         if(newValue?.pageType === PageType.INJECT_FILE || oldValue?.pageType === PageType.INJECT_FILE) {
-          this.getRules();
+          this.getEnabledRules();
         }
       })
     });
   };
 
-  async getRules(): Promise<void> {
-    this.rulesData = Object.values(await StorageService.get()).filter(rule => typeof rule === 'object');
+  async getEnabledRules(): Promise<void> {
+    this.rulesData = Object.values(await StorageService.get()).filter(rule => typeof rule === 'object' && rule.enabled);
   };
 
   createHTML(tabId, code, selector, operator) {

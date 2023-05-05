@@ -11,4 +11,5 @@ export enum PostMessageAction {
     Log,
     ERASE,
     GetUserId,
+    ChangeRuleStatusById,
 }

@@ -22,7 +22,8 @@ class ServiceWorker {
   };
 
   onInstalled = async () => {
-    //temproary function to remove old rules;
+    // Temproary function
+    // Remove old rules;
     const isCleared = (await StorageService.get(StorageKey.IS_CLEAR))[StorageKey.IS_CLEAR];
     if(chrome.runtime.getManifest().version < '1.0.14' && !isCleared) {
       await RuleService.erase();
@@ -30,6 +31,16 @@ class ServiceWorker {
       await StorageService.set({[StorageKey.IS_CLEAR]: true});
       await StorageService.set({[StorageKey.NEXT_ID]: 1});
     }
+    // Temproary function
+    // Add new property to old rules and make by default enabled
+    const rules = await this.getStorageRules();
+    rules.forEach(async (rule) => {
+      if(typeof rule.enabled === 'undefined') {
+        rule.enabled = true
+        await StorageService.set({[rule.id]: rule})
+      }
+    });
+    
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
@@ -38,11 +49,11 @@ class ServiceWorker {
         tab.url?.startsWith("chrome://") ||
         tab.url?.startsWith('chrome-extension') ||
         tab.url?.startsWith('https://chrome.google.com')) return;
-      const rules = await this.getStorageRulesByProperty({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
+      const rules: any = await this.getStorageRulesByProperty({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
       chrome.scripting.executeScript({
         target : {tabId},
         func: (rules, NAMESPACE) => {
-          window[NAMESPACE as string].rules = rules;
+          window[NAMESPACE as string].rules = rules.filter(rule => rule.enabled);
           window[NAMESPACE as string]?.start();
         },
         world: 'MAIN',
@@ -76,6 +87,8 @@ class ServiceWorker {
           responseData = this.getUserId();
         } else if(action === PostMessageAction.ERASE) {
           responseData = this.erase();
+        } else if(action === PostMessageAction.ChangeRuleStatusById) {
+          responseData = this.changeRuleStatus(data);
         }
         sendResponse(await responseData);
       } catch (error) {
@@ -132,6 +145,20 @@ class ServiceWorker {
 
   async getUserId(): Promise<any> {
     return await StorageService.getUserId();
+  }
+
+  async changeRuleStatus({ id, checked }): Promise<void> {
+    const ruleData = (await StorageService.get(String(id)))[id];
+    ruleData.enabled = checked;
+    if(checked) {
+      await RuleService.add([ruleData.rule]);
+      await StorageService.set({[id]: ruleData})
+      return;
+    }
+    const rule = await RuleService.getRuleById(id);
+    ruleData.rule = rule;
+    await RuleService.removeById(id);
+    await StorageService.set({[id]: ruleData})
   }
 
 }
