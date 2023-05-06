@@ -28,7 +28,7 @@ export interface IRuleData {
     tagSelector?: string,
     tagSelectorOperator?: InjectFileOperator,
     shouldRemoveHeader?: boolean,
-    rule?: IRule,
+    rule?: Rule,
 }
 export interface IForm {
     rule?: IRule,

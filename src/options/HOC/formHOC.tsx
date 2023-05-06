@@ -25,7 +25,7 @@ const FormHOC = (Component: any) => {
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
         error: {},
-        ruleData: {type: StorageItemType.RULE} as IRuleData,
+        ruleData: {} as IRuleData,
         mode,
         id,
       }
@@ -111,6 +111,7 @@ const FormHOC = (Component: any) => {
           ruleData: {
             ...ruleData,
             enabled: typeof ruleData.enabled !== 'undefined' ? ruleData.enabled : true,
+            type: StorageItemType.RULE
           }
       }
       if(form.rule) {

@@ -32,16 +32,18 @@ class ServiceWorker {
     }
     // Temproary function
     // Add new property to old rules and make by default enabled
-    const rules: IRuleData[] = await this.getStorageRules();
-    rules.forEach(async (rule) => {
-      if(typeof rule.type === 'undefined' && rule.pageType) {
-        rule.type = StorageItemType.RULE
+    const data: any[] = Object.values(await StorageService.get());
+    data.forEach(async (item) => {
+      if(typeof item === 'object') {
+        if(typeof item.type === 'undefined' && item.pageType) {
+          item.type = StorageItemType.RULE
+        }
+        if(typeof item.enabled === 'undefined') {
+          item.enabled = true
+          await StorageService.set({[String(item.id)]: item})
+        }
       }
-      if(typeof rule.enabled === 'undefined') {
-        rule.enabled = true
-        await StorageService.set({[String(rule.id)]: rule})
-      }
-    });
+      });
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
@@ -105,12 +107,15 @@ class ServiceWorker {
     return {rule, ruleData: ruleData[data.id]};
   }
 
-  async addRule(data): Promise<void> {
+  async addRule({rule, ruleData}: { rule?, ruleData }): Promise<void> {
     const id: number = await StorageService.generateNextId();
-    if(data.rule) {
-      await RuleService.set([{id, ...data.rule}]);
+    if(rule && ruleData.enabled) {
+      await RuleService.set([{...rule, id}]);
     }
-    await StorageService.set({[id]: { ...data.ruleData, id }});
+    if(!ruleData.enabled) {
+      ruleData.rule.id = id;
+    }
+    await StorageService.set({[id]: { ...ruleData, id }});
     await StorageService.set({[StorageKey.NEXT_ID]: id});
   }
   
@@ -161,14 +166,7 @@ class ServiceWorker {
   }
 
   async duplicateRuleById({ id }: {id: number}): Promise<void> {
-    const ruleData = await StorageService.getSingleItem(String(id));
-    const rule = await RuleService.getRuleById(id);
-    const nextId: number = await StorageService.generateNextId();
-    ruleData.id = nextId;
-    rule.id = nextId;
-    await RuleService.set([rule]);
-    await StorageService.set({[nextId]: ruleData})
-    await StorageService.set({[StorageKey.NEXT_ID]: nextId});
+    await this.addRule({ruleData: await StorageService.getSingleItem(String(id))});
   }
 }
 
