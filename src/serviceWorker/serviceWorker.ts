@@ -5,7 +5,7 @@ import handleError from './errorHandler';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleData, PageType } from 'src/models/formFieldModel';
 import { NAMESPACE } from 'src/models/contants';
-import { StorageKey } from 'src/models/storageModel';
+import { StorageItemType, StorageKey } from 'src/models/storageModel';
 import 'services/WebRequestService';
 import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
@@ -34,6 +34,9 @@ class ServiceWorker {
     // Add new property to old rules and make by default enabled
     const rules: IRuleData[] = await this.getStorageRules();
     rules.forEach(async (rule) => {
+      if(typeof rule.type === 'undefined' && rule.pageType) {
+        rule.type = StorageItemType.RULE
+      }
       if(typeof rule.enabled === 'undefined') {
         rule.enabled = true
         await StorageService.set({[String(rule.id)]: rule})

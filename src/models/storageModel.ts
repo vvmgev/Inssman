@@ -5,4 +5,9 @@ export enum StorageKey {
     NEXT_ID = 'nextId',
     IS_CLEAR = 'isCLeared',
     CONFIG = 'config',
+};
+
+export enum StorageItemType {
+    RULE = 'rule',
+    CONFIG = 'config'
 }

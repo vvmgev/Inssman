@@ -1,4 +1,4 @@
-import { StorageKey } from "models/storageModel";
+import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleData } from "src/models/formFieldModel";
 class StorageService {
 
@@ -11,7 +11,7 @@ class StorageService {
     }
 
     async getRules(): Promise<IRuleData[]> {
-      return Object.values(await this.get()).filter(rule => typeof rule === 'object');
+      return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
     }
 
     async set(items: { [key: string]: any }): Promise<void> {

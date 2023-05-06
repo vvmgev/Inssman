@@ -18,6 +18,7 @@ export interface IRuleData {
     matchType: string,
     pageType: string,
     enabled: boolean;
+    type: string,
     id?: number,
     destination?: string,
     editorValue?: string,

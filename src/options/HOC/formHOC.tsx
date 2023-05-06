@@ -1,9 +1,10 @@
 import React from 'react';
-import { FormMode, IForm, IRule, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
+import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import TrackService from 'src/services/TrackService';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
+import { StorageItemType } from 'src/models/storageModel';
 
 type FormError = {
   [key: string]: { message: string };
@@ -13,7 +14,7 @@ type State = {
   error: FormError,
   mode: FormMode,
   id: null | number,
-  ruleData: any,
+  ruleData: IRuleData,
 };
 
 const FormHOC = (Component: any) => {
@@ -24,7 +25,7 @@ const FormHOC = (Component: any) => {
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
         error: {},
-        ruleData: {},
+        ruleData: {type: StorageItemType.RULE} as IRuleData,
         mode,
         id,
       }
