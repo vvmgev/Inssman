@@ -1,1 +1,1 @@
-export const NAMESPACE = 'INSSMAN';
+export const NAMESPACE: string = 'INSSMAN';

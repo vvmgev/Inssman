@@ -53,9 +53,9 @@ class ServiceWorker {
       const rules: any = await this.getStorageRulesByProperty({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
       chrome.scripting.executeScript({
         target : {tabId},
-        func: (rules, NAMESPACE) => {
-          window[NAMESPACE as string].rules = rules.filter(rule => rule.enabled);
-          window[NAMESPACE as string]?.start();
+        func: (rules: IRuleData[], NAMESPACE: string) => {
+          window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
+          window[NAMESPACE].start();
         },
         world: 'MAIN',
         args: [rules, NAMESPACE],
