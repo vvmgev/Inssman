@@ -34,14 +34,14 @@ class ServiceWorker {
     // Add new property to old rules and make by default enabled
     const data: any[] = Object.values(await StorageService.get());
     data.forEach(async (item) => {
-      if(typeof item === 'object') {
-        if(typeof item.type === 'undefined' && item.pageType) {
+      if(typeof item === 'object' && item.pageType) {
+        if((typeof item.type === 'undefined')) {
           item.type = StorageItemType.RULE
         }
         if(typeof item.enabled === 'undefined') {
           item.enabled = true
-          await StorageService.set({[String(item.id)]: item})
         }
+        await StorageService.set({[String(item.id)]: item})
       }
       });
   }
