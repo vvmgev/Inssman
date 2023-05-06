@@ -36,7 +36,7 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
 
     }, []);
 
-    if(!BSService.isSupportScriptting()) return <BrowserSupport />
+    if(!BSService.isSupportScripting()) return <BrowserSupport />
 
     return <div className="h-[150px] min-h-[600px] mt-[50px]">
     <ColorCover>

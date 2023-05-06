@@ -6,12 +6,16 @@ class StorageService {
       return chrome.storage.local.get(keys);
     }
 
+    async getRules(): Promise<IRuleData[]> {
+      return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
+    }
+
     async getEnabledRules(): Promise<IRuleData[]> {
       return Object.values(await this.getRules()).filter(rule => typeof rule === 'object' && rule.enabled);
     }
 
-    async getRules(): Promise<IRuleData[]> {
-      return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
+    async getSingleItem(key: string): Promise<any> {
+      return (await this.get(key))[key];
     }
 
     async set(items: { [key: string]: any }): Promise<void> {
@@ -36,13 +40,12 @@ class StorageService {
     }
 
     async getUserId(): Promise<any> {
-      const data = await this.get([StorageKey.USER_ID]);
-      let userId: number | undefined;
-      if(typeof data[StorageKey.USER_ID] === 'undefined') {
+      let userId: number | undefined = await this.getSingleItem(StorageKey.USER_ID);
+      if(typeof userId === 'undefined') {
         userId = Date.now();
         await this.set({[StorageKey.USER_ID]: userId});
       }
-      return (userId && {[StorageKey.USER_ID]: userId}) || data;
+      return {[StorageKey.USER_ID]: userId};
     }
 }
 

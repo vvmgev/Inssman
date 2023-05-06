@@ -45,7 +45,7 @@ class ServiceWorker {
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
-    if(BSService.isSupportScriptting()){
+    if(BSService.isSupportScripting()){
       if (
         tab.url?.startsWith("chrome://") ||
         tab.url?.startsWith('chrome-extension') ||
@@ -138,7 +138,7 @@ class ServiceWorker {
     await StorageService.removeById(String(data.id))
   }
 
-  async getUserId(): Promise<any> {
+  async getUserId(): Promise<number> {
     return await StorageService.getUserId();
   }
 
