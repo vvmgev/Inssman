@@ -14,6 +14,7 @@ import OutlineButton from 'components/common/outlineButton/outlineButton';
 import ColorCover from '../common/colorCover/colorCover';
 import Button from '../common/button/button';
 import Switcher from '../common/switcher/switcher';
+import Tooltip from '../common/tooltip/tooltip';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
@@ -100,9 +101,21 @@ export default () => {
                 <Switcher checked={ruleData.enabled} onChange={(event) => onChangeRuleStatus(event, ruleData.id)}/>
               </div>
               <div className="flex-1 flex gap-5 justify-end">
-                <div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>
-                <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
-                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
+                <Tooltip
+                  actions={['hover']}
+                  triggerElement={<div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>} >
+                    <span className='text-slate-200'>Duplicate Rule</span>
+                </Tooltip>
+                <Tooltip
+                  actions={['hover']}
+                  triggerElement={<Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>} >
+                    <span className='text-slate-200'>Edit Rule</span>
+                </Tooltip>
+                <Tooltip
+                  actions={['hover']}
+                  triggerElement={<div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>} >
+                    <span className='text-slate-200'>Delete Rule</span>
+                </Tooltip>
               </div>
               </li>)}
           </ul>

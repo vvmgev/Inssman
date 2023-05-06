@@ -1,0 +1,5 @@
+.tooltip-content {
+    width: initial !important;
+    padding: 5px 15px;
+    background-color: rgba(30, 41, 59, 0.4);
+}
