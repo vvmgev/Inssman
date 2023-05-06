@@ -107,12 +107,12 @@ class ServiceWorker {
     return {rule, ruleData: ruleData[data.id]};
   }
 
-  async addRule({rule, ruleData}: { rule?, ruleData }): Promise<void> {
+  async addRule({rule, ruleData}: { rule?, ruleData: IRuleData }): Promise<void> {
     const id: number = await StorageService.generateNextId();
     if(rule && ruleData.enabled) {
       await RuleService.set([{...rule, id}]);
     }
-    if(!ruleData.enabled) {
+    if(!ruleData.enabled && ruleData.rule) {
       ruleData.rule.id = id;
     }
     await StorageService.set({[id]: { ...ruleData, id }});
