@@ -11,4 +11,5 @@ export enum PostMessageAction {
     Log,
     GetUserId,
     ChangeRuleStatusById,
+    DuplicateRuleById,
 }

@@ -36,7 +36,7 @@ class StorageService {
     }
 
     async generateNextId(): Promise<number> {
-      return (((await this.get(StorageKey.NEXT_ID))[StorageKey.NEXT_ID]) || 1) + 1;
+      return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     }
 
     async getUserId(): Promise<any> {

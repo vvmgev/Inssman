@@ -88,6 +88,8 @@ class ServiceWorker {
           responseData = this.getUserId();
         } else if(action === PostMessageAction.ChangeRuleStatusById) {
           responseData = this.changeRuleStatus(data);
+        } else if(action === PostMessageAction.DuplicateRuleById) {
+          responseData = this.duplicateRuleById(data);
         }
         sendResponse(await responseData);
       } catch (error) {
@@ -143,7 +145,7 @@ class ServiceWorker {
   }
 
   async changeRuleStatus({ id, checked }): Promise<void> {
-    const ruleData = (await StorageService.get(String(id)))[id];
+    const ruleData = await StorageService.getSingleItem(String(id));
     ruleData.enabled = checked;
     if(checked) {
       if(ruleData.pageType !== PageType.MODIFY_REQUEST_BODY) {
@@ -156,6 +158,17 @@ class ServiceWorker {
     ruleData.rule = rule;
     await RuleService.removeById(id);
     await StorageService.set({[id]: ruleData})  
+  }
+
+  async duplicateRuleById({ id }: {id: number}): Promise<void> {
+    const ruleData = await StorageService.getSingleItem(String(id));
+    const rule = await RuleService.getRuleById(id);
+    const nextId: number = await StorageService.generateNextId();
+    ruleData.id = nextId;
+    rule.id = nextId;
+    await RuleService.set([rule]);
+    await StorageService.set({[nextId]: ruleData})
+    await StorageService.set({[StorageKey.NEXT_ID]: nextId});
   }
 }
 

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Popup from 'reactjs-popup';
 import { Link } from 'react-router-dom';
 import CrossSVG  from 'assets/icons/cross.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
+import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IconsMap } from 'models/formFieldModel';
 import { PageTypeMap } from 'models/formFieldModel';
@@ -12,7 +14,6 @@ import OutlineButton from 'components/common/outlineButton/outlineButton';
 import ColorCover from '../common/colorCover/colorCover';
 import Button from '../common/button/button';
 import Switcher from '../common/switcher/switcher';
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
@@ -21,8 +22,10 @@ export default () => {
   const [search, setSearch] = useState<string>('');
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
-  const onHandleDeleteRules = () => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => getData());
-  const getData = () => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
+  const onHandleDeleteRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => getData());
+  const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.DuplicateRuleById, data: {id} }, () => getData());
+  const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
+  const getData = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
   const handleDelete = (ruleData) => {
@@ -31,9 +34,6 @@ export default () => {
           action: PostMessageAction.DeleteRuleById, data: {id: ruleData.id} }, 
           () => getData()
       );
-  };
-  const onChangeRuleStatus = (event, id): void => {
-    chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
   };
 
   return <div className="min-h-[250px] overflow-y-auto h-full mt-[50px]">
@@ -100,8 +100,9 @@ export default () => {
                 <Switcher checked={ruleData.enabled} onChange={(event) => onChangeRuleStatus(event, ruleData.id)}/>
               </div>
               <div className="flex-1 flex gap-5 justify-end">
-                  <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
-                  <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
+                <div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>
+                <Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
+                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
               </div>
               </li>)}
           </ul>
