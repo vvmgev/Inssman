@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from 'components/common/button/button';
+import OutlineButton from 'components/common/outlineButton/outlineButton';
 import TrashSVG  from 'assets/icons/trash.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
-import OutlineButton from '../outlineButton/outlineButton';
 
 const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }) => {
   return <>

@@ -68,7 +68,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
     <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
       <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
         {showOpenWindowBtn && <OutlineButton onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
-        <OutlineButton icon={<CrossSVG />}>Clear Logs</OutlineButton>
+        <OutlineButton onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
