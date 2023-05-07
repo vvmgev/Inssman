@@ -37,9 +37,9 @@ export default () => {
       );
   };
 
-  return <div className="min-h-[250px] overflow-y-auto h-full mt-[50px]">
-      <div className="rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 w-full border border-slate-700 min-h-[350px]">
-        {!data.length && <div className="w-full h-full pl-5 py-5">
+  return <div className="min-h-[250px] overflow-hidden mt-[50px]">
+      <div className="min-h-[350px] h-[500px] w-full  rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
+        {!Boolean(data.length) && <div className="w-full h-full pl-5 py-5">
           <p className="text-2xl">Welcome to Inssman!</p>
           <p className="mt-5 text-lg">Creating a rule gives you control over HTTP requests and responses.</p>
           <p>With Inssman you can easly do following</p>
@@ -56,41 +56,51 @@ export default () => {
             <li className="mt-1">Delay request (comming soon)</li>
           </ul>
         </div>}
-        {Boolean(data.length) && 
-          <ul>
-            <li className="text-lg py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 last:border-none border-b border-slate-700 w-full">
-            <span>Rules</span>
-            <div className="flex items-center gap-5">
-              <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
-                     trigger={<div><OutlineButton classes='hover:border-red-400 hover:text-red-400'>Delete All Rules?</OutlineButton></div>}
-                     modal position="right center">
-                {/* @ts-ignore */}
-                {(close: any) => (
-                  <ColorCover classes="bg-opacity-90 py-15">
-                  <div className="flex items-center justify-center flex-col gap-20">
-                    <div className="text-slate-200 text-2xl">Delete All Rules?</div>
-                    <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
-                      <OutlineButton classes="min-w-[100px]" onClick={close}>No</OutlineButton>
-                      <Button classes="min-w-[100px] flex justify-center" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
+        {Boolean(data.length) && (
+          <div>
+            <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6 last:border-none border-b border-slate-700">
+              <span>Rules</span>
+              <div className="flex items-center gap-5">
+                <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
+                      trigger={<div><OutlineButton classes='hover:border-red-400 hover:text-red-400'>Delete All Rules?</OutlineButton></div>}
+                      modal position="right center">
+                  {/* @ts-ignore */}
+                  {(close: any) => (
+                    <ColorCover classes="bg-opacity-90 py-15">
+                    <div className="flex items-center justify-center flex-col gap-20">
+                      <div className="text-slate-200 text-2xl">Delete All Rules?</div>
+                      <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
+                        <OutlineButton classes="min-w-[100px]" onClick={close}>No</OutlineButton>
+                        <Button classes="min-w-[100px] flex justify-center" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
+                      </div>
                     </div>
-                  </div>
-                </ColorCover>
-                )}
-              </Popup>
-              <div className="text-sm">
-                <Input
-                  placeholder="Search By Rule Name"
-                  onChange={onChangeSearch}
-                  value={search}
-                  starts={<span className="w-[24px]"><SearchSVG /></span>}
-                  ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
-                />
+                  </ColorCover>
+                  )}
+                </Popup>
+                <div className="text-sm">
+                  <Input
+                    placeholder="Search By Rule Name"
+                    onChange={onChangeSearch}
+                    value={search}
+                    starts={<span className="w-[24px]"><SearchSVG /></span>}
+                    ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
+                  />
+                </div>
               </div>
             </div>
-            
-            </li>
+            <div className="py-3 flex justify-between items-center px-6 border-b border-slate-700 w-full bg-slate-700 bg-opacity-40">
+              <div className="flex-1">Name</div>
+              <div className="flex-1">Type</div>
+              <div className="flex-1">Source</div>
+              <div className="flex-1">Status</div>
+              <div className="flex-1 flex justify-end">Actions</div>
+            </div>
+          </div>
+        )}
+        {Boolean(data.length) && (
+          <ul className="overflow-y-auto h-[350px]">
             {data.filter((ruleData) => ruleData.name.includes(search))
-            .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] overflow-y-auto flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
+            .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData.name)}</div>
               <div className="flex items-center gap-1 flex-1">
                   <span className="w-[18px]">{IconsMap[ruleData.pageType]}</span>
@@ -117,9 +127,9 @@ export default () => {
                     <span className='text-slate-200'>Delete Rule</span>
                 </Tooltip>
               </div>
-              </li>)}
+            </li>)}
           </ul>
-        }
+        )}
       </div>
   </div>
 }
