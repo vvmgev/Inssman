@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from 'components/common/button/button';
+import TrashSVG  from 'assets/icons/trash.svg';
+import PencilSVG  from 'assets/icons/pencil.svg';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
 import OutlineButton from '../outlineButton/outlineButton';
 
@@ -19,9 +21,13 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
               <OutlineButton>View Example</OutlineButton>
             </a>
           </div>
-          {mode === 'update' && <OutlineButton classes='hover:border-red-400 hover:text-red-400' onClick={onDelete}>Delete</OutlineButton>} 
+          {mode === 'update' && <OutlineButton classes='hover:border-red-400 hover:text-red-400'
+            onClick={onDelete}
+            icon={<TrashSVG />}>Delete</OutlineButton>
+          } 
           <div>
             <Button
+              icon={<PencilSVG />}
               trackName={`${PageTypeMap[pageType]} Rule Create Event`}
               onClick={onSubmit}>
                 {mode === 'create' ? 'Create' : 'Edit'}

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import CrossSVG  from 'assets/icons/cross.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
+import TrashSVG  from 'assets/icons/trash.svg';
 import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IconsMap } from 'models/formFieldModel';
@@ -62,7 +63,7 @@ export default () => {
               <span>Rules</span>
               <div className="flex items-center gap-5">
                 <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
-                      trigger={<div><OutlineButton classes='hover:border-red-400 hover:text-red-400'>Delete All Rules?</OutlineButton></div>}
+                      trigger={<div><OutlineButton icon={<TrashSVG />} classes='hover:border-red-400 hover:text-red-400'>Delete All Rules</OutlineButton></div>}
                       modal position="right center">
                   {/* @ts-ignore */}
                   {(close: any) => (
@@ -123,7 +124,7 @@ export default () => {
                 </Tooltip>
                 <Tooltip
                   actions={['hover']}
-                  triggerElement={<div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>} >
+                  triggerElement={<div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleData)}><span className="w-[24px] inline-block"><TrashSVG /></span></div>} >
                     <span className='text-slate-200'>Delete Rule</span>
                 </Tooltip>
               </div>

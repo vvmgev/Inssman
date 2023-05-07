@@ -67,21 +67,8 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
   return <div className="h-full">
     <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
       <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
-        {showOpenWindowBtn && (
-          <OutlineButton onClick={handleOpenWindow}>
-            <div className="flex gap-2 items-center">
-              <span className="w-[24px] inline-block"><DoubleSquareSVG /></span>
-              <span>Open In Window</span>
-            </div>
-          </OutlineButton>
-        )}
-        <OutlineButton>
-          <div className="flex gap-2 items-center" onClick={handleClearLogs}>
-            <span className="w-[24px] inline-block"><CrossSVG /></span>
-            <span>Clear Logs</span>
-          </div>
-        </OutlineButton>
-        
+        {showOpenWindowBtn && <OutlineButton onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
+        <OutlineButton icon={<CrossSVG />}>Clear Logs</OutlineButton>
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"
