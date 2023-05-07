@@ -66,7 +66,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
 
   return <div className="h-full">
     <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
-      <div className="text-sm flex justify-end h-[15%] gap-5 items-center">
+      <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
         {showOpenWindowBtn && (
           <OutlineButton onClick={handleOpenWindow}>
             <div className="flex gap-2 items-center">
@@ -92,7 +92,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
           />
         </div>
       </div>
-      <div className="text-sm border-b border-slate-700 w-full flex justify-between items-center h-[10%]">
+      <div className="py-3 text-sm border-b border-slate-700 w-full flex justify-between items-center h-[10%] bg-slate-700 bg-opacity-40">
           <div className="flex-[1]">ID</div>
           <div className="flex-[1]">Status Code</div>
           <div className="flex-[1]">Method</div>

@@ -58,7 +58,7 @@ export default () => {
         </div>}
         {Boolean(data.length) && (
           <div>
-            <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6 last:border-none border-b border-slate-700">
+            <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6">
               <span>Rules</span>
               <div className="flex items-center gap-5">
                 <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
@@ -88,14 +88,14 @@ export default () => {
                 </div>
               </div>
             </div>
-            <div className="py-3 flex justify-between items-center px-6 border-b border-slate-700 w-full bg-slate-700 bg-opacity-40">
+            <div className="py-3 flex justify-between items-center px-6 w-full border-b border-slate-700 bg-slate-700 bg-opacity-40">
               <div className="flex-1">Name</div>
               <div className="flex-1">Type</div>
               <div className="flex-1">Source</div>
               <div className="flex-1">Status</div>
               <div className="flex-1 flex justify-end">Actions</div>
             </div>
-          </div>
+          </div>          
         )}
         {Boolean(data.length) && (
           <ul className="overflow-y-auto h-[350px]">
