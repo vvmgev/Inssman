@@ -60,7 +60,7 @@ export default () => {
         {Boolean(data.length) && (
           <div>
             <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6">
-              <span>Rules</span>
+              <span>My Rules</span>
               <div className="flex items-center gap-5">
                 <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
                       trigger={<div><OutlineButton icon={<TrashSVG />} classes='hover:border-red-400 hover:text-red-400'>Delete All Rules</OutlineButton></div>}

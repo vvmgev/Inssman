@@ -22,10 +22,15 @@ class ServiceWorker {
   };
 
   onInstalled = async () => {
+    const config = await StorageService.getSingleItem(StorageKey.CONFIG);
+    if(!config) {
+      StorageService.set({[StorageKey.CONFIG]: {}});
+    }
+
     // Temproary function
     // Remove old rules;
-    const isCleared = (await StorageService.get(StorageKey.IS_CLEAR))[StorageKey.IS_CLEAR];
-    if(chrome.runtime.getManifest().version < '1.0.14' && !isCleared) {
+    const isCleared = (await StorageService.getSingleItem(StorageKey.IS_CLEAR));
+    if(!isCleared) {
       await this.deleteRules();
       await StorageService.set({[StorageKey.IS_CLEAR]: true});
       await StorageService.set({[StorageKey.NEXT_ID]: 1});
@@ -142,11 +147,11 @@ class ServiceWorker {
 
   async deleteRuleById(data): Promise<void> {
     await RuleService.removeById(data.id);
-    await StorageService.removeById(String(data.id))
+    await StorageService.removeByKey(String(data.id))
   }
 
-  async getUserId(): Promise<number> {
-    return await StorageService.getUserId();
+  async getUserId(): Promise<{[key: string]: number}> {
+    return {[StorageKey.USER_ID]: await StorageService.getUserId()};
   }
 
   async changeRuleStatus({ id, checked }): Promise<void> {

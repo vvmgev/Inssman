@@ -27,7 +27,7 @@ class StorageService {
       return chrome.storage.local.remove(keys);
     }
 
-    async removeById(key: string): Promise<void> {
+    async removeByKey(key: string): Promise<void> {
       return chrome.storage.local.remove(key);
     }
 
@@ -39,13 +39,13 @@ class StorageService {
       return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     }
 
-    async getUserId(): Promise<any> {
-      let userId: number | undefined = await this.getSingleItem(StorageKey.USER_ID);
-      if(typeof userId === 'undefined') {
-        userId = Date.now();
-        await this.set({[StorageKey.USER_ID]: userId});
+    async getUserId(): Promise<number> {
+      const config: {[key: string]: any} = await this.getSingleItem(StorageKey.CONFIG);
+      if(!config[StorageKey.USER_ID]) {
+        config[StorageKey.USER_ID] = Date.now();
+        await this.set({[StorageKey.CONFIG]: config});
       }
-      return {[StorageKey.USER_ID]: userId};
+      return config[StorageKey.USER_ID];
     }
 }
 

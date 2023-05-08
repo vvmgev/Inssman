@@ -16,13 +16,13 @@ export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 export const errorRef = ref(db, 'errors');
 
-export const storeError = (error) => {
+const storeData = (ref, data) => {
   if(process.env.NODE_ENV === 'development') {
     return;
   }
   try {
-    push(errorRef, error);
+    push(ref, data);
   } catch (error) {}
 }
 
-  
+export const storeError = (error) => storeData(errorRef, error); 
