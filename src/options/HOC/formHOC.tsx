@@ -117,8 +117,6 @@ const FormHOC = (Component: any) => {
       if(form.rule) {
         // TODO need make it dynamic from UI
         form.rule.condition.isUrlFilterCaseSensitive = false;
-        // form.rule.condition.requestMethods = ruleData.requestMethod;
-        // console.log('qwqwqw')
         // TODO need make it dynamic from UI
         if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
           (form.rule.condition as any).resourceTypes = [
@@ -137,6 +135,8 @@ const FormHOC = (Component: any) => {
             ResourceType.OTHER,
           ]
         }
+        // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
+        form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined ;
         if (id) {
           form.rule.id = id;
         }

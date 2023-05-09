@@ -20,7 +20,7 @@ export interface IRuleData {
     pageType: string,
     enabled: boolean;
     type: string,
-    requestMethod: RequestMethod[],
+    requestMethods: RequestMethod[],
     id?: number,
     destination?: string,
     editorValue?: string,

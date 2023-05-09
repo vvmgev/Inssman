@@ -17,7 +17,7 @@ const defaultData = {
   pageType: PageType.MODIFY_RESPONSE,
   editorLang: EditorLanguage.HTML,
   editorValue: '',
-  requestMethod: []
+  requestMethods: []
 }
 
 const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
@@ -27,7 +27,7 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           source = defaultData.source,
           editorLang = defaultData.editorLang,
           editorValue = defaultData.editorValue,
-          requestMethod = defaultData.requestMethod
+          requestMethods = defaultData.requestMethods
         } = ruleData;
 
   const onSubmit = () => {
@@ -67,7 +67,7 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         <div className="mt-5">
           <SourceFields
             matchType={matchType}
-            requestMethod={requestMethod}
+            requestMethods={requestMethods}
             onChange={onChange}
             source={source}
             error={error}
