@@ -16,8 +16,7 @@ const defaultData = {
   source: '',
   pageType: PageType.MODIFY_RESPONSE,
   editorLang: EditorLanguage.HTML,
-  editorValue: '',
-  requestMethod: []
+  editorValue: ''
 }
 
 const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
@@ -26,8 +25,7 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           matchType = defaultData.matchType,
           source = defaultData.source,
           editorLang = defaultData.editorLang,
-          editorValue = defaultData.editorValue,
-          requestMethod = defaultData.requestMethod
+          editorValue = defaultData.editorValue
         } = ruleData;
 
   const onSubmit = () => {
@@ -67,22 +65,19 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         <div className="mt-5">
           <SourceFields
             matchType={matchType}
-            requestMethod={requestMethod}
             onChange={onChange}
             source={source}
             error={error}
           />
         </div>
-        <div className="mt-5 flex items-center">
+        <div className="mt-5">
           <span className="mr-5">Select Response Type</span>
-          <div className="w-[150px]">
-            <Select
-              onChange={onChange}
-              value={editorLang}
-              options={editorLangOptions}
-              name='editorLang'
-            />
-          </div>
+          <Select
+            onChange={onChange}
+            value={editorLang}
+            options={editorLangOptions}
+            name='editorLang'
+          />
         </div>
         <div className='mt-5'>
           <Editor editorRef={editorRef} language={editorLang} onChange={onChange} />

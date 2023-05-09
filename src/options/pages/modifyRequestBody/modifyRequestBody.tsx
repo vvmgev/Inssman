@@ -14,8 +14,7 @@ const defaultData = {
     matchType: MatchType.CONTAIN,
     pageType: PageType.MODIFY_REQUEST_BODY,
     editorLang: EditorLanguage.JSON,
-    editorValue: '',
-    requestMethod: [],
+    editorValue: ''
 };
 
 const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData, onDelete}) => {
@@ -25,7 +24,6 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
         matchType = defaultData.matchType,
         editorLang = defaultData.editorLang,
         editorValue = defaultData.editorValue,
-        requestMethod = defaultData.requestMethod,
         pageType = defaultData.pageType} = ruleData;
 
     const onSubmit = () => onSave(null);
@@ -49,7 +47,6 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
         <div className="flex mt-5 items-center w-full">
             <SourceFields
                 matchType={matchType}
-                requestMethod={requestMethod}
                 onChange={onChange}
                 source={source}
                 error={error}

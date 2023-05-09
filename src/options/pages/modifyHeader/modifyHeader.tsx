@@ -15,7 +15,6 @@ const getDefaultData = () => ({
   source: '',
   pageType: PageType.MODIFY_HEADER,
   headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
-  requestMethod: [],
 });
 
 const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error, onChange }) => {
@@ -23,7 +22,6 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error
   const {name = defaultData.name,
          matchType = defaultData.matchType,
          source = defaultData.source,
-         requestMethod = defaultData.requestMethod,
          headers = defaultData.headers} = ruleData;
   
   const onAddHeader = () => {
@@ -84,7 +82,6 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error
         <div className="flex mt-5 items-center w-full">
           <SourceFields
             matchType={matchType}
-            requestMethod={requestMethod}
             onChange={onChange}
             source={source}
             error={error}
