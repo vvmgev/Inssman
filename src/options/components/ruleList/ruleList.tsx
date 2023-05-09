@@ -63,18 +63,22 @@ export default () => {
               <span>My Rules</span>
               <div className="flex items-center gap-5">
                 <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
-                      trigger={<div><OutlineButton icon={<TrashSVG />} classes='hover:border-red-400 hover:text-red-400'>Delete All Rules</OutlineButton></div>}
+                      trigger={<div><OutlineButton icon={<TrashSVG />} classes="hover:border-red-400 hover:text-red-400">Delete All Rules</OutlineButton></div>}
                       modal position="right center">
                   {/* @ts-ignore */}
                   {(close: any) => (
                     <ColorCover classes="bg-opacity-90 py-15">
-                    <div className="flex items-center justify-center flex-col gap-20">
-                      <div className="text-slate-200 text-2xl">Delete All Rules?</div>
+                      <div className="flex border-b border-slate-700 pb-5">
+                        <div className="text-slate-200 text-2xl flex-1">Confirm Deletion</div>
+                        <div className="flex justify-end flex-1">
+                          <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"><CrossSVG /></span>
+                        </div>
+                      </div>
+                      <div className="text-slate-200 text-2xl text-center my-10">Are you sure you want to delete all rules?</div>
                       <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
                         <OutlineButton classes="min-w-[100px]" onClick={close}>No</OutlineButton>
-                        <Button classes="min-w-[100px] flex justify-center" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
+                        <Button icon={<TrashSVG />} classes="min-w-[100px] flex justify-center bg-red-400 hover:bg-red-500" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
                       </div>
-                    </div>
                   </ColorCover>
                   )}
                 </Popup>
