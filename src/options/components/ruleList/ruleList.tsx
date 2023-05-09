@@ -77,7 +77,7 @@ export default () => {
                       <div className="text-slate-200 text-2xl text-center my-10">Are you sure you want to delete all rules?</div>
                       <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
                         <OutlineButton classes="min-w-[100px]" onClick={close}>No</OutlineButton>
-                        <Button icon={<TrashSVG />} classes="min-w-[100px] flex justify-center bg-red-400 hover:bg-red-500" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
+                        <Button icon={<TrashSVG />} classes="min-w-[100px] flex justify-center text-slate-200 bg-red-500 hover:bg-red-600" trackName="Delete All rules Event" onClick={onHandleDeleteRules}>Yes</Button>
                       </div>
                   </ColorCover>
                   )}

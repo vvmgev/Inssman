@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge'
 import TrackService from 'src/services/TrackService';
 
 
@@ -18,7 +19,7 @@ const Button = ({trackName, children, onClick, classes, icon}: IProps) => {
             onClick(event);
         };
     }
-    return <button onClick={handler} className={`bg-slate-200 hover:bg-slate-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full outline-0 ${classes}`}>
+    return <button onClick={handler} className={twMerge('bg-slate-200 hover:bg-slate-400 text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded-full outline-0', classes)}>
         <span className="flex justify-center items-center gap-2">
             <span>{children}</span>
             {icon && <span className="w-[20px] inline-block">{icon}</span>}
