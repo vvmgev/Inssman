@@ -124,11 +124,11 @@ class ServiceWorker {
     await StorageService.set({[StorageKey.NEXT_ID]: id});
   }
   
-  async updateRule(data): Promise<void> {
-    if(data.rule) {
-      await RuleService.set([data.rule], [data.rule])
+  async updateRule({rule, ruleData}): Promise<void> {
+    if(rule && ruleData.enabled) {
+      await RuleService.set([rule], [rule])
     }
-    await StorageService.set({[data.ruleData.id]: data.ruleData});
+    await StorageService.set({[ruleData.id]: ruleData});
   }
 
   async getStorageRules(): Promise<IRuleData[]> {

@@ -6,13 +6,13 @@ import Tooltip from 'components/common/tooltip/tooltip';
 import InfoSVG  from 'assets/icons/info.svg';
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 
-const SourceFields = ({ source, onChange, matchType, error, requestMethod = [], showRequestMethod = true, sourceProps = {}, matchTypeProps = {}, requestMethodProps = {}, showAllButton = false}) => {
+const SourceFields = ({ source, onChange, matchType, error, requestMethods = [], showRequestMethod = true, sourceProps = {}, matchTypeProps = {}, requestMethodsProps = {}, showAllButton = false}) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
   }, []), []);
 
-  const requestMethodOptions = useMemo(() => Object.entries(RequestMethod).reduce((previous: any, [value, label]: any) => {
+  const requestMethodsOptions = useMemo(() => Object.entries(RequestMethod).reduce((previous: any, [value, label]: any) => {
       previous.push({value: value.toLowerCase(), label})
       return previous;
   }, []), []);
@@ -45,13 +45,13 @@ const SourceFields = ({ source, onChange, matchType, error, requestMethod = [], 
       {showRequestMethod && <div className="ml-5 min-w-[280px] flex items-center gap-1">
         <Select
           onChange={onChange}
-          value={requestMethod}
-          options={requestMethodOptions}
-          name='requestMethod'
-          error={error?.requestMethod}
+          value={requestMethods}
+          options={requestMethodsOptions}
+          name='requestMethods'
+          error={error?.requestMethods}
           multiple={true}
           placeholder="Request Method"
-          {...requestMethodProps}
+          {...requestMethodsProps}
         />
         <Tooltip
           actions={['hover']}
