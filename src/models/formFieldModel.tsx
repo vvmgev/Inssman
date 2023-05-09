@@ -9,6 +9,7 @@ import PaperClipSVG  from 'assets/icons/paperClip.svg';
 import ResourceType = chrome.declarativeNetRequest.ResourceType
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
+import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
@@ -19,6 +20,7 @@ export interface IRuleData {
     pageType: string,
     enabled: boolean;
     type: string,
+    requestMethod: RequestMethod[],
     id?: number,
     destination?: string,
     editorValue?: string,
