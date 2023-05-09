@@ -15,12 +15,14 @@ const defaultData = {
   source: '',
   pageType: PageType.REDIRECT,
   destination: '',
+  requestMethod: [],
 }
 
 const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
+          requestMethod = defaultData.requestMethod,
           destination = defaultData.destination} = ruleData;
   const onSubmit = () => {
     const form: IRule = {
@@ -59,6 +61,7 @@ const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRu
           <div className="flex mt-5 items-center w-full">
             <SourceFields
               matchType={matchType}
+              requestMethod={requestMethod}
               onChange={onChange}
               source={source}
               error={error}

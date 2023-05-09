@@ -24,6 +24,7 @@ const defaultData = {
   tagSelector: '',
   tagSelectorOperator: InjectFileOperator.AFTERBEGIN,
   shouldRemoveHeader: true,
+  requestMethod: [],
 }
 
 const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
@@ -37,6 +38,7 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           tagSelector = defaultData.tagSelector,
           tagSelectorOperator = defaultData.tagSelectorOperator,
           fileSource = defaultData.fileSource,
+          requestMethod = defaultData.requestMethod,
           // shouldRemoveHeader = defaultData.shouldRemoveHeader
         } = ruleData;
 
@@ -100,6 +102,7 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         <div className="flex mt-5 items-center w-full">
           <SourceFields
             matchType={matchType}
+            requestMethod={requestMethod}
             onChange={onChange}
             source={source}
             error={error}
@@ -108,21 +111,25 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         </div>
         <div className="flex mt-5 items-center w-full">
           <span className="mr-5">Select File Type</span>
-          <Select
-            onChange={onChange}
-            value={editorLang}
-            options={editorLangOptions}
-            name='editorLang'
-          />
-          {editorLang !== InjectFileType.HTML && <>
-            <span className="mr-5 ml-5">Select Source Type</span>
+          <div className="w-[150px]">
             <Select
               onChange={onChange}
-              value={fileSourceType}
-              options={injectFileSourceOptions}
-              name='fileSourceType'
+              value={editorLang}
+              options={editorLangOptions}
+              name='editorLang'
             />
-          </>}
+          </div>
+          {editorLang !== InjectFileType.HTML && <div className="flex items-center">
+            <span className="mr-5 ml-5">Select Source Type</span>
+            <div className="w-[150px]">
+              <Select
+                onChange={onChange}
+                value={fileSourceType}
+                options={injectFileSourceOptions}
+                name='fileSourceType'
+              />
+            </div>
+          </div>}
           {editorLang === InjectFileType.HTML && <>
             <span className="mr-5 ml-5">Operator</span>
             <div className="w-1/7">

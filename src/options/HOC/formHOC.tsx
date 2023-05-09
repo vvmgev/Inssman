@@ -117,6 +117,8 @@ const FormHOC = (Component: any) => {
       if(form.rule) {
         // TODO need make it dynamic from UI
         form.rule.condition.isUrlFilterCaseSensitive = false;
+        // form.rule.condition.requestMethods = ruleData.requestMethod;
+        // console.log('qwqwqw')
         // TODO need make it dynamic from UI
         if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
           (form.rule.condition as any).resourceTypes = [
