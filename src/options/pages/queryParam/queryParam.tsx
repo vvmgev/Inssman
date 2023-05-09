@@ -15,6 +15,7 @@ const getDefaultData = () => ({
   source: '',
   queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
   pageType: PageType.QUERY_PARAM,
+  requestMethod: [],
 });
 
 const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
@@ -22,6 +23,7 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
+          requestMethod = defaultData.requestMethod,
           queryParams = defaultData.queryParams} = ruleData;
 
   const onAddQueryParam = () => {
@@ -86,6 +88,7 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         <div className="flex mt-5 items-center w-full">
           <SourceFields
             matchType={matchType}
+            requestMethod={requestMethod}
             onChange={onChange}
             source={source}
             error={error}

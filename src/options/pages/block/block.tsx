@@ -12,12 +12,15 @@ const defaultData = {
   source: '',
   matchType: MatchType.CONTAIN,
   pageType: PageType.BLOCK,
+  requestMethod: [],
 }
 
 const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData, onDelete}) => {
   const { name = defaultData.name,
           source = defaultData.source,
-          matchType = defaultData.matchType} = ruleData;
+          matchType = defaultData.matchType,
+          requestMethod = defaultData.requestMethod,
+        } = ruleData;
 
   const onSubmit = () => {
     const form: IRule = {
@@ -46,6 +49,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData, onDel
             <div className="flex mt-5 items-center w-full">
               <SourceFields
                 matchType={matchType}
+                requestMethod={requestMethod}
                 onChange={onChange}
                 source={source}
                 error={error}
