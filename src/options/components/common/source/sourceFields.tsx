@@ -6,7 +6,7 @@ import Tooltip from 'components/common/tooltip/tooltip';
 import InfoSVG  from 'assets/icons/info.svg';
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 
-const SourceFields = ({ source, onChange, matchType, requestMethod = [], error, sourceProps = {}, matchTypeProps = {}, requestMethodProps = {}, showAllButton = false}) => {
+const SourceFields = ({ source, onChange, matchType, error, requestMethod = [], showRequestMethod = true, sourceProps = {}, matchTypeProps = {}, requestMethodProps = {}, showAllButton = false}) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -42,7 +42,7 @@ const SourceFields = ({ source, onChange, matchType, requestMethod = [], error, 
             {...matchTypeProps}
           />
       </div>
-      <div className="ml-5 min-w-[280px] flex items-center gap-1">
+      {showRequestMethod && <div className="ml-5 min-w-[280px] flex items-center gap-1">
         <Select
           onChange={onChange}
           value={requestMethod}
@@ -55,11 +55,10 @@ const SourceFields = ({ source, onChange, matchType, requestMethod = [], error, 
         />
         <Tooltip
           actions={['hover']}
-          triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>} >
-              <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
+          triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>}>
+            <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
         </Tooltip>
-        
-      </div>
+      </div>}
       <div className="ml-5 w-2/4">
         <Input
           value={source}
