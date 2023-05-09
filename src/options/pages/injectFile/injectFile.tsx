@@ -24,7 +24,6 @@ const defaultData = {
   tagSelector: '',
   tagSelectorOperator: InjectFileOperator.AFTERBEGIN,
   shouldRemoveHeader: true,
-  requestMethod: [],
 }
 
 const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
@@ -38,7 +37,6 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           tagSelector = defaultData.tagSelector,
           tagSelectorOperator = defaultData.tagSelectorOperator,
           fileSource = defaultData.fileSource,
-          requestMethod = defaultData.requestMethod,
           // shouldRemoveHeader = defaultData.shouldRemoveHeader
         } = ruleData;
 
@@ -102,11 +100,11 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
         <div className="flex mt-5 items-center w-full">
           <SourceFields
             matchType={matchType}
-            requestMethod={requestMethod}
             onChange={onChange}
             source={source}
             error={error}
             showAllButton={false}
+            showRequestMethod={false}
           />
         </div>
         <div className="flex mt-5 items-center w-full">
