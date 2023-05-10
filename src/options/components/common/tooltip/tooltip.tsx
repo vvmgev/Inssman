@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import Popup from 'reactjs-popup';
 import { EventType } from 'reactjs-popup/dist/types';
 import './tooltip.css';
@@ -14,9 +14,8 @@ const Tooltip = ({ children, triggerElement, actions = [] }:
         position="top center"
         closeOnDocumentClick
     >
-        {children}
+        <span>{children}</span>
   </Popup>
-
 }
 
 
