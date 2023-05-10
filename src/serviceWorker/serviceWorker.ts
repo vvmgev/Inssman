@@ -18,7 +18,7 @@ class ServiceWorker {
   registerListener(): void {
     chrome.runtime.onInstalled.addListener(this.onInstalled);
     chrome.runtime.onMessage.addListener(this.onMessage);
-    chrome.tabs.onUpdated.addListener(this.onUpdatedTab);
+    // chrome.tabs.onUpdated.addListener(this.onUpdatedTab);
   };
 
   onInstalled = async () => {

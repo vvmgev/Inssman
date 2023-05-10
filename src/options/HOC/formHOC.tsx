@@ -1,10 +1,10 @@
 import React from 'react';
+import TrackService from 'src/services/TrackService';
 import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
-import TrackService from 'src/services/TrackService';
-import ResourceType = chrome.declarativeNetRequest.ResourceType;
 import { StorageItemType } from 'src/models/storageModel';
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
   [key: string]: { message: string };
@@ -136,7 +136,7 @@ const FormHOC = (Component: any) => {
           ]
         }
         // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
-        form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined ;
+        form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined;
         if (id) {
           form.rule.id = id;
         }
