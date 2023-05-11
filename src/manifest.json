@@ -26,7 +26,6 @@
     "declarativeNetRequestWithHostAccess",
     "declarativeNetRequestFeedback",
     "webNavigation",
-    "tabs",
     "scripting",
     "webRequest"
   ],
