@@ -52,7 +52,7 @@ class ServiceWorker {
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
-    if(BSService.isSupportScripting()){
+    if(BSService.isSupportScripting() && false){
       if (
         tab.url?.startsWith("chrome://") ||
         tab.url?.startsWith('chrome-extension') ||

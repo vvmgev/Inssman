@@ -39,11 +39,11 @@ export const paths = [
       text: 'Inject File',
       icon: <WrenchSVG />
     },
-    {
-      path: '/create-rule/modify-request-body',
-      text: 'Modify Request Body',
-      icon: <PaperClipSVG />
-    },
+    // {
+    //   path: '/create-rule/modify-request-body',
+    //   text: 'Modify Request Body',
+    //   icon: <PaperClipSVG />
+    // },
     {
       path: '/http-logger',
       text: 'HTTP Logger',
