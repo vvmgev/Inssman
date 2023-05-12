@@ -1,127 +1,86 @@
-//  // @ts-nocheck
-//  import originalFetch from './originalFetch';
-//  import fetchIntercept from 'fetch-intercept';
-//  import { NAMESPACE } from 'src/models/contants';
-//  import { MatchType } from 'src/models/formFieldModel';
+// @ts-nocheck
+import originalFetch from './originalFetch';
+import { NAMESPACE } from 'src/models/contants';
+import { MatchType } from 'src/models/formFieldModel';
+import { BatchInterceptor } from '@mswjs/interceptors';
+import browserInterceptors from '@mswjs/interceptors/presets/browser';
  
-//  ((NAMESPACE) => {
-//    window[NAMESPACE] = window[NAMESPACE] || {};
-//    window[NAMESPACE].rules = window[NAMESPACE].rules || [];
-//    window[NAMESPACE].queueRequests = [];
-//    window[NAMESPACE].gotRules = false;
-//    window[NAMESPACE].start = () => {
-//      window[NAMESPACE].gotRules = true;
-//      window[NAMESPACE].queueRequests.forEach(request => request())
-//      window[NAMESPACE].queueRequests = [];
-//      if(!window[NAMESPACE].rules.length) {
-//        unregisterXMLHttpRequest();
-//        unregisterFetch();
-//      }
-//    };
+ ((NAMESPACE) => {
+   window[NAMESPACE] = window[NAMESPACE] || {};
+   window[NAMESPACE].rules = window[NAMESPACE].rules || [];
+   window[NAMESPACE].queueRequests = [];
+   window[NAMESPACE].gotRules = false;
+   window[NAMESPACE].start = () => {
+    if(window[NAMESPACE].gotRules) return;
+    window[NAMESPACE].gotRules = true;
+     if(!window[NAMESPACE].rules.length) {
+       unregisterInterceptor();
+     }
+   };
    
-//    const getAbsoluteUrl = (url: string): string => {
-//      const dummyLink = document.createElement("a");
-//      dummyLink.href = url;
-//      return dummyLink.href;
-//    };
+   const getAbsoluteUrl = (url: string): string => {
+     const dummyLink = document.createElement("a");
+     dummyLink.href = url;
+     return dummyLink.href;
+   };
    
-//    const getMatchedByUrl = url => {
-//      const absoluteUrl = getAbsoluteUrl(url);
-//      return window[NAMESPACE].rules.find(rule => {
-//        if(rule.matchType === MatchType.CONTAIN) {
-//          return absoluteUrl.includes(rule.source);
-//        }
-//        if(rule.matchType === MatchType.EQUAL) {
-//          return absoluteUrl === rule.source;
-//        }
-//      });
-//    }
-//    const originalXHR = window.XMLHttpRequest;
-//    const XHR = window.XMLHttpRequest;
-//    window.XMLHttpRequest = function () {
-//      const xhr = new XHR();
-//      return xhr;
-//    };
-   
-//    XMLHttpRequest.prototype = XHR.prototype;
-//    Object.entries(XHR).map(([key, val]) => {
-//      XMLHttpRequest[key] = val;
-//    });
-   
-//    const open = XMLHttpRequest.prototype.open;
-//    XMLHttpRequest.prototype.open = function (method, url) {
-//      this.method = method;
-//      this.requestURL = url;
-//      open.apply(this, arguments);
-//    };
-   
-//    const send = XMLHttpRequest.prototype.send;
-//    XMLHttpRequest.prototype.send = function (data) {
-//      const makeRequest = () => {
-//        let requestBody = data;
-//        const matchedRule = getMatchedByUrl(this.requestURL)
-//        if(matchedRule) {
-//          requestBody = matchedRule.editorValue;
-//        }
-//        this.requestData = requestBody;
-//        send.call(this, requestBody);
-//      };
- 
-//      if(!window[NAMESPACE].gotRules) {
-//        window[NAMESPACE].queueRequests.push(makeRequest);
-//        return;
-//      }
-//      makeRequest();
-//    };
-   
-//    const setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
-//    XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
-//      this.requestHeaders = this.requestHeaders || {};
-//      this.requestHeaders[header] = value;
-//      setRequestHeader.apply(this, arguments);
-//    };
- 
-//    const unregisterXMLHttpRequest = () => {
-//      window.XMLHttpRequest = originalXHR;
-//      window.XMLHttpRequest.prototype.open = open;
-//      window.XMLHttpRequest.prototype.send = send;
-//      window.XMLHttpRequest.prototype.setRequestHeader = setRequestHeader;
-//    }
-//    const unregisterFetch = () => {
-//      fetchIntercept.clear();
-//      window.fetch = originalFetch;
-//    }
- 
-//   fetchIntercept.register({
-//     request: function (url, config) {
-//       const makeRequest = (outSideResolve) => {
-//         return new Promise((resolve) => {
-//           if(!['GET', 'HEAD'].includes(config?.method?.toUpperCase())){
-//             const matchedRule = getMatchedByUrl(url);
-//             if(matchedRule) {
-//               config.body = matchedRule.editorValue;
-//             }
-//           }
-//           if(typeof outSideResolve === 'function') {
-//             outSideResolve([url, config]);
-//           }
-//           resolve([url, config]);
-//         });
-//       };
+   const getMatchedByUrl = url => {
+     const absoluteUrl = getAbsoluteUrl(url);
+     return window[NAMESPACE].rules.find(rule => {
+       if(rule.matchType === MatchType.CONTAIN) {
+         return absoluteUrl.includes(rule.source);
+       }
+       if(rule.matchType === MatchType.EQUAL) {
+         return absoluteUrl === rule.source;
+       }
+     });
+   }
 
-//       if(!window[NAMESPACE].gotRules) {
-//         let outSideResolve;
-//         const promise = new Promise(async (resolve) => {
-//           outSideResolve = resolve;
-//         });
+  const interceptor = new BatchInterceptor({
+    name: 'interceptor',
+    interceptors: browserInterceptors,
+  })
+  interceptor.apply();
 
-//         window[NAMESPACE].queueRequests.push(() => makeRequest(outSideResolve));
-//         return promise;
-//       }
+  interceptor.on('request', async (request) => {
+    const matchedRule = getMatchedByUrl(request.url);
+    if(!matchedRule) {
+        return;
+    }
+    const controller = new AbortController();
+    const requestOptions = {signal: controller.signal};
+    requestOptions.body = matchedRule.editorValue;
+    [
+        'cache',
+        'context',
+        'credentials',
+        'destination',
+        'headers',
+        'integrity',
+        'method',
+        'mode',
+        'redirect',
+        'referrer',
+        'referrerPolicy',
+        'url',
+        'bodyUsed',
+        ].forEach((prop) => {
+        if (prop in request) {
+            requestOptions[prop] = request[prop];
+        }
+        });
+    
+    const {
+        url,
+        ...options
+    } = requestOptions;
+    const newRequest = new Request(url, options);
+    const response = await originalFetch(newRequest);
+    request.respondWith(response); 
+  })
 
-//       return makeRequest();
-//     },
-//   });
- 
-//  })(NAMESPACE);
- 
+  const unregisterInterceptor = () => {
+    interceptor.dispose();
+  };
+
+ })(NAMESPACE);
