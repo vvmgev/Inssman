@@ -28,15 +28,17 @@ import { MatchType } from 'src/models/formFieldModel';
         return absoluteUrl === rule.source;
       }
     });
-  }
+  };
 
-   const originalFetch = window.fetch;
-   window.fetch = async (...args) => {
+
+  // Fetch interceptor
+  const originalFetch = window.fetch;
+  window.fetch = async (...args) => {
     const [resource, options = {}] = args;
     const getOriginalResponse = () => originalFetch(...args);
- 
+
     let request;
- 
+
     if (resource instanceof Request) {
       request = resource.clone();
     } else {
@@ -72,6 +74,39 @@ import { MatchType } from 'src/models/formFieldModel';
     } catch (error) {
       return Promise.reject(error);
     }
-   };
+  }
+
+  // XMLHttpRequest interceptor
+  const XHR = XMLHttpRequest;
+  XMLHttpRequest = function () {
+    const xhr = new XHR();
+    return xhr;
+  };
+  XMLHttpRequest.prototype = XHR.prototype;
+  Object.entries(XHR).map(([key, val]) => {
+    XMLHttpRequest[key] = val;
+  });
+
+  const open = XMLHttpRequest.prototype.open;
+  XMLHttpRequest.prototype.open = function (method, url) {
+    this.method = method;
+    this.requestURL = url;
+    open.apply(this, arguments);
+  };
+
+  const send = XMLHttpRequest.prototype.send;
+  XMLHttpRequest.prototype.send = function (data) {
+    const matchedRule = getMatchedRuleByUrl(this.requestURL);
+    const requestBody = matchedRule ? matchedRule.editorValue : data;
+    this.requestData = requestBody;
+    send.call(this, requestBody);
+  };
+
+  const setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+  XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
+    this.requestHeaders = this.requestHeaders || {};
+    this.requestHeaders[header] = value;
+    setRequestHeader.apply(this, arguments);
+  };
 
 })(NAMESPACE);
