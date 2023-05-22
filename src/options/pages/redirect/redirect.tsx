@@ -41,7 +41,7 @@ const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRu
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.REDIRECT});
     }
   }, []);
 

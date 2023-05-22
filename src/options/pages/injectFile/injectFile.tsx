@@ -81,7 +81,7 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.INJECT_FILE});
     }
     editorRef.current?.setValue(editorValue);
   }, []);

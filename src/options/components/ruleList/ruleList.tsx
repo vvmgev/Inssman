@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import { Link } from 'react-router-dom';
-import CrossSVG  from 'assets/icons/cross.svg';
-import PencilSVG  from 'assets/icons/pencil.svg';
-import SearchSVG  from 'assets/icons/search.svg';
-import TrashSVG  from 'assets/icons/trash.svg';
-import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IconsMap } from 'models/formFieldModel';
 import { PageTypeMap } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import TrackService from 'src/services/TrackService';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
-import ColorCover from '../common/colorCover/colorCover';
-import Button from '../common/button/button';
-import Switcher from '../common/switcher/switcher';
-import Tooltip from '../common/tooltip/tooltip';
+import ColorCover from 'components/common/colorCover/colorCover';
+import Button from 'components/common/button/button';
+import Switcher from 'components/common/switcher/switcher';
+import Tooltip from 'components/common/tooltip/tooltip';
+import CrossSVG  from 'assets/icons/cross.svg';
+import PencilSVG  from 'assets/icons/pencil.svg';
+import SearchSVG  from 'assets/icons/search.svg';
+import TrashSVG  from 'assets/icons/trash.svg';
+import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
@@ -37,6 +37,8 @@ export default () => {
           () => getData()
       );
   };
+
+  console.log('data', data);
 
   return <div className="min-h-[250px] overflow-hidden mt-[50px]">
       <div className="min-h-[350px] h-[500px] w-full  rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
@@ -123,7 +125,7 @@ export default () => {
                 </Tooltip>
                 <Tooltip
                   actions={['hover']}
-                  triggerElement={<Link className="cursor-pointer hover:text-sky-500" to={`/edit-rule/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>} >
+                  triggerElement={<Link className="cursor-pointer hover:text-sky-500" to={`/edit/${ruleData.pageType}/${ruleData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>} >
                     <span className='text-slate-200'>Edit Rule</span>
                 </Tooltip>
                 <Tooltip

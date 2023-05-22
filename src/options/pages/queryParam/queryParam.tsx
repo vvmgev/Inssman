@@ -74,7 +74,7 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.QUERY_PARAM});
     }
   }, []);
 

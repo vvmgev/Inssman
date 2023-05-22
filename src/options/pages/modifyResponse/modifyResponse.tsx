@@ -52,7 +52,7 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.MODIFY_RESPONSE});
     }
     editorRef.current.setValue(editorValue);
   }, []);
