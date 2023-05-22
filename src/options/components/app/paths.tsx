@@ -7,45 +7,46 @@ import PencilSquareSVG  from 'assets/icons/pencilSquare.svg'
 import ListBulletSVG  from 'assets/icons/listBullet.svg';
 import PaperClipSVG  from 'assets/icons/paperClip.svg';
 import WrenchSVG  from 'assets/icons/wrench.svg';
+import { PageType } from 'src/models/formFieldModel';
 
 export const paths = [
     {
-      path: '/create-rule/redirect',
+      path: PageType.REDIRECT,
       text: 'Redirect Request',
       icon: <RedirectSVG />
     },
     {
-      path: '/create-rule/block',
+      path: PageType.BLOCK,
       text: 'Block Request',
       icon: <BlockSVG />
     },
     {
-      path: '/create-rule/query-param',
+      path: PageType.QUERY_PARAM,
       text: 'Query Param',
       icon: <QuestionSVG />
     },
     {
-      path: '/create-rule/modify-header',
+      path: PageType.MODIFY_HEADER,
       text: 'Modify Header',
       icon: <CodeSVG />
     },
     {
-      path: '/create-rule/modify-response',
+      path: PageType.MODIFY_RESPONSE,
       text: 'Modify Response',
       icon: <PencilSquareSVG />
     },
     {
-      path: '/create-rule/inject-file',
+      path: PageType.INJECT_FILE,
       text: 'Inject File',
       icon: <WrenchSVG />
     },
     {
-      path: '/create-rule/modify-request-body',
+      path: PageType.MODIFY_REQUEST_BODY,
       text: 'Modify Request Body',
       icon: <PaperClipSVG />
     },
     {
-      path: '/http-logger',
+      path: PageType.HTTP_LOGGER,
       text: 'HTTP Logger',
       icon: <ListBulletSVG />
     },

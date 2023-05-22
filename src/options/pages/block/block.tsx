@@ -36,7 +36,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData, onDel
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.BLOCK});
     }
   }, []);
 

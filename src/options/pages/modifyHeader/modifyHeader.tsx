@@ -5,9 +5,9 @@ import ModifyHeaderFields from './modifyHeaderFields';
 import SourceFields from 'components/common/source/sourceFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import Form from 'src/options/components/common/form/form';
+import ColorCover from 'components/common/colorCover/colorCover';
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
-import ColorCover from 'components/common/colorCover/colorCover';
 
 const getDefaultData = () => ({
   name: '',
@@ -71,7 +71,7 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error
 
   useEffect(() => {
     if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
+      setRuleData({pageType: PageType.MODIFY_HEADER});
     }
   }, []);
 

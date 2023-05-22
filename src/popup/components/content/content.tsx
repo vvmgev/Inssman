@@ -16,7 +16,7 @@ const Content = () => {
                 <Fragment key={index}>
                     {index % 3 === 0 ? <div className="w-full"></div> : null}
                     <ColorCover classes="w-[30%] m-[1%] hover:bg-opacity-70">
-                        <a href={chrome.runtime.getURL(`options/options.html#${path}`)} target="_blank">
+                        <a href={chrome.runtime.getURL(`options/options.html#/create/${path}`)} target="_blank">
                             <div className="flex flex-col items-center align-center gap-3 hover:text-sky-500">
                                 <div className="w-[24px]">{icon}</div>
                                 <div>{text}</div>

@@ -30,7 +30,7 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
 
     useEffect(() => {
         if(mode === FormMode.CREATE) {
-          setRuleData(defaultData);
+          setRuleData({pageType: PageType.MODIFY_REQUEST_BODY});
         }
         editorRef.current?.setValue(editorValue);
 

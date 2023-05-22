@@ -24,7 +24,7 @@ const RuleRoutes = () => {
 
   return <Routes>
     <Route path="/" element={<RuleList />} />
-    <Route path="/create-rule">
+    <Route path="/create">
         <Route path="redirect" element={<RedirectFormHOC key={0} />} />
         <Route path="block" element={<CancelFormHOC key={1} />} />
         <Route path="query-param" element={<QueryParamFormHOC key={2} />} />
@@ -32,8 +32,9 @@ const RuleRoutes = () => {
         <Route path="modify-response" element={<ModifyResponseFormHOC key={4} />} />
         <Route path="modify-request-body" element={<ModifyRequestBodyFormHOC key={5} />} />
         <Route path="inject-file" element={<InjectFileFormHOC key={6} />} />
+        <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />} />
     </Route>
-    <Route path="/edit-rule">
+    <Route path="/edit">
         <Route path="redirect/:id" element={<RedirectFormHOC key={7} />} />
         <Route path="block/:id" element={<CancelFormHOC key={8} />} />
         <Route path="query-param/:id" element={<QueryParamFormHOC key={9} />} />
@@ -42,7 +43,15 @@ const RuleRoutes = () => {
         <Route path="modify-request-body/:id" element={<ModifyRequestBodyFormHOC key={12} />} />
         <Route path="inject-file/:id" element={<InjectFileFormHOC key={13} />} />
     </Route>
-    <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />} />
+    <Route path="/template">
+        <Route path="redirect/:id" key={30} element={<RedirectFormHOC key={30} />} />
+        <Route path="block/:id" key={31} element={<CancelFormHOC key={31} />} />
+        <Route path="query-param/:id" key={32} element={<QueryParamFormHOC key={32} />} />
+        <Route path="modify-header/:id" key={33} element={<ModifyHeaderFormHOC key={33} />} />
+        <Route path="modify-response/:id" key={34} element={<ModifyResponseFormHOC key={34} />} />
+        <Route path="modify-request-body/:id" key={35} element={<ModifyRequestBodyFormHOC key={35} />} />
+        <Route path="inject-file/:id" key={36} element={<InjectFileFormHOC key={36} />} />
+    </Route>
   </Routes>
 }
 

@@ -1,5 +1,6 @@
 import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleData } from "src/models/formFieldModel";
+
 class StorageService {
 
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
