@@ -14,7 +14,7 @@ const getDefaultData = () => ({
   matchType: MatchType.CONTAIN,
   source: '',
   pageType: PageType.MODIFY_HEADER,
-  headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
+  headers: [{header: '', operation: HeaderOperation.SET, value: 'qwq', type: HeaderModificationType.REQUEST}],
   requestMethods: [],
 });
 
@@ -25,7 +25,7 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error
          source = defaultData.source,
          requestMethods = defaultData.requestMethods,
          headers = defaultData.headers} = ruleData;
-  
+
   const onAddHeader = () => {
     onChange({target: { name: 'headers', value: [...headers, {header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]}});
   };
