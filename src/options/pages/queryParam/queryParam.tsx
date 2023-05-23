@@ -25,6 +25,8 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           requestMethods = defaultData.requestMethods,
           queryParams = defaultData.queryParams} = ruleData;
 
+  console.log('ruleData', ruleData);
+  
   const onAddQueryParam = () => {
     onChange({target: { name: 'queryParams', value: [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}});
   };

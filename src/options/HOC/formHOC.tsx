@@ -21,10 +21,9 @@ const FormHOC = (Component: any) => {
   return class extends React.Component<{}, State> {
     constructor(props) {
       super(props);
-      console.log('props', props);
       const state = (this.props as any).location.state;
       const id = props.params.id ? Number(props.params.id) : null;
-      const mode = id && !state.template ? FormMode.UPDATE : FormMode.CREATE;
+      const mode = id && !state?.template ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
         error: {},
         ruleData: {} as IRuleData,
@@ -193,11 +192,11 @@ const FormHOC = (Component: any) => {
     }
 
     componentDidUpdate(prevProps,): void {
-      const state = (this.props as any).location.state;
+      // const state = (this.props as any).location.state;
       // @ts-ignore
-      if(state.template && prevProps.params.id !== this.props.params.id) {
-        this.setRuleData(state.ruleData);
-      }
+      // if(state?.template && prevProps.state.ruleData.id !== state.ruleData.id) {
+        // this.setRuleData(state.ruleData);
+      // }
     }
 
   }

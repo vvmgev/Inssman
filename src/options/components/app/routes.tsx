@@ -44,13 +44,13 @@ const RuleRoutes = () => {
         <Route path="inject-file/:id" element={<InjectFileFormHOC key={13} />} />
     </Route>
     <Route path="/template">
-        <Route path="redirect/:id" element={<RedirectFormHOC key={30} />} />
-        <Route path="block/:id" element={<CancelFormHOC key={31} />} />
-        <Route path="query-param/:id" element={<QueryParamFormHOC key={32} />} />
-        <Route path="modify-header/:id" element={<ModifyHeaderFormHOC key={33} />} />
-        <Route path="modify-response/:id" element={<ModifyResponseFormHOC key={34} />} />
-        <Route path="modify-request-body/:id" element={<ModifyRequestBodyFormHOC key={35} />} />
-        <Route path="inject-file/:id" element={<InjectFileFormHOC key={36} />} />
+        <Route path="redirect" element={<RedirectFormHOC key={30} />} />
+        <Route path="block" element={<CancelFormHOC key={31} />} />
+        <Route path="query-param" element={<QueryParamFormHOC key={32} />} />
+        <Route path="modify-header" element={<ModifyHeaderFormHOC key={33} />} />
+        <Route path="modify-response" element={<ModifyResponseFormHOC key={34} />} />
+        <Route path="modify-request-body" element={<ModifyRequestBodyFormHOC key={35} />} />
+        <Route path="inject-file" element={<InjectFileFormHOC key={36} />} />
     </Route>
   </Routes>
 }
