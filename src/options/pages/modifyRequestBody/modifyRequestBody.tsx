@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { EditorLanguage, FormMode, MatchType, PageType } from 'src/models/formFieldModel';
+import { EditorLanguage, MatchType, PageType } from 'src/models/formFieldModel';
 import BrowserSupport from 'src/options/components/app/browserSupport';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import Editor from 'src/options/components/common/editor/editor';
@@ -17,7 +17,7 @@ const defaultData = {
     editorValue: '',
 };
 
-const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData, onDelete}) => {
+const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, onDelete}) => {
     const editorRef = useRef<any>();
     const { name = defaultData.name,
         source = defaultData.source,
@@ -29,11 +29,7 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
     const onSubmit = () => onSave(null);
 
     useEffect(() => {
-        if(mode === FormMode.CREATE) {
-          setRuleData({pageType: PageType.MODIFY_REQUEST_BODY});
-        }
-        editorRef.current?.setValue(editorValue);
-
+      editorRef.current?.setValue(editorValue);
     }, []);
 
     if(!BSService.isSupportScripting()) return <BrowserSupport />

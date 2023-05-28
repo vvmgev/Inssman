@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import Input from 'components/common/input/input';
-import { InjectFileType, FormMode, MatchType, InjectFileSource, InjectFileOperator, MatchTypeMap, IRule } from 'models/formFieldModel';
+import { InjectFileType, MatchType, InjectFileSource, InjectFileOperator, MatchTypeMap, IRule } from 'models/formFieldModel';
 import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
@@ -80,9 +80,6 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
   };
 
   useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData({pageType: PageType.INJECT_FILE});
-    }
     editorRef.current?.setValue(editorValue);
   }, []);
 

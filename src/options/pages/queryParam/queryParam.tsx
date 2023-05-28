@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback } from 'react';
-import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
+import React, { useCallback } from 'react';
+import { IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
 import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
@@ -17,7 +17,7 @@ const getDefaultData = () => ({
   requestMethods: [],
 });
 
-const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
+const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
   const defaultData = getDefaultData();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -25,13 +25,15 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
           requestMethods = defaultData.requestMethods,
           queryParams = defaultData.queryParams} = ruleData;
 
-  console.log('ruleData', ruleData);
+  console.log('QueryParamForm', ruleData);
   
   const onAddQueryParam = () => {
     onChange({target: { name: 'queryParams', value: [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}});
   };
 
   const onChangeParam = (event, index) => {
+    console.log('onChangeParam');
+    console.log('queryParams', queryParams)
     const newQueryParams = [...queryParams]
     newQueryParams[index][event.target.name] = event.target.value;
     onChange({target: { name: 'queryParams', value: newQueryParams }});
@@ -74,11 +76,6 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
     onSave(form);
   };
 
-  useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData({pageType: PageType.QUERY_PARAM});
-    }
-  }, []);
 
   return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
