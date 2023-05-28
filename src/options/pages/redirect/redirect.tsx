@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Input from 'components/common/input/input';
-import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
 import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
@@ -18,7 +18,7 @@ const defaultData = {
   requestMethods: [],
 }
 
-const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
+const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
@@ -38,12 +38,6 @@ const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRu
     };
     onSave(form);
   };
-
-  useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData({pageType: PageType.REDIRECT});
-    }
-  }, []);
 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://example.com',

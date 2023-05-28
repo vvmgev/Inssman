@@ -4,7 +4,7 @@ import ListSVG  from 'assets/icons/list.svg';
 import Logo  from 'assets/images/logo.svg';
 import ColorCover from '../common/colorCover/colorCover';
 import { paths } from '../app/paths';
-import Templates from './templates';
+import TemplateList from './templateList';
 
 const SideBar = () => {
   const location = useLocation();
@@ -32,7 +32,7 @@ const SideBar = () => {
           ))}
         </ul>
       </ColorCover>
-      <Templates />
+      <TemplateList />
     </div>
     <div></div>
   </div>

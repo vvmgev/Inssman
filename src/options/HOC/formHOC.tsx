@@ -21,9 +21,9 @@ const FormHOC = (Component: any) => {
   return class extends React.Component<{}, State> {
     constructor(props) {
       super(props);
-      const state = (this.props as any).location.state;
+      // const state = (this.props as any).location.state;
       const id = props.params.id ? Number(props.params.id) : null;
-      const mode = id && !state?.template ? FormMode.UPDATE : FormMode.CREATE;
+      const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       this.state = {
         error: {},
         ruleData: {} as IRuleData,
@@ -31,6 +31,8 @@ const FormHOC = (Component: any) => {
         id,
       }
     }
+
+    getPageType = (): string => (this.props as any).location.pathname.split('/').pop();
 
     setRuleData = ruleData => {
       this.setState(state => ({
@@ -81,6 +83,9 @@ const FormHOC = (Component: any) => {
     }
 
     onChange = (event) => {
+      console.log('event.target.name', event.target.name);
+      console.log('event.target.value', event.target.value);
+
       this.setState(state => ({
         ...state,
         ruleData: {
@@ -166,9 +171,10 @@ const FormHOC = (Component: any) => {
       if(mode === FormMode.UPDATE && !Object.keys(ruleData).length) {
         return <></>
       }
+
+      console.log('this.state.ruleData', this.state.ruleData);
       
       return <Component
-        setRuleData={this.setRuleData}
         ruleData={this.state.ruleData}
         setError={this.setError}
         onChange={this.onChange}
@@ -179,26 +185,24 @@ const FormHOC = (Component: any) => {
     }
 
     componentDidMount(): void {
+      if(this.state.mode === FormMode.CREATE) {
+        this.setRuleData({pageType: this.getPageType()});
+      }
       if(this.state.mode === FormMode.UPDATE) {
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRuleById,
           data: {id: this.state.id},
         }, ({ruleData}) => this.setState({ruleData}));
+        return;
       }
       const state = (this.props as any).location.state;
-      if(this.state.mode === FormMode.CREATE && state) {
-        this.setRuleData(state.ruleData);
+      if(state?.template) {
+        setTimeout(() => {
+          console.log('timeout');
+          this.setState({ruleData: state.ruleData})
+        }, 1000)
       }
     }
-
-    componentDidUpdate(prevProps,): void {
-      // const state = (this.props as any).location.state;
-      // @ts-ignore
-      // if(state?.template && prevProps.state.ruleData.id !== state.ruleData.id) {
-        // this.setRuleData(state.ruleData);
-      // }
-    }
-
   }
 }
 

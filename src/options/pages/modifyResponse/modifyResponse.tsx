@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { EditorLanguage, FormMode, IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
+import { EditorLanguage,  IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
 import { encode } from 'options/utils';
 import { PageType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
@@ -20,7 +20,7 @@ const defaultData = {
   requestMethods: []
 }
 
-const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
+const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
   const editorRef = useRef<any>();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -51,9 +51,6 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
   }, []), []);
 
   useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData({pageType: PageType.MODIFY_RESPONSE});
-    }
     editorRef.current.setValue(editorValue);
   }, []);
 

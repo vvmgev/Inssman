@@ -4,7 +4,7 @@ import { paths } from '../app/paths';
 import { templates } from '../app/templates';
 import ColorCover from 'components/common/colorCover/colorCover';
 
-const Templates = () => {
+const TemplateList = () => {
     return <ColorCover classes='px-0 rounded-tl-none rounded-bl-none h-[initial]'>
       <ul>
         <li className="pl-2 mb-2 text-slate-400"><div>Templates</div></li>
@@ -25,4 +25,4 @@ const Templates = () => {
     </ColorCover>
 };
 
-export default Templates;
+export default TemplateList;
