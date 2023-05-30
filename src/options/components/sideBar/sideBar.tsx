@@ -6,7 +6,7 @@ import TemplateList from './templateList';
 import FormList from './formList';
 
 const SideBar = () => {
-  return <div className="flex flex-col h-full justify-between">
+  return <div className="flex flex-col h-full justify-between overflow-y-auto">
     <ColorCover classes='h-30 py-3 px-2 rounded-bl-none rounded-tl-none rounded-tr-none h-[initial]'>
       <Link className="hover:cursor-pointer" to="/"><Logo /></Link>
     </ColorCover>
