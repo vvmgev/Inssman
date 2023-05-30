@@ -75,7 +75,7 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, setRuleData, ruleData, error
     }
   }, []);
 
-  return <div className="h-[150px] min-h-[550px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_HEADER}>
         <div className="w-1/5">

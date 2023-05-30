@@ -40,7 +40,7 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, setRuleData, onDel
     }
   }, []);
 
-  return <div className="h-[150px] min-h-[300px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
         <ColorCover>
           <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.BLOCK}>
             <div className="w-1/5">

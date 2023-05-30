@@ -52,7 +52,7 @@ const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRu
     [MatchType.CONTAIN]: 'e.g http://example.com',
   }), []);
 
-  return <div className="h-[150px] min-h-[300px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
       <ColorCover>
         <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.REDIRECT}>
           <div className="w-1/5">

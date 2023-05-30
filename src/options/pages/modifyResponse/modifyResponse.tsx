@@ -58,7 +58,7 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, set
   }, []);
 
 
-  return <div className="h-[150px] min-h-[600px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.MODIFY_RESPONSE}>
         <div className="w-1/5">

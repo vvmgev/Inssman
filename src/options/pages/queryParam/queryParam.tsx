@@ -6,8 +6,7 @@ import SourceFields from 'components/common/source/sourceFields';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
 import RuleName from 'components/common/ruleName/ruleName';
 import ColorCover from 'components/common/colorCover/colorCover';
-import RuleActionType = chrome.declarativeNetRequest.RuleActionType
-
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const getDefaultData = () => ({
   name: '',
@@ -79,7 +78,7 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
     }
   }, []);
 
-  return <div className="h-[150px] min-h-[550px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.QUERY_PARAM}>
         <div className="w-1/5">

@@ -38,7 +38,7 @@ const ModifyRequestBody = ({mode, onSave, error, onChange, ruleData, setRuleData
 
     if(!BSService.isSupportScripting()) return <BrowserSupport />
 
-    return <div className="h-[150px] min-h-[600px] mt-[50px]">
+    return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
         <div className="w-1/5">

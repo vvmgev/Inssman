@@ -91,7 +91,7 @@ const InjectFileForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
     [InjectFileType.CSS]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css',
   }), []);
 
-  return <div className="h-[150px] min-h-[600px] mt-[50px]">
+  return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={PageType.INJECT_FILE}>
         <div className="w-1/5">

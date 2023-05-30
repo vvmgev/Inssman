@@ -65,7 +65,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
   }, []);
 
   return <div className="h-full">
-    <ColorCover classes={`max-h-[300px] pb-0 pt-[10px] ${listBoxClasses}`}>
+    <ColorCover classes={`max-h-[50%] overflow-y-auto pb-0 pt-[10px] ${listBoxClasses}`}>
       <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
         {showOpenWindowBtn && <OutlineButton onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
         <OutlineButton onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
@@ -109,7 +109,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
         ))}
       </ul>
     </ColorCover>
-    <ColorCover classes={`max-h-[400px] mt-[10px] ${infoBoxClasses}`}>
+    <ColorCover classes={`max-h-[50%] overflow-y-auto mt-[10px] ${infoBoxClasses}`}>
       {activeReuquestId && (
         <>
         {requestList[activeReuquestId]?.requestHeaders && (
