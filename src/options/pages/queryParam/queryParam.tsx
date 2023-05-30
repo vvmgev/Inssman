@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
 import Form from 'src/options/components/common/form/form';
+import { IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
@@ -12,7 +12,7 @@ const getDefaultData = () => ({
   name: '',
   matchType: MatchType.CONTAIN,
   source: '',
-  queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
+  queryParams: [{key: 'qqqq', value: 'qww', action: QueryParamAction.ADD}],
   pageType: PageType.QUERY_PARAM,
   requestMethods: [],
 });
@@ -25,15 +25,11 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData }) =
           requestMethods = defaultData.requestMethods,
           queryParams = defaultData.queryParams} = ruleData;
 
-  console.log('QueryParamForm', ruleData);
-  
   const onAddQueryParam = () => {
     onChange({target: { name: 'queryParams', value: [...queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}});
   };
 
   const onChangeParam = (event, index) => {
-    console.log('onChangeParam');
-    console.log('queryParams', queryParams)
     const newQueryParams = [...queryParams]
     newQueryParams[index][event.target.name] = event.target.value;
     onChange({target: { name: 'queryParams', value: newQueryParams }});
