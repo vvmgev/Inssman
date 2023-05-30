@@ -21,12 +21,19 @@ const FormHOC = (Component: any) => {
   return class extends React.Component<{}, State> {
     constructor(props) {
       super(props);
-      // const state = (this.props as any).location.state;
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
+      const state = (this.props as any).location.state; 
+      let ruleData: IRuleData = {} as IRuleData;
+      if(state?.template) {
+        ruleData = {
+          pageType: this.getPageType(),
+          ...state.ruleData,
+        }
+      }
       this.state = {
         error: {},
-        ruleData: {} as IRuleData,
+        ruleData,
         mode,
         id,
       }
@@ -83,9 +90,6 @@ const FormHOC = (Component: any) => {
     }
 
     onChange = (event) => {
-      console.log('event.target.name', event.target.name);
-      console.log('event.target.value', event.target.value);
-
       this.setState(state => ({
         ...state,
         ruleData: {
@@ -172,8 +176,6 @@ const FormHOC = (Component: any) => {
         return <></>
       }
 
-      console.log('this.state.ruleData', this.state.ruleData);
-      
       return <Component
         ruleData={this.state.ruleData}
         setError={this.setError}
@@ -185,9 +187,6 @@ const FormHOC = (Component: any) => {
     }
 
     componentDidMount(): void {
-      if(this.state.mode === FormMode.CREATE) {
-        this.setRuleData({pageType: this.getPageType()});
-      }
       if(this.state.mode === FormMode.UPDATE) {
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRuleById,
@@ -195,14 +194,16 @@ const FormHOC = (Component: any) => {
         }, ({ruleData}) => this.setState({ruleData}));
         return;
       }
+    }
+
+    componentDidUpdate(prevProps: Readonly<{}>): void {
       const state = (this.props as any).location.state;
-      if(state?.template) {
-        setTimeout(() => {
-          console.log('timeout');
-          this.setState({ruleData: state.ruleData})
-        }, 1000)
+      const prevState = (prevProps as any).location.state;
+      if(state?.template  && state.ruleData.id !== prevState.ruleData.id) {
+        this.setState({ruleData: state.ruleData});
       }
     }
+
   }
 }
 

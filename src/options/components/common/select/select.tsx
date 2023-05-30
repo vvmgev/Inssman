@@ -20,7 +20,6 @@ const Select = ({value, classes = '', name, options, onChange, error, placeholde
 
     useEffect(() => {
         idRef.current = `select-${Number(Date.now() + Math.round(Math.random() * 1000) )}`;
-        console.log('idRef.current', idRef.current);
         selectRef.current.id = idRef.current;
         let selectSettings = {};
         if(multiple) {
@@ -51,7 +50,6 @@ const Select = ({value, classes = '', name, options, onChange, error, placeholde
     }, []);
 
     return <div className={`inline-block w-full ${classes}`}>
-        <span>{String(idRef.current)}</span>
         <select className={`w-full capitalize py-3 rounded focus:outline-none active:outline-none border-none focus:shadow-none
             text-slate-200 bg-slate-700/70 ${error ? 'border border-red-500' : 'focus:border-none'}`}
             id={idRef.current}
