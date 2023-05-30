@@ -1,6 +1,6 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import Input from 'components/common/input/input';
-import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import { IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { addProtocol, backslashNumber } from 'options/utils';
 import Form from 'src/options/components/common/form/form';
 import { PageType } from 'models/formFieldModel';
@@ -18,7 +18,7 @@ const defaultData = {
   requestMethods: [],
 }
 
-const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
+const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
   const { name = defaultData.name,
           matchType = defaultData.matchType,
           source = defaultData.source,
@@ -45,12 +45,6 @@ const RedirectForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRu
     // [MatchType.WILDCARD]: `e.g http://example.com/${String.fromCharCode(92)}1/${String.fromCharCode(92)}2 (Each backslah with number will be replaced match with *)`,
     [MatchType.CONTAIN]: 'e.g http://example.com',
   }), []);
-
-  useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
-    }
-  }, []);
 
   return <div className="mt-[50px] h-full overflow-y-auto">
       <ColorCover>

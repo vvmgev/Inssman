@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Form from 'src/options/components/common/form/form';
-import { FormMode, IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
+import { IRule, MatchType, MatchTypeMap, QueryParamAction } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
@@ -17,7 +17,7 @@ const getDefaultData = () => ({
   requestMethods: [],
 });
 
-const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
+const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
   const defaultData = getDefaultData();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -71,12 +71,6 @@ const QueryParamForm = ({ onSave, onDelete, mode, error, onChange, ruleData, set
     };
     onSave(form);
   };
-
-  useEffect(() => {
-    if(mode === FormMode.CREATE) {
-      setRuleData(defaultData);
-    }
-  }, []);
 
   return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
