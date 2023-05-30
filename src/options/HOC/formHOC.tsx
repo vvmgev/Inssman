@@ -5,6 +5,7 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
+import FormBuilder from '../formBuilder/formBuilder';
 
 type FormError = {
   [key: string]: { message: string };
@@ -163,16 +164,16 @@ const FormHOC = (Component: any) => {
         // }
       }
       
-      chrome.runtime.sendMessage({
-        action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
-        data: form
-      }, (data) => {
-        if(data?.error) {
-          this.setError(data.info.fieldName, data.info.message)
-          return;
-        }
-        (this.props as any).navigate('/')
-      });
+      // chrome.runtime.sendMessage({
+      //   action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
+      //   data: form
+      // }, (data) => {
+      //   if(data?.error) {
+      //     this.setError(data.info.fieldName, data.info.message)
+      //     return;
+      //   }
+      //   (this.props as any).navigate('/')
+      // });
     }
 
     render() {
@@ -181,15 +182,27 @@ const FormHOC = (Component: any) => {
         return <></>
       }
 
-      return <Component
-        ruleData={this.state.ruleData}
-        setError={this.setError}
-        onChange={this.onChange}
-        setRuleData={this.setRuleData}
-        onSave={this.onSave}
-        onDelete={this.onDelete}
-        error={this.state.error}
-        mode={this.state.mode} />
+      console.log('this.state', this.state);
+
+      
+      return <FormBuilder
+                ruleData={this.state.ruleData}
+                onChange={this.onChange}
+                error={this.state.error}
+                onDelete={this.onDelete}
+                onSave={this.onSave}
+                mode={this.state.mode}
+              />
+
+      // return <Component
+      //   ruleData={this.state.ruleData}
+      //   setError={this.setError}
+      //   onChange={this.onChange}
+      //   setRuleData={this.setRuleData}
+      //   onSave={this.onSave}
+      //   onDelete={this.onDelete}
+      //   error={this.state.error}
+      //   mode={this.state.mode} />
     }
 
     componentDidMount(): void {
