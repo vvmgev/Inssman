@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import React, { useCallback, useEffect } from 'react';
+import { FormMode, HeaderModificationType, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
 import ModifyHeaderFields from './modifyHeaderFields';
 import SourceFields from 'components/common/source/sourceFields';
@@ -14,11 +14,11 @@ const getDefaultData = () => ({
   matchType: MatchType.CONTAIN,
   source: '',
   pageType: PageType.MODIFY_HEADER,
-  headers: [{header: '', operation: HeaderOperation.SET, value: 'qwq', type: HeaderModificationType.REQUEST}],
+  headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
   requestMethods: [],
 });
 
-const ModifyHeaderForm = ({ onSave, onDelete, mode, ruleData, error, onChange }) => {
+const ModifyHeaderForm = ({ onSave, onDelete, mode, ruleData, error, onChange, setRuleData }) => {
   const defaultData = getDefaultData();
   const {name = defaultData.name,
          matchType = defaultData.matchType,
@@ -69,6 +69,11 @@ const ModifyHeaderForm = ({ onSave, onDelete, mode, ruleData, error, onChange })
     onSave(form);
   };
 
+  useEffect(() => {
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
+    }
+  }, []);
 
   return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>

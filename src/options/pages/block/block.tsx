@@ -1,5 +1,5 @@
-import React from 'react';
-import { IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
+import React, { useEffect } from 'react';
+import { FormMode, IRule, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PageType } from 'models/formFieldModel';
 import Form from 'src/options/components/common/form/form';
 import SourceFields from 'components/common/source/sourceFields';
@@ -15,7 +15,7 @@ const defaultData = {
   requestMethods: [],
 }
 
-const CancelForm = ({mode, onSave, error, onChange, ruleData, onDelete}) => {
+const CancelForm = ({mode, onSave, error, onChange, ruleData, onDelete, setRuleData}) => {
   const { name = defaultData.name,
           source = defaultData.source,
           matchType = defaultData.matchType,
@@ -33,6 +33,12 @@ const CancelForm = ({mode, onSave, error, onChange, ruleData, onDelete}) => {
     };
     onSave(form);
   };
+
+  useEffect(() => {
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
+    }
+  }, []);
 
 
   return <div className="mt-[50px] h-full overflow-y-auto">

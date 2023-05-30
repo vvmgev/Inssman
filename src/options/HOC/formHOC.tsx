@@ -180,6 +180,7 @@ const FormHOC = (Component: any) => {
         ruleData={this.state.ruleData}
         setError={this.setError}
         onChange={this.onChange}
+        setRuleData={this.setRuleData}
         onSave={this.onSave}
         onDelete={this.onDelete}
         error={this.state.error}

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
-import { EditorLanguage,  IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
+import { EditorLanguage,  FormMode,  IRule, MatchType, MatchTypeMap, MimeTypeMap } from 'models/formFieldModel';
 import { encode } from 'options/utils';
 import { PageType } from 'models/formFieldModel';
 import Select from 'components/common/select/select';
@@ -20,7 +20,7 @@ const defaultData = {
   requestMethods: []
 }
 
-const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData }) => {
+const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData, setRuleData }) => {
   const editorRef = useRef<any>();
   const { name = defaultData.name,
           matchType = defaultData.matchType,
@@ -51,9 +51,12 @@ const ModifyResponse = ({ onSave, onDelete, mode, error, onChange, ruleData }) =
   }, []), []);
 
   useEffect(() => {
+    if(mode === FormMode.CREATE) {
+      setRuleData(defaultData);
+    }
     editorRef.current.setValue(editorValue);
-  }, []);
 
+  }, []);
 
   return <div className="mt-[50px] h-full overflow-y-auto">
     <ColorCover>
