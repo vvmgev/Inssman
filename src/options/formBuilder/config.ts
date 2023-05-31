@@ -1,5 +1,5 @@
 import React from "react";
-import { EditorLanguage, HeaderModificationType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
+import { EditorLanguage, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
 import { addProtocol, encode } from "../utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
@@ -277,6 +277,20 @@ const config = {
                     source: '',
                 },
             },
+            {
+                id: 602,
+                type: 'injectFileSources',
+                multipleFields: true,
+                defaultValues: {
+                    fileSource: '',
+                    tagSelector: '',
+                    fileSourceType: InjectFileSource.CODE,
+                    editorLang: InjectFileType.JAVASCRIPT,
+                    editorValue: '',
+                    tagSelectorOperator: InjectFileOperator.AFTERBEGIN
+                },
+                
+            }
         ],
         generateRule: ruleData => ({
             action: {

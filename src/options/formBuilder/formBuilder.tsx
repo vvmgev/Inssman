@@ -10,7 +10,8 @@ import QueryParamFields from 'components/common/queryParamFields/queryParamField
 import ModifyHeaderFields from '../pages/modifyHeader/modifyHeaderFields';
 import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
-import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
+import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
 const FormBuilder = (props) => {
     const editorRef = useRef<any>();
@@ -105,6 +106,8 @@ const FormBuilder = (props) => {
                 return <div className='mt-5'>
                             <Editor editorRef={editorRef} language={ruleData.editorLang || field.defaultValue} onChange={onChange} />
                         </div>
+            case 'injectFileSources':
+                return <InjectFileSources ruleData={ruleData} onChange={onChange} error={error} />
             default:
                 break;
         }

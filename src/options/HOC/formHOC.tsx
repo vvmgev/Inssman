@@ -47,11 +47,6 @@ const FormHOC = (Component: any) => {
     };
 
     setRuleData = (ruleData) => {
-      // hot fix for templates
-      const state = (this.props as any).location.state; 
-      if(state?.template) {
-        return;
-      }
       this.setState(state => ({
         ...state,
         ruleData: {
