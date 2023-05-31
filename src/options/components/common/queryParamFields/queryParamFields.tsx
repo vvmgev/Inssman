@@ -5,6 +5,7 @@ import Select from 'components/common/select/select';
 import CrossSVG  from 'assets/icons/cross.svg';
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
+  console.log('QueryParamFields', queryParams);
 
   const queryParamActionOptions = useMemo(() => Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})

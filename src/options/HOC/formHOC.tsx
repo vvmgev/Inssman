@@ -26,9 +26,10 @@ const FormHOC = (Component: any) => {
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       const state = (this.props as any).location.state; 
       let ruleData: IRuleData = {} as IRuleData;
+      const pageType = this.getPageType(mode);
       if(state?.template) {
         ruleData = {
-          pageType: this.getPageType(),
+          pageType,
           ...state.ruleData,
         }
       }
@@ -40,7 +41,10 @@ const FormHOC = (Component: any) => {
       }
     }
 
-    getPageType = (): string => (this.props as any).location.pathname.split('/').pop();
+    getPageType = (mode: FormMode): string => {
+      const pathArr = (this.props as any).location.pathname.split('/');
+      return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
+    };
 
     setRuleData = (ruleData) => {
       // hot fix for templates
@@ -164,34 +168,33 @@ const FormHOC = (Component: any) => {
         // }
       }
       
-      // chrome.runtime.sendMessage({
-      //   action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
-      //   data: form
-      // }, (data) => {
-      //   if(data?.error) {
-      //     this.setError(data.info.fieldName, data.info.message)
-      //     return;
-      //   }
-      //   (this.props as any).navigate('/')
-      // });
+      chrome.runtime.sendMessage({
+        action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
+        data: form
+      }, (data) => {
+        if(data?.error) {
+          this.setError(data.info.fieldName, data.info.message)
+          return;
+        }
+        (this.props as any).navigate('/')
+      });
     }
 
     render() {
-      const { mode, ruleData } = this.state;
+      const { mode, ruleData, error } = this.state;
       if(mode === FormMode.UPDATE && !Object.keys(ruleData).length) {
         return <></>
       }
 
-      console.log('this.state', this.state);
-
-      
       return <FormBuilder
-                ruleData={this.state.ruleData}
+                ruleData={ruleData}
                 onChange={this.onChange}
-                error={this.state.error}
+                error={error}
                 onDelete={this.onDelete}
                 onSave={this.onSave}
-                mode={this.state.mode}
+                mode={mode}
+                pageType={this.getPageType(mode)}
+                setRuleData={this.setRuleData}
               />
 
       // return <Component
@@ -222,7 +225,6 @@ const FormHOC = (Component: any) => {
         this.setState({ruleData: state.ruleData});
       }
     }
-
   }
 }
 
