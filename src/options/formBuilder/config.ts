@@ -313,6 +313,13 @@ const config = {
                     source: '',
                 },
             },
+            {
+                id: 602,
+                type: 'editor',
+                name: 'editorValue',
+                multipleFields: false,
+                defaultValue: EditorLanguage.JSON,
+            },
         ],
         generateRule: () => null
     }

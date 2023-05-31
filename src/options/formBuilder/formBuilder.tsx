@@ -103,7 +103,7 @@ const FormBuilder = (props) => {
                     </div>
             case 'editor':
                 return <div className='mt-5'>
-                            <Editor editorRef={editorRef} language={ruleData.editorLang} onChange={onChange} />
+                            <Editor editorRef={editorRef} language={ruleData.editorLang || field.defaultValue} onChange={onChange} />
                         </div>
             default:
                 break;
