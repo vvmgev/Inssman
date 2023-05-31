@@ -41,7 +41,13 @@ const FormHOC = (Component: any) => {
 
     getPageType = (): string => (this.props as any).location.pathname.split('/').pop();
 
-    setRuleData = ruleData => {
+    setRuleData = (ruleData) => {
+      // hot fix for templates
+      const state = (this.props as any).location.state; 
+      if(state?.template) {
+        return;
+      }
+      console.log('cont');
       this.setState(state => ({
         ...state,
         ruleData: {
