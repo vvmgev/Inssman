@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import Select from '../select/select';
 import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models/formFieldModel';
 import Input from '../input/input';
@@ -6,7 +6,7 @@ import Editor from '../editor/editor';
 
 const InjectFileSources = ({ onChange, ruleData, error }) => {
     const editorRef = useRef<any>();
-    const { editorLang, fileSourceType, tagSelector, tagSelectorOperator, fileSource } = ruleData;
+    const { editorLang, editorValue, fileSourceType = InjectFileSource.CODE, tagSelector, tagSelectorOperator, fileSource } = ruleData;
 
     const editorLangOptions = useMemo(() => Object.entries(InjectFileType).reduce((previous: any, [value, label]: any) => {
         previous.push({value: value.toLowerCase(), label})
@@ -27,6 +27,10 @@ const InjectFileSources = ({ onChange, ruleData, error }) => {
         [InjectFileType.JAVASCRIPT]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js',
         [InjectFileType.CSS]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css',
       }), []);
+
+      useEffect(() => {
+        editorRef.current?.setValue(editorValue || '');
+      }, []);
 
     return <>
         <div className="flex mt-5 items-center w-full">
@@ -81,8 +85,7 @@ const InjectFileSources = ({ onChange, ruleData, error }) => {
                 checked={shouldRemoveHeader}
                 />
             </div> */}
-            <div>aaaa</div>
-            <div className={`flex mt-5 items-center w-full h-full ${(fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML) ? '' : 'hidden'}`}>
+            <div className={`mt-5 ${(fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML) ? '' : 'hidden'}`}>
                 <Editor editorRef={editorRef} language={editorLang || 'javascript'} onChange={onChange} />
             </div>
             {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && <div className="flex mt-5 items-center w-full">
@@ -101,4 +104,4 @@ const InjectFileSources = ({ onChange, ruleData, error }) => {
     </>
 };
 
-export default InjectFileSources;
+export default InjectFileSources
