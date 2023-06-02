@@ -47,7 +47,6 @@ const FormHOC = (Component: any) => {
       if(state?.template) {
         return;
       }
-      console.log('cont');
       this.setState(state => ({
         ...state,
         ruleData: {
