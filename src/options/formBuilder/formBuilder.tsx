@@ -13,9 +13,8 @@ import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
-const FormBuilder = (props) => {
+const FormBuilder = ({ ruleData, setRuleData, onChange, error, onDelete, onSave, mode, pageType, template }) => {
     const editorRef = useRef<any>();
-    const { ruleData, setRuleData, onChange, error, onDelete, onSave, mode, pageType } = props;
     const { fields, generateRule } = config[pageType];
 
     const onSubmit = () => {
@@ -24,7 +23,7 @@ const FormBuilder = (props) => {
     };
 
     useEffect(() => {
-        if(mode === FormMode.CREATE) {
+        if(mode === FormMode.CREATE && !template) {
             let defaultValues: {[key: string]: string | string[]} = {pageType};
             fields.forEach(field => {
                 if(field.multipleFields) {

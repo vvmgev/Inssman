@@ -4,8 +4,8 @@ import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFie
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
-import ResourceType = chrome.declarativeNetRequest.ResourceType;
 import FormBuilder from '../formBuilder/formBuilder';
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
   [key: string]: { message: string };
@@ -16,9 +16,10 @@ type State = {
   mode: FormMode,
   id: null | number,
   ruleData: IRuleData,
+  template: boolean,
 };
 
-const FormHOC = (Component: any) => {
+const FormHOC = () => {
   return class extends React.Component<{}, State> {
     constructor(props) {
       super(props);
@@ -38,6 +39,7 @@ const FormHOC = (Component: any) => {
         ruleData,
         mode,
         id,
+        template: state?.template
       }
     }
 
@@ -190,17 +192,8 @@ const FormHOC = (Component: any) => {
                 mode={mode}
                 pageType={this.getPageType(mode)}
                 setRuleData={this.setRuleData}
+                template={this.state.template}
               />
-
-      // return <Component
-      //   ruleData={this.state.ruleData}
-      //   setError={this.setError}
-      //   onChange={this.onChange}
-      //   setRuleData={this.setRuleData}
-      //   onSave={this.onSave}
-      //   onDelete={this.onDelete}
-      //   error={this.state.error}
-      //   mode={this.state.mode} />
     }
 
     componentDidMount(): void {

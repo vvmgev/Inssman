@@ -1,5 +1,4 @@
 import { PageType } from 'src/models/formFieldModel';
-import { paths } from './paths';
 
 export const templates = {
     [PageType.REDIRECT]: [
