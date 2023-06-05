@@ -1,10 +1,8 @@
 import React, { Fragment, useEffect, useMemo, useRef } from 'react';
-import ColorCover from 'components/common/colorCover/colorCover';
 import RuleName from 'components/common/ruleName/ruleName';
 import config from './config';
 import { EditorLanguage, FormMode, HeaderModificationType, IRule, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
-import Form from 'components/common/form/form';
 import Destination from 'components/common/destination/destination';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
 import ModifyHeaderFields from '../pages/modifyHeader/modifyHeaderFields';
@@ -13,14 +11,10 @@ import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
-const FormBuilder = ({ ruleData, setRuleData, onChange, error, onDelete, onSave, mode, pageType, template }) => {
+const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }) => {
     const editorRef = useRef<any>();
-    const { fields, generateRule } = config[pageType];
+    const { fields } = config[pageType];
 
-    const onSubmit = () => {
-        const form: IRule = generateRule(ruleData);
-        onSave(form);
-    };
 
     useEffect(() => {
         if(mode === FormMode.CREATE && !template) {
@@ -146,13 +140,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, onDelete, onSave,
         onChange({target: { name: 'queryParams', value: ruleData.queryParams.filter((_, index) => index !== deletingIndex)}});
     };
 
-    return <div className="mt-[50px] h-full overflow-y-auto">
-        <ColorCover>
-            <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
-                {fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}
-            </Form>
-        </ColorCover>
-    </div>
+    return <>{fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}</>
 };
 
 export default FormBuilder;

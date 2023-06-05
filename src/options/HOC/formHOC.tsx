@@ -4,7 +4,7 @@ import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFie
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
-import FormBuilder from '../formBuilder/formBuilder';
+import Forms from '../pages/forms/forms';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
@@ -183,7 +183,8 @@ const FormHOC = () => {
         return <></>
       }
 
-      return <FormBuilder
+      // @ts-ignore
+      return <Forms
                 ruleData={ruleData}
                 onChange={this.onChange}
                 error={error}
