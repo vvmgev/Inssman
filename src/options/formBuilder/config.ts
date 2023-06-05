@@ -39,11 +39,11 @@ const config = {
         fields: [
             {
                 id: 100,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {
@@ -80,11 +80,11 @@ const config = {
         fields: [
             {
                 id: 200,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
                 validations: {
                     required: {
                         rule: /^\s*$/,
@@ -117,11 +117,11 @@ const config = {
         fields: [
             {
                 id: 300,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {
@@ -167,11 +167,11 @@ const config = {
         fields: [
             {
                 id: 400,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {
@@ -212,11 +212,11 @@ const config = {
         fields: [
             {
                 id: 500,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {
@@ -260,11 +260,11 @@ const config = {
         fields: [
             {
                 id: 600,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {
@@ -310,11 +310,11 @@ const config = {
         fields: [
             {
                 id: 600,
-                type: 'ruleName',
+                type: 'input',
                 name: 'name',
                 multipleFields: false,
                 defaultValue: '',
-                placeholder: 'name',
+                placeholder: 'Rule Name',
 
             },
             {

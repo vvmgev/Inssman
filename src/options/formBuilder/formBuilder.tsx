@@ -1,20 +1,20 @@
 import React, { Fragment, useEffect, useMemo, useRef } from 'react';
-import RuleName from 'components/common/ruleName/ruleName';
 import config from './config';
-import { EditorLanguage, FormMode, HeaderModificationType, IRule, QueryParamAction } from 'src/models/formFieldModel';
+import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import Destination from 'components/common/destination/destination';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
 import ModifyHeaderFields from '../pages/modifyHeader/modifyHeaderFields';
 import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
-import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
+import InjectFileSources from 'components/common/injectFileSources/injectFileSources';
+import { structuredClone } from 'options/utils';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
+import Input from '../components/common/input/input';
 
 const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }) => {
     const editorRef = useRef<any>();
     const { fields } = config[pageType];
-
 
     useEffect(() => {
         if(mode === FormMode.CREATE && !template) {
@@ -23,7 +23,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                 if(field.multipleFields) {
                     defaultValues = {
                         ...defaultValues,
-                        ...JSON.parse(JSON.stringify(field.defaultValues))
+                        ...structuredClone(field.defaultValues)
                     }
                     return
                 }
@@ -36,9 +36,14 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
 
     const generateField = (field: any) => {
         switch (field.type) {
-            case 'ruleName':
+            case 'input':
                 return <div className="w-1/5">
-                        <RuleName value={ruleData.name || field.defaultValue} onChange={onChange} error={error} />
+                        <Input 
+                            name={field.name}
+                            value={ruleData.name || field.defaultValue}
+                            onChange={onChange}
+                            placeholder={field.placeholder}
+                            error={error?.name} />
                     </div>
             case 'sourceFields':
                 return <div className="flex mt-5 items-center w-full">
