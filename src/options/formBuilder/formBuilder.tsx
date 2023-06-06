@@ -9,8 +9,8 @@ import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/injectFileSources/injectFileSources';
 import { structuredClone } from 'options/utils';
-import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 import Input from '../components/common/input/input';
+import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
 const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }) => {
     const editorRef = useRef<any>();

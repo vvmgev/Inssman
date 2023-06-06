@@ -5,7 +5,7 @@ import Form from 'src/options/components/common/form/form';
 import FormBuilder from 'src/options/formBuilder/formBuilder';
 import config from 'src/options/formBuilder/config';
 
-const Forms = ( { children, ...props } ) => {
+const Forms = ({ children, ...props }) => {
     const { onDelete, onSave, mode, error, pageType, ruleData } = props;
     const { generateRule } = config[pageType];
 

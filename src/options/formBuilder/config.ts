@@ -4,7 +4,6 @@ import { addProtocol, encode } from "../utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
-
 const getQueryParams = queryParams => {
     return queryParams.filter(queryParam => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE).map(queryParam => ({
           key: queryParam.key,
@@ -44,7 +43,6 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-
             },
             {
                 id: 101,
@@ -196,17 +194,19 @@ const config = {
                 },
             },
         ],
-        generateRule: ruleData => ({
-            action: {
+        generateRule: ruleData => {
+            const requestHeaders = getRequestHeaders(ruleData.headers);
+            const responseHeaders = getResponseHeaders(ruleData.headers);
+            return {action: {
                 type: RuleActionType.MODIFY_HEADERS,
-                ...(getRequestHeaders(ruleData.headers).length && {requestHeaders: getRequestHeaders(ruleData.headers)}),
-                ...(getResponseHeaders(ruleData.headers).length && {responseHeaders: getResponseHeaders(ruleData.headers)})
+                ...(requestHeaders.length && {requestHeaders: requestHeaders}),
+                ...(responseHeaders.length && {responseHeaders: responseHeaders})
         
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
               }
-          })
+          }}
     },
     [PageType.MODIFY_RESPONSE] : {
         fields: [
