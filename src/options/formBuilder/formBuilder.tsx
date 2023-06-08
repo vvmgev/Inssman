@@ -7,9 +7,9 @@ import QueryParamFields from 'components/common/queryParamFields/queryParamField
 import ModifyHeaderFields from '../pages/modifyHeader/modifyHeaderFields';
 import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
-import InjectFileSources from 'components/common/injectFileSources/injectFileSources';
+import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import { structuredClone } from 'options/utils';
-import Input from '../components/common/input/input';
+import Input from 'components/common/input/input';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
 const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }) => {
