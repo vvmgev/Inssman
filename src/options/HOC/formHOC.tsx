@@ -4,6 +4,7 @@ import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFie
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
+import Forms from '../pages/forms/forms';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
@@ -15,9 +16,10 @@ type State = {
   mode: FormMode,
   id: null | number,
   ruleData: IRuleData,
+  template: boolean,
 };
 
-const FormHOC = (Component: any) => {
+const FormHOC = () => {
   return class extends React.Component<{}, State> {
     constructor(props) {
       super(props);
@@ -25,9 +27,10 @@ const FormHOC = (Component: any) => {
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       const state = (this.props as any).location.state; 
       let ruleData: IRuleData = {} as IRuleData;
+      const pageType = this.getPageType(mode);
       if(state?.template) {
         ruleData = {
-          pageType: this.getPageType(),
+          pageType,
           ...state.ruleData,
         }
       }
@@ -36,17 +39,16 @@ const FormHOC = (Component: any) => {
         ruleData,
         mode,
         id,
+        template: state?.template
       }
     }
 
-    getPageType = (): string => (this.props as any).location.pathname.split('/').pop();
+    getPageType = (mode: FormMode): string => {
+      const pathArr = (this.props as any).location.pathname.split('/');
+      return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
+    };
 
     setRuleData = (ruleData) => {
-      // hot fix for templates
-      const state = (this.props as any).location.state; 
-      if(state?.template) {
-        return;
-      }
       this.setState(state => ({
         ...state,
         ruleData: {
@@ -176,20 +178,23 @@ const FormHOC = (Component: any) => {
     }
 
     render() {
-      const { mode, ruleData } = this.state;
+      const { mode, ruleData, error } = this.state;
       if(mode === FormMode.UPDATE && !Object.keys(ruleData).length) {
         return <></>
       }
 
-      return <Component
-        ruleData={this.state.ruleData}
-        setError={this.setError}
-        onChange={this.onChange}
-        setRuleData={this.setRuleData}
-        onSave={this.onSave}
-        onDelete={this.onDelete}
-        error={this.state.error}
-        mode={this.state.mode} />
+      // @ts-ignore
+      return <Forms
+                ruleData={ruleData}
+                onChange={this.onChange}
+                error={error}
+                onDelete={this.onDelete}
+                onSave={this.onSave}
+                mode={mode}
+                pageType={this.getPageType(mode)}
+                setRuleData={this.setRuleData}
+                template={this.state.template}
+              />
     }
 
     componentDidMount(): void {
@@ -209,7 +214,6 @@ const FormHOC = (Component: any) => {
         this.setState({ruleData: state.ruleData});
       }
     }
-
   }
 }
 
