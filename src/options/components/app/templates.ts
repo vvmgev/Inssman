@@ -8,7 +8,7 @@ export const templates = {
             destination: "https://google.com",
             pageType: "redirect",
             source: "bing.com",
-            requestMethods: [],
+            matchType: 'contain'
         }
     ],
     [PageType.BLOCK]: [
@@ -17,7 +17,7 @@ export const templates = {
             name: "Block Instagram",
             pageType: "block",
             source: "instagram.com",
-            requestMethods: [],
+            matchType: 'contain'
         }
     ],
     [PageType.QUERY_PARAM]: [
@@ -25,7 +25,7 @@ export const templates = {
             id: 31,
             name: "Remove UTM Params",
             pageType: "query-param",
-            requestMethods: [],
+            matchType: 'contain',
             queryParams: [
                 {
                     "action": "remove",
@@ -54,7 +54,7 @@ export const templates = {
             id: 32,
             name: "Remove Facebook Click Id",
             pageType: "query-param",
-            requestMethods: [],
+            matchType: 'contain',
             queryParams: [
                 {
                     "action": "remove",
@@ -110,6 +110,7 @@ export const templates = {
                     value: "true"
                 }
             ],
+            matchType: "contain",
             name: "Bypass CORS",
             pageType: "modify-header",
             source: "",
