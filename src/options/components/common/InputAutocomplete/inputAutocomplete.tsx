@@ -20,7 +20,7 @@ const InputAutocomplete = ({ inputProps, list, id}: any ) => {
       position="bottom center"
       contentStyle={{background: 'transparent', border: 'none', width: '250px', boxShadow: 'none'}}
     >
-      {list.length && <ColorCover classes="rounded-2xl p-0 bg-opacity-70">
+      <ColorCover classes="rounded-2xl p-0 bg-opacity-70">
         <ul className='max-h-[200px] overflow-y-auto'>
           {list.map((item, index) => (inputProps.value === '' ||  item.toLowerCase().includes(inputProps.value.toLowerCase())) && (
             <li key={index} onClick={() => handleClick(item)} className="text-slate-300 cursor-pointer hover:text-sky-500 last:border-none border-b border-slate-700 border-slate h-9 flex items-center">
@@ -28,7 +28,7 @@ const InputAutocomplete = ({ inputProps, list, id}: any ) => {
             </li>
           ))}
           </ul>
-      </ColorCover>}
+      </ColorCover>
     </Popup>
   </div>
 }

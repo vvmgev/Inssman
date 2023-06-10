@@ -96,17 +96,16 @@ const FormHOC = () => {
       return hasError;
     }
 
-    onChange = event => {
-      const { name, value } = event.target;
+    onChange = (event) => {
       this.setState(state => ({
         ...state,
         ruleData: {
           ...state.ruleData,
-          [name]: value,
+          [event.target.name]: event.target.value
         }
       }))
-      if(ValidateFields.includes(name)) {
-        this.validate(name, value);
+      if(ValidateFields.includes(event.target.name)) {
+        this.validate(event.target.name, event.target.value);
       }
     }
 
