@@ -58,7 +58,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                 return <div className="flex mt-5 items-center">
                         <div className="min-w-[100px]">Redirect to</div>
                             <div className="w-3/5">
-                                <Destination 
+                                <Destination
                                     value={ruleData.destination || field.defaultValue}
                                     onChange={onChange}
                                     error={error}
