@@ -38,8 +38,8 @@ export default () => {
       );
   };
 
-  return <div className="min-h-[250px] overflow-hidden mt-[50px]">
-      <div className="min-h-[350px] h-[500px] w-full  rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
+  return <div className="min-h-[250px] overflow-hidden mx-[5%]">
+      <div className="w-full rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
         {!Boolean(data.length) && <div className="w-full h-full pl-5 py-5">
           <p className="text-2xl">👋 Welcome to Inssman!</p>
           <p className="mt-5 text-lg">Creating a rule gives you control over HTTP requests and responses.</p>

@@ -6,19 +6,16 @@ import TemplateList from './templateList';
 import FormList from './formList';
 
 const SideBar = () => {
-  return <div className="flex flex-col h-full justify-between overflow-y-auto">
-    <ColorCover classes='h-30 py-3 px-2 rounded-bl-none rounded-tl-none rounded-tr-none h-[initial]'>
+  return <div className="flex flex-col gap-10 h-full w-1/6">
+    <ColorCover classes="rounded-bl-none rounded-tl-none rounded-tr-none">
       <Link className="hover:cursor-pointer" to="/"><Logo /></Link>
     </ColorCover>
-    <div className="flex flex-col gap-3">
-      <ColorCover classes='px-0 rounded-tl-none rounded-bl-none h-[initial]'>
-        <FormList />
-      </ColorCover>
-      <ColorCover classes='px-0 rounded-tl-none rounded-bl-none h-[initial]'>
-        <TemplateList />
-      </ColorCover>
-    </div>
-    <div></div>
+    <ColorCover classes="rounded-tl-none rounded-bl-none">
+      <FormList />
+    </ColorCover>
+    <ColorCover classes="rounded-tl-none rounded-bl-none">
+      <TemplateList />
+    </ColorCover>
   </div>
 }
 

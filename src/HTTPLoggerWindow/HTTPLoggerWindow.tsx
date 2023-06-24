@@ -8,12 +8,12 @@ import './HTTPLoggerWindow.css';
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
-    <BackgroundAnimation>
-        <div className="m-[10px] h-full">
-            <HTTPLogger clientName={WebRequestClients.WINDOW}
-                        showOpenWindowBtn={false}
-                        infoBoxClasses="!max-h-[50%] !h-[50%]"
-                        listBoxClasses="!max-h-[50%] !h-[47%]" />
-        </div>
-    </BackgroundAnimation>
+    <div className="h-screen w-screen overflow-hidden">
+        <BackgroundAnimation>
+            <div className="m-[10px] h-full">
+                <HTTPLogger clientName={WebRequestClients.WINDOW}
+                            showOpenWindowBtn={false} />
+            </div>
+        </BackgroundAnimation>
+    </div>
 );

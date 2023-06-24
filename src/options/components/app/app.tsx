@@ -6,27 +6,19 @@ import Footer from '../footer/footer'
 import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 import BrowserSupport from './browserSupport';
-import 'services/TrackService';
 import BrowserSupportService from 'src/services/BrowserSupportService';
+import 'services/TrackService';
 
 const App = () => {
     return <div className="h-screen w-screen overflow-hidden">
       <BackgroundAnimation>
         <HashRouter>
-          <div className="inline-block h-full w-1/6 relative z-10">
+          <div className="flex flex-row h-full">
             <SideBar />
-          </div>
-          <div className="float-right inline-block h-full w-5/6 relative z-10">
-            <div className="h-full flex flex-col justify-between">
-              <div className="h-[10%]">
-                <Header />
-              </div>
-              <div className="h-[75%] mx-[10%]">
-                  {!BrowserSupportService.isSupportRules() ? <BrowserSupport /> : <RuleRoutes />}
-              </div>
-              <div className="h-[10%]">
-                <Footer />
-              </div>
+            <div className="flex flex-col gap-10 w-5/6">
+              <Header />
+              {BrowserSupportService.isSupportRules() ?  <RuleRoutes /> : <BrowserSupport />}
+              <Footer />
             </div>
           </div>
       </HashRouter>

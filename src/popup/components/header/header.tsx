@@ -6,7 +6,7 @@ import Button from 'src/options/components/common/button/button';
 const Header =  () => {
     const onHandleOpen = () => chrome.runtime.openOptionsPage();
 
-    return <ColorCover classes='h-30 py-3 px-2 h-[initial]'>
+    return <ColorCover classes='h-30 py-3 px-2 mt-3 h-[initial]'>
         <div className="flex items-center flex-row justify-between">
             <Logo />
             <Button trackName="Open Options" onClick={onHandleOpen}>Open Application</Button>

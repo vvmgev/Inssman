@@ -14,15 +14,12 @@ const Forms = ({ children, ...props }) => {
         onSave(form);
     };
 
-    return <div className="mt-[50px] h-full overflow-y-auto">
-        <ColorCover>
+    return <ColorCover classes="mx-[5%] p-5">
             <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
                 {/* @ts-ignore */}
                 <FormBuilder {...props} />
             </Form>
         </ColorCover>
-    </div>
-     
 }
 
 export default Forms;

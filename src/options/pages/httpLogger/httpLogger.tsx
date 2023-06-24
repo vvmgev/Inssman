@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ListenerType } from 'src/models/WebRequestModel';
+import { ListenerType, WebRequestClients } from 'src/models/WebRequestModel';
 import ColorCover from 'components/common/colorCover/colorCover';
 import Input from 'components/common/input/input';
 import CrossSVG  from 'assets/icons/cross.svg';
@@ -64,8 +64,8 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
     };
   }, []);
 
-  return <div className="h-full">
-    <ColorCover classes={`max-h-[50%] overflow-y-auto pb-0 pt-[10px] ${listBoxClasses}`}>
+  return <div className={`${clientName === WebRequestClients.WINDOW ? 'h-[95%]' : 'h-[80%]'} mx-[5%] flex flex-col gap-2`}>
+    <ColorCover classes={`h-[50%] pb-0`}>
       <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
         {showOpenWindowBtn && <OutlineButton onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
         <OutlineButton onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
@@ -88,14 +88,14 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
           <div className="flex-[1]">From Cache</div>
           <div className="flex-[3]">URL</div>
       </div>
-      <ul className="h-[75%] overflow-y-auto">
+      <ul>
         {Object.entries(requestList)
         .filter(([_, request]: any) => request.url.includes(search) )
         .map(([requestId, request]: any) => (
           <li key={requestId}
               onClick={() => setActiveRequestId(requestId)}
-              className={`text-sm max-h-[90%] overflow-y-auto border-b border-slate-700
-                          w-full flex justify-between items-center py-3 hover:bg-slate-800 hover:bg-opacity-40
+              className={`text-sm border-slate-700 border-b py-3
+                          w-full flex justify-between items-center hover:bg-slate-800 hover:bg-opacity-40
                           ${requestId === activeReuquestId ? 'text-sky-500' : ''}
                           `}>
             <div className="flex-[1]">{requestId || 'unknown'}</div>
@@ -109,7 +109,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
         ))}
       </ul>
     </ColorCover>
-    <ColorCover classes={`max-h-[50%] overflow-y-auto mt-[10px] ${infoBoxClasses}`}>
+    <ColorCover classes={`h-[50%]`}>
       {activeReuquestId && (
         <>
         {requestList[activeReuquestId]?.requestHeaders && (
@@ -118,7 +118,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
             <hr />
             <ul>
               {requestList[activeReuquestId]?.requestHeaders?.map(({name, value}, index) => {
-                return <div key={index} className="text-sm overflow-y-auto border-b border-slate-700 w-full gap-2 flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
+                return <div key={index} className="gap-2 text-sm overflow-y-auto border-b border-slate-700 w-full flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
                     <span className="font-bold">{name}:</span>
                     <span className="font-light">{value}</span>
                   </div>
@@ -133,7 +133,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '',
             <hr />
             <ul>
               {requestList[activeReuquestId]?.responseHeaders?.map(({name, value}, index) => {
-                return <div key={index} className="text-sm overflow-y-auto border-b border-slate-700 w-full gap-2 flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
+                return <div key={index} className="gap-2 text-sm overflow-y-auto border-b border-slate-700 w-full flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40">
                     <span className="font-bold">{name}:</span>
                     <span className="font-light">{value}</span>
                   </div>
