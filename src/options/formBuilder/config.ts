@@ -1,4 +1,3 @@
-import React from "react";
 import { EditorLanguage, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
 import { addProtocol, encode } from "../utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
@@ -43,6 +42,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
             },
             {
                 id: 101,
@@ -53,6 +57,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 102,
@@ -60,6 +71,11 @@ const config = {
                 name: 'destination',
                 multipleFields: false,
                 defaultValue: '',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Destination Is Required'
+                }],
             },
         ],
         generateRule: ruleData => ({
@@ -83,13 +99,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: {
-                    required: {
-                        rule: /^\s*$/,
-                        message: 'Field is required'
-                    },
-                },
-
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
             },
             {
                 id: 201,
@@ -100,6 +114,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
         ],
         generateRule: ruleData => ({
@@ -120,6 +141,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
 
             },
             {
@@ -131,6 +157,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 302,
@@ -170,6 +203,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
 
             },
             {
@@ -181,6 +219,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 402,
@@ -217,6 +262,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
 
             },
             {
@@ -228,6 +278,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 502,
@@ -265,6 +322,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
 
             },
             {
@@ -276,6 +338,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 602,
@@ -315,6 +384,11 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
+                validations: [{
+                    name: 'required',
+                    regexp: /^\s*$/,
+                    message: 'Rule Name Is Required'
+                }],
 
             },
             {
@@ -326,6 +400,13 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    source: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Source Is Required'
+                    }]
+                }
             },
             {
                 id: 602,

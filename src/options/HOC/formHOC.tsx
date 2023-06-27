@@ -1,14 +1,15 @@
 import React from 'react';
 import TrackService from 'src/services/TrackService';
-import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, ValidateFields } from 'models/formFieldModel';
+import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { capitalizeFirstLetter, makeExactMatch } from 'options/utils';
+import { makeExactMatch } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
 import Forms from '../pages/forms/forms';
+import config from '../formBuilder/config';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type FormError = {
-  [key: string]: { message: string };
+  [key: string]: { message: string } | null;
 }
 
 type State = {
@@ -21,6 +22,7 @@ type State = {
 
 const FormHOC = () => {
   return class extends React.Component<{}, State> {
+    fields: any;
     constructor(props) {
       super(props);
       const id = props.params.id ? Number(props.params.id) : null;
@@ -28,6 +30,7 @@ const FormHOC = () => {
       const state = (this.props as any).location.state; 
       let ruleData: IRuleData = {} as IRuleData;
       const pageType = this.getPageType(mode);
+      this.fields = config[pageType].fields;
       if(state?.template) {
         ruleData = {
           pageType,
@@ -70,43 +73,56 @@ const FormHOC = () => {
       }))
     }
 
-    validate = (name, value) => {
-      let hasError = !value;
+    validate = (name, value, fieldValidations) => {
+      const error = {};
+      fieldValidations?.forEach(validation => {
+        if(error[name]) return;
+        error[name] = this.inValid(value, validation.regexp) ? validation.message : null;
+      });
+      return error;
+    };
+    
+    inValid = (value, regexp) => regexp.test(value);
+    valid = (value, regexp) => !this.inValid(value, regexp);
+
+    validateAll = () => {
+      let error = {};
+      this.fields.forEach(field => {
+        if(field.multipleFields) {
+          for(let name in field.validations) {
+            const fieldValidations = field.validations[name];
+            error = {
+              ...error,
+              ...this.validate(name, this.state.ruleData[name], fieldValidations)
+            }  
+          }
+        } else {
+          error = {
+            ...error,
+            ...this.validate(field.name, this.state.ruleData[field.name], field.validations)
+          }
+        }
+      })
+      return error;
+    };
+
+    onChange = (event, field) => {
+      const { name, value } = event.target;
+      const { validations = {}, multipleFields } = field;
+      const fieldValidations = multipleFields ? validations[name] : validations;
+      const error = this.validate(name, value, fieldValidations);
+      
       this.setState(state => ({
         ...state,
         error: {
           ...state.error,
-          [name]: (hasError ? {message: `${capitalizeFirstLetter(name)} is required`} : null)
-        }
-      }))
-      return hasError;
-    }
-
-    validateAll = () => {
-      let hasError = false;
-      const { ruleData } = this.state;
-      ValidateFields.forEach(field => {
-        if(field in ruleData) {
-          const fieldHasError = this.validate(field, ruleData[field]);
-          if(fieldHasError && !hasError) {
-            hasError = true;
-          }
-        }
-      })
-      return hasError;
-    }
-
-    onChange = (event) => {
-      this.setState(state => ({
-        ...state,
+          ...error,
+        },
         ruleData: {
           ...state.ruleData,
-          [event.target.name]: event.target.value
+          [name]: value
         }
       }))
-      if(ValidateFields.includes(event.target.name)) {
-        this.validate(event.target.name, event.target.value);
-      }
     }
 
     onDelete = (): void => {
@@ -120,9 +136,12 @@ const FormHOC = () => {
     
     onSave = (rule: IRule) => {
       const { ruleData, id } = this.state;
-      if(this.validateAll()) {
+      const error = this.validateAll();
+      if((Object.values(error)).filter(Boolean).length) {
+        this.setState({error});
         return;
       }
+
       const form: IForm = {
           rule,
           ruleData: {

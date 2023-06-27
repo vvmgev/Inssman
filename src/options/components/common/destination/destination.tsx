@@ -15,7 +15,7 @@ const Destination = ({value, onChange, matchType, error}) => {
         name='destination'
         onChange={onChange} 
         placeholder={placeholders[matchType]}
-        error={error?.destination}
+        error={error}
     />
 };
 
