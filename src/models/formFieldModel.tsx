@@ -44,9 +44,6 @@ export enum FIELDS {
     FILESOURCE = 'fileSource'
 }
 
-export const ValidateFields = [FIELDS.SOURCE, FIELDS.NAME, FIELDS.DESTINATION];
-
-
 export enum FormMode {
     CREATE = 'create',
     UPDATE = 'update',

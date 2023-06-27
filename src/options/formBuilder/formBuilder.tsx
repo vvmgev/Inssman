@@ -41,7 +41,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                         <Input 
                             name={field.name}
                             value={ruleData.name || field.defaultValue}
-                            onChange={onChange}
+                            onChange={e => onChange(e, field)}
                             placeholder={field.placeholder}
                             error={error?.name} />
                     </div>
@@ -50,7 +50,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                             <SourceFields
                                 matchType={ruleData.matchType || field.defaultValues.matchType}
                                 requestMethods={ruleData.requestMethods || field.defaultValues.requestMethods}
-                                onChange={onChange}
+                                onChange={e => onChange(e, field)}
                                 source={ruleData.source || field.defaultValues.source}
                                 error={error} />
                         </div>
@@ -60,8 +60,8 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                             <div className="w-3/5">
                                 <Destination 
                                     value={ruleData.destination || field.defaultValue}
-                                    onChange={onChange}
-                                    error={error}
+                                    onChange={e => onChange(e, field)}
+                                    error={error?.destination}
                                     matchType={ruleData.matchType}
                                 />
                             </div>
@@ -71,29 +71,29 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                         <div className="w-full">
                             <QueryParamFields
                                 queryParams={ruleData.queryParams || []}
-                                onChangeParam={onChangeParam}
-                                onRemove={onRemoveQueryParam}
+                                onChangeParam={(e, index) => onChangeParam(e, index, field)}
+                                onRemove={(e, index) => onRemoveQueryParam(e, index, field)}
                                 error={error}
                             />
                         </div>
-                        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddQueryParam}>Add</div>
+                        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddQueryParam(field)}>Add</div>
                     </>
             case 'modifyHeaderFields':
                 return <>
                         <ModifyHeaderFields
-                            onChangeHeader={onChangeHeader}
+                            onChangeHeader={(e, index) => onChangeHeader(e, index, field)}
                             headers={ruleData.headers || []}
                             onRemoveHeader={onRemoveHeader}
                             error={error}
                             />
-                        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={onAddHeader}>Add</div>
+                        <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddHeader(field)}>Add</div>
                     </>
             case 'editorLang':
                 return <div className="mt-5 flex items-center">
                         <span className="mr-5">Select Response Type</span>
                         <div className="w-[150px]">
                             <Select
-                                onChange={onChange}
+                                onChange={(e) => onChange(e, field)}
                                 value={ruleData.editorLang || field.defaultValue}
                                 options={editorLangOptions}
                                 name='editorLang'
@@ -102,10 +102,10 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                     </div>
             case 'editor':
                 return <div className='mt-5'>
-                            <Editor editorRef={editorRef} language={ruleData.editorLang || field.defaultValue} onChange={onChange} />
+                            <Editor editorRef={editorRef} language={ruleData.editorLang || field.defaultValue} onChange={(e) => onChange(e, field)} />
                         </div>
             case 'injectFileSources':
-                return <InjectFileSources ruleData={ruleData} onChange={onChange} error={error} />
+                return <InjectFileSources ruleData={ruleData} onChange={(e) => onChange(e, field)} error={error} />
             default:
                 break;
         }
@@ -116,33 +116,32 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
         return previous;
       }, []), []);
 
-    const onAddHeader = () => {
-        onChange({target: { name: 'headers', value: [...ruleData.headers, {header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]}});
+    const onAddHeader = (field) => {
+        onChange({target: { name: 'headers', value: [...ruleData.headers, {header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}]}}, field);
     };
 
-    const onRemoveHeader = (_, index) => {
-        onChange({target: { name: 'headers', value: ruleData.headers.filter((_, headerIndex) => headerIndex !== index)}});
+    const onRemoveHeader = (_, index, field) => {
+        onChange({target: { name: 'headers', value: ruleData.headers.filter((_, headerIndex) => headerIndex !== index)}}, field);
     };
 
-    const onChangeHeader = (event, index) => {
+    const onChangeHeader = (event, index, fleld) => {
         const newHeaders = [...ruleData.headers]
         newHeaders[index][event.target.name] = event.target.value;
-        onChange({target: { name: 'headers', value: newHeaders }});
+        onChange({target: { name: 'headers', value: newHeaders }}, fleld);
     };
 
-    const onAddQueryParam = () => {
-        onChange({target: { name: 'queryParams', value: [...ruleData.queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}});
+    const onAddQueryParam = (field) => {
+        onChange({target: { name: 'queryParams', value: [...ruleData.queryParams, {key: '', value: '', action: QueryParamAction.ADD}]}}, field);
     };
 
-    const onChangeParam = (event, index) => {
+    const onChangeParam = (event, index, field) => {
         const newQueryParams = [...ruleData.queryParams]
         newQueryParams[index][event.target.name] = event.target.value;
-        onChange({target: { name: 'queryParams', value: newQueryParams }});
+        onChange({target: { name: 'queryParams', value: newQueryParams }}, field);
     };
 
-
-    const onRemoveQueryParam = (_, deletingIndex) => {
-        onChange({target: { name: 'queryParams', value: ruleData.queryParams.filter((_, index) => index !== deletingIndex)}});
+    const onRemoveQueryParam = (_, deletingIndex, field) => {
+        onChange({target: { name: 'queryParams', value: ruleData.queryParams.filter((_, index) => index !== deletingIndex)}}, field);
     };
 
     return <>{fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}</>

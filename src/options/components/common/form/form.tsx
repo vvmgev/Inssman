@@ -41,7 +41,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
           </div>
         </div>
       </div>
-      {Object.values(error).map((item: any, index: number) => item?.message && <p key={index} className="text-red-500 text-base mb-1">{item.message}</p>)}
+      {Object.values(error).map((item: any, index: number) => item && <p key={index} className="text-red-500 text-base mb-1">{item}</p>)}
       <form onSubmit={onSubmitHandler}>
         {children}
         <input type="submit" className="hidden" />
