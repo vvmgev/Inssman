@@ -326,9 +326,9 @@ const config = {
                                 message: 'Header Is Required'
                             },
                             {
-                                name: 'emptySpace',
-                                regexp: /\b\s+\b/,
-                                message: 'Header Is Cannot Contain Space'
+                                name: 'specialSymbols',
+                                regexp: /[^\w!#$%&'*+\-.^`|~]/,
+                                message: 'Header Cannot Special Like !#$%&\'*+-.^_`|~]+$'
                             }
                         ],
                     }
