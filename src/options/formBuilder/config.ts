@@ -72,7 +72,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -151,7 +151,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -209,7 +209,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -300,7 +300,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -323,12 +323,12 @@ const config = {
                             {
                                 name: 'required',
                                 regexp: /^\s*$/,
-                                message: 'Header Is Required'
+                                message: 'Header Name Is Required'
                             },
                             {
                                 name: 'specialSymbols',
                                 regexp: /[^\w!#$%&'*+\-.^`|~]/,
-                                message: 'Header Cannot Special Like !#$%&\'*+-.^_`|~]+$'
+                                message: 'Header Name Cannot Special Like !#$%&\'*+-.^_`|~]+$'
                             }
                         ],
                     }
@@ -392,7 +392,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -467,7 +467,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
@@ -543,7 +543,7 @@ const config = {
                         {
                             name: 'emptySpace',
                             regexp: /\b\s+\b/,
-                            message: 'Source Is Cannot Contain Space'
+                            message: 'Source Cannot Contain Space'
                         }
                     ]
                 },
