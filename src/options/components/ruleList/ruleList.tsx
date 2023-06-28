@@ -103,7 +103,7 @@ export default () => {
           </div>          
         )}
         {Boolean(data.length) && (
-          <ul className="overflow-y-auto max-h-[350px]">
+          <ul className="overflow-y-auto min-h-[350px] max-h-[450px]">
             {data.filter((ruleData) => ruleData.name.includes(search))
             .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData.name)}</div>
