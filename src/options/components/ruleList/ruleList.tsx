@@ -25,7 +25,7 @@ export default () => {
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
   const onHandleDeleteRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => getData());
-  const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.DuplicateRuleById, data: {id} }, () => getData());
+  const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: {id} }, () => getData());
   const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
   const getData = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
@@ -103,7 +103,7 @@ export default () => {
           </div>          
         )}
         {Boolean(data.length) && (
-          <ul className="overflow-y-auto h-[350px]">
+          <ul className="overflow-y-auto max-h-[350px]">
             {data.filter((ruleData) => ruleData.name.includes(search))
             .reverse().map((ruleData) => <li key={ruleData.id} className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
               <div className="flex-1 flex" >{cutString(ruleData.name)}</div>

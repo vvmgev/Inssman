@@ -95,8 +95,8 @@ class ServiceWorker {
           responseData = this.getUserId();
         } else if(action === PostMessageAction.ChangeRuleStatusById) {
           responseData = this.changeRuleStatus(data);
-        } else if(action === PostMessageAction.DuplicateRuleById) {
-          responseData = this.duplicateRuleById(data);
+        } else if(action === PostMessageAction.CopyRuleById) {
+          responseData = this.copyRuleById(data);
         }
         sendResponse(await responseData);
       } catch (error) {
@@ -170,8 +170,10 @@ class ServiceWorker {
     await StorageService.set({[id]: ruleData})  
   }
 
-  async duplicateRuleById({ id }: {id: number}): Promise<void> {
-    await this.addRule({ruleData: await StorageService.getSingleItem(String(id))});
+  async copyRuleById({ id }: {id: number}): Promise<void> {
+    const copyOriginalRule = await StorageService.getSingleItem(String(id));
+    copyOriginalRule.name += ' copy';
+    await this.addRule({ruleData: copyOriginalRule});
   }
 }
 
