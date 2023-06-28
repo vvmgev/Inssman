@@ -66,14 +66,12 @@ const FormHOC = () => {
         ...state,
         error: {
           ...state.error,
-          [fieldName]: {
-            message,
-          }
+          [fieldName]: message
         }
       }))
     }
 
-    validate = (name, value, fieldValidations) => {
+    validate = (name, value, fieldValidations,) => {
       const error = {};
       fieldValidations?.forEach(validation => {
         if(error[name]) return;
@@ -81,25 +79,37 @@ const FormHOC = () => {
       });
       return error;
     };
-    
+
     inValid = (value, regexp) => regexp.test(value);
     valid = (value, regexp) => !this.inValid(value, regexp);
 
-    validateAll = () => {
+    validateArray = (name, value, validations) => {
+      let error = {};
+      value.forEach((item, index) => {
+        for(const validationKey in validations[name]) {
+          const validation = validations[name][validationKey];
+          error = {
+            [name]: {
+              ...error[name],
+              [index]: {
+                ...error[name]?.[index],
+                ...this.validate(validationKey, item[validationKey], validation),
+              }
+            }
+          }
+        }
+      });
+      return error;
+    }
+    
+    validateAll = (ruleData) => {
       let error = {};
       this.fields.forEach(field => {
-        if(field.multipleFields) {
-          for(let name in field.validations) {
-            const fieldValidations = field.validations[name];
-            error = {
-              ...error,
-              ...this.validate(name, this.state.ruleData[name], fieldValidations)
-            }  
-          }
-        } else {
+        for(let name in field.validations) {
+          const fieldValidations = field.validations[name];
           error = {
             ...error,
-            ...this.validate(field.name, this.state.ruleData[field.name], field.validations)
+            ...(Array.isArray(ruleData[name]) ? this.validateArray(name, ruleData[name], field.validations) : this.validate(name, ruleData[name], fieldValidations))
           }
         }
       })
@@ -108,9 +118,8 @@ const FormHOC = () => {
 
     onChange = (event, field) => {
       const { name, value } = event.target;
-      const { validations = {}, multipleFields } = field;
-      const fieldValidations = multipleFields ? validations[name] : validations;
-      const error = this.validate(name, value, fieldValidations);
+      const { validations = {} } = field;
+      const error = Array.isArray(value) ? this.validateArray(name, value, validations) : this.validate(name, value, validations[name]);
       
       this.setState(state => ({
         ...state,
@@ -133,11 +142,43 @@ const FormHOC = () => {
           () => (this.props as any).navigate('/')
       );
     };
+
+    formatter = (ruleData) => {
+      this.fields.forEach(field => {
+        for(let name in field.formatters) {
+          const formatter = field.formatters[name];
+          if(!field.multipleFields){
+            ruleData[name] = formatter(ruleData[name]);
+          }
+        }
+      })
+      return ruleData;
+    }
+
+    hasErrors = (error): boolean => {
+      let index = 0;
+      const keys = Object.keys(error)
+      const findError = (asa): boolean => {
+        if(typeof asa === 'object' && asa) {
+          return this.hasErrors(error[keys[index]]);
+        }
+        if(Boolean(asa)) {
+          return true;
+        }
+        if(typeof error[keys[++index]] !== 'undefined') {
+          return findError(error[keys[index]])
+        }
+        return false;
+      }
+      return Boolean(findError(error[keys[index]]));
+    };
     
     onSave = (rule: IRule) => {
       const { ruleData, id } = this.state;
-      const error = this.validateAll();
-      if((Object.values(error)).filter(Boolean).length) {
+      const cloneRuleData = this.formatter(structuredClone(ruleData));
+      const error = this.validateAll(cloneRuleData);
+      const hasErrors = this.hasErrors(error);
+      if(hasErrors) {
         this.setState({error});
         return;
       }
@@ -145,7 +186,7 @@ const FormHOC = () => {
       const form: IForm = {
           rule,
           ruleData: {
-            ...ruleData,
+            ...cloneRuleData,
             enabled: typeof ruleData.enabled !== 'undefined' ? ruleData.enabled : true,
             type: StorageItemType.RULE
           }

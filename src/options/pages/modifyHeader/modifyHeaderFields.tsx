@@ -18,6 +18,17 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
     return previous;
   }, []), []);
 
+  const headerErrors = useMemo(() => {
+    const errors = {};
+    for(const index in error?.headers) {
+      const header = error?.headers[index]?.header;
+      const value = error?.headers[index]?.value;
+      errors[index] = {header, value}
+    }
+    return errors;
+  }, [error]);
+
+
   return <>
     {headers.map((header, index) => {
       return (
@@ -46,7 +57,8 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                 placeholder: "Key",
                 value: header.header,
                 onChange: event => onChangeHeader(event, index),
-                classes: "flex-[2]"
+                classes: "flex-[2]",
+                error: headerErrors[index]?.header
               }}
               id={index}
               list={HTTPHeaders[header.type]}

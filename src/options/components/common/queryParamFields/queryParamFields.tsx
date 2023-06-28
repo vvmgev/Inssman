@@ -10,6 +10,16 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
     return previous;
   }, []), []);
 
+  const queryParamsErrors = useMemo(() => {
+    const errors = {};
+    for(const index in error?.queryParams) {
+      const key = error?.queryParams[index]?.key;
+      const value = error?.queryParams[index]?.value;
+      errors[index] = {key, value}
+    }
+    return errors;
+  }, [error]);
+
   return <>
     {queryParams.map((param, index) => {
       return (
@@ -29,6 +39,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             onChange={event => onChangeParam(event, index)}
             placeholder="Key"
             classes="flex-[3]"
+            error={queryParamsErrors[index]?.key}
           />
           <Input
             name="value"

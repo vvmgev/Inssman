@@ -42,11 +42,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
             },
             {
                 id: 101,
@@ -58,12 +63,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 102,
@@ -71,11 +86,18 @@ const config = {
                 name: 'destination',
                 multipleFields: false,
                 defaultValue: '',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Destination Is Required'
-                }],
+                validations: {
+                    destination: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Destination Is Required'
+                    },
+                    {
+                        name: 'emptySpace',
+                        regexp: /\b\s+\b/,
+                        message: 'Destination Is Cannot Contain Space'
+                    }]
+                },
             },
         ],
         generateRule: ruleData => ({
@@ -99,11 +121,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
             },
             {
                 id: 201,
@@ -115,12 +142,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
         ],
         generateRule: ruleData => ({
@@ -141,11 +178,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
 
             },
             {
@@ -158,12 +200,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 302,
@@ -175,6 +227,21 @@ const config = {
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
+                validations: {
+                    queryParams: {
+                        key: [
+                            {
+                                name: 'required',
+                                regexp: /^\s*$/,
+                                message: 'Key Is Required'
+                            },
+                        ],
+                    }
+                },
+                formatters: {
+                    key: (value: string) => value.trim(),
+                },
+                
             },
         ],
         generateRule: ruleData => ({
@@ -203,12 +270,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
-
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
             },
             {
                 id: 401,
@@ -220,12 +291,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 402,
@@ -235,7 +316,26 @@ const config = {
                     headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
                     requestMethods: [],
                     matchType: MatchType.CONTAIN,
-                    source: '',
+                },
+                validations: {
+                    headers: {
+                        header: [
+                            {
+                                name: 'required',
+                                regexp: /^\s*$/,
+                                message: 'Header Is Required'
+                            },
+                            {
+                                name: 'emptySpace',
+                                regexp: /\b\s+\b/,
+                                message: 'Header Is Cannot Contain Space'
+                            }
+                        ],
+                    }
+                },
+                formatters: {
+                    header: (value: string) => value.trim(),
+                    value: (value: string) => value.trim(),
                 },
             },
         ],
@@ -262,12 +362,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
-
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
             },
             {
                 id: 501,
@@ -279,12 +383,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 502,
@@ -322,11 +436,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
 
             },
             {
@@ -339,12 +458,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 602,
@@ -384,12 +513,16 @@ const config = {
                 multipleFields: false,
                 defaultValue: '',
                 placeholder: 'Rule Name',
-                validations: [{
-                    name: 'required',
-                    regexp: /^\s*$/,
-                    message: 'Rule Name Is Required'
-                }],
-
+                validations: {
+                    name: [{
+                        name: 'required',
+                        regexp: /^\s*$/,
+                        message: 'Rule Name Is Required'
+                    }]
+                },
+                formatters: {
+                    name: (value: string) => value.trim(),
+                },
             },
             {
                 id: 601,
@@ -401,12 +534,22 @@ const config = {
                     source: '',
                 },
                 validations: {
-                    source: [{
-                        name: 'required',
-                        regexp: /^\s*$/,
-                        message: 'Source Is Required'
-                    }]
-                }
+                    source: [
+                        {
+                            name: 'required',
+                            regexp: /^\s*$/,
+                            message: 'Source Is Required'
+                        },
+                        {
+                            name: 'emptySpace',
+                            regexp: /\b\s+\b/,
+                            message: 'Source Is Cannot Contain Space'
+                        }
+                    ]
+                },
+                formatters: {
+                    source: (value: string) => value.trim(),
+                },
             },
             {
                 id: 602,

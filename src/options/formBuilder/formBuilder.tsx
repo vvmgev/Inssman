@@ -83,7 +83,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                         <ModifyHeaderFields
                             onChangeHeader={(e, index) => onChangeHeader(e, index, field)}
                             headers={ruleData.headers || []}
-                            onRemoveHeader={onRemoveHeader}
+                            onRemoveHeader={(e, index) => onRemoveHeader(e, index, field)}
                             error={error}
                             />
                         <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddHeader(field)}>Add</div>

@@ -12,6 +12,19 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
     onSubmit();
   };
 
+  const errors = Object.values(error).map((error: any, index) => {
+    if(typeof error === 'string') {
+      return <p key={index} className="text-red-500 text-base mb-1">{error}</p>
+    }
+    const errors: any = [];
+    for(const index in error) {
+      for(const key in error[index]) {
+        errors.push(<p key={index + key} className="text-red-500 text-base mb-1">{error[index][key]}</p>)
+      }  
+    }
+    return errors;
+  });
+
   return <>
       <div className="flex justify-between mb-3">
         <span className="flex flex-col">
@@ -41,7 +54,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
           </div>
         </div>
       </div>
-      {Object.values(error).map((item: any, index: number) => item && <p key={index} className="text-red-500 text-base mb-1">{item}</p>)}
+      {errors}
       <form onSubmit={onSubmitHandler}>
         {children}
         <input type="submit" className="hidden" />
