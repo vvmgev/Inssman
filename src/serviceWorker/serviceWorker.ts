@@ -94,7 +94,7 @@ class ServiceWorker {
         } else if(action === PostMessageAction.GetUserId) {
           responseData = this.getUserId();
         } else if(action === PostMessageAction.ChangeRuleStatusById) {
-          responseData = this.changeRuleStatus(data);
+          responseData = this.changeRuleStatusById(data);
         } else if(action === PostMessageAction.CopyRuleById) {
           responseData = this.copyRuleById(data);
         }
@@ -154,7 +154,7 @@ class ServiceWorker {
     return {[StorageKey.USER_ID]: await StorageService.getUserId()};
   }
 
-  async changeRuleStatus({ id, checked }): Promise<void> {
+  async changeRuleStatusById({ id, checked }): Promise<void> {
     const ruleData = await StorageService.getSingleItem(String(id));
     ruleData.enabled = checked;
     if(checked) {

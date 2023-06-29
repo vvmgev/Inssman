@@ -7,7 +7,7 @@ import DoubleSquareSVG  from 'assets/icons/doubleSquare.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 
-const HTTPLogger = ({ clientName, showOpenWindowBtn = true, listBoxClasses = '', infoBoxClasses = '' }) => {
+const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   const portRef = useRef<any>();
   const [requestList, setRequestList] = useState<any>({});
   const [activeReuquestId, setActiveRequestId] = useState();
