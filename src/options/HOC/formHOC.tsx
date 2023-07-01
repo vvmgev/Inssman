@@ -8,7 +8,7 @@ import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
-type FormError = {
+export type FormError = {
   [key: string]: { message: string } | null;
 }
 

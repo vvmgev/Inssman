@@ -1,17 +1,16 @@
 import React, { ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge'
 import TrackService from 'src/services/TrackService';
+import { PropsWithChildren } from 'src/types';
 
-
-interface IProps {
+type Props = PropsWithChildren<{
     trackName: string;
-    children?: any;
     onClick?: Function;
     classes?: string;
     icon?: ReactNode;
-}
+}>
 
-const Button = ({trackName, children, onClick, classes, icon}: IProps) => {
+const Button = ({trackName, children, onClick, classes, icon}: Props) => {
     const handler = event => {
         event.preventDefault();
         if(onClick) {

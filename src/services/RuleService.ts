@@ -1,6 +1,5 @@
 import Rule = chrome.declarativeNetRequest.Rule;
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
-import UpdateRulesetOptions = chrome.declarativeNetRequest.UpdateRulesetOptions;
 class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 

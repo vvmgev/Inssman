@@ -4,8 +4,18 @@ import OutlineButton from 'components/common/outlineButton/outlineButton';
 import TrashSVG  from 'assets/icons/trash.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
+import { PropsWithChildren } from 'src/types';
+import { FormError } from 'src/options/HOC/formHOC';
 
-const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }) => {
+type Props = PropsWithChildren<{
+  onSubmit: Function,
+  onDelete: Function,
+  error: FormError,
+  pageType: string,
+  mode: string
+}>
+
+const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }: Props) => {
   
   const onSubmitHandler = event => {
     event.preventDefault();
