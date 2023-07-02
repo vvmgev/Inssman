@@ -99,8 +99,19 @@ class ServiceWorker {
           responseData = this.copyRuleById(data);
         }
         sendResponse(await responseData);
-      } catch (error) {
-        sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: request.data})})
+      } catch (error: any) {
+        // Temp solution
+        // Add 100 to ID
+        const { version } = chrome.runtime.getManifest();
+        const uniqueErrorText = 'does not have a unique ID.';
+        if(error.message.includes(uniqueErrorText)) {
+          const id: number = await StorageService.generateNextId();
+          await StorageService.set({[StorageKey.NEXT_ID]: id + 100});
+          sendResponse(await this.addRule(data));
+          handleError(error, {action: PostMessageAction[action], data: {...data, version}});
+        } else {
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
+        }
       }
     })();
     return true;

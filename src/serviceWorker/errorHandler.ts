@@ -16,44 +16,44 @@ const errors = {
 
 const handleError = (error: any, data) => {
   const message = error.message;
-  storeError({message, data});
+  let errorData;
   if (message.includes(actionError)) {
-    return {
+    errorData = {
       fieldName: 'general',
       message: errors[actionError],
     }
   }
   if (message.includes(emptyHeaders)) {
-    return {
+    errorData = {
       fieldName: 'general',
       message: errors[emptyHeaders],
     }
   }
   if (message.includes(destinationError)) {
-    return {
+    errorData = {
       fieldName: 'destination',
       message: errors[destinationError],
     }
   }
   if (message.includes(destinationError2)) {
-    return {
+    errorData = {
       fieldName: 'destination',
       message: errors[destinationError2],
     }
   }
   if (message.includes(sourceError)) {
-    return {
+    errorData = {
       fieldName: 'source',
       message: errors[sourceError],
     }
   }
 
-  const unhandledError = {
-    type: 'unhandled',
-    message,
-    data
-  };
-  storeError(unhandledError);
+  if(errorData) {
+    storeError({message, data});
+    return errorData;
+  }
+
+  storeError({message, data, type: 'unhandled'}); 
   return {
     fieldName: 'general',
     message: 'Unhandled error = ' + message,
