@@ -1,7 +1,7 @@
 {
   "name": "Inssman: Modify HTTP Header/Request/Response",
   "description": "Intercept HTTP(S) Request, Modify Headers, Log headers, Change Response, Block Request, Redirect, Custom HTML/CSS/JS/JSON",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "manifest_version": 3,
   "background": {
     "service_worker": "./serviceWorker/serviceWorker.js"
