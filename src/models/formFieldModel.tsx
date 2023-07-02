@@ -37,13 +37,6 @@ export interface IForm {
     ruleData?: IRuleData
 }
 
-export enum FIELDS {
-    SOURCE = 'source',
-    NAME = 'name',
-    DESTINATION = 'destination',
-    FILESOURCE = 'fileSource'
-}
-
 export enum FormMode {
     CREATE = 'create',
     UPDATE = 'update',
@@ -60,7 +53,7 @@ export enum PageType {
     HTTP_LOGGER = 'http-logger',
 }
 
-export const PageTypeMap = {
+export const PageName = {
     [PageType.BLOCK]: 'Block',
     [PageType.REDIRECT]: 'Redirect',
     [PageType.MODIFY_RESPONSE]: 'Modify Response',
@@ -169,15 +162,6 @@ export interface FormField {
     regexFilter: string;
     resourceTypes: ResourceType[];
 }
-
-export const FormFieldRender = [
-    'name',
-    'url',
-    'extensionPath',
-    'regexSubstitution',
-    'urlFilter',
-    'regexFilter',
-]
 
 export enum QueryParamAction {
     ADD = 'add',

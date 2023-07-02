@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 import { Link } from 'react-router-dom';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IconsMap } from 'models/formFieldModel';
-import { PageTypeMap } from 'models/formFieldModel';
+import { PageName } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import TrackService from 'src/services/TrackService';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
@@ -31,7 +31,7 @@ export default () => {
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
   useEffect(() => getData(), []);
   const handleDelete = (ruleData) => {
-      TrackService.trackEvent(`${PageTypeMap[ruleData.pageType]} Rule Delete Event`);
+      TrackService.trackEvent(`${PageName[ruleData.pageType]} Rule Delete Event`);
       chrome.runtime.sendMessage({
           action: PostMessageAction.DeleteRuleById, data: {id: ruleData.id} }, 
           () => getData()
@@ -109,7 +109,7 @@ export default () => {
               <div className="flex-1 flex" >{cutString(ruleData.name)}</div>
               <div className="flex items-center gap-1 flex-1">
                   <span className="w-[18px]">{IconsMap[ruleData.pageType]}</span>
-                  <div>{PageTypeMap[ruleData.pageType]}</div>
+                  <div>{PageName[ruleData.pageType]}</div>
               </div>
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
               <div className="flex-1 flex">

@@ -3,7 +3,7 @@ import Button from 'components/common/button/button';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import TrashSVG  from 'assets/icons/trash.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
-import { PageTypeMap, IconsMap } from 'src/models/formFieldModel';
+import { PageName, IconsMap } from 'src/models/formFieldModel';
 import { PropsWithChildren } from 'src/types';
 import { FormError } from 'src/options/HOC/formHOC';
 
@@ -41,7 +41,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
           <span>{mode === 'create' ? 'Create New Rule' : 'Edit Rule'}</span>
           <span className="text-xs gap-1 text-slate-400 flex items-center">
             <span className="w-4">{IconsMap[pageType]}</span>
-            {PageTypeMap[pageType]}
+            {PageName[pageType]}
           </span>
         </span>
         <div className="flex gap-5">
@@ -57,7 +57,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
           <div>
             <Button
               icon={<PencilSVG />}
-              trackName={`${PageTypeMap[pageType]} Rule Create Event`}
+              trackName={`${PageName[pageType]} Rule Create Event`}
               onClick={onSubmit}>
                 {mode === 'create' ? 'Create' : 'Edit'}
             </Button>
