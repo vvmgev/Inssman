@@ -26,29 +26,6 @@ class ServiceWorker {
     if(!config) {
       StorageService.set({[StorageKey.CONFIG]: {}});
     }
-
-    // Temproary function
-    // Remove old rules;
-    const isCleared = (await StorageService.getSingleItem(StorageKey.IS_CLEAR));
-    if(!isCleared) {
-      await this.deleteRules();
-      await StorageService.set({[StorageKey.IS_CLEAR]: true});
-      await StorageService.set({[StorageKey.NEXT_ID]: 1});
-    }
-    // Temproary function
-    // Add new property to old rules and make by default enabled
-    const data: any[] = Object.values(await StorageService.get());
-    data.forEach(async (item) => {
-      if(typeof item === 'object' && item.pageType) {
-        if((typeof item.type === 'undefined')) {
-          item.type = StorageItemType.RULE
-        }
-        if(typeof item.enabled === 'undefined') {
-          item.enabled = true
-        }
-        await StorageService.set({[String(item.id)]: item})
-      }
-      });
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
@@ -104,11 +81,17 @@ class ServiceWorker {
         // Add 100 to ID
         const { version } = chrome.runtime.getManifest();
         const uniqueErrorText = 'does not have a unique ID.';
+        const emptyRuleText = 'Error at parameter \'options\': Error at property \'addRules\': Error at index 0: Invalid type: expected declarativeNetRequest.Rule, found undefined.';
         if(error.message.includes(uniqueErrorText)) {
           const id: number = await StorageService.generateNextId();
           await StorageService.set({[StorageKey.NEXT_ID]: id + 100});
           sendResponse(await this.addRule(data));
           handleError(error, {action: PostMessageAction[action], data: {...data, version}});
+        } else if(error.message.includes(emptyRuleText)) {
+          // Temp solution
+          // Track all data
+          const ruleData = await StorageService.getSingleItem(String(data.id));
+          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version, ruleData}})})
         } else {
           sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
         }
