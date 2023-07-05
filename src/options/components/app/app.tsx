@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import BackgroundAnimation from '../common/backgroundAnimation/backgroundAnimation';
+import Background from '../common/background/background';
 import Header from '../header/header';
 import Footer from '../footer/footer'
 import SideBar from '../sideBar/sideBar'
@@ -11,7 +11,7 @@ import 'services/TrackService';
 
 const App = () => {
     return <div className="h-screen w-screen overflow-hidden">
-      <BackgroundAnimation>
+      <Background>
         <HashRouter>
           <div className="flex flex-row h-full">
             <SideBar />
@@ -22,7 +22,7 @@ const App = () => {
             </div>
           </div>
       </HashRouter>
-    </BackgroundAnimation>
+    </Background>
   </div>
 }
 

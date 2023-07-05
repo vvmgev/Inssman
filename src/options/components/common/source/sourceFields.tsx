@@ -97,7 +97,7 @@ const SourceFields = ({
       </div>
       <div className={`flex w-full ${(showRequestMethods || showResourceTypes) ? 'mt-5': '' }`}>
         <div className="min-w-[100px]"></div>
-        {showRequestMethods && <div className="min-w-[280px] flex items-center gap-1">
+        {showRequestMethods && <div className="min-w-[340px] flex items-center gap-1">
           <Select
             onChange={onChange}
             value={requestMethods}
@@ -114,7 +114,7 @@ const SourceFields = ({
               <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
           </Tooltip>
         </div>}
-        {showResourceTypes && <div className="ml-5 min-w-[280px] flex items-center gap-1">
+        {showResourceTypes && <div className="ml-5 min-w-[340px] flex items-center gap-1">
           <Select
             onChange={onChange}
             value={resourceTypes}
