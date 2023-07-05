@@ -16,6 +16,7 @@ import PencilSVG  from 'assets/icons/pencil.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import TrashSVG  from 'assets/icons/trash.svg';
 import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
+import ListSVG  from 'assets/icons/list.svg';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
@@ -60,7 +61,10 @@ export default () => {
         {Boolean(data.length) && (
           <div>
             <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6">
-              <span>My Rules</span>
+              <span className="flex flex-row items-center gap-2">
+                <span className="w-[24px]">{<ListSVG />}</span>
+                <span>All Rules</span>
+              </span>
               <div className="flex items-center gap-5">
                 <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
                       trigger={<div><OutlineButton icon={<TrashSVG />} classes="hover:border-red-400 hover:text-red-400">Delete All Rules</OutlineButton></div>}
