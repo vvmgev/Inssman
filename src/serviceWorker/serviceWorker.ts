@@ -5,7 +5,7 @@ import handleError from './errorHandler';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleData, PageType } from 'src/models/formFieldModel';
 import { NAMESPACE } from 'src/models/contants';
-import { StorageItemType, StorageKey } from 'src/models/storageModel';
+import { StorageKey } from 'src/models/storageModel';
 import 'services/WebRequestService';
 import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;

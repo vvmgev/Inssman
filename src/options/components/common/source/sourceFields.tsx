@@ -5,17 +5,23 @@ import Select from 'components/common/select/select';
 import Tooltip from 'components/common/tooltip/tooltip';
 import InfoSVG  from 'assets/icons/info.svg';
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
-const SourceFields = ({ source, onChange, matchType, error, requestMethods = [], showRequestMethod = true, sourceProps = {}, matchTypeProps = {}, requestMethodsProps = {}, showAllButton = false}) => {
+const SourceFields = ({ source, onChange, matchType, error, requestMethods = [], resourceTypes = [], showRequestMethods = true, showResourceTypes = true, sourceProps = {}, matchTypeProps = {}, requestMethodsProps = {}, resourceTypesProps = {}, showAllButton = false}) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
   }, []), []);
 
-  const requestMethodsOptions = useMemo(() => Object.entries(RequestMethod).reduce((previous: any, [value, label]: any) => {
+  const requestMethodOptions = useMemo(() => Object.entries(RequestMethod).reduce((previous: any, [value, label]: any) => {
       previous.push({value: value.toLowerCase(), label})
       return previous;
   }, []), []);
+
+  const resourceTypeOptions = useMemo(() => Object.entries(ResourceType).reduce((previous: any, [value, label]: any) => {
+    previous.push({value: value.toLowerCase(), label: label.replace('_', ' ')})
+    return previous;
+}, []), []);
 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://google.com',
@@ -30,48 +36,70 @@ const SourceFields = ({ source, onChange, matchType, error, requestMethods = [],
   }
 
   return (
-    <div className="flex items-center w-full">
-      <div className="min-w-[100px]">If Request</div>
-      <div className="min-w-[100px]">
-        <Select
+    <div className="flex flex-col w-full">
+      <div className="flex items-center w-full">
+        <div className="min-w-[100px]">If Request</div>
+        <div className="min-w-[100px]">
+          <Select
+              onChange={onChange}
+              value={matchType}
+              options={matchTypeOptions}
+              name='matchType'
+              error={error?.matchType}
+              {...matchTypeProps}
+            />
+        </div>
+        <div className="ml-5 w-2/4">
+          <Input
+            value={source}
+            name='source'
             onChange={onChange}
-            value={matchType}
-            options={matchTypeOptions}
-            name='matchType'
-            error={error?.matchType}
-            {...matchTypeProps}
-          />
+            placeholder={placeholders[matchType]}
+            error={error?.source}
+            {...sourceProps}
+            />
+        </div>
+        {showAllButton && <div className="ml-5 w-1/4" onClick={applyToAllHandler}>
+          <div className="border inline-block border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer">Apply to all URLs</div>
+        </div>}
       </div>
-      {showRequestMethod && <div className="ml-5 min-w-[280px] flex items-center gap-1">
-        <Select
-          onChange={onChange}
-          value={requestMethods}
-          options={requestMethodsOptions}
-          name='requestMethods'
-          error={error?.requestMethods}
-          multiple={true}
-          placeholder="Request Method"
-          {...requestMethodsProps}
-        />
-        <Tooltip
-          actions={['hover']}
-          triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>}>
-            <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
-        </Tooltip>
-      </div>}
-      <div className="ml-5 w-2/4">
-        <Input
-          value={source}
-          name='source'
-          onChange={onChange}
-          placeholder={placeholders[matchType]}
-          error={error?.source}
-          {...sourceProps}
+      <div className={`flex w-full ${(showRequestMethods || showResourceTypes) ? 'mt-5': '' }`}>
+        <div className="min-w-[100px]"></div>
+        {showRequestMethods && <div className="min-w-[280px] flex items-center gap-1">
+          <Select
+            onChange={onChange}
+            value={requestMethods}
+            options={requestMethodOptions}
+            name='requestMethod'
+            error={error?.requestMethod}
+            multiple={true}
+            placeholder="Request Method"
+            {...requestMethodsProps}
           />
+          <Tooltip
+            actions={['hover']}
+            triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>}>
+              <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
+          </Tooltip>
+        </div>}
+        {showResourceTypes && <div className="ml-5 min-w-[280px] flex items-center gap-1">
+          <Select
+            onChange={onChange}
+            value={resourceTypes}
+            options={resourceTypeOptions}
+            name='resourceTypes'
+            error={error?.resourceTypes}
+            multiple={true}
+            placeholder="Resource Types"
+            {...resourceTypesProps}
+          />
+          <Tooltip
+            actions={['hover']}
+            triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>}>
+              <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
+          </Tooltip>
+        </div>}
       </div>
-      {showAllButton && <div className="ml-5 w-1/4" onClick={applyToAllHandler}>
-        <div className="border inline-block border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer">Apply to all URLs</div>
-      </div>}
     </div>
   )
 }

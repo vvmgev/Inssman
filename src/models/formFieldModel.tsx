@@ -10,9 +10,12 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
+import RuleCondition = chrome.declarativeNetRequest.RuleCondition;
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-export interface IRule extends WithOptional<Rule, 'id' | 'priority' >{}
+export type IRuleCondition = { resourceTypes: ResourceType[], excludedResourceTypes?: ResourceType[] | undefined} & RuleCondition;
+export interface RuleWithResourceTypes extends Rule { condition: IRuleCondition };
+export interface IRule extends WithOptional<RuleWithResourceTypes, 'id' | 'priority' >{};
 export interface IRuleData {
     name: string,
     source: string,
@@ -31,7 +34,7 @@ export interface IRuleData {
     tagSelectorOperator?: InjectFileOperator,
     shouldRemoveHeader?: boolean,
     rule?: Rule,
-}
+};
 export interface IForm {
     rule?: IRule,
     ruleData?: IRuleData

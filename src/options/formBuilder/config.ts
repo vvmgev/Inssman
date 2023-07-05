@@ -32,7 +32,34 @@ const getResponseHeaders = headers => {
     }))
 };
 
-const config = {
+
+export type Validation = {
+    name: string,
+    regexp: any,
+    message: string,
+};
+
+export type Field = {
+    id: number,
+    type: string,
+    multipleFields: boolean,
+    name?: string,
+    defaultValue?: unknown,
+    props?: {[key: string]: unknown},
+    defaultValues?: {[key: string]: unknown},
+    placeholder?: string,
+    validations?: {[key: string]: Validation[]} | {[key: string]: {[key: string]: Validation[]}},
+    formatters?: {[key: string]: Function},
+};
+
+export type Config = {
+    [key in Exclude<PageType, PageType.HTTP_LOGGER>]: {
+        fields: Field[],
+        generateRule: Function,
+    }
+};
+
+const config: Config = {
     [PageType.REDIRECT] : {
         fields: [
             {
@@ -59,6 +86,7 @@ const config = {
                 multipleFields: true,
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -109,6 +137,7 @@ const config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+                resourceTypes: ruleData.resourceTypes,
               }
           })
     },
@@ -138,6 +167,7 @@ const config = {
                 multipleFields: true,
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -166,6 +196,7 @@ const config = {
             },
             condition: {
               [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+              resourceTypes: ruleData.resourceTypes,
             }
           })
     },
@@ -196,6 +227,7 @@ const config = {
                 multipleFields: true,
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -224,6 +256,7 @@ const config = {
                 defaultValues: {
                     queryParams: [{key: '', value: '', action: QueryParamAction.ADD}],
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -258,6 +291,7 @@ const config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+                resourceTypes: ruleData.resourceTypes,
               }
           })
     },
@@ -287,6 +321,7 @@ const config = {
                 multipleFields: true,
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -315,6 +350,7 @@ const config = {
                 defaultValues: {
                     headers: [{header: '', operation: HeaderOperation.SET, value: '', type: HeaderModificationType.REQUEST}],
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                 },
                 validations: {
@@ -350,6 +386,7 @@ const config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+                resourceTypes: ruleData.resourceTypes,
               }
           }}
     },
@@ -379,6 +416,7 @@ const config = {
                 multipleFields: true,
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -424,6 +462,7 @@ const config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+                resourceTypes: ruleData.resourceTypes,
               }
         })
     },
@@ -452,8 +491,13 @@ const config = {
                 id: 601,
                 type: 'sourceFields',
                 multipleFields: true,
+                props: {
+                    showRequestMethods: false,
+                    showResourceTypes: false,
+                },
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },
@@ -501,6 +545,7 @@ const config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
+                resourceTypes: ruleData.resourceTypes,
               }
         })
     },
@@ -528,8 +573,13 @@ const config = {
                 id: 601,
                 type: 'sourceFields',
                 multipleFields: true,
+                props: {
+                    showRequestMethods: false,
+                    showResourceTypes: false,
+                },
                 defaultValues: {
                     requestMethods: [],
+                    resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
                 },

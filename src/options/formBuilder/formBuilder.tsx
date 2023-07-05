@@ -50,9 +50,12 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                             <SourceFields
                                 matchType={ruleData.matchType || field.defaultValues.matchType}
                                 requestMethods={ruleData.requestMethods || field.defaultValues.requestMethods}
+                                resourceTypes={ruleData.resourceTypes || field.defaultValues.resourceTypes}
                                 onChange={e => onChange(e, field)}
                                 source={ruleData.source || field.defaultValues.source}
-                                error={error} />
+                                error={error} 
+                                {...field.props}
+                                />
                         </div>
             case 'destination':
                 return <div className="flex mt-5 items-center">

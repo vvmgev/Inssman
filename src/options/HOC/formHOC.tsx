@@ -194,24 +194,8 @@ const FormHOC = () => {
       if(form.rule) {
         // TODO need make it dynamic from UI
         form.rule.condition.isUrlFilterCaseSensitive = false;
-        // TODO need make it dynamic from UI
-        if (!(form.rule.condition as any).resourceTypes || !(form.rule.condition as any).resourceTypes.length) {
-          (form.rule.condition as any).resourceTypes = [
-            ResourceType.MAIN_FRAME,
-            ResourceType.SUB_FRAME,
-            ResourceType.XMLHTTPREQUEST,
-            ResourceType.CSP_REPORT,
-            ResourceType.FONT,
-            ResourceType.IMAGE,
-            ResourceType.MEDIA,
-            ResourceType.OBJECT,
-            ResourceType.PING,
-            ResourceType.SCRIPT,
-            ResourceType.STYLESHEET,
-            ResourceType.WEBSOCKET,
-            ResourceType.OTHER,
-          ]
-        }
+        const resourceTypes = form.rule.condition.resourceTypes;
+        form.rule.condition.resourceTypes = resourceTypes.length ? resourceTypes : Object.values(ResourceType);
         // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
         form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined;
         if (id) {
