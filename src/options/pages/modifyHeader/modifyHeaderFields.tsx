@@ -32,48 +32,50 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
   return <>
     {headers.map((header, index) => {
       return (
-        <div key={index} className="flex items-center mt-5 w-full gap-5">
-          <span className="mr-4">Operator</span>
-          <Select
-            options={modifyHeaderActionOptions}
-            name="operation"
-            value={header.operation}
-            onChange={event => onChangeHeader(event, index)}
-            classes="flex-[1]"
-            error={error?.operation}
-          />
-          <Select
-            options={headerModificationTypeOptions}
-            name="type"
-            value={header.type}
-            onChange={event => onChangeHeader(event, index)}
-            classes="flex-[1]"
-            error={error?.type}
-          />
-          <div className='flex-[2]'>
-            <InputAutocomplete
-              inputProps={{
-                name: "header",
-                placeholder: "Key",
-                value: header.header,
-                onChange: event => onChangeHeader(event, index),
-                classes: "flex-[2]",
-                error: headerErrors[index]?.header
-              }}
-              id={index}
-              list={HTTPHeaders[header.type]}
+        <div key={index} className="flex items-center mt-5">
+          <span className="min-w-[100px]">Operator</span>
+          <div key={index} className="flex items-center w-full gap-5">
+            <Select
+              options={modifyHeaderActionOptions}
+              name="operation"
+              value={header.operation}
+              onChange={event => onChangeHeader(event, index)}
+              classes="flex-[1]"
+              error={error?.operation}
             />
+            <Select
+              options={headerModificationTypeOptions}
+              name="type"
+              value={header.type}
+              onChange={event => onChangeHeader(event, index)}
+              classes="flex-[1]"
+              error={error?.type}
+            />
+            <div className='flex-[2]'>
+              <InputAutocomplete
+                inputProps={{
+                  name: "header",
+                  placeholder: "Key",
+                  value: header.header,
+                  onChange: event => onChangeHeader(event, index),
+                  classes: "flex-[2]",
+                  error: headerErrors[index]?.header
+                }}
+                id={index}
+                list={HTTPHeaders[header.type]}
+              />
+            </div>
+            <Input
+              name="value"
+              placeholder="Value"
+              value={header.value}
+              onChange={event => onChangeHeader(event, index)}
+              disabled={header.operation === HeaderOperation.REMOVE}
+              hidden={header.operation === HeaderOperation.REMOVE}
+              classes="flex-[2]"
+            />
+            <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
           </div>
-          <Input
-            name="value"
-            placeholder="Value"
-            value={header.value}
-            onChange={event => onChangeHeader(event, index)}
-            disabled={header.operation === HeaderOperation.REMOVE}
-            hidden={header.operation === HeaderOperation.REMOVE}
-            classes="flex-[2]"
-          />
-          <div className="cursor-pointer" onClick={e => onRemoveHeader(e, index)}><span className="w-[24px] inline-block"><CrossSVG /></span></div>
         </div>
       )
     })}
