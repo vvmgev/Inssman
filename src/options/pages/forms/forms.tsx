@@ -1,5 +1,5 @@
 import React from 'react';
-import { IRule, IRuleData } from 'src/models/formFieldModel';
+import { FormMode, IRule, IRuleData } from 'src/models/formFieldModel';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import Form from 'src/options/components/common/form/form';
 import FormBuilder from 'src/options/formBuilder/formBuilder';
@@ -13,14 +13,14 @@ type Props = PropsWithChildren<{
     onChange: Function,
     setRuleData: Function,
     template: boolean,
-    mode: string,
+    mode: FormMode,
     pageType: string,
     error: FormError,
     ruleData: IRuleData,
   }>
 
 const Forms = ({ children, ...props }: Props) => {
-    const { onDelete, onSave, mode, error, pageType, ruleData } = props;
+    const { onDelete, onSave, mode, error, pageType, ruleData, setRuleData, template, onChange } = props;
     const { generateRule } = config[pageType];
 
     const onSubmit = () => {
@@ -30,8 +30,15 @@ const Forms = ({ children, ...props }: Props) => {
 
     return <ColorCover classes="mx-[5%] p-5">
             <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
-                {/* @ts-ignore */}
-                <FormBuilder {...props} />
+                <FormBuilder
+                    ruleData={ruleData}
+                    setRuleData={setRuleData}
+                    onChange={onChange}
+                    error={error}
+                    mode={mode}
+                    pageType={pageType}
+                    template={template}
+                />
             </Form>
         </ColorCover>
 }

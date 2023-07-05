@@ -6,11 +6,11 @@ import QuestionSVG  from 'assets/icons/question.svg';
 import WrenchSVG  from 'assets/icons/wrench.svg';
 import CodeSVG  from 'assets/icons/code.svg';
 import PaperClipSVG  from 'assets/icons/paperClip.svg';
-import ResourceType = chrome.declarativeNetRequest.ResourceType
 import Rule = chrome.declarativeNetRequest.Rule
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
-import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition;
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
+import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type IRuleCondition = { resourceTypes: ResourceType[], excludedResourceTypes?: ResourceType[] | undefined} & RuleCondition;
@@ -24,6 +24,7 @@ export interface IRuleData {
     enabled: boolean;
     type: string,
     requestMethods: RequestMethod[],
+    resourceTypes: ResourceType[],
     id?: number,
     destination?: string,
     editorValue?: string,

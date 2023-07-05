@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useMemo, useRef } from 'react';
 import config from './config';
-import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from 'src/models/formFieldModel';
+import { EditorLanguage, FormMode, HeaderModificationType, IRuleData, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
 import Destination from 'components/common/destination/destination';
 import QueryParamFields from 'components/common/queryParamFields/queryParamFields';
@@ -10,9 +10,22 @@ import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import { structuredClone } from 'options/utils';
 import Input from 'components/common/input/input';
+import { PropsWithChildren } from 'src/types';
+import { FormError } from '../HOC/formHOC';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
-const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }) => {
+type Props = PropsWithChildren<{
+    // Fix the type
+    ruleData: any,
+    onChange: Function,
+    setRuleData: Function,
+    error: FormError,
+    mode: FormMode,
+    pageType: string,
+    template: unknown,
+  }>
+
+const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }: Props) => {
     const editorRef = useRef<any>();
     const { fields } = config[pageType];
 
