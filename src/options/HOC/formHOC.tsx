@@ -227,7 +227,6 @@ const FormHOC = () => {
         return <></>
       }
 
-      // @ts-ignore
       return <Forms
                 ruleData={ruleData}
                 onChange={this.onChange}

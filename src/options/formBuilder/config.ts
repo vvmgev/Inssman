@@ -35,7 +35,7 @@ const getResponseHeaders = headers => {
 
 export type Validation = {
     name: string,
-    regexp: any,
+    regexp: RegExp,
     message: string,
 };
 
@@ -45,8 +45,8 @@ export type Field = {
     multipleFields: boolean,
     name?: string,
     defaultValue?: unknown,
-    props?: {[key: string]: unknown},
     defaultValues?: {[key: string]: unknown},
+    props?: {[key: string]: unknown},
     placeholder?: string,
     validations?: {[key: string]: Validation[]} | {[key: string]: {[key: string]: Validation[]}},
     formatters?: {[key: string]: Function},
@@ -77,7 +77,7 @@ const config: Config = {
                     }]
                 },
                 formatters: {
-                    name: (value: string) => value.trim(),
+                    name: (value: string): string => value.trim(),
                 },
             },
             {

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { MatchType } from 'models/formFieldModel';
+import { PropsWithChildren } from 'src/types';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import Tooltip from 'components/common/tooltip/tooltip';
@@ -7,7 +8,38 @@ import InfoSVG  from 'assets/icons/info.svg';
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
-const SourceFields = ({ source, onChange, matchType, error, requestMethods = [], resourceTypes = [], showRequestMethods = true, showResourceTypes = true, sourceProps = {}, matchTypeProps = {}, requestMethodsProps = {}, resourceTypesProps = {}, showAllButton = false}) => {
+type Props = PropsWithChildren<{
+  source: string,
+  onChange: Function,
+  matchType: MatchType,
+  error: {[key: string]: string},
+  requestMethods: RequestMethod[],
+  resourceTypes: ResourceType[],
+  showRequestMethods: boolean,
+  showResourceTypes: boolean,
+  sourceProps: {[key: string]: unknown},
+  matchTypeProps: {[key: string]: unknown},
+  requestMethodsProps: {[key: string]: unknown},
+  resourceTypesProps: {[key: string]: unknown},
+  showAllButton: boolean,
+}>
+
+
+const SourceFields = ({ 
+  source,
+  onChange,
+  matchType,
+  error,
+  requestMethods = [],
+  resourceTypes = [],
+  showRequestMethods = true,
+  showResourceTypes = true,
+  sourceProps = {},
+  matchTypeProps = {},
+  requestMethodsProps = {},
+  resourceTypesProps = {},
+  showAllButton = false
+}: Props) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
