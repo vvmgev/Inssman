@@ -96,7 +96,7 @@ const SourceFields = ({ source, onChange, matchType, error, requestMethods = [],
           <Tooltip
             actions={['hover']}
             triggerElement={<span className="w-[35px] cursor-pointer inline-block"><InfoSVG /></span>}>
-              <span className="text-slate-200">To Apply All Request Methods Leave Empty</span>
+              <span className="text-slate-200">To Apply All Resource Types Leave Empty</span>
           </Tooltip>
         </div>}
       </div>
