@@ -28,16 +28,13 @@ class ServiceWorker {
     }
     // Temp function
     // Add 'resourceTypes' to local storage rules
-    const { version } = chrome.runtime.getManifest();
-    if('1.0.31' > version) {
-      const ruleData = await StorageService.getRules();
-      ruleData.forEach((item: IRuleData) => {
-        if(!item.resourceTypes) {
-          item.resourceTypes = [];
-          StorageService.set({[item.id as number]: item});
-        }
-      })
-    }
+    const ruleData = await StorageService.getRules();
+    ruleData.forEach((item: IRuleData) => {
+      if(!item.resourceTypes) {
+        item.resourceTypes = [];
+        StorageService.set({[item.id as number]: item});
+      }
+    })
   }
 
   onUpdatedTab = async(tabId, _, tab): Promise<void> => {
