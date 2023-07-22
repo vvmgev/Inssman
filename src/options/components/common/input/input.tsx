@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const Input = ({onChange, classes, error, starts, ends, disabled, hidden, ...props}: any ) => {
+const Input = forwardRef(({onChange, classes, error, starts, ends, disabled, hidden, ...props}: any, ref) => {
     return <div className={`inline-block w-full ${classes || ''}`}>
       <div className="flex items-stretch">
         {starts && <div className={`pl-3 rounded-tl rounded-bl bg-slate-700/50 flex justify-center items-center
@@ -18,12 +18,13 @@ const Input = ({onChange, classes, error, starts, ends, disabled, hidden, ...pro
                       autoComplete="off"
                       onChange={onChange}
                       disabled={disabled}
+                      ref={ref}
                       {...props} />
         {ends && <div className={`pr-3 rounded-tr rounded-br bg-slate-700/50 flex justify-center items-center
           ${error ? 'border border-red-500 border-r-0' : ''}
         `}>{ends}</div>}
       </div>
     </div>
-}
+})
 
 export default Input;

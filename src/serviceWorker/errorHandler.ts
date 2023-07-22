@@ -5,6 +5,7 @@ const destinationError2 = 'specify the "regexSubstitution" key without specifyin
 const sourceError = 'specifies an incorrect value for the "regexFilter"';
 const actionError = 'standard HTTP request headers that can specify multiple values for a single entry are supported';
 const emptyHeaders = 'does not specify a value for "action.requestHeaders" or "action.responseHeaders" key';
+const complexRegexFilter = 'more complex regex than allowed as part of the "regexFilter" key';
 
 const errors = {
   [destinationError]: 'May you have backslash with number (\\1) please remove or change Match type',
@@ -12,6 +13,7 @@ const errors = {
   [sourceError]: 'Incorrect value',
   [actionError]: 'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
   [emptyHeaders]: 'May you need to specify headers for request or response, press "Add" button',
+  [complexRegexFilter]: 'The source field has more characters than allowed',
 }
 
 const handleError = (error: any, data) => {
@@ -41,7 +43,7 @@ const handleError = (error: any, data) => {
       message: errors[destinationError2],
     }
   }
-  if (message.includes(sourceError)) {
+  if (message.includes(sourceError) || message.includes(complexRegexFilter)) {
     errorData = {
       fieldName: 'source',
       message: errors[sourceError],

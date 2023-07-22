@@ -159,15 +159,9 @@ const FormHOC = () => {
       let index = 0;
       const keys = Object.keys(error)
       const findError = (item): boolean => {
-        if(typeof item === 'object' && item) {
-          return this.hasErrors(error[keys[index]]);
-        }
-        if(Boolean(item)) {
-          return true;
-        }
-        if(typeof error[keys[++index]] !== 'undefined') {
-          return findError(error[keys[index]])
-        }
+        if(typeof item === 'object' && item) return this.hasErrors(error[keys[index]]);   
+        if(Boolean(item)) return true;
+        if(typeof error[keys[++index]] !== 'undefined') return findError(error[keys[index]]);
         return false;
       }
       return Boolean(findError(error[keys[index]]));
