@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { MatchType } from 'models/formFieldModel';
 import { PropsWithChildren } from 'src/types';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import Tooltip from 'components/common/tooltip/tooltip';
 import InfoSVG  from 'assets/icons/info.svg';
+import AdjustmentVerticalSVG  from 'assets/icons/adjustmentVertical.svg';
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
@@ -22,6 +23,7 @@ type Props = PropsWithChildren<{
   requestMethodsProps: {[key: string]: unknown},
   resourceTypesProps: {[key: string]: unknown},
   showAllButton: boolean,
+  showFields: boolean,
 }>
 
 
@@ -38,7 +40,8 @@ const SourceFields = ({
   matchTypeProps = {},
   requestMethodsProps = {},
   resourceTypesProps = {},
-  showAllButton = false
+  showAllButton = false,
+  showFields = false,
 }: Props) => {
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
@@ -66,6 +69,7 @@ const SourceFields = ({
     // onChange({target: {name: 'matchType', value: MatchType.WILDCARD}});
     // onChange({target: {name: 'source', value: '*'}});
   }
+  const toggleFields = useCallback(() => onChange({target: {name: 'showFields', value: !showFields}}), [showFields]);
 
   return (
     <div className="flex flex-col w-full">
@@ -91,11 +95,14 @@ const SourceFields = ({
             {...sourceProps}
             />
         </div>
+        {showRequestMethods && showResourceTypes && <div className="ml-1" onClick={toggleFields}>
+          <span className={`w-[35px] cursor-pointer inline-block ${showFields && 'text-sky-500'} hover:text-sky-500`}><AdjustmentVerticalSVG /></span>
+        </div>}
         {showAllButton && <div className="ml-5 w-1/4" onClick={applyToAllHandler}>
           <div className="border inline-block border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer">Apply to all URLs</div>
         </div>}
       </div>
-      <div className={`flex w-full ${(showRequestMethods || showResourceTypes) ? 'mt-5': '' }`}>
+      <div className={`${showFields ? 'flex' : 'hidden'} w-full ${(showRequestMethods || showResourceTypes) ? 'mt-5': '' }`}>
         <div className="min-w-[100px]"></div>
         {showRequestMethods && <div className="min-w-[340px] flex items-center gap-1">
           <Select

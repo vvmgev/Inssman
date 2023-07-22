@@ -89,6 +89,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -170,6 +171,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -230,6 +232,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -324,6 +327,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -419,6 +423,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -500,6 +505,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [
@@ -582,6 +588,7 @@ const config: Config = {
                     resourceTypes: [],
                     matchType: MatchType.CONTAIN,
                     source: '',
+                    showFields: false,
                 },
                 validations: {
                     source: [

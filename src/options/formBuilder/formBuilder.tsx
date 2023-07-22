@@ -67,6 +67,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                                 onChange={e => onChange(e, field)}
                                 source={ruleData.source || field.defaultValues.source}
                                 error={error} 
+                                showFields={ruleData.showFields || field.defaultValues.showFields}
                                 {...field.props}
                                 />
                         </div>
