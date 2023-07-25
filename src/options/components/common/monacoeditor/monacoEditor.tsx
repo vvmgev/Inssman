@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as monaco from 'monaco-editor';
 
 // @ts-ignore
@@ -20,15 +20,15 @@ self.MonacoEnvironment = {
   }
 };
 
-const MonacoEditor = forwardRef(({ language, onChangeHandler }: any, ref) => {
+const MonacoEditor = ({ language, onChangeHandler, value = '' }: any) => {
   const divEl = useRef<HTMLDivElement>(null);
-  let editor = useRef<monaco.editor.IStandaloneCodeEditor>();
-  const getModel = () => editor.current?.getModel() as monaco.editor.ITextModel;
+  let editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
+  const getModel = () => editorRef.current?.getModel() as monaco.editor.ITextModel;
   const onChange = () => onChangeHandler && onChangeHandler(getModel().getValue())
-  const pritter = () => editor.current?.getAction('editor.action.formatDocument').run();
+  const pritter = () => editorRef.current?.getAction('editor.action.formatDocument').run();
 
   useEffect(() => {
-    editor.current = monaco.editor.create((divEl.current) as HTMLDivElement , {
+    editorRef.current = monaco.editor.create((divEl.current) as HTMLDivElement , {
       value: '',
       language: '',
       theme: 'vs-dark',
@@ -37,19 +37,16 @@ const MonacoEditor = forwardRef(({ language, onChangeHandler }: any, ref) => {
       formatOnType: true,
       minimap: { enabled: false }
     });
-    getModel().onDidChangeContent(onChange)
+    getModel().onDidChangeContent(onChange);
+    getModel().setValue(value);
   }, [])
 
   useEffect(() => monaco.editor.setModelLanguage(getModel(), language), [language])
-
-  useImperativeHandle(ref, () => ({
-    setValue: (value) => getModel().setValue(value),
-  }), []);
 
   return <>
         <div className="absolute z-10 right-5 top-0 border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={pritter}>Pritter</div>
         <div className="w-full h-[320px]" ref={divEl}></div>
   </>
-});
+};
 
 export default MonacoEditor;

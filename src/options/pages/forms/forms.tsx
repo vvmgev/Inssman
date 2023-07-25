@@ -11,7 +11,6 @@ type Props = PropsWithChildren<{
     onDelete: Function,
     onSave: Function,
     onChange: Function,
-    setRuleData: Function,
     template: boolean,
     mode: FormMode,
     pageType: string,
@@ -20,7 +19,7 @@ type Props = PropsWithChildren<{
   }>
 
 const Forms = ({ children, ...props }: Props) => {
-    const { onDelete, onSave, mode, error, pageType, ruleData, setRuleData, template, onChange } = props;
+    const { onDelete, onSave, mode, error, pageType, ruleData, onChange } = props;
     const { generateRule } = config[pageType];
 
     const onSubmit = () => {
@@ -32,12 +31,10 @@ const Forms = ({ children, ...props }: Props) => {
             <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
                 <FormBuilder
                     ruleData={ruleData}
-                    setRuleData={setRuleData}
                     onChange={onChange}
                     error={error}
                     mode={mode}
                     pageType={pageType}
-                    template={template}
                 />
             </Form>
         </ColorCover>

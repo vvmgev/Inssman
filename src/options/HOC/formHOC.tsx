@@ -23,17 +23,19 @@ type State = {
 const FormHOC = () => {
   return class extends React.Component<{}, State> {
     fields: any;
+    pageType: string;
     constructor(props) {
       super(props);
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       const state = (this.props as any).location.state; 
       let ruleData: IRuleData = {} as IRuleData;
-      const pageType = this.getPageType(mode);
-      this.fields = config[pageType].fields;
+      this.pageType = this.getPageType(mode);
+      this.fields = config[this.pageType].fields;
+
       if(state?.template) {
         ruleData = {
-          pageType,
+          pageType: this.pageType,
           ...state.ruleData,
         }
       }
@@ -49,16 +51,6 @@ const FormHOC = () => {
     getPageType = (mode: FormMode): string => {
       const pathArr = (this.props as any).location.pathname.split('/');
       return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
-    };
-
-    setRuleData = (ruleData) => {
-      this.setState(state => ({
-        ...state,
-        ruleData: {
-          ...state.ruleData,
-          ...ruleData,
-        },
-      }))
     };
 
     setError = (fieldName, message) => {
@@ -229,13 +221,42 @@ const FormHOC = () => {
                 onSave={this.onSave}
                 mode={mode}
                 pageType={this.getPageType(mode)}
-                setRuleData={this.setRuleData}
                 template={this.state.template}
               />
     }
 
+    getDefaultData() {
+      let defaultValues: {[key: string]: string | string[]} = { pageType: this.pageType };
+      this.fields.forEach(field => {
+          if(field.multipleFields) {
+              defaultValues = {
+                  ...defaultValues,
+                  ...structuredClone(field.defaultValues)
+              }
+              return
+          }
+          defaultValues[field.name] = field.defaultValue;
+      });
+      return defaultValues;
+    }
+
     componentDidMount(): void {
-      if(this.state.mode === FormMode.UPDATE) {
+      const search = (this.props as any).location.search;
+      const urlSearchParams = new URLSearchParams(search);
+      const { mode, template } = this.state;
+      if(mode === FormMode.CREATE && !template) {
+        const defaultValues = this.getDefaultData();
+        this.setState(state => ({
+          ...state,
+          ruleData: {
+            ...state.ruleData,
+            ...defaultValues,
+            source: urlSearchParams.get('source') || defaultValues.source as string,
+          },
+        }));
+        return;
+      }
+      if(mode === FormMode.UPDATE) {
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRuleById,
           data: {id: this.state.id},

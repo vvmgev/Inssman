@@ -18,34 +18,13 @@ type Props = PropsWithChildren<{
     // Fix the type
     ruleData: any,
     onChange: Function,
-    setRuleData: Function,
     error: FormError,
     mode: FormMode,
     pageType: string,
-    template: unknown,
   }>
 
-const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, template }: Props) => {
-    const editorRef = useRef<any>();
+const FormBuilder = ({ ruleData, onChange, error, pageType }: Props) => {
     const { fields } = config[pageType];
-
-    useEffect(() => {
-        if(mode === FormMode.CREATE && !template) {
-            let defaultValues: {[key: string]: string | string[]} = {pageType};
-            fields.forEach(field => {
-                if(field.multipleFields) {
-                    defaultValues = {
-                        ...defaultValues,
-                        ...structuredClone(field.defaultValues)
-                    }
-                    return
-                }
-                defaultValues[field.name] = field.defaultValue;
-            });
-            setRuleData(defaultValues);
-        }
-        editorRef.current?.setValue(ruleData.editorValue || '');
-    }, []);
 
     const generateField = (field: any) => {
         switch (field.type) {
@@ -119,7 +98,7 @@ const FormBuilder = ({ ruleData, setRuleData, onChange, error, mode, pageType, t
                     </div>
             case 'editor':
                 return <div className='mt-5'>
-                            <Editor editorRef={editorRef} language={ruleData.editorLang || field.defaultValue} onChange={(e) => onChange(e, field)} />
+                            <Editor value={ruleData.editorValue} language={ruleData.editorLang || field.defaultValue} onChange={(e) => onChange(e, field)} />
                         </div>
             case 'injectFileSources':
                 return <InjectFileSources ruleData={ruleData} onChange={(e) => onChange(e, field)} error={error} />

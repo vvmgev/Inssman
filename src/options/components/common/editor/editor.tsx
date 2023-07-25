@@ -1,7 +1,7 @@
 import React from 'react';
 import MonacoEditor from '../monacoeditor/monacoEditor';
 
-const Editor = ({language, editorRef, onChange = (data) => {}}) => {
+const Editor = ({language, value, onChange = (data) => {}}) => {
     const handleChangeEditor = value => {
         onChange({
             target: {
@@ -14,8 +14,8 @@ const Editor = ({language, editorRef, onChange = (data) => {}}) => {
     return <div className="relative w-full h-full">
         <MonacoEditor
           onChangeHandler={handleChangeEditor}
-          ref={editorRef}
           language={language}
+          value={value}
         />
     </div>
 }
