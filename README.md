@@ -185,7 +185,7 @@ Redirected URL  - <span>https://</span>google.com/example-abc/example-def \
 Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Match ✅  -->
 
 
-<!-- ## Wilcard operator
+## Wilcard operator
 
 Wilcard operator uses the **asterisk (*)** to match the URL
 
@@ -198,11 +198,11 @@ Result - Match ✅
 Word &nbsp;- https://*example.com \
 URL &nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com** \
 Result - Match ✅ 
-<!-- 
-Wilcard operator also has the same options as Regexp operator. \
-Each asterisk can be replaced backslash number (\\1 or \\2). -->
 
-<!-- For **[Redirect Request](#redirectRequest)** there is more powerful options. Each match with asterisk can be replaced in some parts of the destination URL with backslash number (\\1 or \\2)
+Wilcard operator also has the same options as Regexp operator. \
+Each asterisk can be replaced backslash number (\\1 or \\2).
+
+For **[Redirect Request](#redirectRequest)** there is more powerful options. Each match with asterisk can be replaced in some parts of the destination URL with backslash number (\\1 or \\2)
 
 Examples ⬇️
 
@@ -218,7 +218,4 @@ URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - \1 = http, \2 = www, \3 = ?age=12&gender=male \
 Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/\1/\2/\3 \
 Redirected URL - <span>https://</span>google.com/https/www/?id=12&gender=male \
-Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ -->
-
-
-
+Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅

@@ -61,7 +61,7 @@ const SourceFields = ({
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://google.com',
     // [MatchType.REGEXP]: 'e.g ^http(s):\/\/example\.com\/?$',
-    // [MatchType.WILDCARD]: 'e.g. *://google.com/*',
+    [MatchType.WILDCARD]: 'e.g. *://google.com/*',
     [MatchType.CONTAIN]: 'e.g google',
   }), []);
 

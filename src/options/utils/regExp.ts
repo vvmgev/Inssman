@@ -1,7 +1,10 @@
 export const backslashNumber: RegExp = /\\[0-9]/;
-export const replaceAsterisk: Function = (str: string) => str.replace(/[*]/g, '(.*)')
+export const replaceAsterisk: Function = (str: string) => str.replace(/[*]/g, '(.*)');
 export const escapeRegex = (str) => str.replace(/([.*+^=!:${}()|\[\]\/\\])/g, "\\$1");
-export const protocolRegExp: RegExp = /^http(s?):\/\//
+export const protocolRegExp: RegExp = /^http(s?):\/\//;
+export const replaceAsteriskToPlus = str => str.replaceAll('*', '(.+)');
+export const escapSymbols = rule => "^" + rule.split("*").map(escapeRegex).join("(.*)") + "$";
+
 export const makeExactMatch: Function = (url: string): string => {
     if(!url.match(protocolRegExp)) {
         // return `^http(s)?\\:\\/\\/${escapeRegex(url)}\\/?$`; // version 1
@@ -39,9 +42,7 @@ export const escapedSymbols: {[key: string]: string} = {
 //         return prev.replace(regExp, current[1]);
 //     }, defaultValue)
 // }
-export const escapSymbols = rule => {
-    return "^" + rule.split("*").map(escapeRegex).join("(.*)") + "$";
-}
+
 
 
 //  '^http(s)?:\/\/fb.com\/test(\/?)\\?a=12&b=2$'

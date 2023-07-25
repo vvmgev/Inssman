@@ -1,6 +1,7 @@
 import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, MatchType, InjectFileSource } from "src/models/formFieldModel";
 import StorageService from "./StorageService";
 import { IRuleData } from 'models/formFieldModel';
+import { replaceAsteriskToPlus } from "src/options/utils";
 
 class InjectFileService {
   rulesData: IRuleData[] = [];
@@ -14,8 +15,7 @@ class InjectFileService {
     chrome.webNavigation.onCommitted.addListener(transation => {
       this.rulesData.forEach((ruleData: IRuleData) => {
         if(ruleData.pageType === PageType.INJECT_FILE) {
-          if( ruleData.matchType === MatchType.CONTAIN && transation.url.includes(ruleData.source) || 
-              ruleData.matchType === MatchType.EQUAL && transation.url === ruleData.source ) {
+          if(this.isUrlMatch(ruleData.source, transation.url, ruleData.matchType)) {
                 if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
                   this.createHTML(transation.tabId, ruleData.editorValue, ruleData.tagSelector, ruleData.tagSelectorOperator);
                   return;
@@ -41,6 +41,12 @@ class InjectFileService {
         }
       })
     });
+  };
+  
+  isUrlMatch (source: string, transationUrl: string, matchType: string): boolean {
+    return (matchType === MatchType.CONTAIN && transationUrl.includes(source)) || 
+           (matchType === MatchType.EQUAL && transationUrl === source) ||
+           (matchType === MatchType.WILDCARD && (new RegExp(replaceAsteriskToPlus(source))).test(transationUrl));
   };
 
   async getEnabledRules(): Promise<void> {

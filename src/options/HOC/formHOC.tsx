@@ -2,7 +2,7 @@ import React from 'react';
 import TrackService from 'src/services/TrackService';
 import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { makeExactMatch } from 'options/utils';
+import { makeExactMatch, replaceAsterisk } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
 import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
@@ -10,7 +10,7 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 export type FormError = {
   [key: string]: { message: string } | null;
-}
+};
 
 type State = {
   error: FormError,
@@ -159,7 +159,7 @@ const FormHOC = () => {
       let index = 0;
       const keys = Object.keys(error)
       const findError = (item): boolean => {
-        if(typeof item === 'object' && item) return this.hasErrors(error[keys[index]]);   
+        if(typeof item === 'object' && item) return this.hasErrors(error[keys[index]]);
         if(Boolean(item)) return true;
         if(typeof error[keys[++index]] !== 'undefined') return findError(error[keys[index]]);
         return false;
@@ -198,9 +198,9 @@ const FormHOC = () => {
         if (ruleData.matchType === MatchType.EQUAL) {
           form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
         }
-        // if (ruleData.matchType === MatchType.WILDCARD) {
-        //   form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
-        // }
+        if (ruleData.matchType === MatchType.WILDCARD) {
+          form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
+        }
       }
       
       chrome.runtime.sendMessage({

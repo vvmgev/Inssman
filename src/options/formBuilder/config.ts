@@ -1,4 +1,4 @@
-import { EditorLanguage, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
+import { EditorLanguage, FilterType, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
 import { addProtocol, encode } from "../utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
@@ -133,7 +133,9 @@ const config: Config = {
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                  url: addProtocol(ruleData.destination),
+                  ...(MatchTypeMap[ruleData.matchType] === FilterType.REGEXFILTER ? 
+                        {regexSubstitution: ruleData.destination} :
+                        {url: addProtocol(ruleData.destination)}),
                 }
               },
               condition: {
