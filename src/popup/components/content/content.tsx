@@ -6,7 +6,10 @@ import OutlineButton from 'src/options/components/common/outlineButton/outlineBu
 const Content = () => {
     let tabUrl = '';
     chrome.tabs.query({ active: true, currentWindow: true }, tab => tabUrl = tab[0].url as string);
-    const onClick = path => chrome.tabs.create({url: chrome.runtime.getURL(`options/options.html#/create/${path}?source=${tabUrl}`)});
+    const onClick = path => {
+        const { hostname } = new URL(tabUrl);
+        chrome.tabs.create({url: chrome.runtime.getURL(`options/options.html#/create/${path}?source=${hostname}`)})
+    };
 
     return <ColorCover classes="p-5">
         <div className="flex items-center flex-row justify-between align-center mb-[15px]">
