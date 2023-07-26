@@ -1,5 +1,6 @@
 export const backslashNumber: RegExp = /\\[0-9]/;
 export const replaceAsterisk: Function = (str: string) => str.replace(/[*]/g, '(.*)');
+export const replaceVariable: Function = (str: string) => str.replace(/\$(\d+)/g, "\\$1");
 export const escapeRegex = (str) => str.replace(/([.*+^=!:${}()|\[\]\/\\])/g, "\\$1");
 export const protocolRegExp: RegExp = /^http(s?):\/\//;
 export const replaceAsteriskToPlus = str => str.replaceAll('*', '(.+)');

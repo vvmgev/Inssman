@@ -8,8 +8,8 @@ const emptyHeaders = 'does not specify a value for "action.requestHeaders" or "a
 const complexRegexFilter = 'more complex regex than allowed as part of the "regexFilter" key';
 
 const errors = {
-  [destinationError]: 'May you have backslash with number (\\1) please remove or change Match type',
-  [destinationError2]: 'May you have backslash with number (\\1) please remove or change Match type',
+  [destinationError]: 'Incorrect value',
+  [destinationError2]: 'Incorrect value',
   [sourceError]: 'Incorrect value',
   [actionError]: 'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
   [emptyHeaders]: 'May you need to specify headers for request or response, press "Add" button',
