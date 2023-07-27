@@ -1,10 +1,10 @@
-export const backslashNumber: RegExp = /\\[0-9]/;
-export const replaceAsterisk: Function = (str: string) => str.replace(/[*]/g, '(.*)');
-export const replaceVariable: Function = (str: string) => str.replace(/\$(\d+)/g, "\\$1");
-export const escapeRegex = (str) => str.replace(/([.*+^=!:${}()|\[\]\/\\])/g, "\\$1");
-export const protocolRegExp: RegExp = /^http(s?):\/\//;
-export const replaceAsteriskToPlus = str => str.replaceAll('*', '(.+)');
-export const escapSymbols = rule => "^" + rule.split("*").map(escapeRegex).join("(.*)") + "$";
+export const backslashNumber = /\\[0-9]/;
+export const replaceAsterisk = (str: string) => str.replace(/[*]/g, '(.*)');
+export const replaceVariable = (str: string) => str.replace(/\$(\d+)/g, "\\$1");
+export const escapeRegex = (str: string) => str.replace(/([.*+^=!:${}()|\[\]\/\\])/g, "\\$1");
+export const protocolRegExp = /^http(s?):\/\//;
+export const replaceAsteriskToPlus = (str) => str.replaceAll('*', '(.+)');
+export const escapSymbols = (rule: string) => "^" + rule.split("*").map(escapeRegex).join("(.*)") + "$";
 
 export const makeExactMatch: Function = (url: string): string => {
     if(!url.match(protocolRegExp)) {

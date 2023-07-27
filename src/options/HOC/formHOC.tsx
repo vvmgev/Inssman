@@ -194,7 +194,7 @@ const FormHOC = () => {
         if (ruleData.matchType === MatchType.WILDCARD) {
           form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
           if(this.pageType === PageType.REDIRECT) {
-            (form.rule.action.redirect as Redirect).regexSubstitution = replaceVariable(ruleData.destination);
+            (form.rule.action.redirect as Redirect).regexSubstitution = replaceVariable(ruleData.destination as string);
           }
         }
       }
