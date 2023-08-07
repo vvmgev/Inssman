@@ -1,25 +1,34 @@
 import RuleService from 'services/RuleService';
 import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
+import InjectCodeService from 'src/services/InjectCodeService';
 import handleError from './errorHandler';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleData, PageType } from 'src/models/formFieldModel';
-import { NAMESPACE } from 'src/models/contants';
 import { StorageKey } from 'src/models/storageModel';
+import { excludedUrls } from 'src/options/constant';
 import 'services/WebRequestService';
-import 'services/InjectFileService';
 import Rule = chrome.declarativeNetRequest.Rule;
+import BaseService from 'src/services/BaseService';
+import { ListenerType } from 'src/services/ListenerService/ListenerService';
 
-class ServiceWorker {
+class ServiceWorker extends BaseService {
   constructor() {
+    super();
     this.registerListener();
   };
 
-  registerListener(): void {
-    chrome.runtime.onInstalled.addListener(this.onInstalled);
-    chrome.runtime.onMessage.addListener(this.onMessage);
-    chrome.tabs.onUpdated.addListener(this.onUpdatedTab);
+  async registerListener (): Promise<void> {
+    this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
+    .addListener(ListenerType.ON_MESSAGE, this.onMessage)
+    .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+    // chrome.tabs.onRemoved.addListener(this.onRemoveTab);
   };
+
+  unregisterListener(): void {
+    // chrome.tabs.onUpdated.removeListener(this.onUpdatedTab);
+    // chrome.tabs.onRemoved.removeListener(this.onRemoveTab);
+  }
 
   onInstalled = async () => {
     const config = await StorageService.getSingleItem(StorageKey.CONFIG);
@@ -37,30 +46,32 @@ class ServiceWorker {
     })
   }
 
-  onUpdatedTab = async(tabId, _, tab): Promise<void> => {
-    if(BSService.isSupportScripting()){
-      if (
-        tab.url?.startsWith("chrome://") ||
-        tab.url?.startsWith('chrome-extension') ||
-        tab.url?.startsWith('https://chrome.google.com')) return;
-      const rules: any = await this.getStorageRulesByProperty({property: 'pageType', value: PageType.MODIFY_REQUEST_BODY});
-      chrome.scripting.executeScript({
-        target : {tabId},
-        func: (rules: IRuleData[], NAMESPACE: string) => {
-          window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
-          window[NAMESPACE].start();
-        },
-        world: 'MAIN',
-        args: [rules, NAMESPACE],
-        // @ts-ignore
-        injectImmediately: true,
-      }).catch(() => {
-        // should be tracking here
-      });
-    }
+  onRemoveTab = (tabId: number): void => {
+    
   }
 
-  onMessage = (request, _, sendResponse): boolean => {
+  onUpdatedTab = (tabId, changeInfo, tab): void => {
+    this.injectContentScript(tabId, changeInfo, tab);
+    // this.getMatchedRules(tab);
+  }
+
+  getMatchedRules = async (tab) => {
+    // if(tab.status === 'complete') {
+      // const matchedRules = await RuleService.getMatchedRules();
+      // console.log('matchedRules', matchedRules);
+    // }
+    
+  }
+
+  injectContentScript = async (tabId, _, tab) => {
+    const isUrlExluded: boolean = excludedUrls.some(url => tab.url?.startsWith(url));
+    const filters = [{key: 'pageType', value: PageType.MODIFY_REQUEST_BODY}, {key: 'enabled', value: true}];
+    const rules: IRuleData[] = await StorageService.getFilteredRules(filters);
+    if (!BSService.isSupportScripting() && isUrlExluded && rules.length) return;
+    InjectCodeService.injectContentScript(tabId, rules);
+  };
+
+  onMessage = (request, _, sendResponse): void => {
     const { action, data } = request;
     (async () => {
       let responseData: any;
@@ -106,7 +117,6 @@ class ServiceWorker {
         }
       }
     })();
-    return true;
   };
 
   async getRuleById(data): Promise<any> {
@@ -121,6 +131,7 @@ class ServiceWorker {
       await RuleService.set([{...rule, id}]);
     }
     if(!ruleData.enabled && ruleData.rule) {
+      // @ts-ignore
       ruleData.rule.id = id;
     }
     await StorageService.set({[id]: { ...ruleData, id }});
@@ -136,11 +147,6 @@ class ServiceWorker {
 
   async getStorageRules(): Promise<IRuleData[]> {
     return await StorageService.getRules();
-  }
-
-  async getStorageRulesByProperty({ property, value }): Promise<{ [key: string]: any}> {
-    const rules: IRuleData[] = await StorageService.getRules();
-    return rules.filter((rule) => rule[property] === value);
   }
 
   async deleteRules(): Promise<void> {

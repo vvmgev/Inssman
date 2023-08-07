@@ -11,8 +11,9 @@ class StorageService {
       return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
     }
 
-    async getEnabledRules(): Promise<IRuleData[]> {
-      return Object.values(await this.getRules()).filter(rule => typeof rule === 'object' && rule.enabled);
+    async getFilteredRules(filters: {[key: string]: any}[] ): Promise<IRuleData[]> {
+      const rules = await this.getRules();
+      return rules.filter(rule => filters.every(filter => rule[filter.key] === filter.value));
     }
 
     async getSingleItem(key: string): Promise<any> {

@@ -1,0 +1,1 @@
+export const excludedUrls: string[] = ['chrome://', 'chrome-extension', 'https://chrome.google.com'];
