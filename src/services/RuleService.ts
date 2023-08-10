@@ -1,5 +1,8 @@
 import Rule = chrome.declarativeNetRequest.Rule;
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
+import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
+import MatchedRulesFilter = chrome.declarativeNetRequest.MatchedRulesFilter;
+
 class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
@@ -28,6 +31,11 @@ class RuleService {
     updateDynamicRules(updateRuleOptions: UpdateRuleOptions): Promise<void> {
         return chrome.declarativeNetRequest.updateDynamicRules(updateRuleOptions);
     }
+
+    getMatchedRules(filter?: MatchedRulesFilter): Promise<RulesMatchedDetails> {
+        return chrome.declarativeNetRequest.getMatchedRules(filter);
+    }
+    
 }
 
 export default new RuleService();

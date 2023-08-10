@@ -1,4 +1,6 @@
-import { ListenerType, WebRequestClients } from "src/models/WebRequestModel";
+import { WebRequestListenerType, WebRequestClients } from "src/models/WebRequestModel";
+import BaseService from "./BaseService";
+import { ListenerType } from "./ListenerService/ListenerService";
 
 chrome.runtime.onConnect.addListener(port => {
     if(Object.values(WebRequestClients).includes(port.name as WebRequestClients)) {
@@ -6,7 +8,7 @@ chrome.runtime.onConnect.addListener(port => {
         port.onMessage.addListener((message) => {
             if(message === 'disconnect') {
                 port.disconnect();
-                WR?.removeListener();
+                WR?.unregisterListener();
                 WR = null;
             }
             if(message === 'openWindow') {
@@ -17,52 +19,53 @@ chrome.runtime.onConnect.addListener(port => {
             }     
         });
         port.onDisconnect.addListener(() => {
-            WR?.removeListener();
+            WR?.unregisterListener();
             WR = null;
         });
     }
 });
 
-class WebRequest {
+class WebRequest extends BaseService {
     urlFilterObj = {'urls':['*://*/*']};
     port: any = null;
 
     constructor(port) {
+        super();
         this.port = port;
         this.registerListener();
     }
 
-    removeListener = (): void => {
-        chrome.webRequest.onBeforeSendHeaders.removeListener(this.beforeSendHeaders);
-        chrome.webRequest.onHeadersReceived.removeListener(this.headersReceived);
-        chrome.webRequest.onCompleted.removeListener(this.completed);
+    unregisterListener = (): void => {
+        this.removeListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders)
+        .removeListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived)
+        .removeListener(ListenerType.ON_COMPLETED, this.completed);
         this.port.disconnect();
         this.port = null;
     }
 
     registerListener = (): void => {
-        chrome.webRequest.onBeforeSendHeaders.addListener(this.beforeSendHeaders, this.urlFilterObj, ["requestHeaders"]);
-        chrome.webRequest.onHeadersReceived.addListener(this.headersReceived, this.urlFilterObj, ["responseHeaders"]);
-        chrome.webRequest.onCompleted.addListener(this.completed, this.urlFilterObj);
+        this.addListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders, this.urlFilterObj, ["requestHeaders"])
+        .addListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived, this.urlFilterObj, ["responseHeaders"])
+        .addListener(ListenerType.ON_COMPLETED, this.completed, this.urlFilterObj);
     }
 
     beforeRequest = (requestHeadersDetails): void => {
-        this.port.postMessage({type : ListenerType.BEFOREREQUEST , requestHeadersDetails});
+        this.port.postMessage({type : WebRequestListenerType.BEFOREREQUEST , requestHeadersDetails});
     }
 
     beforeSendHeaders = (requestHeadersDetails): void => {
-        this.port.postMessage({type : ListenerType.BEFORESENDHEADERS , requestHeadersDetails});
+        this.port.postMessage({type : WebRequestListenerType.BEFORESENDHEADERS , requestHeadersDetails});
     }
 
     headersReceived = (requestHeadersDetails): void => {
-        this.port.postMessage({type : ListenerType.HEADERSRECEIVED , requestHeadersDetails});
+        this.port.postMessage({type : WebRequestListenerType.HEADERSRECEIVED , requestHeadersDetails});
     }
 
     completed = (requestHeadersDetails): void => {
-        this.port.postMessage({type : ListenerType.COMPLETED , requestHeadersDetails});
+        this.port.postMessage({type : WebRequestListenerType.COMPLETED , requestHeadersDetails});
     }
 
     errorOccurred = (requestHeadersDetails): void => {
-        this.port.postMessage({type : ListenerType.ERROROCCURRED , requestHeadersDetails});
+        this.port.postMessage({type : WebRequestListenerType.ERROROCCURRED , requestHeadersDetails});
     }
 };

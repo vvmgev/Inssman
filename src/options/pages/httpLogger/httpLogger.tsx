@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { ListenerType, WebRequestClients } from 'src/models/WebRequestModel';
+import { WebRequestListenerType, WebRequestClients } from 'src/models/WebRequestModel';
 import ColorCover from 'components/common/colorCover/colorCover';
 import Input from 'components/common/input/input';
 import CrossSVG  from 'assets/icons/cross.svg';
@@ -23,15 +23,15 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     newRequest.url = url;
     newRequest.type = type;
 
-    if(messageType === ListenerType.BEFORESENDHEADERS ) {
+    if(messageType === WebRequestListenerType.BEFORESENDHEADERS ) {
       newRequest.requestHeaders = requestHeaders;
     }
 
-    if(messageType === ListenerType.HEADERSRECEIVED ) {
+    if(messageType === WebRequestListenerType.HEADERSRECEIVED ) {
       newRequest.responseHeaders = responseHeaders;
     }
 
-    if(messageType === ListenerType.COMPLETED ) {
+    if(messageType === WebRequestListenerType.COMPLETED ) {
       newRequest.ip = ip;
       newRequest.fromCache = fromCache;
       newRequest.statusCode = statusCode;
