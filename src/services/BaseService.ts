@@ -1,4 +1,4 @@
-import ListenerService, { ListenerType } from "./ListenerService/ListenerService";
+import ListenerService from "./ListenerService/ListenerService";
 
 class BaseService {
     private listenerService: ListenerService = ListenerService.getInstance();

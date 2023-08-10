@@ -1,10 +1,16 @@
+import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleData } from "src/models/formFieldModel";
 
 class StorageService {
+    private readonly cacheName = 'StorageService';
 
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
-      return chrome.storage.local.get(keys);
+      // const cache = CacheService.get(this.cacheName, keys as string);
+      // if(cache) return {[keys as string]: cache};
+      const data = await chrome.storage.local.get(keys);
+      // for(const key in data) CacheService.set(this.cacheName, key, data[key]);
+      return data;
     }
 
     async getRules(): Promise<IRuleData[]> {
@@ -20,16 +26,13 @@ class StorageService {
       return (await this.get(key))[key];
     }
 
-    async set(items: { [key: string]: any }): Promise<void> {
-      return chrome.storage.local.set(items)
+    async set(rules: { [key: string]: any }): Promise<void> {
+      // for(const key in rules) CacheService.set(this.cacheName, key, rules[key]);
+      return chrome.storage.local.set(rules)
     }
 
-    async remove(rules: IRuleData[]): Promise<void> {
-      const keys: string[] = rules.map(({id}) => String(id));
-      return chrome.storage.local.remove(keys);
-    }
-
-    async removeByKey(key: string): Promise<void> {
+    async remove(key: string): Promise<void> {
+      // CacheService.remove(this.cacheName, key);
       return chrome.storage.local.remove(key);
     }
 

@@ -1,9 +1,9 @@
-import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, MatchType, InjectFileSource } from "src/models/formFieldModel";
 import StorageService from "./StorageService";
 import MatcherService from "./MatcherService";
+import BaseService from "./BaseService";
+import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource } from "src/models/formFieldModel";
 import { IRuleData } from 'models/formFieldModel';
 import { NAMESPACE } from "src/models/contants";
-import BaseService from "./BaseService";
 import { ListenerType } from "./ListenerService/ListenerService";
 
 class InjectCodeService extends BaseService {

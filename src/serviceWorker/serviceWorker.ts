@@ -1,16 +1,17 @@
 import RuleService from 'services/RuleService';
 import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
-import InjectCodeService from 'src/services/InjectCodeService';
-import handleError from './errorHandler';
+import InjectCodeService from 'services/InjectCodeService';
+import BaseService from 'services/BaseService';
+import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IRuleData, PageType } from 'src/models/formFieldModel';
-import { StorageKey } from 'src/models/storageModel';
-import { excludedUrls } from 'src/options/constant';
+import { IRuleData, PageType } from 'models/formFieldModel';
+import { StorageKey } from 'models/storageModel';
+import { excludedUrls } from 'options/constant';
+import handleError from './errorHandler';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
-import BaseService from 'src/services/BaseService';
-import { ListenerType } from 'src/services/ListenerService/ListenerService';
+
 
 class ServiceWorker extends BaseService {
   constructor() {
@@ -22,13 +23,7 @@ class ServiceWorker extends BaseService {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
-    // chrome.tabs.onRemoved.addListener(this.onRemoveTab);
   };
-
-  unregisterListener(): void {
-    // chrome.tabs.onUpdated.removeListener(this.onUpdatedTab);
-    // chrome.tabs.onRemoved.removeListener(this.onRemoveTab);
-  }
 
   onInstalled = async () => {
     const config = await StorageService.getSingleItem(StorageKey.CONFIG);
@@ -46,22 +41,18 @@ class ServiceWorker extends BaseService {
     })
   }
 
-  onRemoveTab = (tabId: number): void => {
-    
-  }
 
   onUpdatedTab = (tabId, changeInfo, tab): void => {
     this.injectContentScript(tabId, changeInfo, tab);
     // this.getMatchedRules(tab);
   }
 
-  getMatchedRules = async (tab) => {
+  // getMatchedRules = async (tab) => {
     // if(tab.status === 'complete') {
       // const matchedRules = await RuleService.getMatchedRules();
       // console.log('matchedRules', matchedRules);
     // }
-    
-  }
+  // }
 
   injectContentScript = async (tabId, _, tab) => {
     const isUrlExluded: boolean = excludedUrls.some(url => tab.url?.startsWith(url));
@@ -120,9 +111,8 @@ class ServiceWorker extends BaseService {
   };
 
   async getRuleById(data): Promise<any> {
-    const rule: Rule = await RuleService.getRuleById(data.id);
     const ruleData = await StorageService.get(String(data.id));
-    return {rule, ruleData: ruleData[data.id]};
+    return {ruleData: ruleData[data.id]};
   }
 
   async addRule({rule, ruleData}: { rule?, ruleData: IRuleData }): Promise<void> {
@@ -151,12 +141,12 @@ class ServiceWorker extends BaseService {
 
   async deleteRules(): Promise<void> {
     await RuleService.remove(await RuleService.get());
-    await StorageService.remove(await StorageService.getRules());
+    (await StorageService.getRules()).map(({id}) => StorageService.remove(String(id)));
   }
 
   async deleteRuleById(data): Promise<void> {
     await RuleService.removeById(data.id);
-    await StorageService.removeByKey(String(data.id))
+    await StorageService.remove(String(data.id));
   }
 
   async getUserId(): Promise<{[key: string]: number}> {
