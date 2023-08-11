@@ -1,19 +1,14 @@
-export const getTimeDifference = (startDate, endDate) => {
-    const startTime = startDate.getTime();
-    const endTime = endDate.getTime();
-    const timeDifferenceInMilliseconds = endTime - startTime; // milliseconds
-    const timeDifferenceInSeconds = timeDifferenceInMilliseconds / 1000; // seconds
-    const timeDifferenceInMinutes = timeDifferenceInMilliseconds / (1000 * 60); // minutes
-    const timeDifferenceInHours = timeDifferenceInMilliseconds / (1000 * 60 * 60); // hours
-    return {
-      milliseconds: timeDifferenceInMilliseconds,
-      seconds: timeDifferenceInSeconds,
-      minutes: timeDifferenceInMinutes,
-      hours: timeDifferenceInHours,
-    };
-  }
-  
-  
-  
-  
-  
+export const getTimeDifference = (timestamp: number) => {
+  const currentTime = Date.now();
+  const elapsedMilliseconds = currentTime - timestamp;
+
+  const hours = Math.floor(elapsedMilliseconds / 3600000); // 1 hour = 3600000 milliseconds
+  const minutes = Math.floor((elapsedMilliseconds % 3600000) / 60000); // 1 minute = 60000 milliseconds
+  const seconds = Math.floor((elapsedMilliseconds % 60000) / 1000); // 1 second = 1000 milliseconds
+
+  return {
+    hours,
+    minutes,
+    seconds
+  };
+}

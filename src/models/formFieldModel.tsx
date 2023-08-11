@@ -26,6 +26,7 @@ export interface IRuleData {
     requestMethods: RequestMethod[],
     resourceTypes: ResourceType[],
     id: number,
+    timestamp: number,
     destination?: string,
     editorValue?: string,
     editorLang?: string,

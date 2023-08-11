@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import { Link } from 'react-router-dom';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IconsMap } from 'models/formFieldModel';
+import { IRuleData, IconsMap } from 'models/formFieldModel';
+import { getTimeDifference } from 'options/utils';
 import { PageName } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import TrackService from 'src/services/TrackService';
@@ -21,7 +22,7 @@ import 'reactjs-popup/dist/index.css';
 
 export default () => {
   const COUNT_SYMBOLS = 22;
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<IRuleData[]>([] as IRuleData[]);
   const [search, setSearch] = useState<string>('');
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
@@ -38,6 +39,12 @@ export default () => {
           () => getData()
       );
   };
+
+  const generateLastMatchedTime = (timestamp: number): string => {
+    if(typeof timestamp !== 'number') return 'Unknown';
+    const { hours, minutes, seconds } = getTimeDifference(timestamp);
+    return `${hours > 0 ? `${hours}h` : '' } ${minutes > 0 ? `${minutes}m` : '' } ${hours > 0 ? '' : `${seconds}s`} ago`;
+  }
 
   return <div className="min-h-[250px] overflow-hidden mx-[5%]">
       <div className="w-full rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
@@ -101,6 +108,7 @@ export default () => {
               <div className="flex-1">Name</div>
               <div className="flex-1">Type</div>
               <div className="flex-1">Source</div>
+              <div className="flex-1">Last Matched <sup className="text-xs inline-block bottom-4 text-red-700">Beta</sup></div>
               <div className="flex-1">Status</div>
               <div className="flex-1 flex justify-end">Actions</div>
             </div>
@@ -116,6 +124,9 @@ export default () => {
                   <div>{PageName[ruleData.pageType]}</div>
               </div>
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
+              <div className="flex-1 flex">
+                <div>{generateLastMatchedTime(ruleData.timestamp)}</div>
+              </div>
               <div className="flex-1 flex">
                 <Switcher checked={ruleData.enabled} onChange={(event) => onChangeRuleStatus(event, ruleData.id)}/>
               </div>

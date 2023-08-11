@@ -9,8 +9,9 @@ import { IRuleData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
 import handleError from './errorHandler';
+import MatcherService from 'src/services/MatcherService';
+import { storeError } from './firebase';
 import 'services/WebRequestService';
-import Rule = chrome.declarativeNetRequest.Rule;
 
 
 class ServiceWorker extends BaseService {
@@ -41,18 +42,25 @@ class ServiceWorker extends BaseService {
     })
   }
 
-
   onUpdatedTab = (tabId, changeInfo, tab): void => {
     this.injectContentScript(tabId, changeInfo, tab);
-    // this.getMatchedRules(tab);
+    this.getMatchedRules(tab);
   }
 
-  // getMatchedRules = async (tab) => {
-    // if(tab.status === 'complete') {
-      // const matchedRules = await RuleService.getMatchedRules();
-      // console.log('matchedRules', matchedRules);
-    // }
-  // }
+  getMatchedRules = async (tab) => {
+    if(tab.status === 'complete') {
+      const enabledRules = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
+      const isUrlsMatch = enabledRules.some(rule => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
+      if(enabledRules.length && isUrlsMatch) {
+        try {
+          const matchedRules = await RuleService.getMatchedRules();
+          StorageService.updateTimestamp(matchedRules);  
+        } catch (error) {
+          storeError({message: 'MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL'});
+        }
+      }
+    }
+  }
 
   injectContentScript = async (tabId, _, tab) => {
     const isUrlExluded: boolean = excludedUrls.some(url => tab.url?.startsWith(url));

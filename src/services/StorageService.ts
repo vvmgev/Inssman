@@ -1,6 +1,7 @@
 import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleData } from "src/models/formFieldModel";
+import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 
 class StorageService {
     private readonly cacheName = 'StorageService';
@@ -43,6 +44,15 @@ class StorageService {
     async generateNextId(): Promise<number> {
       return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     }
+
+    updateTimestamp(rules: RulesMatchedDetails): void {
+      rules.rulesMatchedInfo.forEach(async (ruleInfo) => {
+        const { rule, timeStamp: timestamp } = ruleInfo;
+        const storageRule = await this.getSingleItem(String(rule.ruleId));
+        storageRule.timestamp = timestamp;
+        await this.set({[rule.ruleId]: storageRule});
+      });
+  }
 
     async getUserId(): Promise<number> {
       const config: {[key: string]: any} = await this.getSingleItem(StorageKey.CONFIG);

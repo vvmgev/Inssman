@@ -9,9 +9,9 @@ class MatcherService {
                (matchType === MatchType.WILDCARD && this.isWildCard(sourceUrl, currentUrl));
     }
 
-    isContain = (sourceUrl: string, currentUrl: string): boolean => currentUrl.includes(sourceUrl);
-    isEqual = (sourceUrl: string, currentUrl: string): boolean => currentUrl === sourceUrl;
-    isWildCard = (sourceUrl: string, currentUrl: string): boolean => new RegExp(replaceAsteriskToPlus(sourceUrl)).test(currentUrl);
+    private isContain = (sourceUrl: string, currentUrl: string): boolean => currentUrl.includes(sourceUrl);
+    private isEqual = (sourceUrl: string, currentUrl: string): boolean => currentUrl === sourceUrl;
+    private isWildCard = (sourceUrl: string, currentUrl: string): boolean => new RegExp(replaceAsteriskToPlus(sourceUrl)).test(currentUrl);
 }
 
 export default new MatcherService();
