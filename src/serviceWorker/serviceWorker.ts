@@ -10,7 +10,6 @@ import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
 import handleError from './errorHandler';
 import MatcherService from 'src/services/MatcherService';
-import { storeError } from './firebase';
 import 'services/WebRequestService';
 
 class ServiceWorker extends BaseService {
@@ -60,9 +59,7 @@ class ServiceWorker extends BaseService {
         try {
           const matchedRules = await RuleService.getMatchedRules();
           StorageService.updateTimestamp(matchedRules);  
-        } catch (error) {
-          storeError({message: 'MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL'});
-        }
+        } catch (error) {}
       }
     }
   }
