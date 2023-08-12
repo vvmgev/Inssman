@@ -47,9 +47,9 @@ class StorageService {
 
     updateTimestamp(rules: RulesMatchedDetails): void {
       rules.rulesMatchedInfo.forEach(async (ruleInfo) => {
-        const { rule, timeStamp: timestamp } = ruleInfo;
+        const { rule, timeStamp } = ruleInfo;
         const storageRule = await this.getSingleItem(String(rule.ruleId));
-        storageRule.timestamp = timestamp;
+        storageRule.lastMatchedTimestamp = timeStamp;
         await this.set({[rule.ruleId]: storageRule});
       });
   }

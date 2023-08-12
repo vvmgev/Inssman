@@ -125,7 +125,7 @@ export default () => {
               </div>
               <div className="flex-1 flex">{cutString(ruleData.source)}</div>
               <div className="flex-1 flex">
-                <div>{generateLastMatchedTime(ruleData.timestamp)}</div>
+                <div>{generateLastMatchedTime(ruleData.lastMatchedTimestamp)}</div>
               </div>
               <div className="flex-1 flex">
                 <Switcher checked={ruleData.enabled} onChange={(event) => onChangeRuleStatus(event, ruleData.id)}/>

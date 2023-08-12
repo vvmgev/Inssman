@@ -43,6 +43,7 @@ const SourceFields = ({
   showAllButton = false,
   showFields = false,
 }: Props) => {
+
   const matchTypeOptions = useMemo(() => Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -56,7 +57,7 @@ const SourceFields = ({
   const resourceTypeOptions = useMemo(() => Object.entries(ResourceType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label: label.replace('_', ' ')})
     return previous;
-}, []), []);
+  }, []), []);
 
   const placeholders = useMemo(() => ({
     [MatchType.EQUAL]: 'e.g http://google.com',

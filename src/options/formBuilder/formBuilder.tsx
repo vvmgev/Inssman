@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useRef } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import config from './config';
 import { EditorLanguage, FormMode, HeaderModificationType, IRuleData, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
@@ -8,7 +8,6 @@ import ModifyHeaderFields from '../pages/modifyHeader/modifyHeaderFields';
 import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
-import { structuredClone } from 'options/utils';
 import Input from 'components/common/input/input';
 import { PropsWithChildren } from 'src/types';
 import { FormError } from '../HOC/formHOC';

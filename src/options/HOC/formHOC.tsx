@@ -176,7 +176,7 @@ const FormHOC = () => {
             ...cloneRuleData,
             enabled: typeof ruleData.enabled !== 'undefined' ? ruleData.enabled : true,
             type: StorageItemType.RULE,
-            timestamp: null,
+            lastMatchedTimestamp: ruleData.lastMatchedTimestamp || null,
           }
       }
       if(form.rule) {

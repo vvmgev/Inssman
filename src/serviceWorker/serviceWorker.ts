@@ -13,7 +13,6 @@ import MatcherService from 'src/services/MatcherService';
 import { storeError } from './firebase';
 import 'services/WebRequestService';
 
-
 class ServiceWorker extends BaseService {
   constructor() {
     super();
@@ -34,10 +33,16 @@ class ServiceWorker extends BaseService {
     // Temp function
     // Add 'resourceTypes' to local storage rules
     const ruleData = await StorageService.getRules();
-    ruleData.forEach((item: IRuleData) => {
+    ruleData.forEach(async (item: IRuleData) => {
       if(!item.resourceTypes) {
         item.resourceTypes = [];
-        StorageService.set({[item.id as number]: item});
+        await StorageService.set({[item.id as number]: item});
+      }
+      const { version } = chrome.runtime.getManifest();
+      if(version === '1.0.35') {
+        item.lastMatchedTimestamp = item.timestamp as number;
+        delete item.timestamp;
+        await StorageService.set({[item.id as number]: item});
       }
     })
   }

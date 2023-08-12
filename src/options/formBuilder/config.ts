@@ -384,7 +384,8 @@ const config: Config = {
         generateRule: ruleData => {
             const requestHeaders = getRequestHeaders(ruleData.headers);
             const responseHeaders = getResponseHeaders(ruleData.headers);
-            return {action: {
+            return {
+                action: {
                 type: RuleActionType.MODIFY_HEADERS,
                 ...(requestHeaders.length && {requestHeaders: requestHeaders}),
                 ...(responseHeaders.length && {responseHeaders: responseHeaders})
