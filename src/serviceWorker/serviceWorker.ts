@@ -10,7 +10,9 @@ import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
 import handleError from './errorHandler';
 import MatcherService from 'src/services/MatcherService';
+import config from 'src/options/formBuilder/config';
 import 'services/WebRequestService';
+import Rule = chrome.declarativeNetRequest.Rule;
 
 class ServiceWorker extends BaseService {
   constructor() {
@@ -163,20 +165,17 @@ class ServiceWorker extends BaseService {
     return {[StorageKey.USER_ID]: await StorageService.getUserId()};
   }
 
-  async changeRuleStatusById({ id, checked }): Promise<void> {
+  async changeRuleStatusById({ id, checked }: {id: number, checked: boolean}): Promise<void> {
     const ruleData = await StorageService.getSingleItem(String(id));
-    ruleData.enabled = checked;
     if(checked) {
       if(ruleData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        await RuleService.set([ruleData.rule]);
+        const rule: Rule = config[ruleData.pageType].generateRule(ruleData);
+        await RuleService.set([{...rule, id}])
       }
-      await StorageService.set({[id]: ruleData})
-      return;
+    } else {
+      await RuleService.removeById(id);
     }
-    const rule = await RuleService.getRuleById(id);
-    ruleData.rule = rule;
-    await RuleService.removeById(id);
-    await StorageService.set({[id]: ruleData})  
+    await StorageService.set({[id]: {...ruleData, enabled: checked }});
   }
 
   async copyRuleById({ id }: {id: number}): Promise<void> {

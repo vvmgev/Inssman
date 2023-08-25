@@ -6,7 +6,6 @@ import { makeExactMatch, replaceAsterisk, replaceVariable } from 'options/utils'
 import { StorageItemType } from 'src/models/storageModel';
 import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
-import ResourceType = chrome.declarativeNetRequest.ResourceType;
 import Redirect = chrome.declarativeNetRequest.Redirect;
 
 export type FormError = {
@@ -182,8 +181,6 @@ const FormHOC = () => {
       if(form.rule) {
         // TODO need make it dynamic from UI
         form.rule.condition.isUrlFilterCaseSensitive = false;
-        const resourceTypes = form.rule.condition.resourceTypes;
-        form.rule.condition.resourceTypes = resourceTypes.length ? resourceTypes : Object.values(ResourceType);
         // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
         form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined;
         if (id) {

@@ -2,6 +2,7 @@ import { EditorLanguage, FilterType, HeaderModificationType, InjectFileOperator,
 import { addProtocol, encode } from "../utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 const getQueryParams = queryParams => {
     return queryParams.filter(queryParam => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE).map(queryParam => ({
@@ -140,7 +141,7 @@ const config: Config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes,
+                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
               }
           })
     },
@@ -200,7 +201,7 @@ const config: Config = {
             },
             condition: {
               [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-              resourceTypes: ruleData.resourceTypes,
+              resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
             }
           })
     },
@@ -296,7 +297,7 @@ const config: Config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes,
+                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
               }
           })
     },
@@ -393,7 +394,7 @@ const config: Config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes,
+                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
               }
           }}
     },
@@ -470,7 +471,7 @@ const config: Config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes,
+                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
               }
         })
     },
@@ -554,7 +555,8 @@ const config: Config = {
               },
               condition: {
                 [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes,
+                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+
               }
         })
     },
