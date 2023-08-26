@@ -3,14 +3,14 @@ import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
 import InjectCodeService from 'services/InjectCodeService';
 import BaseService from 'services/BaseService';
+import MatcherService from 'src/services/MatcherService';
+import config from 'src/options/formBuilder/config';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
 import handleError from './errorHandler';
-import MatcherService from 'src/services/MatcherService';
-import config from 'src/options/formBuilder/config';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
@@ -27,10 +27,8 @@ class ServiceWorker extends BaseService {
   };
 
   onInstalled = async () => {
-    const config = await StorageService.getSingleItem(StorageKey.CONFIG);
-    if(!config) {
-      StorageService.set({[StorageKey.CONFIG]: {}});
-    }
+    // temp function
+    StorageService.remove(StorageKey.CONFIG);
     // Temp function
     // Add 'resourceTypes' to local storage rules
     const ruleData = await StorageService.getRules();
@@ -81,16 +79,16 @@ class ServiceWorker extends BaseService {
       try {
         if(action === PostMessageAction.GetStorageRules) {
           responseData = this.getStorageRules();
-        } else if(action === PostMessageAction.GetRuleById) {
-          responseData = this.getRuleById(data);
+        } else if(action === PostMessageAction.GetRule) {
+          responseData = this.getRule(data);
         } else if(action === PostMessageAction.AddRule) {
           responseData = this.addRule(data);
         } else if(action === PostMessageAction.UpdateRule) {
           responseData = this.updateRule(data);
         } else if(action === PostMessageAction.DeleteRules) {
           responseData = this.deleteRules();
-        } else if(action === PostMessageAction.DeleteRuleById) {
-          responseData = this.deleteRuleById(data);
+        } else if(action === PostMessageAction.DeleteRule) {
+          responseData = this.deleteRule(data);
         } else if(action === PostMessageAction.GetUserId) {
           responseData = this.getUserId();
         } else if(action === PostMessageAction.ChangeRuleStatusById) {
@@ -100,29 +98,13 @@ class ServiceWorker extends BaseService {
         }
         sendResponse(await responseData);
       } catch (error: any) {
-        // Temp solution
-        // Add 100 to ID
         const { version } = chrome.runtime.getManifest();
-        const uniqueErrorText = 'does not have a unique ID.';
-        const emptyRuleText = 'Error at parameter \'options\': Error at property \'addRules\': Error at index 0: Invalid type: expected declarativeNetRequest.Rule, found undefined.';
-        if(error.message.includes(uniqueErrorText)) {
-          const id: number = await StorageService.generateNextId();
-          await StorageService.set({[StorageKey.NEXT_ID]: id + 100});
-          sendResponse(await this.addRule(data));
-          handleError(error, {action: PostMessageAction[action], data: {...data, version}});
-        } else if(error.message.includes(emptyRuleText)) {
-          // Temp solution
-          // Track all data
-          const ruleData = await StorageService.getSingleItem(String(data.id));
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version, ruleData}})})
-        } else {
-          sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
-        }
+        sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
       }
     })();
   };
 
-  async getRuleById(data): Promise<any> {
+  async getRule(data): Promise<any> {
     const ruleData = await StorageService.get(String(data.id));
     return {ruleData: ruleData[data.id]};
   }
@@ -133,7 +115,6 @@ class ServiceWorker extends BaseService {
       await RuleService.set([{...rule, id}]);
     }
     if(!ruleData.enabled && ruleData.rule) {
-      // @ts-ignore
       ruleData.rule.id = id;
     }
     await StorageService.set({[id]: { ...ruleData, id }});
@@ -156,7 +137,7 @@ class ServiceWorker extends BaseService {
     (await StorageService.getRules()).map(({id}) => StorageService.remove(String(id)));
   }
 
-  async deleteRuleById(data): Promise<void> {
+  async deleteRule(data): Promise<void> {
     await RuleService.removeById(data.id);
     await StorageService.remove(String(data.id));
   }

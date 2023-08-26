@@ -130,7 +130,7 @@ const FormHOC = () => {
       TrackService.trackEvent(`Rule Delete By ID Event`);
       const { id } = this.state;
       chrome.runtime.sendMessage({
-          action: PostMessageAction.DeleteRuleById, data: { id } }, 
+          action: PostMessageAction.DeleteRule, data: { id } }, 
           () => (this.props as any).navigate('/')
       );
     };
@@ -260,7 +260,7 @@ const FormHOC = () => {
       }
       if(mode === FormMode.UPDATE) {
         chrome.runtime.sendMessage({
-          action: PostMessageAction.GetRuleById,
+          action: PostMessageAction.GetRule,
           data: {id: this.state.id},
         }, ({ruleData}) => this.setState({ruleData}));
         return;

@@ -35,7 +35,7 @@ export default () => {
   const handleDelete = (ruleData) => {
       TrackService.trackEvent(`${PageName[ruleData.pageType]} Rule Delete Event`);
       chrome.runtime.sendMessage({
-          action: PostMessageAction.DeleteRuleById, data: {id: ruleData.id} }, 
+          action: PostMessageAction.DeleteRule, data: {id: ruleData.id} }, 
           () => getData()
       );
   };
