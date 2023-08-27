@@ -45,7 +45,7 @@ class StorageService {
       return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     }
 
-    async updateTimestamp(id: string, timestamp: number): Promise<void> {
+    async updateTimestamp(id: string, timestamp: number = Date.now()): Promise<void> {
       const storageRule = await this.getSingleItem(id);
       storageRule.lastMatchedTimestamp = timestamp;
       await this.set({[id]: storageRule});

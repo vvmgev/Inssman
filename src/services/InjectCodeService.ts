@@ -5,7 +5,6 @@ import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFi
 import { IRuleData } from 'models/formFieldModel';
 import { NAMESPACE } from "src/models/contants";
 import { ListenerType } from "./ListenerService/ListenerService";
-import { PostMessageAction } from "src/models/postMessageActionModel";
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleData[] = [];
@@ -27,22 +26,13 @@ class InjectCodeService extends BaseService {
     }
   };
 
-  updateTimestamp = (ruleData: IRuleData) => {
-    try {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.UpdateTimestamp,
-        data: {ruleData, timestamp: Date.now()}
-      });  
-    } catch (error) {}
-  }
-
   onChangeNavigation = (transation): void => {
     this.rulesData.forEach((ruleData: IRuleData) => {
       if(ruleData.pageType === PageType.INJECT_FILE) {
         if(MatcherService.isUrlsMatch(ruleData.source, transation.url, ruleData.matchType)) {
           if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
             this.injectHTML(transation.tabId, ruleData.editorValue, ruleData.tagSelector, ruleData.tagSelectorOperator);
-            this.updateTimestamp(ruleData);
+            StorageService.updateTimestamp(String(ruleData.id));
             return;
           }
           if(ruleData.fileSourceType === InjectFileSource.URL) {
@@ -54,7 +44,7 @@ class InjectCodeService extends BaseService {
           } else {
             this.injectAndExecute(transation.tabId, ruleData.editorValue, InjectFileTagMap[ruleData.editorLang as string]);
           }
-          this.updateTimestamp(ruleData);
+          StorageService.updateTimestamp(String(ruleData.id));
         }
       }
     })
