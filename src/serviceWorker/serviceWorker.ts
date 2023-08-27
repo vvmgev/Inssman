@@ -27,6 +27,40 @@ class ServiceWorker extends BaseService {
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
 
+  onMessage = (request, _, sendResponse): void => {
+    const { action, data } = request;
+    (async () => {
+      let responseData: any;
+      try {
+        if(action === PostMessageAction.GetStorageRules) {
+          responseData = this.getStorageRules();
+        } else if(action === PostMessageAction.GetRule) {
+          responseData = this.getRule(data);
+        } else if(action === PostMessageAction.AddRule) {
+          responseData = this.addRule(data);
+        } else if(action === PostMessageAction.UpdateRule) {
+          responseData = this.updateRule(data);
+        } else if(action === PostMessageAction.DeleteRules) {
+          responseData = this.deleteRules();
+        } else if(action === PostMessageAction.DeleteRule) {
+          responseData = this.deleteRule(data);
+        } else if(action === PostMessageAction.GetUserId) {
+          responseData = this.getUserId();
+        } else if(action === PostMessageAction.ChangeRuleStatusById) {
+          responseData = this.changeRuleStatusById(data);
+        } else if(action === PostMessageAction.CopyRuleById) {
+          responseData = this.copyRuleById(data);
+        } else if(action === PostMessageAction.UpdateTimestamp) {
+          responseData = StorageService.updateTimestamp(String(data.ruleData.id), data.timestamp);
+        }
+        sendResponse(await responseData);
+      } catch (error: any) {
+        const { version } = chrome.runtime.getManifest();
+        sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
+      }
+    })();
+  };
+
   onInstalled = async () => {
     // temp function
     StorageService.remove(StorageKey.CONFIG);
@@ -74,40 +108,6 @@ class ServiceWorker extends BaseService {
     const rules: IRuleData[] = await StorageService.getFilteredRules(filters);
     if (!BSService.isSupportScripting() && isUrlExluded && rules.length) return;
     InjectCodeService.injectContentScript(tabId, rules);
-  };
-
-  onMessage = (request, _, sendResponse): void => {
-    const { action, data } = request;
-    (async () => {
-      let responseData: any;
-      try {
-        if(action === PostMessageAction.GetStorageRules) {
-          responseData = this.getStorageRules();
-        } else if(action === PostMessageAction.GetRule) {
-          responseData = this.getRule(data);
-        } else if(action === PostMessageAction.AddRule) {
-          responseData = this.addRule(data);
-        } else if(action === PostMessageAction.UpdateRule) {
-          responseData = this.updateRule(data);
-        } else if(action === PostMessageAction.DeleteRules) {
-          responseData = this.deleteRules();
-        } else if(action === PostMessageAction.DeleteRule) {
-          responseData = this.deleteRule(data);
-        } else if(action === PostMessageAction.GetUserId) {
-          responseData = this.getUserId();
-        } else if(action === PostMessageAction.ChangeRuleStatusById) {
-          responseData = this.changeRuleStatusById(data);
-        } else if(action === PostMessageAction.CopyRuleById) {
-          responseData = this.copyRuleById(data);
-        } else if(action === PostMessageAction.UpdateTimestamp) {
-          responseData = StorageService.updateTimestamp(String(data.matchedRule.id), data.timestamp);
-        }
-        sendResponse(await responseData);
-      } catch (error: any) {
-        const { version } = chrome.runtime.getManifest();
-        sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
-      }
-    })();
   };
 
   async getRule(data): Promise<any> {

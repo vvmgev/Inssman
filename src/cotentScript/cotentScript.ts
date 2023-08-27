@@ -29,11 +29,11 @@ import { PostMessageAction } from 'src/models/postMessageActionModel';
       return matchedRule;
     };
 
-    const updateTimestamp = (matchedRule: IRuleData): void => {
+    const updateTimestamp = (ruleData: IRuleData): void => {
       try {
         chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
           action: PostMessageAction.UpdateTimestamp,
-          data: {matchedRule, timestamp: Date.now()}
+          data: {ruleData, timestamp: Date.now()}
         });  
       } catch (error) {}
     }

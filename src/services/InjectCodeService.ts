@@ -1,10 +1,11 @@
 import StorageService from "./StorageService";
 import MatcherService from "./MatcherService";
 import BaseService from "./BaseService";
-import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource } from "src/models/formFieldModel";
+import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, InjectFileTagName } from "src/models/formFieldModel";
 import { IRuleData } from 'models/formFieldModel';
 import { NAMESPACE } from "src/models/contants";
 import { ListenerType } from "./ListenerService/ListenerService";
+import { PostMessageAction } from "src/models/postMessageActionModel";
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleData[] = [];
@@ -26,12 +27,22 @@ class InjectCodeService extends BaseService {
     }
   };
 
+  updateTimestamp = (ruleData: IRuleData) => {
+    try {
+      chrome.runtime.sendMessage({
+        action: PostMessageAction.UpdateTimestamp,
+        data: {ruleData, timestamp: Date.now()}
+      });  
+    } catch (error) {}
+  }
+
   onChangeNavigation = (transation): void => {
     this.rulesData.forEach((ruleData: IRuleData) => {
       if(ruleData.pageType === PageType.INJECT_FILE) {
         if(MatcherService.isUrlsMatch(ruleData.source, transation.url, ruleData.matchType)) {
           if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
             this.injectHTML(transation.tabId, ruleData.editorValue, ruleData.tagSelector, ruleData.tagSelectorOperator);
+            this.updateTimestamp(ruleData);
             return;
           }
           if(ruleData.fileSourceType === InjectFileSource.URL) {
@@ -43,6 +54,7 @@ class InjectCodeService extends BaseService {
           } else {
             this.injectAndExecute(transation.tabId, ruleData.editorValue, InjectFileTagMap[ruleData.editorLang as string]);
           }
+          this.updateTimestamp(ruleData);
         }
       }
     })
@@ -78,7 +90,7 @@ class InjectCodeService extends BaseService {
       func: (code, selector, operator) => {
         const element = document.createElement('script');
         element.textContent = `(() => {
-          const element = ${selector};
+          const element = ${selector || 'document.body'};
           if('${operator}' === 'innerhtml') {
             element.innerHTML = '${code}';
             return;
@@ -87,7 +99,6 @@ class InjectCodeService extends BaseService {
         })();`;
         element.className = `inssman_html`;
         document.head.appendChild(element);
-
       },
       args: [replacedCode, selector, operator],
       world: 'MAIN',
@@ -165,6 +176,7 @@ class InjectCodeService extends BaseService {
   injectContentScript = async (tabId, rules) => {
     chrome.scripting.executeScript({
       target : {tabId},
+      // this code runs in the browser tab
       func: (rules: IRuleData[], NAMESPACE: string, runtimeId: string) => {
         window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
         window[NAMESPACE].runtimeId = runtimeId;
