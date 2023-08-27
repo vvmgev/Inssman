@@ -42,7 +42,9 @@ class StorageService {
     }
 
     async generateNextId(): Promise<number> {
-      return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
+      const nextId: number = ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
+      this.set({[StorageKey.NEXT_ID]: nextId});
+      return nextId;
     }
 
     async updateTimestamp(id: string, timestamp: number = Date.now()): Promise<void> {
