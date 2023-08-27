@@ -165,12 +165,13 @@ class InjectCodeService extends BaseService {
   injectContentScript = async (tabId, rules) => {
     chrome.scripting.executeScript({
       target : {tabId},
-      func: (rules: IRuleData[], NAMESPACE: string) => {
+      func: (rules: IRuleData[], NAMESPACE: string, runtimeId: string) => {
         window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
+        window[NAMESPACE].runtimeId = runtimeId;
         window[NAMESPACE].start();
       },
       world: 'MAIN',
-      args: [rules, NAMESPACE],
+      args: [rules, NAMESPACE, chrome.runtime.id],
       // @ts-ignore
       injectImmediately: true,
     }).catch(() => {

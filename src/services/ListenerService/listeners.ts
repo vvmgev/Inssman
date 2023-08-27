@@ -21,6 +21,18 @@ const generateListeners = (callback: Function) => {
                 removeListener: () => chrome.runtime.onMessage.removeListener(listener),
             }
         })(),
+        [ListenerType.ON_MESSAGE_EXTERNAL]: (() => {
+            const listener = (...args) => {
+                callback(ListenerType.ON_MESSAGE_EXTERNAL)(...args);
+                // to keep the connection open must to return true
+                // as inside of this callback async code runs
+                return true;
+            };
+            return {
+                addListener: () => chrome.runtime.onMessageExternal.addListener(listener),
+                removeListener: () => chrome.runtime.onMessageExternal.removeListener(listener),
+            }
+        })(),
         [ListenerType.ON_UPDATE_TAB]: (() => {
             const listener = callback(ListenerType.ON_UPDATE_TAB);
             return {

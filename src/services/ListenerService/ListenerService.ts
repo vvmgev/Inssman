@@ -12,6 +12,7 @@ type Listeners = {
 export enum ListenerType {
     ON_INSTALL = 'onInstalled',
     ON_MESSAGE = 'onMessage',
+    ON_MESSAGE_EXTERNAL = 'onMessageExternal',
     ON_UPDATE_TAB = 'onUpdated',
     ON_BEFORE_SEND_HEADERS = 'onBeforeSendHeaders',
     ON_HEADERS_RECEVIED = 'onHeadersReceived',

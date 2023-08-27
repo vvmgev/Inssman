@@ -27,6 +27,7 @@ export interface IRuleData {
     resourceTypes: ResourceType[],
     id: number,
     lastMatchedTimestamp: number,
+    // deprecated
     timestamp?: number,
     destination?: string,
     editorValue?: string,

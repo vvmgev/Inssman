@@ -45,13 +45,10 @@ class StorageService {
       return ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     }
 
-    updateTimestamp(rules: RulesMatchedDetails): void {
-      rules.rulesMatchedInfo.forEach(async (ruleInfo) => {
-        const { rule, timeStamp } = ruleInfo;
-        const storageRule = await this.getSingleItem(String(rule.ruleId));
-        storageRule.lastMatchedTimestamp = timeStamp;
-        await this.set({[rule.ruleId]: storageRule});
-      });
+    async updateTimestamp(id: string, timestamp: number): Promise<void> {
+      const storageRule = await this.getSingleItem(id);
+      storageRule.lastMatchedTimestamp = timestamp;
+      await this.set({[id]: storageRule});
     }
 
     async getUserId(): Promise<number> {

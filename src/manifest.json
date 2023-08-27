@@ -20,6 +20,14 @@
       "world": "MAIN"
     }
   ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "accepts_tls_channel_id": false
+  },
   "permissions": [
     "storage",
     "declarativeNetRequest",

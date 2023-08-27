@@ -12,4 +12,5 @@ export enum PostMessageAction {
     GetUserId,
     ChangeRuleStatusById,
     CopyRuleById,
+    UpdateTimestamp
 }

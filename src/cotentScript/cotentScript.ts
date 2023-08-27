@@ -1,6 +1,8 @@
 // @ts-nocheck
-import { NAMESPACE } from 'src/models/contants';
 import MatcherService from 'src/services/MatcherService';
+import { NAMESPACE } from 'src/models/contants';
+import { IRuleData } from 'src/models/formFieldModel';
+import { PostMessageAction } from 'src/models/postMessageActionModel';
  
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
@@ -22,8 +24,19 @@ import MatcherService from 'src/services/MatcherService';
     
     const getMatchedRuleByUrl = url => {
       const absoluteUrl = getAbsoluteUrl(url);
-      return window[NAMESPACE].rules.find(rule => MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType));
+      const matchedRule = window[NAMESPACE].rules.find(rule => MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType))
+      if(matchedRule) updateTimestamp(matchedRule);
+      return matchedRule;
     };
+
+    const updateTimestamp = (matchedRule: IRuleData): void => {
+      try {
+        chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
+          action: PostMessageAction.UpdateTimestamp,
+          data: {matchedRule, timestamp: Date.now()}
+        });  
+      } catch (error) {}
+    }
 
     // Fetch interceptor
     const originalFetch = window.fetch;

@@ -23,6 +23,7 @@ class ServiceWorker extends BaseService {
   async registerListener (): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
+    .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
 
@@ -58,7 +59,10 @@ class ServiceWorker extends BaseService {
       if(enabledRules.length && isUrlsMatch) {
         try {
           const matchedRules = await RuleService.getMatchedRules();
-          StorageService.updateTimestamp(matchedRules);  
+          matchedRules.rulesMatchedInfo.forEach((ruleInfo) => {
+            const { rule, timeStamp } = ruleInfo;
+            StorageService.updateTimestamp(String(rule.ruleId), timeStamp);
+          });
         } catch (error) {}
       }
     }
@@ -95,6 +99,8 @@ class ServiceWorker extends BaseService {
           responseData = this.changeRuleStatusById(data);
         } else if(action === PostMessageAction.CopyRuleById) {
           responseData = this.copyRuleById(data);
+        } else if(action === PostMessageAction.UpdateTimestamp) {
+          responseData = StorageService.updateTimestamp(String(data.matchedRule.id), data.timestamp);
         }
         sendResponse(await responseData);
       } catch (error: any) {
