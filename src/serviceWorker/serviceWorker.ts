@@ -117,6 +117,7 @@ class ServiceWorker extends BaseService {
 
   async addRule({rule, ruleData}: { rule?, ruleData: IRuleData }): Promise<void> {
     const id: number = await StorageService.generateNextId();
+    await StorageService.set({[StorageKey.NEXT_ID]: id});
     if(rule && ruleData.enabled) {
       await RuleService.set([{...rule, id}]);
     }
@@ -124,7 +125,7 @@ class ServiceWorker extends BaseService {
       ruleData.rule.id = id;
     }
     await StorageService.set({[id]: { ...ruleData, id }});
-    await StorageService.set({[StorageKey.NEXT_ID]: id});
+    
   }
   
   async updateRule({rule, ruleData}): Promise<void> {
