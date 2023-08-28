@@ -55,12 +55,13 @@ class InjectCodeService extends BaseService {
     changesArr.forEach(async ({ newValue, oldValue }) => {
       if(newValue?.pageType === PageType.INJECT_FILE || oldValue?.pageType === PageType.INJECT_FILE) {
         this.rulesData = await this.getInjectFileRules();
-        if(this.rulesData.length && !this.isRegisteredListener) {
+        if(this.isRegisteredListener && !this.rulesData.length) {
+          this.isRegisteredListener = false;
+          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);  
+        } 
+        if(!this.isRegisteredListener && this.rulesData.length) {
           this.isRegisteredListener = true;
           this.addListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
-        } else {
-          this.isRegisteredListener = false;
-          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
         }
       }
     })

@@ -10,13 +10,12 @@ const Content = () => {
         const { hostname } = new URL(tabUrl);
         chrome.tabs.create({url: chrome.runtime.getURL(`options/options.html#/create/${path}?source=${hostname}`)})
     };
+    const onHandleOpen = () => chrome.runtime.openOptionsPage();
 
     return <ColorCover classes="p-5">
         <div className="flex items-center flex-row justify-between align-center mb-[15px]">
             <div className="text-xl">Create Rule</div>
-            <a href={chrome.runtime.getURL('options/options.html')} target="_blank">
-                <OutlineButton>View All Rules</OutlineButton>
-            </a>
+            <OutlineButton onClick={onHandleOpen} trackName='View All Rules'>View All Rules</OutlineButton>
         </div>
         <div className="flex flex-row flex-wrap">
             {paths.map(({icon, text, path}, index) => (

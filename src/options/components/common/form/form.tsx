@@ -47,10 +47,10 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
         <div className="flex gap-5">
           <div className="flex justify-end">
             <a href={`https://github.com/vvmgev/Overrider#${pageType}`} target="_blank" rel="noopener noreferrer">
-              <OutlineButton>View Example</OutlineButton>
+              <OutlineButton trackName='View Example'>View Example</OutlineButton>
             </a>
           </div>
-          {mode === 'update' && <OutlineButton classes='hover:border-red-400 hover:text-red-400'
+          {mode === 'update' && <OutlineButton trackName='Delete rule edit mode' classes='hover:border-red-400 hover:text-red-400'
             onClick={onDelete}
             icon={<TrashSVG />}>Delete</OutlineButton>
           } 

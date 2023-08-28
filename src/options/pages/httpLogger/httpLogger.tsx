@@ -67,8 +67,8 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   return <div className={`${clientName === WebRequestClients.WINDOW ? 'h-[95%]' : 'h-[80%]'} mx-[5%] flex flex-col gap-2`}>
     <ColorCover classes={`h-[50%] pb-0`}>
       <div className="text-sm flex justify-end gap-5 items-center pb-3 ">
-        {showOpenWindowBtn && <OutlineButton onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
-        <OutlineButton onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
+        {showOpenWindowBtn && <OutlineButton trackName='Open In Window' onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
+        <OutlineButton trackName='Clear Logs' onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
         <div className="w-[250px]">
           <Input
             placeholder="Search By URL"

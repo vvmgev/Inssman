@@ -11,12 +11,19 @@ import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
+import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type IRuleCondition = { resourceTypes: ResourceType[], excludedResourceTypes?: ResourceType[] | undefined} & RuleCondition;
 export interface RuleWithResourceTypes extends Rule { condition: IRuleCondition };
 export interface IRule extends WithOptional<RuleWithResourceTypes, 'id' | 'priority' >{};
-export interface IRuleMetaData {
+export type RequestHeader = {
+    header: string,
+    operation: HeaderOperation,
+    value: string,
+    type: string,
+}
+export type IRuleMetaData = {
     name: string,
     source: string,
     matchType: string,
@@ -26,9 +33,10 @@ export interface IRuleMetaData {
     requestMethods: RequestMethod[],
     resourceTypes: ResourceType[],
     id: number,
-    lastMatchedTimestamp: number,
+    lastMatchedTimestamp: number | null,
     // deprecated
     timestamp?: number,
+    headers?: RequestHeader[]
     destination?: string,
     editorValue?: string,
     editorLang?: string,
@@ -38,7 +46,10 @@ export interface IRuleMetaData {
     tagSelectorOperator?: InjectFileOperator,
     shouldRemoveHeader?: boolean,
 };
-export interface IForm {
+
+
+
+export type IForm = {
     rule: IRule,
     ruleMetaData: IRuleMetaData
 }
@@ -156,7 +167,7 @@ export const MimeTypeMap = {
     [EditorLanguage.JSON]: MimeType.JSON,
 }
 
-export interface FormField {
+export type FormField = {
     id: number;
     priority?: number;
     matchType?: MatchType;

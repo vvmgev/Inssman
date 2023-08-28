@@ -8,7 +8,7 @@ import config from 'src/options/formBuilder/config';
 import handleError from './errorHandler';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IRuleMetaData, PageType } from 'models/formFieldModel';
+import { IForm, IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
 import 'services/WebRequestService';
@@ -52,6 +52,10 @@ class ServiceWorker extends BaseService {
           responseData = this.copyRuleById(data);
         } else if(action === PostMessageAction.UpdateTimestamp) {
           responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
+        } else if(action === PostMessageAction.ExportRules) {
+          responseData = this.exportRules();
+        } else if(action === PostMessageAction.ImportRules) {
+          responseData = this.importRules(data);
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -170,6 +174,29 @@ class ServiceWorker extends BaseService {
     const copyOriginalRule = await StorageService.getSingleItem(String(id));
     copyOriginalRule.name += ' copy';
     await this.addRule({ruleMetaData: copyOriginalRule});
+  }
+
+  async exportRules(): Promise<Omit<IRuleMetaData, 'id'>[]> {
+    const storageRules: IRuleMetaData[] = await StorageService.getRules();
+    return storageRules.map((rule: IRuleMetaData) => {
+      const { id, ...restObject } = rule;
+      restObject.lastMatchedTimestamp = null;
+      return restObject;
+    })
+  }
+
+  async importRules<T = Omit<IRuleMetaData, 'id' >>(ruleMetaData: T[]): Promise<void> {
+    for(let i = 0; i < ruleMetaData.length; i++) {
+      try {
+        const rule: any = ruleMetaData[i];
+        const data: IForm = {
+          rule: config[rule.pageType].generateRule(rule),
+          ruleMetaData: rule,
+        }
+        await this.addRule(data);  
+      } catch (error) {}
+      
+    }
   }
 }
 
