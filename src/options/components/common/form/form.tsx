@@ -46,9 +46,10 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
         </span>
         <div className="flex gap-5">
           <div className="flex justify-end">
-            <a href={`https://github.com/vvmgev/Overrider#${pageType}`} target="_blank" rel="noopener noreferrer">
-              <OutlineButton trackName='View Example'>View Example</OutlineButton>
-            </a>
+            <OutlineButton 
+              onClick={() => chrome.tabs.create({ url: `https://github.com/vvmgev/Overrider#${pageType}` })}
+              trackName='View Example'>View Example
+            </OutlineButton>
           </div>
           {mode === 'update' && <OutlineButton trackName='Delete rule edit mode' classes='hover:border-red-400 hover:text-red-400'
             onClick={onDelete}

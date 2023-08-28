@@ -110,8 +110,8 @@ const SourceFields = ({
             onChange={onChange}
             value={requestMethods}
             options={requestMethodOptions}
-            name='requestMethod'
-            error={error?.requestMethod}
+            name='requestMethods'
+            error={error?.requestMethods}
             multiple={true}
             placeholder="Request Method"
             {...requestMethodsProps}
