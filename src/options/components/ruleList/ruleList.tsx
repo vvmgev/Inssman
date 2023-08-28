@@ -60,7 +60,7 @@ export default () => {
   }
 
   const generateLastMatchedTime = (timestamp: number): string => {
-    if(typeof timestamp !== 'number') return 'Unknown';
+    if(typeof timestamp !== 'number') return 'Not used';
     const { hours, minutes, seconds } = getTimeDifference(timestamp);
     return `${hours > 0 ? `${hours}h` : '' } ${minutes > 0 ? `${minutes}m` : '' } ${hours > 0 ? '' : `${seconds}s`} ago`;
   }
