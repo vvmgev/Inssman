@@ -2,13 +2,17 @@ import React, { Fragment } from 'react';
 import { paths } from 'src/options/components/app/paths';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import OutlineButton from 'src/options/components/common/outlineButton/outlineButton';
+import { capitalizeFirstLetter } from 'src/options/utils/capitalizeFirstLetter';
 
 const Content = () => {
     let tabUrl = '';
     chrome.tabs.query({ active: true, currentWindow: true }, tab => tabUrl = tab[0].url as string);
     const onClick = path => {
         const { hostname } = new URL(tabUrl);
-        chrome.tabs.create({url: chrome.runtime.getURL(`options/options.html#/create/${path}?source=${hostname}`)})
+        const hostnameArr = hostname.split('.')
+        const name = hostnameArr[hostnameArr.length - 2];
+        const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`; 
+        chrome.tabs.create({url: chrome.runtime.getURL(url)});
     };
     const onHandleOpen = () => chrome.runtime.openOptionsPage();
 

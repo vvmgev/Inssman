@@ -254,6 +254,7 @@ const FormHOC = () => {
             ...state.ruleMetaData,
             ...defaultValues,
             source: urlSearchParams.get('source') || defaultValues.source as string,
+            name: urlSearchParams.get('name') || defaultValues.name as string,
           },
         }));
         return;
