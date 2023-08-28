@@ -173,6 +173,7 @@ class ServiceWorker extends BaseService {
   async copyRuleById({ id }: {id: number}): Promise<void> {
     const copyOriginalRule = await StorageService.getSingleItem(String(id));
     copyOriginalRule.name += ' copy';
+    copyOriginalRule.lastMatchedTimestamp = null;
     await this.addRule({ruleMetaData: copyOriginalRule});
   }
 
