@@ -16,7 +16,7 @@ type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export type IRuleCondition = { resourceTypes: ResourceType[], excludedResourceTypes?: ResourceType[] | undefined} & RuleCondition;
 export interface RuleWithResourceTypes extends Rule { condition: IRuleCondition };
 export interface IRule extends WithOptional<RuleWithResourceTypes, 'id' | 'priority' >{};
-export interface IRuleData {
+export interface IRuleMetaData {
     name: string,
     source: string,
     matchType: string,
@@ -37,11 +37,10 @@ export interface IRuleData {
     tagSelector?: string,
     tagSelectorOperator?: InjectFileOperator,
     shouldRemoveHeader?: boolean,
-    rule?: Rule,
 };
 export interface IForm {
-    rule?: IRule,
-    ruleData?: IRuleData
+    rule: IRule,
+    ruleMetaData: IRuleMetaData
 }
 
 export enum FormMode {

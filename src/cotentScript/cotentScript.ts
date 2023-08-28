@@ -1,7 +1,7 @@
 // @ts-nocheck
 import MatcherService from 'src/services/MatcherService';
 import { NAMESPACE } from 'src/models/contants';
-import { IRuleData } from 'src/models/formFieldModel';
+import { IRuleMetaData } from 'src/models/formFieldModel';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
  
 ((NAMESPACE) => {
@@ -29,11 +29,11 @@ import { PostMessageAction } from 'src/models/postMessageActionModel';
       return matchedRule;
     };
 
-    const updateTimestamp = (ruleData: IRuleData): void => {
+    const updateTimestamp = (ruleMetaData: IRuleMetaData): void => {
       try {
         chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
           action: PostMessageAction.UpdateTimestamp,
-          data: {ruleData, timestamp: Date.now()}
+          data: {ruleMetaData, timestamp: Date.now()}
         });  
       } catch (error) {}
     }

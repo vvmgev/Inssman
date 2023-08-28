@@ -5,12 +5,12 @@ import InjectCodeService from 'services/InjectCodeService';
 import BaseService from 'services/BaseService';
 import MatcherService from 'src/services/MatcherService';
 import config from 'src/options/formBuilder/config';
+import handleError from './errorHandler';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IRuleData, PageType } from 'models/formFieldModel';
+import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { excludedUrls } from 'options/constant';
-import handleError from './errorHandler';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
@@ -51,7 +51,7 @@ class ServiceWorker extends BaseService {
         } else if(action === PostMessageAction.CopyRuleById) {
           responseData = this.copyRuleById(data);
         } else if(action === PostMessageAction.UpdateTimestamp) {
-          responseData = StorageService.updateTimestamp(String(data.ruleData.id), data.timestamp);
+          responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -66,8 +66,8 @@ class ServiceWorker extends BaseService {
     StorageService.remove(StorageKey.CONFIG);
     // Temp function
     // Add 'resourceTypes' to local storage rules
-    const ruleData = await StorageService.getRules();
-    ruleData.forEach(async (item: IRuleData) => {
+    const ruleMetaData = await StorageService.getRules();
+    ruleMetaData.forEach(async (item: IRuleMetaData) => {
       if(!item.resourceTypes) {
         item.resourceTypes = [];
         await StorageService.set({[item.id as number]: item});
@@ -88,9 +88,14 @@ class ServiceWorker extends BaseService {
 
   getMatchedRules = async (tab) => {
     if(tab.status === 'complete') {
-      const enabledRules = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
+      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
       const isUrlsMatch = enabledRules.some(rule => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
-      if(enabledRules.length && isUrlsMatch) {
+      // need to implement debounce function instead of this checks
+      const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
+        rule.pageType === PageType.REDIRECT && rule.destination ||
+        rule.pageType === PageType.MODIFY_RESPONSE
+      ));
+      if(enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
         try {
           const matchedRules = await RuleService.getMatchedRules();
           matchedRules.rulesMatchedInfo.forEach((ruleInfo) => {
@@ -105,36 +110,32 @@ class ServiceWorker extends BaseService {
   injectContentScript = async (tabId, _, tab) => {
     const isUrlExluded: boolean = excludedUrls.some(url => tab.url?.startsWith(url));
     const filters = [{key: 'pageType', value: PageType.MODIFY_REQUEST_BODY}, {key: 'enabled', value: true}];
-    const rules: IRuleData[] = await StorageService.getFilteredRules(filters);
+    const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
     if (!BSService.isSupportScripting() && isUrlExluded && rules.length) return;
     InjectCodeService.injectContentScript(tabId, rules);
   };
 
   async getRule(data): Promise<any> {
-    const ruleData = await StorageService.get(String(data.id));
-    return {ruleData: ruleData[data.id]};
+    const ruleMetaData = await StorageService.get(String(data.id));
+    return {ruleMetaData: ruleMetaData[data.id]};
   }
 
-  async addRule({rule, ruleData}: { rule?, ruleData: IRuleData }): Promise<void> {
+  async addRule({rule, ruleMetaData}: { rule?, ruleMetaData: IRuleMetaData }): Promise<void> {
     const id: number = await StorageService.generateNextId();
-    if(rule && ruleData.enabled) {
+    if(rule && ruleMetaData.enabled) {
       await RuleService.set([{...rule, id}]);
     }
-    if(!ruleData.enabled && ruleData.rule) {
-      ruleData.rule.id = id;
-    }
-    await StorageService.set({[id]: { ...ruleData, id }});
-    
+    await StorageService.set({[id]: { ...ruleMetaData, id }});
   }
   
-  async updateRule({rule, ruleData}): Promise<void> {
-    if(rule && ruleData.enabled) {
+  async updateRule({rule, ruleMetaData}): Promise<void> {
+    if(rule && ruleMetaData.enabled) {
       await RuleService.set([rule], [rule])
     }
-    await StorageService.set({[ruleData.id]: ruleData});
+    await StorageService.set({[ruleMetaData.id]: ruleMetaData});
   }
 
-  async getStorageRules(): Promise<IRuleData[]> {
+  async getStorageRules(): Promise<IRuleMetaData[]> {
     return await StorageService.getRules();
   }
 
@@ -153,22 +154,22 @@ class ServiceWorker extends BaseService {
   }
 
   async changeRuleStatusById({ id, checked }: {id: number, checked: boolean}): Promise<void> {
-    const ruleData = await StorageService.getSingleItem(String(id));
+    const ruleMetaData = await StorageService.getSingleItem(String(id));
     if(checked) {
-      if(ruleData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        const rule: Rule = config[ruleData.pageType].generateRule(ruleData);
+      if(ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{...rule, id}])
       }
     } else {
       await RuleService.removeById(id);
     }
-    await StorageService.set({[id]: {...ruleData, enabled: checked }});
+    await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});
   }
 
   async copyRuleById({ id }: {id: number}): Promise<void> {
     const copyOriginalRule = await StorageService.getSingleItem(String(id));
     copyOriginalRule.name += ' copy';
-    await this.addRule({ruleData: copyOriginalRule});
+    await this.addRule({ruleMetaData: copyOriginalRule});
   }
 }
 

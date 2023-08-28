@@ -1,13 +1,12 @@
 import StorageService from "./StorageService";
 import MatcherService from "./MatcherService";
 import BaseService from "./BaseService";
-import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, InjectFileTagName } from "src/models/formFieldModel";
-import { IRuleData } from 'models/formFieldModel';
+import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, InjectFileTagName, IRuleMetaData } from "src/models/formFieldModel";
 import { NAMESPACE } from "src/models/contants";
 import { ListenerType } from "./ListenerService/ListenerService";
 
 class InjectCodeService extends BaseService {
-  rulesData: IRuleData[] = [];
+  rulesData: IRuleMetaData[] = [];
   isRegisteredListener: boolean = false;
 
   constructor () {
@@ -27,24 +26,24 @@ class InjectCodeService extends BaseService {
   };
 
   onChangeNavigation = (transation): void => {
-    this.rulesData.forEach((ruleData: IRuleData) => {
-      if(ruleData.pageType === PageType.INJECT_FILE) {
-        if(MatcherService.isUrlsMatch(ruleData.source, transation.url, ruleData.matchType)) {
-          if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
-            this.injectHTML(transation.tabId, ruleData.editorValue, ruleData.tagSelector, ruleData.tagSelectorOperator);
-            StorageService.updateTimestamp(String(ruleData.id));
+    this.rulesData.forEach((ruleMetaData: IRuleMetaData) => {
+      if(ruleMetaData.pageType === PageType.INJECT_FILE) {
+        if(MatcherService.isUrlsMatch(ruleMetaData.source, transation.url, ruleMetaData.matchType)) {
+          if(InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
+            this.injectHTML(transation.tabId, ruleMetaData.editorValue, ruleMetaData.tagSelector, ruleMetaData.tagSelectorOperator);
+            StorageService.updateTimestamp(String(ruleMetaData.id));
             return;
           }
-          if(ruleData.fileSourceType === InjectFileSource.URL) {
-            if(InjectFileTagMap[ruleData.editorLang as string] === InjectFileTagMap[InjectFileType.JAVASCRIPT]){
-              this.injectExternalScript(transation.tabId, ruleData.fileSource);
+          if(ruleMetaData.fileSourceType === InjectFileSource.URL) {
+            if(InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.JAVASCRIPT]){
+              this.injectExternalScript(transation.tabId, ruleMetaData.fileSource);
             } else {
-              this.injectExternalStyle(transation.tabId, ruleData.fileSource);
+              this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
             }
           } else {
-            this.injectAndExecute(transation.tabId, ruleData.editorValue, InjectFileTagMap[ruleData.editorLang as string]);
+            this.injectAndExecute(transation.tabId, ruleMetaData.editorValue, InjectFileTagMap[ruleMetaData.editorLang as string]);
           }
-          StorageService.updateTimestamp(String(ruleData.id));
+          StorageService.updateTimestamp(String(ruleMetaData.id));
         }
       }
     })
@@ -67,7 +66,7 @@ class InjectCodeService extends BaseService {
     })
   }
   
-  async getInjectFileRules(): Promise<IRuleData[]> {
+  async getInjectFileRules(): Promise<IRuleMetaData[]> {
     const filters = [{key: 'pageType', value: PageType.INJECT_FILE}, {key: 'enabled', value: true}];
     return await StorageService.getFilteredRules(filters);
   };
@@ -167,7 +166,7 @@ class InjectCodeService extends BaseService {
     chrome.scripting.executeScript({
       target : {tabId},
       // this code runs in the browser tab
-      func: (rules: IRuleData[], NAMESPACE: string, runtimeId: string) => {
+      func: (rules: IRuleMetaData[], NAMESPACE: string, runtimeId: string) => {
         window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
         window[NAMESPACE].runtimeId = runtimeId;
         window[NAMESPACE].start();

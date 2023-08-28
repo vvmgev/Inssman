@@ -130,18 +130,18 @@ const config: Config = {
                 },
             },
         ],
-        generateRule: ruleData => ({
+        generateRule: ruleMetaData => ({
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                  ...(MatchTypeMap[ruleData.matchType] === FilterType.REGEXFILTER ? 
-                        {regexSubstitution: ruleData.destination} :
-                        {url: addProtocol(ruleData.destination)}),
+                  ...(MatchTypeMap[ruleMetaData.matchType] === FilterType.REGEXFILTER ? 
+                        {regexSubstitution: ruleMetaData.destination} :
+                        {url: addProtocol(ruleMetaData.destination)}),
                 }
               },
               condition: {
-                [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           })
     },
@@ -195,13 +195,13 @@ const config: Config = {
                 },
             },
         ],
-        generateRule: ruleData => ({
+        generateRule: ruleMetaData => ({
             action: {
               type: RuleActionType.BLOCK,
             },
             condition: {
-              [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-              resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+              [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+              resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
             }
           })
     },
@@ -283,21 +283,21 @@ const config: Config = {
                 
             },
         ],
-        generateRule: ruleData => ({
+        generateRule: ruleMetaData => ({
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
                   transform:{
                     queryTransform: {
-                      addOrReplaceParams: getQueryParams(ruleData.queryParams),
-                      removeParams: getRemoveQueryParams(ruleData.queryParams),
+                      addOrReplaceParams: getQueryParams(ruleMetaData.queryParams),
+                      removeParams: getRemoveQueryParams(ruleMetaData.queryParams),
                     }
                   }
                 }
               },
               condition: {
-                [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           })
     },
@@ -382,9 +382,9 @@ const config: Config = {
                 },
             },
         ],
-        generateRule: ruleData => {
-            const requestHeaders = getRequestHeaders(ruleData.headers);
-            const responseHeaders = getResponseHeaders(ruleData.headers);
+        generateRule: ruleMetaData => {
+            const requestHeaders = getRequestHeaders(ruleMetaData.headers);
+            const responseHeaders = getResponseHeaders(ruleMetaData.headers);
             return {
                 action: {
                 type: RuleActionType.MODIFY_HEADERS,
@@ -393,8 +393,8 @@ const config: Config = {
         
               },
               condition: {
-                [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           }}
     },
@@ -462,16 +462,16 @@ const config: Config = {
                 defaultValue: '',
             },
         ],
-        generateRule: ruleData => ({
+        generateRule: ruleMetaData => ({
             action: {
                 type: RuleActionType.REDIRECT,
                 redirect: {
-                  url: encode(MimeTypeMap[ruleData.editorLang], ruleData.editorValue),
+                  url: encode(MimeTypeMap[ruleMetaData.editorLang], ruleMetaData.editorValue),
                 }
               },
               condition: {
-                [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
         })
     },
@@ -544,7 +544,7 @@ const config: Config = {
                 
             }
         ],
-        generateRule: ruleData => ({
+        generateRule: ruleMetaData => ({
             action: {
                 type: RuleActionType.MODIFY_HEADERS,
                 responseHeaders: [{
@@ -554,8 +554,8 @@ const config: Config = {
                 ]
               },
               condition: {
-                [MatchTypeMap[ruleData.matchType]]: ruleData.source,
-                resourceTypes: ruleData.resourceTypes.length ? ruleData.resourceTypes : Object.values(ResourceType),
+                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
 
               }
         })

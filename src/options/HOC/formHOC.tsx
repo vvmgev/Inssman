@@ -1,6 +1,6 @@
 import React from 'react';
 import TrackService from 'src/services/TrackService';
-import { FormMode, IForm, IRule, IRuleData, MatchType, MatchTypeMap, PageType } from 'models/formFieldModel';
+import { FormMode, IForm, IRule, MatchType, MatchTypeMap, PageType, IRuleMetaData } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { makeExactMatch, replaceAsterisk, replaceVariable } from 'options/utils';
 import { StorageItemType } from 'src/models/storageModel';
@@ -16,7 +16,7 @@ type State = {
   error: FormError,
   mode: FormMode,
   id: null | number,
-  ruleData: IRuleData,
+  ruleMetaData: IRuleMetaData,
   template: boolean,
 };
 
@@ -29,19 +29,19 @@ const FormHOC = () => {
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
       const state = (this.props as any).location.state; 
-      let ruleData: IRuleData = {} as IRuleData;
+      let ruleMetaData: IRuleMetaData = {} as IRuleMetaData;
       this.pageType = this.getPageType(mode);
       this.fields = config[this.pageType].fields;
 
       if(state?.template) {
-        ruleData = {
+        ruleMetaData = {
           pageType: this.pageType,
-          ...state.ruleData,
+          ...state.ruleMetaData,
         }
       }
       this.state = {
         error: {},
-        ruleData,
+        ruleMetaData,
         mode,
         id,
         template: state?.template
@@ -94,14 +94,14 @@ const FormHOC = () => {
       return error;
     }
     
-    validateAll = (ruleData) => {
+    validateAll = (ruleMetaData) => {
       let error = {};
       this.fields.forEach(field => {
         for(let name in field.validations) {
           const fieldValidations = field.validations[name];
           error = {
             ...error,
-            ...(Array.isArray(ruleData[name]) ? this.validateArray(name, ruleData[name], field.validations) : this.validate(name, ruleData[name], fieldValidations))
+            ...(Array.isArray(ruleMetaData[name]) ? this.validateArray(name, ruleMetaData[name], field.validations) : this.validate(name, ruleMetaData[name], fieldValidations))
           }
         }
       })
@@ -119,8 +119,8 @@ const FormHOC = () => {
           ...state.error,
           ...error,
         },
-        ruleData: {
-          ...state.ruleData,
+        ruleMetaData: {
+          ...state.ruleMetaData,
           [name]: value
         }
       }))
@@ -135,16 +135,16 @@ const FormHOC = () => {
       );
     };
 
-    formatter = (ruleData) => {
+    formatter = (ruleMetaData) => {
       this.fields.forEach(field => {
         for(let name in field.formatters) {
           const formatter = field.formatters[name];
           if(!field.multipleFields){
-            ruleData[name] = formatter(ruleData[name]);
+            ruleMetaData[name] = formatter(ruleMetaData[name]);
           }
         }
       })
-      return ruleData;
+      return ruleMetaData;
     }
 
     hasErrors = (error): boolean => {
@@ -160,9 +160,9 @@ const FormHOC = () => {
     };
     
     onSave = (rule: IRule) => {
-      const { ruleData, id } = this.state;
-      const cloneRuleData = this.formatter(structuredClone(ruleData));
-      const error = this.validateAll(cloneRuleData);
+      const { ruleMetaData, id } = this.state;
+      const cloneRuleMetaData = this.formatter(structuredClone(ruleMetaData));
+      const error = this.validateAll(cloneRuleMetaData);
       const hasErrors = this.hasErrors(error);
       if(hasErrors) {
         this.setState({error});
@@ -171,28 +171,28 @@ const FormHOC = () => {
 
       const form: IForm = {
           rule,
-          ruleData: {
-            ...cloneRuleData,
-            enabled: typeof ruleData.enabled !== 'undefined' ? ruleData.enabled : true,
+          ruleMetaData: {
+            ...cloneRuleMetaData,
+            enabled: typeof ruleMetaData.enabled !== 'undefined' ? ruleMetaData.enabled : true,
             type: StorageItemType.RULE,
-            lastMatchedTimestamp: ruleData.lastMatchedTimestamp || null,
+            lastMatchedTimestamp: ruleMetaData.lastMatchedTimestamp || null,
           }
       }
       if(form.rule) {
         // TODO need make it dynamic from UI
         form.rule.condition.isUrlFilterCaseSensitive = false;
         // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
-        form.rule.condition.requestMethods = ruleData.requestMethods?.length > 0 ? ruleData.requestMethods : undefined;
+        form.rule.condition.requestMethods = ruleMetaData.requestMethods?.length > 0 ? ruleMetaData.requestMethods : undefined;
         if (id) {
           form.rule.id = id;
         }
-        if (ruleData.matchType === MatchType.EQUAL) {
-          form.rule.condition[MatchTypeMap[ruleData.matchType]] = makeExactMatch(ruleData.source);
+        if (ruleMetaData.matchType === MatchType.EQUAL) {
+          form.rule.condition[MatchTypeMap[ruleMetaData.matchType]] = makeExactMatch(ruleMetaData.source);
         }
-        if (ruleData.matchType === MatchType.WILDCARD) {
-          form.rule.condition[MatchTypeMap[ruleData.matchType]] = replaceAsterisk(ruleData.source);
+        if (ruleMetaData.matchType === MatchType.WILDCARD) {
+          form.rule.condition[MatchTypeMap[ruleMetaData.matchType]] = replaceAsterisk(ruleMetaData.source);
           if(this.pageType === PageType.REDIRECT) {
-            (form.rule.action.redirect as Redirect).regexSubstitution = replaceVariable(ruleData.destination as string);
+            (form.rule.action.redirect as Redirect).regexSubstitution = replaceVariable(ruleMetaData.destination as string);
           }
         }
       }
@@ -210,13 +210,13 @@ const FormHOC = () => {
     }
 
     render() {
-      const { mode, ruleData, error } = this.state;
-      if(mode === FormMode.UPDATE && !Object.keys(ruleData).length) {
+      const { mode, ruleMetaData, error } = this.state;
+      if(mode === FormMode.UPDATE && !Object.keys(ruleMetaData).length) {
         return <></>
       }
 
       return <Forms
-                ruleData={ruleData}
+                ruleMetaData={ruleMetaData}
                 onChange={this.onChange}
                 error={error}
                 onDelete={this.onDelete}
@@ -250,8 +250,8 @@ const FormHOC = () => {
         const defaultValues = this.getDefaultData();
         this.setState(state => ({
           ...state,
-          ruleData: {
-            ...state.ruleData,
+          ruleMetaData: {
+            ...state.ruleMetaData,
             ...defaultValues,
             source: urlSearchParams.get('source') || defaultValues.source as string,
           },
@@ -262,7 +262,7 @@ const FormHOC = () => {
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRule,
           data: {id: this.state.id},
-        }, ({ruleData}) => this.setState({ruleData}));
+        }, ({ruleMetaData}) => this.setState({ruleMetaData}));
         return;
       }
     }
@@ -270,8 +270,8 @@ const FormHOC = () => {
     componentDidUpdate(prevProps: Readonly<{}>): void {
       const state = (this.props as any).location.state;
       const prevState = (prevProps as any).location.state;
-      if(state?.template  && state.ruleData.id !== prevState.ruleData.id) {
-        this.setState({ruleData: state.ruleData});
+      if(state?.template  && state.ruleMetaData.id !== prevState.ruleMetaData.id) {
+        this.setState({ruleMetaData: state.ruleMetaData});
       }
     }
   }

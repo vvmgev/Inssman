@@ -1,6 +1,6 @@
 // import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "models/storageModel";
-import { IRuleData } from "src/models/formFieldModel";
+import { IRuleMetaData } from "src/models/formFieldModel";
 import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 
 class StorageService {
@@ -14,11 +14,11 @@ class StorageService {
       return data;
     }
 
-    async getRules(): Promise<IRuleData[]> {
+    async getRules(): Promise<IRuleMetaData[]> {
       return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
     }
 
-    async getFilteredRules(filters: {[key: string]: any}[] ): Promise<IRuleData[]> {
+    async getFilteredRules(filters: {[key: string]: any}[] ): Promise<IRuleMetaData[]> {
       const rules = await this.getRules();
       return rules.filter(rule => filters.every(filter => rule[filter.key] === filter.value));
     }

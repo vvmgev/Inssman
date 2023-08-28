@@ -4,8 +4,8 @@ import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models
 import Input from '../input/input';
 import Editor from '../editor/editor';
 
-const InjectFileSources = ({ onChange, ruleData, error }) => {
-    const { editorLang, editorValue, fileSourceType = InjectFileSource.CODE, tagSelector, tagSelectorOperator, fileSource } = ruleData;
+const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
+    const { editorLang, editorValue, fileSourceType = InjectFileSource.CODE, tagSelector, tagSelectorOperator, fileSource } = ruleMetaData;
 
     const editorLangOptions = useMemo(() => Object.entries(InjectFileType).reduce((previous: any, [value, label]: any) => {
         previous.push({value: value.toLowerCase(), label})
