@@ -25,7 +25,7 @@ const Content = () => {
             {paths.map(({icon, text, path}, index) => (
                 <Fragment key={index}>
                     {index % 3 === 0 ? <div className="w-full"></div> : null}
-                    <ColorCover classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70">
+                    <ColorCover classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer">
                         <div onClick={() => onClick(path)}>
                             <div className="flex flex-col items-center align-center gap-3 hover:text-sky-500">
                                 <div className="w-[24px]">{icon}</div>

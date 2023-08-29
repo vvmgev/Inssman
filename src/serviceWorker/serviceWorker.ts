@@ -8,9 +8,10 @@ import config from 'src/options/formBuilder/config';
 import handleError from './errorHandler';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IForm, IRuleMetaData, PageType } from 'models/formFieldModel';
+import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
-import { excludedUrls } from 'options/constant';
+import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
+
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
@@ -18,6 +19,7 @@ class ServiceWorker extends BaseService {
   constructor() {
     super();
     this.registerListener();
+    chrome.runtime.setUninstallURL(UNINSTALL_URL);
   };
 
   async registerListener (): Promise<void> {
@@ -112,7 +114,7 @@ class ServiceWorker extends BaseService {
   }
 
   injectContentScript = async (tabId, _, tab) => {
-    const isUrlExluded: boolean = excludedUrls.some(url => tab.url?.startsWith(url));
+    const isUrlExluded: boolean = EXCLUDED_URLS.some(url => tab.url?.startsWith(url));
     const filters = [{key: 'pageType', value: PageType.MODIFY_REQUEST_BODY}, {key: 'enabled', value: true}];
     const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
     if (!BSService.isSupportScripting() && isUrlExluded && rules.length) return;

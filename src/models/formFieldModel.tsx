@@ -24,6 +24,7 @@ export type RequestHeader = {
     type: string,
 }
 export type IRuleMetaData = {
+    id: number,
     name: string,
     source: string,
     matchType: string,
@@ -32,8 +33,8 @@ export type IRuleMetaData = {
     type: string,
     requestMethods: RequestMethod[],
     resourceTypes: ResourceType[],
-    id: number,
     lastMatchedTimestamp: number | null,
+    showFields: boolean,
     // deprecated
     timestamp?: number,
     headers?: RequestHeader[]

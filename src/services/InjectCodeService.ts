@@ -1,9 +1,9 @@
 import StorageService from "./StorageService";
 import MatcherService from "./MatcherService";
 import BaseService from "./BaseService";
-import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, InjectFileTagName, IRuleMetaData } from "src/models/formFieldModel";
-import { NAMESPACE } from "src/models/contants";
+import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, IRuleMetaData } from "src/models/formFieldModel";
 import { ListenerType } from "./ListenerService/ListenerService";
+import { NAMESPACE } from "src/options/constant";
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleMetaData[] = [];
