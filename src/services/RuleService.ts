@@ -23,6 +23,10 @@ class RuleService {
         return this.updateDynamicRules({removeRuleIds: [id]})
     }
 
+    async clear(): Promise<void> {
+        await this.remove(await this.get());
+    }
+
     async getRuleById(id: number): Promise<Rule> {
         const rules: Rule[] = await this.get();
         return rules.find(rule => rule.id === id) as Rule;

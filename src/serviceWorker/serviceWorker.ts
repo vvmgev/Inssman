@@ -144,8 +144,8 @@ class ServiceWorker extends BaseService {
   }
 
   async deleteRules(): Promise<void> {
-    await RuleService.remove(await RuleService.get());
-    (await StorageService.getRules()).map(({id}) => StorageService.remove(String(id)));
+    await RuleService.clear();
+    await StorageService.clear();
   }
 
   async deleteRule(data): Promise<void> {
@@ -186,17 +186,15 @@ class ServiceWorker extends BaseService {
     })
   }
 
-  async importRules<T = Omit<IRuleMetaData, 'id' >>(ruleMetaData: T[]): Promise<void> {
+  async importRules(ruleMetaData: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
     for(let i = 0; i < ruleMetaData.length; i++) {
       try {
-        const rule: any = ruleMetaData[i];
-        const data: IForm = {
+        const rule: Omit<IRuleMetaData, 'id' > = ruleMetaData[i];
+        await this.addRule({
           rule: config[rule.pageType].generateRule(rule),
-          ruleMetaData: rule,
-        }
-        await this.addRule(data);  
+          ruleMetaData: ruleMetaData[i] as IRuleMetaData
+        });
       } catch (error) {}
-      
     }
   }
 }

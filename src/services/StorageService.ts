@@ -1,7 +1,6 @@
 // import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleMetaData } from "src/models/formFieldModel";
-import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 
 class StorageService {
     private readonly cacheName = 'StorageService';
@@ -35,6 +34,10 @@ class StorageService {
     async remove(key: string): Promise<void> {
       // CacheService.remove(this.cacheName, key);
       return chrome.storage.local.remove(key);
+    }
+
+    async clear(): Promise<void> {
+      return chrome.storage.local.clear();
     }
 
     async getAll(): Promise<{ [key: string]: any }> {
