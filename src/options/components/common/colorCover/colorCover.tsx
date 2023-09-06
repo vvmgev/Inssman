@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'src/types';
 import { twMerge } from 'tailwind-merge'
 
 type Props = PropsWithChildren<{
-  classes: string
+  classes?: string
 }>
 
 const ColorCover = ({ children, classes = '' }: Props) => {

@@ -12,6 +12,7 @@ type Props = PropsWithChildren<{
 const Tooltip = ({ children, triggerElement, actions = [] }: Props
     ): JSX.Element => {
     return <Popup
+        mouseEnterDelay={500}
         className="tooltip"
         on={actions}
         trigger={() => triggerElement}

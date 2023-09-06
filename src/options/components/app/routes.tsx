@@ -3,14 +3,14 @@ import { Route, Routes } from 'react-router-dom';
 import HTTPLogger from 'pages/httpLogger/httpLogger';
 import FormHOC from 'options/HOC/formHOC';
 import withParams from 'options/HOC/withParams';
-import RuleList from 'components/ruleList/ruleList'
+import Main from 'components/main/main'
 import { WebRequestClients } from 'models/WebRequestModel';
 
 const RuleRoutes = () => {
   const Form = withParams(FormHOC());
 
   return <Routes>
-    <Route path="/" element={<RuleList />} />
+    <Route path="/" element={<Main />} />
     <Route path="/create">
         <Route path="redirect" element={<Form key={0} />} />
         <Route path="block" element={<Form key={1} />} />
