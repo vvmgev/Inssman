@@ -30,6 +30,6 @@
     ],
     "compileOnSave": true,
     "files": [
-        "src/types/index.ts",
+        "src/types/svg.ts",
     ],
  }

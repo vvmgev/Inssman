@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import Popup from 'reactjs-popup';
 import { EventType } from 'reactjs-popup/dist/types';
 import './tooltip.css';
-import { PropsWithChildren } from 'src/types';
 
 type Props = PropsWithChildren<{
     triggerElement: JSX.Element, 

@@ -1,6 +1,5 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, PropsWithChildren } from 'react';
 import { MatchType } from 'models/formFieldModel';
-import { PropsWithChildren } from 'src/types';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import Tooltip from 'components/common/tooltip/tooltip';

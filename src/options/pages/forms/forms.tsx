@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { FormMode, IRule, IRuleMetaData } from 'src/models/formFieldModel';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import Form from 'src/options/components/common/form/form';
 import FormBuilder from 'src/options/formBuilder/formBuilder';
 import config from 'src/options/formBuilder/config';
-import { PropsWithChildren } from 'src/types';
 import { FormError } from 'src/options/HOC/formHOC';
 
 type Props = PropsWithChildren<{

@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import React, { Fragment, useMemo, PropsWithChildren } from 'react';
 import config from './config';
 import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
@@ -9,7 +9,6 @@ import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import Input from 'components/common/input/input';
-import { PropsWithChildren } from 'src/types';
 import { FormError } from '../HOC/formHOC';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 

@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import Button from 'components/common/button/button';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import TrashSVG  from 'assets/icons/trash.svg';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import { PageName, IconsMap } from 'src/models/formFieldModel';
-import { PropsWithChildren } from 'src/types';
 import { FormError } from 'src/options/HOC/formHOC';
 
 type Props = PropsWithChildren<{

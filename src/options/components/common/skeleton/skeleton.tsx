@@ -1,5 +1,4 @@
-import React from 'react';
-import { PropsWithChildren } from 'src/types';
+import React, { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{}>
 
