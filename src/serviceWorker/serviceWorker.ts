@@ -117,7 +117,7 @@ class ServiceWorker extends BaseService {
     const isUrlExluded: boolean = EXCLUDED_URLS.some(url => tab.url?.startsWith(url));
     const filters = [{key: 'pageType', value: PageType.MODIFY_REQUEST_BODY}, {key: 'enabled', value: true}];
     const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
-    if (!BSService.isSupportScripting() && isUrlExluded && rules.length) return;
+    if (!BSService.isSupportScripting() || isUrlExluded || !rules.length) return;
     InjectCodeService.injectContentScript(tabId, rules);
   };
 

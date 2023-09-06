@@ -168,7 +168,7 @@ class InjectCodeService extends BaseService {
       target : {tabId},
       // this code runs in the browser tab
       func: (rules: IRuleMetaData[], NAMESPACE: string, runtimeId: string) => {
-        window[NAMESPACE].rules = rules.filter(rule => rule.enabled);
+        window[NAMESPACE].rules = rules;
         window[NAMESPACE].runtimeId = runtimeId;
         window[NAMESPACE].start();
       },
