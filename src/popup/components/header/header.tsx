@@ -1,4 +1,3 @@
-import React from 'react';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import Logo  from 'assets/icons/logo.svg';
 import Button from 'src/options/components/common/button/button';

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { QueryParamAction } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';

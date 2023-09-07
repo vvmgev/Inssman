@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { paths } from '../app/paths';
 import { templates } from '../app/templates';

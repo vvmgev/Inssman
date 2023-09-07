@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Input from 'components/common/input/input';
 import { MatchType } from 'src/models/formFieldModel';
 

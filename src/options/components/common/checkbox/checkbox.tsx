@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Checkbox = ({ label, onChange, name, ...props }) => {
   const handler = event => {
     onChange({

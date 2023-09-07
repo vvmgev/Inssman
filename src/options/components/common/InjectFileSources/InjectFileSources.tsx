@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import Select from '../select/select';
 import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models/formFieldModel';
 import Input from '../input/input';

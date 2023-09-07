@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import ListSVG  from 'assets/icons/list.svg';
 import PlusSVG  from 'assets/icons/plus.svg';
 

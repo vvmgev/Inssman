@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HTTPLogger from 'pages/httpLogger/httpLogger';
 import FormHOC from 'options/HOC/formHOC';

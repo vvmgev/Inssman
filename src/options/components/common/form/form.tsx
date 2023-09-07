@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import Button from 'components/common/button/button';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import TrashSVG  from 'assets/icons/trash.svg';

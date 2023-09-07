@@ -1,4 +1,3 @@
-import React from 'react';
 import GithubSVG from 'assets/icons/github.svg'
 import DocumentSVG from 'assets/icons/document.svg'
 import BugSVG from 'assets/icons/bug.svg'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import ColorCover from 'components/common/colorCover/colorCover';
 import Input from 'components/common/input/input';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { WebRequestListenerType, WebRequestClients } from 'src/models/WebRequestModel';
 import ColorCover from 'components/common/colorCover/colorCover';
 import Input from 'components/common/input/input';

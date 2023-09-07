@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ListSVG  from 'assets/icons/list.svg';
 import { paths } from '../app/paths';

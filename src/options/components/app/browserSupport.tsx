@@ -1,4 +1,3 @@
-import React from 'react';
 import ColorCover from '../common/colorCover/colorCover';
 
 const BrowserSupport = () => {

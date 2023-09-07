@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { FormMode, IRule, IRuleMetaData } from 'src/models/formFieldModel';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import Form from 'src/options/components/common/form/form';

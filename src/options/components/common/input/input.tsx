@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 const Input = forwardRef(({onChange, classes, error, starts, ends, disabled, hidden, ...props}: any, ref) => {
     return <div className={`inline-block w-full ${classes || ''}`}>

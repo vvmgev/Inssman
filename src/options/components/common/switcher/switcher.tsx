@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Switcher = ({ onChange, checked }) => {
     return <label className="relative inline-flex items-center cursor-pointer">
         <input type="checkbox" value="" className="sr-only peer" checked={checked} onChange={onChange} />

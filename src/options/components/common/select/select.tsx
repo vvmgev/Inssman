@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import SlimSelect from 'slim-select'
 import '../../../../../node_modules/slim-select/dist/slimselect.css';
 import './select.css'

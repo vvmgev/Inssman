@@ -1,4 +1,3 @@
-import React from 'react';
 import { HashRouter } from 'react-router-dom';
 import Background from 'src/options/components/common/background/background';
 import Content from './content/content';

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import RuleList from '../ruleList/ruleList';
 import Input from 'components/common/input/input';

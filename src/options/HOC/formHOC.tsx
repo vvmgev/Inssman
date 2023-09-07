@@ -1,4 +1,3 @@
-import React from 'react';
 import TrackService from 'src/services/TrackService';
 import { FormMode, IForm, IRule, MatchType, MatchTypeMap, PageType, IRuleMetaData } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
@@ -7,6 +6,7 @@ import { StorageItemType } from 'src/models/storageModel';
 import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
 import Redirect = chrome.declarativeNetRequest.Redirect;
+import { Component } from 'react';
 
 export type FormError = {
   [key: string]: { message: string } | null;
@@ -21,7 +21,7 @@ type State = {
 };
 
 const FormHOC = () => {
-  return class extends React.Component<{}, State> {
+  return class extends Component<{}, State> {
     fields: any;
     pageType: string;
     constructor(props) {

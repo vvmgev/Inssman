@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import TrackService from 'src/services/TrackService';
 import Switcher from 'components/common/switcher/switcher';
 import Tooltip from 'components/common/tooltip/tooltip';

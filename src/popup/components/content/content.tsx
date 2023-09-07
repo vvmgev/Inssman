@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import CreateRules from '../createRules/createRules';
 import RuleList from 'src/options/components/ruleList/ruleList';

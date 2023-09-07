@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactElement } from 'react';
+import { FC, Fragment, ReactElement } from 'react';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import { paths } from 'src/options/components/app/paths';
 import { capitalizeFirstLetter } from 'src/options/utils/capitalizeFirstLetter';

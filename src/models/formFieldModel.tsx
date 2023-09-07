@@ -1,4 +1,3 @@
-import React from 'react';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import BlockSVG  from 'assets/icons/block.svg';
 import RedirectSVG  from 'assets/icons/redirect.svg';

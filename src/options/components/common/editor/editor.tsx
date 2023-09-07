@@ -1,4 +1,3 @@
-import React from 'react';
 import MonacoEditor from '../monacoeditor/monacoEditor';
 
 const Editor = ({language, value, onChange = (data) => {}}) => {

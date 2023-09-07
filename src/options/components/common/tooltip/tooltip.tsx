@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import Popup from 'reactjs-popup';
 import { EventType } from 'reactjs-popup/dist/types';
 import './tooltip.css';
