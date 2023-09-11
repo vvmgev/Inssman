@@ -160,16 +160,24 @@ class ServiceWorker extends BaseService {
   }
 
   async changeRuleStatusById({ id, checked }: {id: number, checked: boolean}): Promise<void> {
-    const ruleMetaData = await StorageService.getSingleItem(String(id));
-    if(checked) {
-      if(ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-        await RuleService.set([{...rule, id}])
+    let rule: Rule = {} as Rule;
+    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
+    // temp trycatch blokc to track error
+    try {
+      if(checked) {
+        if(ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+          rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+          await RuleService.set([{...rule, id}])
+        }
+      } else {
+        await RuleService.removeById(id);
       }
-    } else {
-      await RuleService.removeById(id);
+      await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});  
+    } catch (error) {
+      handleError(error, {action: PostMessageAction.ChangeRuleStatusById, data: {rule, ruleMetaData}}); 
+      throw error;
     }
-    await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});
+    
   }
 
   async copyRuleById({ id }: {id: number}): Promise<void> {
