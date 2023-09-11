@@ -1,12 +1,10 @@
+import { Component } from 'react';
 import TrackService from 'src/services/TrackService';
-import { FormMode, IForm, IRule, MatchType, MatchTypeMap, PageType, IRuleMetaData } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
-import { makeExactMatch, replaceAsterisk, replaceVariable } from 'options/utils';
-import { StorageItemType } from 'src/models/storageModel';
 import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
-import Redirect = chrome.declarativeNetRequest.Redirect;
-import { Component } from 'react';
+import { FormMode, IForm, IRule, IRuleMetaData } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import { StorageItemType } from 'src/models/storageModel';
 
 export type FormError = {
   [key: string]: { message: string } | null;
@@ -185,15 +183,6 @@ const FormHOC = () => {
         form.rule.condition.requestMethods = ruleMetaData.requestMethods?.length > 0 ? ruleMetaData.requestMethods : undefined;
         if (id) {
           form.rule.id = id;
-        }
-        if (ruleMetaData.matchType === MatchType.EQUAL) {
-          form.rule.condition[MatchTypeMap[ruleMetaData.matchType]] = makeExactMatch(ruleMetaData.source);
-        }
-        if (ruleMetaData.matchType === MatchType.WILDCARD) {
-          form.rule.condition[MatchTypeMap[ruleMetaData.matchType]] = replaceAsterisk(ruleMetaData.source);
-          if(this.pageType === PageType.REDIRECT) {
-            (form.rule.action.redirect as Redirect).regexSubstitution = replaceVariable(ruleMetaData.destination as string);
-          }
         }
       }
       

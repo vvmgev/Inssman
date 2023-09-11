@@ -7,11 +7,11 @@ export const replaceAsteriskToPlus = (str) => str.replaceAll('*', '(.+)');
 export const escapSymbols = (rule: string) => "^" + rule.split("*").map(escapeRegex).join("(.*)") + "$";
 
 export const makeExactMatch: Function = (url: string): string => {
-    if(!url.match(protocolRegExp)) {
+    // if(!url.match(protocolRegExp)) {
         // return `^http(s)?\\:\\/\\/${escapeRegex(url)}\\/?$`; // version 1
         // return `^http(s)?://${escapeRegex(url)}/?$`; version 2
-        return `^http(s)?://${url}/?$`;
-    }
+        // return `^http(s)?://${url}/?$`;
+    // }
     return `^${url}/?$`;
     // return `^${url}\\/?$`; with version 1
 }

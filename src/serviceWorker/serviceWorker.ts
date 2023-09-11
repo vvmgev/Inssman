@@ -11,7 +11,6 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
-
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 
@@ -62,6 +61,7 @@ class ServiceWorker extends BaseService {
         sendResponse(await responseData);
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
+        console.log('error', error);
         sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
       }
     })();
@@ -160,24 +160,16 @@ class ServiceWorker extends BaseService {
   }
 
   async changeRuleStatusById({ id, checked }: {id: number, checked: boolean}): Promise<void> {
-    let rule: Rule = {} as Rule;
     const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
-    // temp trycatch blokc to track error
-    try {
-      if(checked) {
-        if(ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-          rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-          await RuleService.set([{...rule, id}])
-        }
-      } else {
-        await RuleService.removeById(id);
+    if(checked) {
+      if(ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        await RuleService.set([{...rule, id}])
       }
-      await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});  
-    } catch (error) {
-      handleError(error, {action: PostMessageAction.ChangeRuleStatusById, data: {rule, ruleMetaData}}); 
-      throw error;
+    } else {
+      await RuleService.removeById(id);
     }
-    
+    await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});  
   }
 
   async copyRuleById({ id }: {id: number}): Promise<void> {

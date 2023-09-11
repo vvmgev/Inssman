@@ -1,5 +1,5 @@
 import { EditorLanguage, FilterType, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
-import { addProtocol, encode } from "../utils";
+import { addProtocol, encode, makeExactMatch, replaceAsterisk, replaceAsteriskToPlus, replaceVariable } from "options/utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
@@ -31,6 +31,30 @@ const getResponseHeaders = headers => {
       operation: header.operation,
       ...(header.operation !== HeaderOperation.REMOVE && {value: header.value})
     }))
+};
+
+const generateMatchType = ({matchType, source, pageType}): Record<string, string> => {
+    let newSource: string = source;
+
+    if(matchType === MatchType.EQUAL) {
+        newSource = makeExactMatch(source);
+    }
+
+    if(matchType === MatchType.WILDCARD) {
+        newSource = PageType.MODIFY_REQUEST_BODY ===  pageType ? replaceAsteriskToPlus(source) : replaceAsterisk(source);
+    }
+
+    return {
+        [MatchTypeMap[matchType]]: newSource,
+    };
+};
+
+const generateRegexSubstitution = ({ matchType, pageType, destination }): Record<string, string> => {
+    const redirect: Record<string, string> = {};
+    if(matchType === MatchType.WILDCARD && pageType === PageType.REDIRECT) {
+        redirect.regexSubstitution = replaceVariable(destination as string);
+    }
+    return redirect;
 };
 
 
@@ -135,12 +159,14 @@ const config: Config = {
                 type: RuleActionType.REDIRECT,
                 redirect: {
                   ...(MatchTypeMap[ruleMetaData.matchType] === FilterType.REGEXFILTER ? 
-                        {regexSubstitution: ruleMetaData.destination} :
+                        {regexSubstitution: ruleMetaData.matchType === MatchType.EQUAL ? 
+                            addProtocol(ruleMetaData.destination) : 
+                            replaceVariable(addProtocol(ruleMetaData.destination))} :
                         {url: addProtocol(ruleMetaData.destination)}),
                 }
               },
               condition: {
-                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                ...generateMatchType(ruleMetaData),
                 resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           })
@@ -200,7 +226,7 @@ const config: Config = {
               type: RuleActionType.BLOCK,
             },
             condition: {
-              [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+               ...generateMatchType(ruleMetaData),
               resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
             }
           })
@@ -292,11 +318,12 @@ const config: Config = {
                       addOrReplaceParams: getQueryParams(ruleMetaData.queryParams),
                       removeParams: getRemoveQueryParams(ruleMetaData.queryParams),
                     }
-                  }
+                  },
+                  ...generateRegexSubstitution(ruleMetaData),
                 }
               },
               condition: {
-                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                ...generateMatchType(ruleMetaData),
                 resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           })
@@ -393,7 +420,7 @@ const config: Config = {
         
               },
               condition: {
-                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                ...generateMatchType(ruleMetaData),
                 resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
           }}
@@ -467,10 +494,11 @@ const config: Config = {
                 type: RuleActionType.REDIRECT,
                 redirect: {
                   url: encode(MimeTypeMap[ruleMetaData.editorLang], ruleMetaData.editorValue),
+                  ...generateRegexSubstitution(ruleMetaData),
                 }
               },
               condition: {
-                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                ...generateMatchType(ruleMetaData),
                 resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
               }
         })
@@ -554,7 +582,7 @@ const config: Config = {
                 ]
               },
               condition: {
-                [MatchTypeMap[ruleMetaData.matchType]]: ruleMetaData.source,
+                ...generateMatchType(ruleMetaData),
                 resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
 
               }
