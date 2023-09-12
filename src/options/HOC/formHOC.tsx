@@ -1,10 +1,12 @@
 import { Component } from 'react';
 import TrackService from 'src/services/TrackService';
+import Toast from 'components/common/toast/toast';
 import Forms from '../pages/forms/forms';
 import config from '../formBuilder/config';
 import { FormMode, IForm, IRule, IRuleMetaData } from 'models/formFieldModel';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { StorageItemType } from 'src/models/storageModel';
+import { toast } from 'react-toastify';
 
 export type FormError = {
   [key: string]: { message: string } | null;
@@ -16,17 +18,28 @@ type State = {
   id: null | number,
   ruleMetaData: IRuleMetaData,
   template: boolean,
+  showToaster: boolean,
 };
 
+type Props = {
+  params: {
+    id: string,
+  },
+  location: {
+    state: any,
+    pathname: string,
+  }
+}
+
 const FormHOC = () => {
-  return class extends Component<{}, State> {
+  return class extends Component<Props, State> {
     fields: any;
     pageType: string;
     constructor(props) {
       super(props);
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
-      const state = (this.props as any).location.state; 
+      const state = this.props.location.state;  
       let ruleMetaData: IRuleMetaData = {} as IRuleMetaData;
       this.pageType = this.getPageType(mode);
       this.fields = config[this.pageType].fields;
@@ -42,12 +55,13 @@ const FormHOC = () => {
         ruleMetaData,
         mode,
         id,
-        template: state?.template
+        template: state?.template,
+        showToaster: state?.showToaster,
       }
     }
 
     getPageType = (mode: FormMode): string => {
-      const pathArr = (this.props as any).location.pathname.split('/');
+      const pathArr = this.props.location.pathname.split('/');
       return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
     };
 
@@ -194,7 +208,13 @@ const FormHOC = () => {
           this.setError(data.info.fieldName, data.info.message)
           return;
         }
-        (this.props as any).navigate('/')
+        if(this.state.mode === FormMode.CREATE) {
+          (this.props as any).navigate(`/edit/${data.pageType}/${data.id}`, {state:{showToaster: true}});
+        }
+
+        if(this.state.mode === FormMode.UPDATE) {
+          this.showToaster();
+        }
       });
     }
 
@@ -231,6 +251,10 @@ const FormHOC = () => {
       return defaultValues;
     }
 
+    showToaster(): void {
+      toast(<Toast />);
+    }
+
     componentDidMount(): void {
       const search = (this.props as any).location.search;
       const urlSearchParams = new URLSearchParams(search);
@@ -249,10 +273,13 @@ const FormHOC = () => {
         return;
       }
       if(mode === FormMode.UPDATE) {
+        if(this.state.showToaster) {
+          this.showToaster();
+        }
         chrome.runtime.sendMessage({
           action: PostMessageAction.GetRule,
           data: {id: this.state.id},
-        }, ({ruleMetaData}) => this.setState({ruleMetaData}));
+        }, ({ruleMetaData}) => this.setState({ruleMetaData, showToaster: false}));
         return;
       }
     }

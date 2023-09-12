@@ -1,4 +1,4 @@
-import { Fragment, useMemo, PropsWithChildren } from 'react';
+import { Fragment, useMemo, PropsWithChildren, FC } from 'react';
 import config from './config';
 import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from 'src/models/formFieldModel';
 import SourceFields from 'components/common/source/sourceFields';
@@ -21,7 +21,7 @@ type Props = PropsWithChildren<{
     pageType: string,
   }>
 
-const FormBuilder = ({ ruleMetaData, onChange, error, pageType }: Props) => {
+const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => {
     const { fields } = config[pageType];
 
     const generateField = (field: any) => {

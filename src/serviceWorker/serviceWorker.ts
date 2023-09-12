@@ -126,19 +126,21 @@ class ServiceWorker extends BaseService {
     return {ruleMetaData: ruleMetaData[data.id]};
   }
 
-  async addRule({rule, ruleMetaData}: { rule?, ruleMetaData: IRuleMetaData }): Promise<void> {
+  async addRule({rule, ruleMetaData}: { rule?, ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> {
     const id: number = await StorageService.generateNextId();
     if(rule && ruleMetaData.enabled) {
       await RuleService.set([{...rule, id}]);
     }
     await StorageService.set({[id]: { ...ruleMetaData, id }});
+    return { ...ruleMetaData, id };
   }
   
-  async updateRule({rule, ruleMetaData}): Promise<void> {
+  async updateRule({rule, ruleMetaData}): Promise<IRuleMetaData> {
     if(rule && ruleMetaData.enabled) {
       await RuleService.set([rule], [rule])
     }
     await StorageService.set({[ruleMetaData.id]: ruleMetaData});
+    return ruleMetaData;
   }
 
   async getStorageRules(): Promise<IRuleMetaData[]> {
