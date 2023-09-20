@@ -151,9 +151,7 @@ const FormHOC = () => {
       this.fields.forEach(field => {
         for(let name in field.formatters) {
           const formatter = field.formatters[name];
-          if(!field.multipleFields){
-            ruleMetaData[name] = formatter(ruleMetaData[name]);
-          }
+          ruleMetaData[name] = formatter(ruleMetaData[name]);
         }
       })
       return ruleMetaData;
@@ -174,6 +172,8 @@ const FormHOC = () => {
     onSave = (rule: IRule) => {
       const { ruleMetaData, id } = this.state;
       const cloneRuleMetaData = this.formatter(structuredClone(ruleMetaData));
+      console.log('ruleMetaData', ruleMetaData);
+      console.log('cloneRuleMetaData', cloneRuleMetaData);
       const error = this.validateAll(cloneRuleMetaData);
       const hasErrors = this.hasErrors(error);
       if(hasErrors) {

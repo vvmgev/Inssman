@@ -152,6 +152,9 @@ const config: Config = {
                         message: 'Destination Is Cannot Contain Space'
                     }]
                 },
+                formatters: {
+                    destination: (value: string) => value.trim(),
+                },
             },
         ],
         generateRule: ruleMetaData => ({

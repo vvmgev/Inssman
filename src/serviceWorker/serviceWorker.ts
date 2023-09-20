@@ -61,7 +61,6 @@ class ServiceWorker extends BaseService {
         sendResponse(await responseData);
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
-        console.log('error', error);
         sendResponse({error: true, info: handleError(error, {action: PostMessageAction[action], data: {...data, version}})})
       }
     })();
