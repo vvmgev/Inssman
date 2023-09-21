@@ -172,8 +172,6 @@ const FormHOC = () => {
     onSave = (rule: IRule) => {
       const { ruleMetaData, id } = this.state;
       const cloneRuleMetaData = this.formatter(structuredClone(ruleMetaData));
-      console.log('ruleMetaData', ruleMetaData);
-      console.log('cloneRuleMetaData', cloneRuleMetaData);
       const error = this.validateAll(cloneRuleMetaData);
       const hasErrors = this.hasErrors(error);
       if(hasErrors) {
