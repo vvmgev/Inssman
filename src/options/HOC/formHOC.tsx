@@ -151,7 +151,9 @@ const FormHOC = () => {
       this.fields.forEach(field => {
         for(let name in field.formatters) {
           const formatter = field.formatters[name];
-          ruleMetaData[name] = formatter(ruleMetaData[name]);
+          if(!field.multipleFields) {
+            ruleMetaData[name] = formatter(ruleMetaData[name]);
+          }
         }
       })
       return ruleMetaData;
