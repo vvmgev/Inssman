@@ -1,7 +1,6 @@
 <h1 align="center">Welcome HTTP Interceptor</h2>
 
-
-[<img width="1003" alt="Screenshot 2023-01-18 at 14 41 37" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
+[<img width="1003" alt="Screenshot 2023-01-18 at 14 41 37" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk){:target="_blank"}
 
 [<img width="1503" alt="Screenshot 2023-01-18 at 14 14 38"  src="https://user-images.githubusercontent.com/11613729/213155600-7fd84b43-6e50-4afc-a317-3bf979542087.png">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
 
