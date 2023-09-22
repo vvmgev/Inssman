@@ -2,7 +2,11 @@
 
 
 
-[<img width="1003" align="center" alt="Screenshot 2023-01-18 at 14 41 37" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">]([https://youtu.be/5ln4m-Ybgns](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk))
+[<img width="1003" align="center" alt="Screenshot 2023-01-18 at 14 41 37" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://youtu.be/5ln4m-Ybgns](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
+
+[<img width="1003" alt="Inssman logo" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315)
+
+
 
 <a href="https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk">Install Inssman For Google Chrome</a>
 
