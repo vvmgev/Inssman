@@ -3,21 +3,28 @@ import StorageService from 'services/StorageService';
 import BSService from 'services/BrowserSupportService';
 import InjectCodeService from 'services/InjectCodeService';
 import BaseService from 'services/BaseService';
-import MatcherService from 'src/services/MatcherService';
-import config from 'src/options/formBuilder/config';
+import MatcherService from 'services/MatcherService';
+import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
+import { throttle } from 'src/utils/throttle';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
+import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
+
 
 class ServiceWorker extends BaseService {
+  throttleUpdateMatchedRulesTimestamp: Function;
   constructor() {
     super();
     this.registerListener();
+    const delay = GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000 / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+    this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   };
 
@@ -104,21 +111,22 @@ class ServiceWorker extends BaseService {
     if(tab.status === 'complete') {
       const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
       const isUrlsMatch = enabledRules.some(rule => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
-      // need to implement debounce function instead of this checks
       const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
         rule.pageType === PageType.REDIRECT && rule.destination ||
-        rule.pageType === PageType.MODIFY_RESPONSE
-      ));
+        rule.pageType === PageType.MODIFY_RESPONSE));
       if(enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
-        try {
-          const matchedRules = await RuleService.getMatchedRules();
-          matchedRules.rulesMatchedInfo.forEach((ruleInfo) => {
-            const { rule, timeStamp } = ruleInfo;
-            StorageService.updateTimestamp(String(rule.ruleId), timeStamp);
-          });
-        } catch (error) {}
+        this.throttleUpdateMatchedRulesTimestamp();
       }
     }
+  }
+
+  updateMatchedRulesTimestamp = async (): Promise<void> => {
+    try {
+      const matchedRules = await RuleService.getMatchedRules();
+      matchedRules.rulesMatchedInfo.forEach(({ rule, timeStamp }) => {
+        StorageService.updateTimestamp(String(rule.ruleId), timeStamp);
+      });
+    } catch (error) {}
   }
 
   injectContentScript = async (tabId, _, tab) => {

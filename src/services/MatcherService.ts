@@ -1,5 +1,5 @@
 import { MatchType } from "src/models/formFieldModel";
-import { replaceAsteriskToPlus } from "src/options/utils";
+import { replaceAsteriskToPlus } from "src/utils";
 
 class MatcherService {
     

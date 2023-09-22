@@ -12,9 +12,9 @@ import TrashSVG  from 'assets/icons/trash.svg';
 import ListSVG  from 'assets/icons/list.svg';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData } from 'models/formFieldModel';
-import { downloadFile } from 'options/utils/downloadFile';
-import { validateJSON } from 'src/options/utils/validateJSON';
-import { readFile } from 'src/options/utils/readFile';
+import { downloadFile } from 'src/utils/downloadFile';
+import { validateJSON } from 'src/utils/validateJSON';
+import { readFile } from 'src/utils/readFile';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {

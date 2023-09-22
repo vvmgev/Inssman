@@ -9,7 +9,7 @@ import { twMerge } from 'tailwind-merge'
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 import { Link } from 'react-router-dom';
 import { IRuleMetaData, IconsMap, PageName } from 'src/models/formFieldModel';
-import { getTimeDifference } from 'src/options/utils';
+import { getTimeDifference } from 'src/utils';
 
 const COUNT_SYMBOLS = 22;
 type Props = {

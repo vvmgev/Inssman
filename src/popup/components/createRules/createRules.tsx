@@ -1,7 +1,7 @@
 import { FC, Fragment, ReactElement } from 'react';
 import ColorCover from 'src/options/components/common/colorCover/colorCover';
 import { paths } from 'src/options/components/app/paths';
-import { capitalizeFirstLetter } from 'src/options/utils/capitalizeFirstLetter';
+import { capitalizeFirstLetter } from 'src/utils/capitalizeFirstLetter';
 
 const CreateRules: FC = (): ReactElement => {
     const onClick = path => {

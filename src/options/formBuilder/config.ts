@@ -1,5 +1,5 @@
 import { EditorLanguage, FilterType, HeaderModificationType, InjectFileOperator, InjectFileSource, InjectFileType, MatchType, MatchTypeMap, MimeTypeMap, PageType, QueryParamAction } from "src/models/formFieldModel";
-import { addProtocol, encode, makeExactMatch, replaceAsterisk, replaceAsteriskToPlus, replaceVariable } from "options/utils";
+import { addProtocol, encode, makeExactMatch, replaceAsterisk, replaceAsteriskToPlus, replaceVariable } from "src/utils";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
