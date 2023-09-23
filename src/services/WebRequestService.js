@@ -1,0 +1,72 @@
+import { WebRequestListenerType, WebRequestClients } from 'src/models/WebRequestModel';
+import BaseService from './BaseService';
+import { ListenerType } from './ListenerService/ListenerService';
+
+chrome.runtime.onConnect.addListener((port) => {
+  if (Object.values(WebRequestClients).includes(port.name)) {
+    let WR = new WebRequest(port);
+    port.onMessage.addListener((message) => {
+      if (message === 'disconnect') {
+        port.disconnect();
+        WR?.unregisterListener();
+        WR = null;
+      }
+      if (message === 'openWindow') {
+        chrome.windows.create({
+          url: chrome.runtime.getURL('HTTPLoggerWindow/HTTPLoggerWindow.html'),
+          type: 'popup',
+        });
+      }
+    });
+    port.onDisconnect.addListener(() => {
+      WR?.unregisterListener();
+      WR = null;
+    });
+  }
+});
+
+class WebRequest extends BaseService {
+  urlFilterObj = { urls: ['*://*/*'] };
+
+  port = null;
+
+  constructor(port) {
+    super();
+    this.port = port;
+    this.registerListener();
+  }
+
+  unregisterListener = () => {
+    this.removeListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders)
+      .removeListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived)
+      .removeListener(ListenerType.ON_COMPLETED, this.completed);
+    this.port.disconnect();
+    this.port = null;
+  };
+
+  registerListener = () => {
+    this.addListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders, this.urlFilterObj, ['requestHeaders'])
+      .addListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived, this.urlFilterObj, ['responseHeaders'])
+      .addListener(ListenerType.ON_COMPLETED, this.completed, this.urlFilterObj);
+  };
+
+  beforeRequest = (requestHeadersDetails) => {
+    this.port.postMessage({ type: WebRequestListenerType.BEFOREREQUEST, requestHeadersDetails });
+  };
+
+  beforeSendHeaders = (requestHeadersDetails) => {
+    this.port.postMessage({ type: WebRequestListenerType.BEFORESENDHEADERS, requestHeadersDetails });
+  };
+
+  headersReceived = (requestHeadersDetails) => {
+    this.port.postMessage({ type: WebRequestListenerType.HEADERSRECEIVED, requestHeadersDetails });
+  };
+
+  completed = (requestHeadersDetails) => {
+    this.port.postMessage({ type: WebRequestListenerType.COMPLETED, requestHeadersDetails });
+  };
+
+  errorOccurred = (requestHeadersDetails) => {
+    this.port.postMessage({ type: WebRequestListenerType.ERROROCCURRED, requestHeadersDetails });
+  };
+}

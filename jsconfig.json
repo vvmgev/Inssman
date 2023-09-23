@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "strict": true,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "rootDir": "/",
+        "outDir": "dist",
+        "paths": {
+            "src/*": ["src/*"],
+            "models/*": ["src/models/*"],
+            "options/*": ["src/options/*"],
+            "assets/*": ["src/assets/*"],
+            "components/*": ["src/options/components/*"],
+            "pages/*": ["src/options/pages/*"],
+            "services/*": ["src/services/*"],
+        },
+    },
+    "include": ["src", "src/**/*.js"],
+    "exclude": ["node_modules", "dist"],
+    "compileOnSave": true,
+ }
