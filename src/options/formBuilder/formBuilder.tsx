@@ -84,7 +84,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                     </>
             case 'editorLang':
                 return <div className="mt-5 flex items-center">
-                        <span className="mr-5">Select Response Type</span>
+                        <span className="mr-5">Response Type</span>
                         <div className="w-[150px]">
                             <Select
                                 onChange={(e) => onChange(e, field)}

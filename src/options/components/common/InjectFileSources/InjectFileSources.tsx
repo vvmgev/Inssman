@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
 import Select from '../select/select';
-import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models/formFieldModel';
 import Input from '../input/input';
 import Editor from '../editor/editor';
+import { useMemo } from 'react';
+import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models/formFieldModel';
+
 
 const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
     const { editorLang, editorValue, fileSourceType = InjectFileSource.CODE, tagSelector, tagSelectorOperator, fileSource } = ruleMetaData;
@@ -29,7 +30,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
 
     return <>
         <div className="flex mt-5 items-center w-full">
-            <span className="mr-5">Select File Type</span>
+            <span className="mr-5">File Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <div className="w-[150px]">
                 <Select
                 onChange={onChange}
@@ -39,7 +40,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 />
             </div>
             {editorLang !== InjectFileType.HTML && <div className="flex items-center">
-                <span className="mr-5 ml-5">Select Source Type</span>
+                <span className="mr-5 ml-5">Source Type</span>
                 <div className="w-[150px]">
                 <Select
                     onChange={onChange}
@@ -84,7 +85,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 <Editor value={editorValue} language={editorLang || 'javascript'} onChange={onChange} />
             </div>
             {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && <div className="flex mt-5 items-center w-full">
-            <span className="mr-5">Select File Type</span>
+            <span className="mr-5">Source URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <div className="w-2/3">
                 <Input
                     value={fileSource || ''}
