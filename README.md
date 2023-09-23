@@ -2,7 +2,10 @@
 
 [<img width="1003" alt="Inssman logo" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
 
-<a href="https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk">Install Inssman For Google Chrome</a>
+<a href="https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk">
+ <span>Install Inssman For Google Chrome</span>
+ <img width="20" alt="Chrome logo" src="https://github.com/vvmgev/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7" />
+</a>
 
 
 # | Introduction ℹ️ 
