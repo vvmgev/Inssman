@@ -21,7 +21,6 @@
     "@babel/preset-react": "^7.16.7",
     "@mswjs/interceptors": "^0.22.14",
     "@svgr/webpack": "^6.5.1",
-    "@types/chrome": "^0.0.181",
     "babel-loader": "^8.2.5",
     "concurrently": "^7.1.0",
     "copy-webpack-plugin": "^10.2.4",
@@ -47,9 +46,6 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.22.15",
-    "@types/react": "^18.0.26",
-    "@typescript-eslint/eslint-plugin": "^6.7.3",
-    "@typescript-eslint/parser": "^6.7.3",
     "autoprefixer": "^10.4.7",
     "css-loader": "^6.7.1",
     "eslint": "^8.50.0",
@@ -62,7 +58,6 @@
     "eslint-webpack-plugin": "^4.0.1",
     "postcss": "^8.4.13",
     "postcss-loader": "^6.2.1",
-    "style-loader": "^3.3.1",
-    "typescript": "^5.2.2"
+    "style-loader": "^3.3.1"
   }
 }
