@@ -18,9 +18,6 @@ module.exports = {
    },
    output: {
       path: path.join(__dirname, "../", "dist"),
-      // filename: (pathData) => {
-      //    return (pathData.chunk.name === 'options') ? '[name]/[name].[contenthash].js' : '[name]/[name].js';
-      //  },
       filename: '[name]/[name].js',
       clean: true
    },
@@ -57,10 +54,6 @@ module.exports = {
             test: /\.svg/,
             use: ["@svgr/webpack"],
          },
-         // {
-         //    test: /\.html$/,
-         //    loader: 'html-loader'
-         // },
       ]
    },
    plugins: [

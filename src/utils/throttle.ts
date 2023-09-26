@@ -1,4 +1,4 @@
-export const throttle = (func: Function, delay: number): Function => {
+export const throttle = (func: Function, delay: number): (...args: unknown[]) => void => {
   let throttleRunning = false;
   let callImmedeiately = true;
 
