@@ -23,11 +23,6 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
         return previous;
       }, []), []);
 
-    const placeholders = useMemo(() => ({
-        [InjectFileType.JAVASCRIPT]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js',
-        [InjectFileType.CSS]: 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css',
-      }), []);
-
     return <>
         <div className="flex mt-5 items-center w-full">
             <span className="mr-5">File Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -85,13 +80,13 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 <Editor value={editorValue} language={editorLang || 'javascript'} onChange={onChange} />
             </div>
             {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && <div className="flex mt-5 items-center w-full">
-            <span className="mr-5">Source URL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span className="mr-5">Source URL &nbsp;</span>
             <div className="w-2/3">
                 <Input
                     value={fileSource || ''}
                     name='fileSource'
                     onChange={onChange} 
-                    placeholder={`Source URL ( ${placeholders[editorLang]} )`}
+                    placeholder={`Source URL ( https://example.com/path/to/file )`}
                     error={error?.fileSource}
                     required
                 />
