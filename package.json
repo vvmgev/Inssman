@@ -6,9 +6,7 @@
   "scripts": {
     "start": "webpack --config webpack/webpack.development.js --watch",
     "build": "webpack --config webpack/webpack.production.js",
-    "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix --ext .js,.jsx src/`"
+    "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch"
   },
   "keywords": [],
   "author": "",
@@ -46,20 +44,12 @@
     "webpack-cli": "^4.9.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.22.15",
     "@types/react": "^18.0.26",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
     "autoprefixer": "^10.4.7",
     "css-loader": "^6.7.1",
     "eslint": "^8.50.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-webpack-plugin": "^4.0.1",
     "postcss": "^8.4.13",
     "postcss-loader": "^6.2.1",
     "style-loader": "^3.3.1",
