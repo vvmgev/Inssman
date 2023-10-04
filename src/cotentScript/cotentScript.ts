@@ -1,9 +1,9 @@
 // @ts-nocheck
-import MatcherService from 'src/services/MatcherService';
-import { IRuleMetaData } from 'src/models/formFieldModel';
-import { PostMessageAction } from 'src/models/postMessageActionModel';
-import { NAMESPACE } from 'src/options/constant';
- 
+import MatcherService from 'services/MatcherService';
+import { IRuleMetaData } from 'models/formFieldModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
+import { NAMESPACE } from 'options/constant';
+
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
   window[NAMESPACE].rules = window[NAMESPACE].rules || [];
@@ -21,7 +21,7 @@ import { NAMESPACE } from 'src/options/constant';
       dummyLink.href = url;
       return dummyLink.href;
     };
-    
+
     const getMatchedRuleByUrl = url => {
       const absoluteUrl = getAbsoluteUrl(url);
       const matchedRule = window[NAMESPACE].rules.find(rule => MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType))
@@ -34,7 +34,7 @@ import { NAMESPACE } from 'src/options/constant';
         chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
           action: PostMessageAction.UpdateTimestamp,
           data: {ruleMetaData, timestamp: Date.now()}
-        });  
+        });
       } catch (error) {}
     }
 
@@ -116,6 +116,6 @@ import { NAMESPACE } from 'src/options/constant';
       setRequestHeader.apply(this, arguments);
     };
   };
-  
+
 
 })(NAMESPACE);

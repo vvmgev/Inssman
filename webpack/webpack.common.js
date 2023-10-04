@@ -31,6 +31,8 @@ module.exports = {
          components: path.resolve(__dirname, '..', 'src', 'options', 'components'),
          pages: path.resolve(__dirname, '..', 'src', 'options', 'pages'),
          assets: path.resolve(__dirname, '..', 'src', 'assets'),
+         common: path.resolve(__dirname, '..', 'src', 'options', 'components', 'common'),
+         utils: path.resolve(__dirname, '..', 'src', 'utils'),
          services: path.resolve(__dirname, '..', 'src', 'services'),
       },
    },

@@ -1,4 +1,4 @@
-export const getTimeDifference = (timestamp: number) => {
+export const timeDifference = (timestamp: number) => {
   const currentTime = Date.now();
   const elapsedMilliseconds = currentTime - timestamp;
 

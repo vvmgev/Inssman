@@ -7,7 +7,6 @@ import { WebRequestClients } from 'models/WebRequestModel';
 
 const RuleRoutes = () => {
   const Form = withParams(FormHOC());
-
   return <Routes>
     <Route path="/" element={<Main />} />
     <Route path="/create">

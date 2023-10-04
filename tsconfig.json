@@ -23,6 +23,8 @@
             "components/*": ["src/options/components/*"],
             "pages/*": ["src/options/pages/*"],
             "services/*": ["src/services/*"],
+            "common/*": ["src/options/components/common/*"],
+            "utils/*": ["src/utils/*"],
         },
     },
     "include": [

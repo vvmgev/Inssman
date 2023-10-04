@@ -1,15 +1,15 @@
 import { FC, ReactElement, useEffect, useState } from 'react';
-import TrackService from 'src/services/TrackService';
-import Switcher from 'components/common/switcher/switcher';
-import Tooltip from 'components/common/tooltip/tooltip';
+import TrackService from 'services/TrackService';
+import Switcher from 'common/switcher/switcher';
+import Tooltip from 'common/tooltip/tooltip';
 import PencilSVG  from 'assets/icons/pencil.svg';
 import TrashSVG  from 'assets/icons/trash.svg';
 import DocumentCopySVG  from 'assets/icons/documentCopy.svg';
 import { twMerge } from 'tailwind-merge'
-import { PostMessageAction } from 'src/models/postMessageActionModel';
+import { PostMessageAction } from 'models/postMessageActionModel';
 import { Link } from 'react-router-dom';
-import { IRuleMetaData, IconsMap, PageName } from 'src/models/formFieldModel';
-import { getTimeDifference } from 'src/utils';
+import { IRuleMetaData, IconsMap, PageName } from 'models/formFieldModel';
+import { timeDifference } from 'utils/timeDifference';
 
 const COUNT_SYMBOLS = 22;
 type Props = {
@@ -37,7 +37,7 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
   const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
   const generateLastMatchedTime = (timestamp: number): string => {
     if(typeof timestamp !== 'number') return 'Not used';
-    const { days, hours, minutes, seconds } = getTimeDifference(timestamp);
+    const { days, hours, minutes, seconds } = timeDifference(timestamp);
     if(days) return `${days} day${days > 1 ? 's': ''}  ago`;
     return `${hours > 0 ? `${hours}h` : '' } ${minutes > 0 ? `${minutes}m` : '' } ${hours > 0 ? '' : `${seconds}s`} ago`;
   }
