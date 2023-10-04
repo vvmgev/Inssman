@@ -6,6 +6,11 @@
  <span>Install Inssman For Google Chrome</span>
  <img width="20" alt="Chrome logo" src="https://github.com/vvmgev/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7" />
 </a>
+<br />
+<a href="https://microsoftedge.microsoft.com/addons/detail/inssman-modify-http-head/obibnmkbiilpbkhpkoagnkkjlghlndpf">
+ <span>Install Inssman For Microsft Edge &nbsp;&nbsp</span>
+ <img width="20" alt="Microsoft Edge logo" src="https://github.com/vvmgev/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3" />
+</a>
 
 
 # | Introduction ℹ️ 
