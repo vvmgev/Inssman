@@ -2,16 +2,14 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
-
 
 module.exports = {
    entry: {
-      serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.js"),
-      cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.js"),
-      options: path.resolve(__dirname, "../src/options", "options.js"),
-      popup: path.resolve(__dirname, "../src/popup", "popup.js"),
-      HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.js"),
+      serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
+      cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
+      options: path.resolve(__dirname, "../src/options", "options.tsx"),
+      popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
+      HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
 		'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
 		'css.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/css/css.worker'),
@@ -24,8 +22,8 @@ module.exports = {
       clean: true
    },
    resolve: {
-      roots: [path.resolve('./')],
-      extensions: [".ts", '.tsx', ".js",  ".jsx", ".svg", ".css"],
+      roots: [path.resolve('./src')],
+      extensions: [".ts", '.tsx', ".js",  ".jsx", ".svg"],
       alias: {
          src: path.resolve(__dirname, '..', 'src'),
          models: path.resolve(__dirname, '..','src', 'models'),
@@ -43,12 +41,6 @@ module.exports = {
             use: [{loader : "babel-loader"}, {loader : "ts-loader"}],
             exclude: /node_modules/,
          },
-         {
-            test: /\.(?:js|jsx|mjs|cjs)$/,
-            use: [{loader : "babel-loader"}],
-            exclude: /node_modules/,
-         },
-
          {
             test: /\.css$/i,
             use: ["style-loader", "css-loader", "postcss-loader"],
@@ -93,6 +85,5 @@ module.exports = {
          filename: "options/styles.css",
          chunkFilename: "styles.css"
        }),
-      new ESLintPlugin(),
    ],
 };
