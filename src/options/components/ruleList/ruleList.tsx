@@ -37,14 +37,15 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
   const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
   const generateLastMatchedTime = (timestamp: number): string => {
     if(typeof timestamp !== 'number') return 'Not used';
-    const { hours, minutes, seconds } = getTimeDifference(timestamp);
+    const { days, hours, minutes, seconds } = getTimeDifference(timestamp);
+    if(days) return `${days} day${days > 1 ? 's': ''}  ago`;
     return `${hours > 0 ? `${hours}h` : '' } ${minutes > 0 ? `${minutes}m` : '' } ${hours > 0 ? '' : `${seconds}s`} ago`;
   }
 
   const handleDelete = (ruleMetaData) => {
     TrackService.trackEvent(`${PageName[ruleMetaData.pageType]} Rule Delete Event`);
     chrome.runtime.sendMessage({
-        action: PostMessageAction.DeleteRule, data: {id: ruleMetaData.id} }, 
+        action: PostMessageAction.DeleteRule, data: {id: ruleMetaData.id} },
         () => getData()
     );
   };

@@ -47,8 +47,6 @@ export type IRuleMetaData = {
     shouldRemoveHeader?: boolean,
 };
 
-
-
 export type IForm = {
     rule: IRule,
     ruleMetaData: IRuleMetaData
@@ -190,7 +188,7 @@ export enum HeaderModificationType {
     REQUEST = 'request',
     RESPONSE = 'response',
 }
-  
+
 export interface QueryParams extends QueryKeyValue {
     action: QueryParamAction
 }
