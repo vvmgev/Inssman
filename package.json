@@ -6,9 +6,19 @@
   "scripts": {
     "dev": "webpack --config webpack/webpack.development.js --watch",
     "build": "webpack --config webpack/webpack.production.js",
+    "clear:dist": "rm -R dist",
+    "create:zip": "node scripts/createZip.js",
+    "release": "npm run clear:dist && npm run build && npm run create:zip",
     "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch"
   },
-  "keywords": ["chrome extension", "open source", "http", "proxy", "postman", "react"],
+  "keywords": [
+    "chrome extension",
+    "open source",
+    "http",
+    "proxy",
+    "postman",
+    "react"
+  ],
   "author": "Gevorg Baghdasaryan (vvmgev@gmail.com)",
   "license": "ISC",
   "dependencies": {
@@ -47,6 +57,7 @@
     "@types/react": "^18.0.26",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
     "@typescript-eslint/parser": "^6.7.3",
+    "archiver": "^6.0.1",
     "autoprefixer": "^10.4.7",
     "create-file-webpack": "^1.0.2",
     "css-loader": "^6.7.1",
