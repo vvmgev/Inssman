@@ -3,8 +3,11 @@ const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CreateFileWebpack = require('create-file-webpack');
+const { EnvironmentPlugin } = require('webpack');
 const manifest = require('../src/manifest.json');
 const { version } = require('../package.json');
+
+const outputPath = path.join(__dirname, "../", `dist/${process.env.BROWSER}`);
 
 module.exports = {
    entry: {
@@ -20,7 +23,7 @@ module.exports = {
       'ts.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker')
    },
    output: {
-      path: path.join(__dirname, "../", "dist"),
+      path: outputPath,
       filename: '[name]/[name].js',
       clean: true
    },
@@ -36,7 +39,7 @@ module.exports = {
          assets: path.resolve(__dirname, '..', 'src', 'assets'),
          common: path.resolve(__dirname, '..', 'src', 'options', 'components', 'common'),
          utils: path.resolve(__dirname, '..', 'src', 'utils'),
-         services: path.resolve(__dirname, '..', 'src', 'services'),
+         services: path.resolve(__dirname, '..', 'src', 'services')
       },
    },
    module: {
@@ -93,10 +96,13 @@ module.exports = {
       (() => {
         manifest.version = version;
         return new CreateFileWebpack({
-          path: path.join(__dirname, "../", "dist"),
+          path: outputPath,
           fileName: 'manifest.json',
           content: JSON.stringify(manifest)
         })
       })(),
+      new EnvironmentPlugin({
+        BROWSER: process.env.BROWSER
+      })
    ],
 };

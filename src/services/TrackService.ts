@@ -16,9 +16,9 @@ class TrackService {
     trackEvent(name: string) {
         if(process.env.NODE_ENV === 'development') return;
         try {
-            track(name);
+            track(`${name} - ${process.env.BROWSER}`);
         } catch (error) {
-            
+
         }
     };
 };

@@ -4,10 +4,14 @@
   "description": "Browser extension to Intercept/Modify HTTP Request/Response/Headers/Body",
   "main": "serviceWorker.js",
   "scripts": {
-    "dev": "webpack --config webpack/webpack.development.js --watch",
-    "build": "webpack --config webpack/webpack.production.js",
+    "dev": "BROWSER=chrome webpack --config webpack/webpack.development.js --watch",
+    "build": "npm run build:chrome && npm run build:edge",
+    "build:chrome": "BROWSER=chrome webpack --config webpack/webpack.production.js",
+    "build:edge": "BROWSER=edge webpack --config webpack/webpack.production.js",
     "clear:dist": "rm -R dist",
-    "create:zip": "node scripts/createZip.js",
+    "create:zip": "npm run create:zip:chrome && npm run create:zip:edge",
+    "create:zip:chrome": "BROWSER=chrome node scripts/createZip.js",
+    "create:zip:edge": "BROWSER=edge node scripts/createZip.js",
     "release": "npm run clear:dist && npm run build && npm run create:zip",
     "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch"
   },
