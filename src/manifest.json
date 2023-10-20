@@ -1,5 +1,5 @@
 {
-  "name": "Inssman: Open Source: Modify HTTP Header/Request/Response",
+  "name": "Inssman: Open-Source: Modify HTTP Request",
   "description": "Intercept HTTP(S) Request, Modify Headers, Log headers, Change Response, Block Request, Redirect, Custom HTML/CSS/JS/JSON",
   "version": "1.0.44",
   "manifest_version": 3,
