@@ -9,7 +9,9 @@ const FormList = () => {
     return <ul>
     <li className="pl-2 mb-2">
       <Link to='/'>
-        <div className={`${location.pathname === '/' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}><span className="w-[24px]">{<ListSVG />}</span><span>All Rules</span></div>
+        <div className={`${location.pathname === '/' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}>
+          <span className="w-[24px]">{<ListSVG />}</span><span>All Rules</span>
+        </div>
       </Link>
     </li>
     <li className="pl-2 mt-5 mb-2 text-slate-400"><div>Create Rule</div></li>
