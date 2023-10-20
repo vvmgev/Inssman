@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import ListSVG  from 'assets/icons/list.svg';
-import { paths } from '../app/paths';
+import StarSVG  from 'assets/icons/star.svg';
+import { paths, popularPaths } from '../app/paths';
+import Tooltip from 'common/tooltip/tooltip';
 
 const FormList = () => {
     const location = useLocation();
@@ -16,7 +18,14 @@ const FormList = () => {
         <Link to={`/create/${path}`}>
         <div className={`${location.pathname === `/create/${path}` ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2`}>
           <span className="min-w-[24px]">{icon}</span>
-          <span>{text}</span></div>
+          <span>{text}</span>
+          {popularPaths.includes(path) && <Tooltip
+              actions={['hover']}
+              triggerElement={<span className="w-[24px] text-yellow-400">{<StarSVG />}</span>}>
+                <span className='text-slate-200'>Popular</span>
+            </Tooltip>
+          }
+        </div>
         </Link>
       </li>
     ))}

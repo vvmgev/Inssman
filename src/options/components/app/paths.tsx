@@ -50,3 +50,7 @@ export const paths = [
       icon: <ListBulletSVG />
     },
 ]
+
+export const popularPaths = [
+  PageType.MODIFY_HEADER
+];
