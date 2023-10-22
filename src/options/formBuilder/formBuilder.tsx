@@ -9,6 +9,7 @@ import Select from 'components/common/select/select';
 import Editor from 'components/common/editor/editor';
 import InjectFileSources from 'components/common/InjectFileSources/InjectFileSources';
 import Input from 'components/common/input/input';
+import FormContextProvider from 'src/context/formContext';
 import { FormError } from '../HOC/formHOC';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
@@ -28,7 +29,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
         switch (field.type) {
             case 'input':
                 return <div className="w-1/5">
-                        <Input 
+                        <Input
                             name={field.name}
                             value={ruleMetaData.name || field.defaultValue}
                             onChange={e => onChange(e, field)}
@@ -37,13 +38,13 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                     </div>
             case 'sourceFields':
                 return <div className="flex mt-5 items-center w-full">
-                            <SourceFields
+                          <SourceFields
                                 matchType={ruleMetaData.matchType || field.defaultValues.matchType}
                                 requestMethods={ruleMetaData.requestMethods || field.defaultValues.requestMethods}
                                 resourceTypes={ruleMetaData.resourceTypes || field.defaultValues.resourceTypes}
                                 onChange={e => onChange(e, field)}
                                 source={ruleMetaData.source || field.defaultValues.source}
-                                error={error} 
+                                error={error}
                                 showFields={ruleMetaData.showFields || field.defaultValues.showFields}
                                 {...field.props}
                                 />
@@ -52,7 +53,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                 return <div className="flex mt-5 items-center">
                         <div className="min-w-[100px]">Redirect to</div>
                             <div className="w-3/5">
-                                <Destination 
+                                <Destination
                                     value={ruleMetaData.destination || field.defaultValue}
                                     onChange={e => onChange(e, field)}
                                     error={error?.destination}
@@ -68,6 +69,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                                 onChangeParam={(e, index) => onChangeParam(e, index, field)}
                                 onRemove={(e, index) => onRemoveQueryParam(e, index, field)}
                                 error={error}
+                                key={+new Date()}
                             />
                         </div>
                         <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddQueryParam(field)}>Add</div>
@@ -79,6 +81,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                             headers={ruleMetaData.headers || []}
                             onRemoveHeader={(e, index) => onRemoveHeader(e, index, field)}
                             error={error}
+                            key={+new Date()}
                             />
                         <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddHeader(field)}>Add</div>
                     </>
@@ -138,7 +141,11 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
         onChange({target: { name: 'queryParams', value: ruleMetaData.queryParams.filter((_, index) => index !== deletingIndex)}}, field);
     };
 
-    return <>{fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}</>
+    return <>
+        <FormContextProvider pageType={pageType}>
+          {fields.map(field => <Fragment key={field.id}>{generateField(field)}</Fragment>)}
+        </FormContextProvider>
+      </>
 };
 
 export default FormBuilder;

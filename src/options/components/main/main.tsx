@@ -109,7 +109,7 @@ export default () => {
               </div>
           </div>
           <div>
-            <RuleList search={search} />
+            <RuleList search={search} page='options'/>
           </div>
       </div>
   </div>

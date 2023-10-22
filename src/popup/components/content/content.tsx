@@ -21,7 +21,7 @@ const Content = () => {
             {tab === Tabs.CreatRule ?
                 <CreateRules /> :
                 <div className='overflow-hidden h-full'>
-                    <RuleList fullColumns={false} listClasses='max-h-[250px]' />
+                    <RuleList fullColumns={false} listClasses='max-h-[250px]' page='popup' />
                 </div>
 
             }

@@ -17,6 +17,7 @@ type Props = {
   listClasses?: string,
   columns?: [],
   fullColumns? : boolean,
+  page? : string,
 }
 
 // const LIST_HEADERS = [
@@ -29,7 +30,7 @@ type Props = {
 // ];
 
 
-const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = '' }): ReactElement => {
+const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = '', page = 'options' }): ReactElement => {
   const [data, setData] = useState<IRuleMetaData[]>([] as IRuleMetaData[]);
   const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: {id} }, () => getData());
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
@@ -55,13 +56,14 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
   return (
     <>
       <div className="py-3 px-6 flex justify-between items-center w-full border-b border-slate-700 bg-slate-700 bg-opacity-40">
-          <div className="flex-1">Name</div>
-          <div className="flex-1">Type</div>
-          <div className="flex-1">Source</div>
-          {fullColumns && <div className="flex-1">Last Matched <sup className="text-xs inline-block bottom-4 text-red-500">Beta</sup></div>}
-          <div className={`flex-1 ${!fullColumns ? 'flex justify-end' : ''}`}>Status</div>
-          {fullColumns && <div className="flex-1 flex justify-end">Actions</div>}
-        </div>
+        <div className="flex-1">Name</div>
+        <div className="flex-1">Type</div>
+        <div className="flex-1">Source</div>
+        {fullColumns && <div className="flex-1">Last Matched <sup className="text-xs inline-block bottom-4 text-red-500">Beta</sup></div>}
+        <div className={`flex-1 ${!fullColumns ? 'flex justify-end' : ''}`}>Status</div>
+        {fullColumns && <div className="flex-1 flex justify-end">Actions</div>}
+      </div>
+      {data.length ?
       <ul className={twMerge(`overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
         {data.filter((ruleMetaData) => ruleMetaData.name.includes(search))
         .reverse().map((ruleMetaData) => <li key={ruleMetaData.id} className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
@@ -95,7 +97,15 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
             </Tooltip>
           </div>}
         </li>)}
-      </ul>
+      </ul> :
+      <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
+        <div className="w-full text-center">
+          <p className="text-2xl">Seems You Have Not Created a Rule Yet</p>
+          {page === 'options' ? <p className="mt-3">Please Select One Of Rule In The Sidebar To Create Or Choose a Templates</p> :
+          <p className="mt-3">Please Select One Of Rule In The "Create Rule" Tab To Create</p> }
+        </div>
+      </div>
+      }
     </>
   )
 }
