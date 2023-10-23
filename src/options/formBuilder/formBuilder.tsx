@@ -69,7 +69,6 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                                 onChangeParam={(e, index) => onChangeParam(e, index, field)}
                                 onRemove={(e, index) => onRemoveQueryParam(e, index, field)}
                                 error={error}
-                                key={+new Date()}
                             />
                         </div>
                         <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddQueryParam(field)}>Add</div>
@@ -81,7 +80,6 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
                             headers={ruleMetaData.headers || []}
                             onRemoveHeader={(e, index) => onRemoveHeader(e, index, field)}
                             error={error}
-                            key={+new Date()}
                             />
                         <div className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer" onClick={() => onAddHeader(field)}>Add</div>
                     </>
