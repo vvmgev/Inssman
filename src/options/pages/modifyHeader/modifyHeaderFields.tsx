@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useId } from 'react';
 import { HeaderModificationType } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
@@ -6,6 +6,7 @@ import InputAutocomplete from 'components/common/InputAutocomplete/inputAutocomp
 import CrossSVG  from 'assets/icons/cross.svg';
 import HTTPHeaders from './HTTPHeaders';
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation
+import { generateUniqueID } from 'src/utils';
 
 const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
@@ -42,6 +43,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
               onChange={event => onChangeHeader(event, index)}
               classes="flex-[1]"
               error={error?.operation}
+              key={generateUniqueID()}
             />
             <Select
               options={headerModificationTypeOptions}
@@ -50,6 +52,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
               onChange={event => onChangeHeader(event, index)}
               classes="flex-[1]"
               error={error?.type}
+              key={generateUniqueID()}
             />
             <div className='flex-[2]'>
               <InputAutocomplete

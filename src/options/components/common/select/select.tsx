@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import SlimSelect from 'slim-select'
+import { generateUniqueID } from 'src/utils';
 import '../../../../../node_modules/slim-select/dist/slimselect.css';
 import './select.css'
 
@@ -19,7 +20,7 @@ const Select = ({value, classes = '', name, options, onChange, error, placeholde
     const idRef = useRef<string>();
 
     useEffect(() => {
-        idRef.current = `select-${Number(Date.now() + Math.round(Math.random() * 1000) )}`;
+        idRef.current = `select-${generateUniqueID()}`;
         selectRef.current.id = idRef.current;
         let selectSettings = {};
         if(multiple) {
@@ -47,7 +48,7 @@ const Select = ({value, classes = '', name, options, onChange, error, placeholde
                 }
             }
           });
-    }, []);
+          }, []);
 
     return <div className={`inline-block w-full ${classes}`}>
         <select className={`w-full capitalize py-3 rounded focus:outline-none active:outline-none border-none focus:shadow-none

@@ -3,6 +3,7 @@ import { QueryParamAction } from 'models/formFieldModel';
 import Input from 'components/common/input/input';
 import Select from 'components/common/select/select';
 import CrossSVG  from 'assets/icons/cross.svg';
+import { generateUniqueID } from 'src/utils';
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
   const queryParamActionOptions = useMemo(() => Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
@@ -32,6 +33,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             onChange={event => onChangeParam(event, index)}
             classes="flex-[1]"
             error={error?.queryParamAction}
+            key={generateUniqueID()}
           />
           <Input
             name="key"
