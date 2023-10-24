@@ -14,6 +14,13 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
     return previous;
   }, []), []);
 
+  const modifyHeaderActionOptionsWithoutAppend = useMemo(() => Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
+    if(value.toLowerCase() !== HeaderOperation.APPEND) {
+      previous.push({value: value.toLowerCase(), label})
+    }
+    return previous;
+  }, []), []);
+
   const headerModificationTypeOptions = useMemo(() => Object.entries(HeaderModificationType).reduce((previous: any, [value, label]: any) => {
     previous.push({value: value.toLowerCase(), label})
     return previous;
@@ -29,6 +36,20 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
     return errors;
   }, [error]);
 
+  const onChangeHandler = (event, index) => {
+    if(event.target.name === 'type' &&
+      event.target.value === HeaderModificationType.REQUEST &&
+      headers[index].operation === HeaderOperation.APPEND
+    ) {
+      // replace "Append" to "Set" when type of request changes
+      onChangeHeader({target: {
+        name: 'operation',
+        value: HeaderOperation.SET
+      }}, index)
+    }
+    onChangeHeader(event, index)
+  };
+
 
   return <>
     {headers.map((header, index) => {
@@ -37,10 +58,10 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
           <span className="min-w-[100px]">Operator</span>
           <div key={index} className="flex items-center w-full gap-5">
             <Select
-              options={modifyHeaderActionOptions}
+              options={header.type === HeaderModificationType.RESPONSE ? modifyHeaderActionOptions : modifyHeaderActionOptionsWithoutAppend}
               name="operation"
               value={header.operation}
-              onChange={event => onChangeHeader(event, index)}
+              onChange={event => onChangeHandler(event, index)}
               classes="flex-[1]"
               error={error?.operation}
               key={generateUniqueID()}
@@ -49,7 +70,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
               options={headerModificationTypeOptions}
               name="type"
               value={header.type}
-              onChange={event => onChangeHeader(event, index)}
+              onChange={event => onChangeHandler(event, index)}
               classes="flex-[1]"
               error={error?.type}
               key={generateUniqueID()}
@@ -60,7 +81,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                   name: "header",
                   placeholder: "Key",
                   value: header.header,
-                  onChange: event => onChangeHeader(event, index),
+                  onChange: event => onChangeHandler(event, index),
                   classes: "flex-[2]",
                   error: headerErrors[index]?.header
                 }}
@@ -72,7 +93,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
               name="value"
               placeholder="Value"
               value={header.value}
-              onChange={event => onChangeHeader(event, index)}
+              onChange={event => onChangeHandler(event, index)}
               disabled={header.operation === HeaderOperation.REMOVE}
               hidden={header.operation === HeaderOperation.REMOVE}
               classes="flex-[2]"
