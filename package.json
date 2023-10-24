@@ -1,6 +1,6 @@
 {
   "name": "Inssman",
-  "version": "1.0.47",
+  "version": "1.0.46",
   "description": "Browser extension to Intercept/Modify HTTP Request/Response/Headers/Body",
   "main": "serviceWorker.js",
   "scripts": {
