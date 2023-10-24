@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import RuleList from '../ruleList/ruleList';
 import Input from 'components/common/input/input';
@@ -11,7 +11,6 @@ import ArrowUpLongSVG  from 'assets/icons/arrowUpLong.svg';
 import TrashSVG  from 'assets/icons/trash.svg';
 import ListSVG  from 'assets/icons/list.svg';
 import { PostMessageAction } from 'models/postMessageActionModel';
-import { IRuleMetaData } from 'models/formFieldModel';
 import { downloadFile } from 'src/utils/downloadFile';
 import { validateJSON } from 'src/utils/validateJSON';
 import { readFile } from 'src/utils/readFile';
@@ -19,22 +18,19 @@ import 'reactjs-popup/dist/index.css';
 
 export default () => {
   const importRulesRef = useRef<any>();
-  const [data, setData] = useState<IRuleMetaData[]>([] as IRuleMetaData[]);
   const [search, setSearch] = useState<string>('');
   const [importFailed, setImportFailed] = useState<boolean>(false);
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
   const onHandleImport = () => importRulesRef.current.click();
-  const onHandleDeleteRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => getData());
+  const onHandleDeleteRules = (close): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, close);
   const onHandleExportRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.ExportRules }, rules => downloadFile(rules));
-  const getData = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
-  useEffect(() => getData(), []);
 
   const onHandleUploadFile = (event) => {
     readFile(event.target.files[0], (fileContent) => {
       if(validateJSON(fileContent)) {
         const data = JSON.parse(fileContent);
-        chrome.runtime.sendMessage({action: PostMessageAction.ImportRules, data }, () => getData());
+        chrome.runtime.sendMessage({action: PostMessageAction.ImportRules, data });
       } else {
         setImportFailed(true);
       }
@@ -92,7 +88,7 @@ export default () => {
                       <div className="text-slate-200 text-2xl text-center my-10">Are you sure you want to delete all rules?</div>
                       <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
                           <OutlineButton trackName='Delete All Rules - NO' classes="min-w-[100px]" onClick={close}>No</OutlineButton>
-                          <OutlineButton icon={<TrashSVG />} classes="min-w-[100px] hover:text-red-400 hover:border-red-400" trackName="Delete All Rules - YES" onClick={onHandleDeleteRules}>Yes</OutlineButton>
+                          <OutlineButton icon={<TrashSVG />} classes="min-w-[100px] hover:text-red-400 hover:border-red-400" trackName="Delete All Rules - YES" onClick={() => onHandleDeleteRules(close)}>Yes</OutlineButton>
                       </div>
                   </ColorCover>
                   )}
