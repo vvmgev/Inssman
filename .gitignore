@@ -1,5 +1,6 @@
 dist
 node_modules
 server
+release
 .idea
 .DS_Store
