@@ -15,4 +15,5 @@ export enum PostMessageAction {
     UpdateTimestamp,
     ExportRules,
     ImportRules,
+    ToggleExntesion,
 }

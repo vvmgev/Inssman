@@ -65,6 +65,8 @@ class ServiceWorker extends BaseService {
           responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
         } else if(action === PostMessageAction.ExportRules) {
           responseData = this.exportRules();
+        } else if(action === PostMessageAction.ToggleExntesion) {
+          responseData = this.toggleExntesion(data)
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
         }
@@ -207,6 +209,16 @@ class ServiceWorker extends BaseService {
       restObject.lastMatchedTimestamp = null;
       return restObject;
     })
+  }
+
+  async toggleExntesion({ checked }: { checked: boolean }): Promise<void> {
+    // const extensionStatus: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
+    await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
+    if(checked) {
+      const storageRules: IRuleMetaData[] = await this.getStorageRules();
+    } else {
+      await RuleService.clear();
+    }
   }
 
   async importRules(ruleMetaData: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
