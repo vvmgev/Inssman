@@ -65,8 +65,10 @@ class ServiceWorker extends BaseService {
           responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
         } else if(action === PostMessageAction.ExportRules) {
           responseData = this.exportRules();
+        } else if(action === PostMessageAction.GetExtensionStatus) {
+          responseData = this.getExtensionStatus()
         } else if(action === PostMessageAction.ToggleExntesion) {
-          responseData = this.toggleExntesion(data)
+          responseData = this.toggleExtension(data)
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
         }
@@ -211,11 +213,19 @@ class ServiceWorker extends BaseService {
     })
   }
 
-  async toggleExntesion({ checked }: { checked: boolean }): Promise<void> {
-    // const extensionStatus: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
+  async getExtensionStatus (): Promise<boolean> {
+    const status: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
+    return typeof status === 'undefined' ? !status : status;
+  }
+
+  async toggleExtension({ checked }: { checked: boolean }): Promise<void> {
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
       const storageRules: IRuleMetaData[] = await this.getStorageRules();
+      for (const storageRule of storageRules) {
+        const rule: Rule = config[storageRule.pageType].generateRule(storageRule);
+        await RuleService.set([{...rule, id: storageRule.id}])
+      }
     } else {
       await RuleService.clear();
     }

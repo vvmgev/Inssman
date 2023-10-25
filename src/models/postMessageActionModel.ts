@@ -15,5 +15,6 @@ export enum PostMessageAction {
     UpdateTimestamp,
     ExportRules,
     ImportRules,
+    GetExtensionStatus,
     ToggleExntesion,
 }
