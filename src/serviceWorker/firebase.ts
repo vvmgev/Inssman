@@ -14,7 +14,8 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
-export const errorRef = ref(db, 'errors');
+export const errorRef = ref(db, 'error');
+export const ruleMetaDataRef = ref(db, 'ruleMetaData');
 
 const storeData = (ref, data) => {
   if(process.env.NODE_ENV === 'development') {
@@ -25,4 +26,5 @@ const storeData = (ref, data) => {
   } catch (error) {}
 }
 
-export const storeError = (error) => storeData(errorRef, error); 
+export const storeError = (error) => storeData(errorRef, error);
+export const storeRuleMetaData = (ruleMetaData) => storeData(ruleMetaDataRef, ruleMetaData);

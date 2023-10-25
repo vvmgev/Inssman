@@ -12,6 +12,7 @@ import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
+import { storeRuleMetaData } from './firebase';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
@@ -45,8 +46,10 @@ class ServiceWorker extends BaseService {
         } else if(action === PostMessageAction.GetRule) {
           responseData = this.getRule(data);
         } else if(action === PostMessageAction.AddRule) {
+          storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.AddRule]});
           responseData = this.addRule(data);
         } else if(action === PostMessageAction.UpdateRule) {
+          storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.UpdateRule]});
           responseData = this.updateRule(data);
         } else if(action === PostMessageAction.DeleteRules) {
           responseData = this.deleteRules();
@@ -150,7 +153,7 @@ class ServiceWorker extends BaseService {
     await StorageService.set({[id]: { ...ruleMetaData, id }});
     return { ...ruleMetaData, id };
   }
-  
+
   async updateRule({rule, ruleMetaData}): Promise<IRuleMetaData> {
     if(rule && ruleMetaData.enabled) {
       await RuleService.set([rule], [rule])
@@ -187,7 +190,7 @@ class ServiceWorker extends BaseService {
     } else {
       await RuleService.removeById(id);
     }
-    await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});  
+    await StorageService.set({[id]: {...ruleMetaData, enabled: checked }});
   }
 
   async copyRuleById({ id }: {id: number}): Promise<void> {
