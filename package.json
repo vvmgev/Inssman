@@ -8,7 +8,7 @@
     "build": "npm run build:chrome && npm run build:edge",
     "build:chrome": "BROWSER=chrome webpack --config webpack/webpack.production.js",
     "build:edge": "BROWSER=edge webpack --config webpack/webpack.production.js",
-    "clear:dist": "rm -R dist",
+    "clear:dist": "node scripts/removeDir.js",
     "create:zip": "npm run create:zip:chrome && npm run create:zip:edge",
     "create:zip:chrome": "BROWSER=chrome node scripts/createZip.js",
     "create:zip:edge": "BROWSER=edge node scripts/createZip.js",
