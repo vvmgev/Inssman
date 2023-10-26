@@ -14,12 +14,12 @@ import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
 import { PageSource } from 'src/models/pageSource';
 import { storeRuleMetaData } from './firebase';
+import { getSender } from 'src/utils';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
-import { getSender } from 'src/utils';
 
 
 class ServiceWorker extends BaseService {
@@ -234,23 +234,23 @@ class ServiceWorker extends BaseService {
     }
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
-      const storageRules: IRuleMetaData[] = await this.getStorageRules();
-      for (const storageRule of storageRules) {
-        const rule: Rule = config[storageRule.pageType].generateRule(storageRule);
-        await RuleService.set([{...rule, id: storageRule.id}])
+      const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
+      for (const ruleMetaData of ruleMetaDatas) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        await RuleService.set([{...rule, id: ruleMetaData.id}])
       }
     } else {
       await RuleService.clear();
     }
   }
 
-  async importRules(ruleMetaData: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
-    for(let i = 0; i < ruleMetaData.length; i++) {
+  async importRules(ruleMetaDatas: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
+    for (const ruleMetaData of ruleMetaDatas) {
       try {
-        const rule: Omit<IRuleMetaData, 'id' > = ruleMetaData[i];
+        const rule: Omit<IRuleMetaData, 'id' > = ruleMetaData;
         await this.addRule({
           rule: config[rule.pageType].generateRule(rule),
-          ruleMetaData: ruleMetaData[i] as IRuleMetaData
+          ruleMetaData: ruleMetaData as IRuleMetaData
         });
       } catch (error) {}
     }
