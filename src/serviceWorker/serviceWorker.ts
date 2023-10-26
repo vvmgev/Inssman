@@ -124,7 +124,7 @@ class ServiceWorker extends BaseService {
       const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
         rule.pageType === PageType.REDIRECT && rule.destination ||
         rule.pageType === PageType.MODIFY_RESPONSE));
-      if(enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
+      if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
         this.throttleUpdateMatchedRulesTimestamp();
       }
     }
