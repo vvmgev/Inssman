@@ -32,12 +32,18 @@ class ServiceWorker extends BaseService {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   };
 
-  async registerListener (): Promise<void> {
+  async registerListener(): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
+
+  async unregisterListener(): Promise<void> {
+    this.removeListener(ListenerType.ON_MESSAGE, this.onMessage)
+    .removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+    .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+  }
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
@@ -124,6 +130,7 @@ class ServiceWorker extends BaseService {
       const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
         // On redirect url doesn't match
         rule.pageType === PageType.REDIRECT && rule.destination ||
+        // MODIFY_RESPONSE uses REDIRECT rule
         rule.pageType === PageType.MODIFY_RESPONSE));
       if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
         this.throttleUpdateMatchedRulesTimestamp();
@@ -233,14 +240,17 @@ class ServiceWorker extends BaseService {
     if(getSender(sender) === PageSource.Popup) {
       await this.toggleExtensionOptions({checked})
     }
+
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
+      this.registerListener();
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
       for (const ruleMetaData of ruleMetaDatas) {
         const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{...rule, id: ruleMetaData.id}])
       }
     } else {
+      this.unregisterListener();
       await RuleService.clear();
     }
   }
