@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import RuleList from '../ruleList/ruleList';
 import Input from 'components/common/input/input';
@@ -14,17 +14,23 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { downloadFile } from 'src/utils/downloadFile';
 import { validateJSON } from 'src/utils/validateJSON';
 import { readFile } from 'src/utils/readFile';
+import { IRuleMetaData } from 'src/models/formFieldModel';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
   const importRulesRef = useRef<any>();
   const [search, setSearch] = useState<string>('');
+  const [rules, setRules] = useState<IRuleMetaData[]>([]);
   const [importFailed, setImportFailed] = useState<boolean>(false);
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
   const onHandleImport = () => importRulesRef.current.click();
-  const onHandleDeleteRules = (close): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, close);
+  const getRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setRules);
   const onHandleExportRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.ExportRules }, rules => downloadFile(rules));
+  const onHandleDeleteRules = (close): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => {
+    close();
+    getRules();
+  });
 
   const onHandleUploadFile = (event) => {
     readFile(event.target.files[0], (fileContent) => {
@@ -36,6 +42,8 @@ export default () => {
       }
     });
   }
+
+  useEffect(() => getRules(), []);
 
   return <div className="min-h-[250px] overflow-hidden mx-[5%]">
     <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
@@ -105,7 +113,7 @@ export default () => {
               </div>
           </div>
           <div>
-            <RuleList search={search} page='options'/>
+            <RuleList rules={rules} getRules={getRules} search={search} page='options'/>
           </div>
       </div>
   </div>
