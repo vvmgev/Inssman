@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
-import RuleList from '../ruleList/ruleList';
 import Input from 'components/common/input/input';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import ColorCover from 'components/common/colorCover/colorCover';
+import RuleList from '../ruleList/ruleList';
 import CrossSVG  from 'assets/icons/cross.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import ArrowDownLongSVG  from 'assets/icons/arrowDownLong.svg';

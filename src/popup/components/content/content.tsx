@@ -17,6 +17,8 @@ const Content = () => {
         });
     }, []);
 
+    useEffect(() => getRules(), []);
+
     return (
         <ColorCover classes="border-l-0 border-r-0 rounded-none p-0">
             <div className='p-4 h-full'><Tab active={tab} onChangeTab={onChangeTab} /></div>
@@ -25,7 +27,6 @@ const Content = () => {
                 <div className='overflow-hidden h-full'>
                   <RuleList rules={rules} getRules={getRules} fullColumns={false} listClasses='max-h-[250px]' page='popup' />
                 </div>
-
             }
         </ColorCover>
     )
