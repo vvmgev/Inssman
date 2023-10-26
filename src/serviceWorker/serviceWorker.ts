@@ -27,7 +27,7 @@ class ServiceWorker extends BaseService {
     const delay = GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000 / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
     this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
-  };
+      };
 
   async registerListener (): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)

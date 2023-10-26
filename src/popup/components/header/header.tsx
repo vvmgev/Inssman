@@ -13,10 +13,10 @@ const Header =  () => {
       <div className="flex items-center flex-row justify-between">
           <Logo />
           <div className="flex gap-3 items-center">
-            <div className="flex justify-between items-center w-[180px]">
-              <div className="w-[30%] flex items-center"><ExtensionToggle /></div>
-              <div className="text-sm text-white w-[70%]">Extension {showOverlay ? 'Enabled' : 'Disabled'}</div>
-            </div>
+              <ColorCover classes="flex justify-between items-center rounded w-[170px]">
+                <div className="flex items-center"><ExtensionToggle /></div>
+                <div className="text-sm text-end text-white">Extension {showOverlay ? 'On' : 'Off'}</div>
+              </ColorCover>
             <Button trackName="Open Application" onClick={onHandleOpen}>Open Application</Button>
           </div>
 
