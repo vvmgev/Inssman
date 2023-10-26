@@ -17,4 +17,5 @@ export enum PostMessageAction {
     ImportRules,
     GetExtensionStatus,
     ToggleExntesion,
+    ToggleExntesionOptions,
 }

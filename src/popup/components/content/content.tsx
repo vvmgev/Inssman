@@ -5,13 +5,12 @@ import RuleList from 'components/ruleList/ruleList';
 import Tab, { Tabs } from 'src/popup/components/tab/tab';
 import { PostMessageAction } from 'src/models/postMessageActionModel';
 
-
 const Content = () => {
     const [tab, setTab] = useState<Tabs>(Tabs.RuleList);
     const onChangeTab = (tab: Tabs) => setTab(tab);
     useEffect(() => {
         chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, (rules) => {
-            setTab(rules.length ? Tabs.RuleList : Tabs.CreatRule);
+          setTab(rules.length ? Tabs.RuleList : Tabs.CreatRule);
         });
     }, []);
 

@@ -12,11 +12,14 @@ import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
+import { PageSource } from 'src/models/pageSource';
 import { storeRuleMetaData } from './firebase';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
+import MessageSender = chrome.runtime.MessageSender;
+import { getSender } from 'src/utils';
 
 
 class ServiceWorker extends BaseService {
@@ -27,7 +30,7 @@ class ServiceWorker extends BaseService {
     const delay = GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000 / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
     this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
-      };
+  };
 
   async registerListener (): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
@@ -36,7 +39,7 @@ class ServiceWorker extends BaseService {
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
 
-  onMessage = (request, _, sendResponse): void => {
+  onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
     (async () => {
       let responseData: any;
@@ -68,7 +71,7 @@ class ServiceWorker extends BaseService {
         } else if(action === PostMessageAction.GetExtensionStatus) {
           responseData = this.getExtensionStatus()
         } else if(action === PostMessageAction.ToggleExntesion) {
-          responseData = this.toggleExtension(data)
+          responseData = this.toggleExtension(data, sender);
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
         }
@@ -218,7 +221,17 @@ class ServiceWorker extends BaseService {
     return typeof status === 'undefined' ? !status : status;
   }
 
-  async toggleExtension({ checked }: { checked: boolean }): Promise<void> {
+  async toggleExtensionOptions({ checked }: { checked: boolean }): Promise<void> {
+    const tabs = await chrome.tabs.query({url: chrome.runtime.getURL('options/options.html')});
+    if(tabs.length) {
+      chrome.tabs.sendMessage(tabs[0].id as number, {action: PostMessageAction.ToggleExntesionOptions, data : { checked }})
+    }
+  }
+
+  async toggleExtension({ checked }: { checked: boolean }, sender: MessageSender): Promise<void> {
+    if(getSender(sender) === PageSource.Popup) {
+      await this.toggleExtensionOptions({checked})
+    }
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
       const storageRules: IRuleMetaData[] = await this.getStorageRules();
