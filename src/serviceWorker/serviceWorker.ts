@@ -122,6 +122,7 @@ class ServiceWorker extends BaseService {
       const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
       const isUrlsMatch = enabledRules.some(rule => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
       const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
+        // On redirect url doesn't match
         rule.pageType === PageType.REDIRECT && rule.destination ||
         rule.pageType === PageType.MODIFY_RESPONSE));
       if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
