@@ -12,11 +12,14 @@ import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
+import { PageSource } from 'src/models/pageSource';
 import { storeRuleMetaData } from './firebase';
+import { getSender } from 'src/utils';
 import 'services/WebRequestService';
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
+import MessageSender = chrome.runtime.MessageSender;
 
 
 class ServiceWorker extends BaseService {
@@ -29,14 +32,14 @@ class ServiceWorker extends BaseService {
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   };
 
-  async registerListener (): Promise<void> {
+  async registerListener(): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
 
-  onMessage = (request, _, sendResponse): void => {
+  onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
     (async () => {
       let responseData: any;
@@ -65,6 +68,10 @@ class ServiceWorker extends BaseService {
           responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
         } else if(action === PostMessageAction.ExportRules) {
           responseData = this.exportRules();
+        } else if(action === PostMessageAction.GetExtensionStatus) {
+          responseData = this.getExtensionStatus()
+        } else if(action === PostMessageAction.ToggleExntesion) {
+          responseData = this.toggleExtension(data, sender);
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
         }
@@ -115,9 +122,11 @@ class ServiceWorker extends BaseService {
       const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{key: 'enabled', value: true}]);
       const isUrlsMatch = enabledRules.some(rule => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
       const hasRedirectRule = enabledRules.some((rule: IRuleMetaData) => (
+        // On redirect url doesn't match
         rule.pageType === PageType.REDIRECT && rule.destination ||
+        // MODIFY_RESPONSE uses REDIRECT rule
         rule.pageType === PageType.MODIFY_RESPONSE));
-      if(enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
+      if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
         this.throttleUpdateMatchedRulesTimestamp();
       }
     }
@@ -209,13 +218,46 @@ class ServiceWorker extends BaseService {
     })
   }
 
-  async importRules(ruleMetaData: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
-    for(let i = 0; i < ruleMetaData.length; i++) {
+  async getExtensionStatus (): Promise<boolean> {
+    const status: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
+    return typeof status === 'undefined' ? !status : status;
+  }
+
+  async toggleExtensionOptions({ checked }: { checked: boolean }): Promise<void> {
+    const tabs = await chrome.tabs.query({url: chrome.runtime.getURL('options/options.html')});
+    if(tabs.length) {
+      chrome.tabs.sendMessage(tabs[0].id as number, {action: PostMessageAction.ToggleExntesionOptions, data : { checked }})
+    }
+  }
+
+  async toggleExtension({ checked }: { checked: boolean }, sender: MessageSender): Promise<void> {
+    if(getSender(sender) === PageSource.Popup) {
+      await this.toggleExtensionOptions({checked})
+    }
+
+    await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
+    if(checked) {
+      this.addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+      const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
+      for (const ruleMetaData of ruleMetaDatas) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        await RuleService.set([{...rule, id: ruleMetaData.id}])
+      }
+    } else {
+      this.removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+      .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+      await RuleService.clear();
+    }
+  }
+
+  async importRules(ruleMetaDatas: Omit<IRuleMetaData, 'id' >[]): Promise<void> {
+    for (const ruleMetaData of ruleMetaDatas) {
       try {
-        const rule: Omit<IRuleMetaData, 'id' > = ruleMetaData[i];
+        const rule: Omit<IRuleMetaData, 'id' > = ruleMetaData;
         await this.addRule({
           rule: config[rule.pageType].generateRule(rule),
-          ruleMetaData: ruleMetaData[i] as IRuleMetaData
+          ruleMetaData: ruleMetaData as IRuleMetaData
         });
       } catch (error) {}
     }

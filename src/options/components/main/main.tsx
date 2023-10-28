@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
-import RuleList from '../ruleList/ruleList';
 import Input from 'components/common/input/input';
 import OutlineButton from 'components/common/outlineButton/outlineButton';
 import ColorCover from 'components/common/colorCover/colorCover';
+import RuleList from '../ruleList/ruleList';
 import CrossSVG  from 'assets/icons/cross.svg';
 import SearchSVG  from 'assets/icons/search.svg';
 import ArrowDownLongSVG  from 'assets/icons/arrowDownLong.svg';
@@ -14,17 +14,23 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { downloadFile } from 'src/utils/downloadFile';
 import { validateJSON } from 'src/utils/validateJSON';
 import { readFile } from 'src/utils/readFile';
+import { IRuleMetaData } from 'src/models/formFieldModel';
 import 'reactjs-popup/dist/index.css';
 
 export default () => {
   const importRulesRef = useRef<any>();
   const [search, setSearch] = useState<string>('');
+  const [rules, setRules] = useState<IRuleMetaData[]>([]);
   const [importFailed, setImportFailed] = useState<boolean>(false);
   const onHandleClearSearch = () => setSearch('');
   const onChangeSearch = event => setSearch(event.target.value);
   const onHandleImport = () => importRulesRef.current.click();
-  const onHandleDeleteRules = (close): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, close);
+  const getRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setRules);
   const onHandleExportRules = (): void => chrome.runtime.sendMessage({action: PostMessageAction.ExportRules }, rules => downloadFile(rules));
+  const onHandleDeleteRules = (close): void => chrome.runtime.sendMessage({action: PostMessageAction.DeleteRules }, () => {
+    close();
+    getRules();
+  });
 
   const onHandleUploadFile = (event) => {
     readFile(event.target.files[0], (fileContent) => {
@@ -37,10 +43,13 @@ export default () => {
     });
   }
 
+  useEffect(() => getRules(), []);
+
   return <div className="min-h-[250px] overflow-hidden mx-[5%]">
     <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
       open={importFailed} onClose={() => setImportFailed(false)}
-      modal position="right center">
+      modal position="right center"
+      overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
         {/* @ts-ignore */}
         {(close: any) => (
           <ColorCover classes="bg-opacity-90 py-15">
@@ -75,7 +84,8 @@ export default () => {
                   <div><OutlineButton onClick={onHandleExportRules} trackName='Export rules' icon={<ArrowUpLongSVG />}>Export</OutlineButton></div>
                   <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
                       trigger={<div><OutlineButton classes='hover:text-red-400 hover:border-red-400' trackName='Delete All Rules Popup' icon={<TrashSVG />}>Delete All Rules</OutlineButton></div>}
-                      modal position="right center">
+                      modal position="right center"
+                      overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
                   {/* @ts-ignore */}
                   {(close: any) => (
                       <ColorCover classes="bg-opacity-90 py-15">
@@ -105,7 +115,7 @@ export default () => {
               </div>
           </div>
           <div>
-            <RuleList search={search} page='options'/>
+            <RuleList rules={rules} getRules={getRules} search={search} page='options'/>
           </div>
       </div>
   </div>

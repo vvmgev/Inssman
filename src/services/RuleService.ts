@@ -6,6 +6,13 @@ import MatchedRulesFilter = chrome.declarativeNetRequest.MatchedRulesFilter;
 class RuleService {
     #DEFAULT_PRIOPRITY = 1;
 
+    constructor() {
+      const getRules = async () => {
+        console.log(await this.get());
+      }
+      getRules();
+    }
+
     get(): Promise<Rule[]> {
         return chrome.declarativeNetRequest.getDynamicRules();
     }
@@ -39,7 +46,7 @@ class RuleService {
     getMatchedRules(filter?: MatchedRulesFilter): Promise<RulesMatchedDetails> {
         return chrome.declarativeNetRequest.getMatchedRules(filter);
     }
-    
+
 }
 
 export default new RuleService();

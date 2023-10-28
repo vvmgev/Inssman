@@ -55,7 +55,7 @@ const handleError = (error: any, data) => {
     return errorData;
   }
 
-  storeError({message, data, type: 'unhandled'}); 
+  storeError({message, data, type: 'unhandled'});
   return {
     fieldName: 'general',
     message: 'Unhandled error = ' + message,

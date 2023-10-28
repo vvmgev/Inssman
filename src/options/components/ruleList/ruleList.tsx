@@ -13,6 +13,8 @@ import { timeDifference } from 'utils/timeDifference';
 
 const COUNT_SYMBOLS = 22;
 type Props = {
+  rules: IRuleMetaData[],
+  getRules: () => void,
   search?: string,
   listClasses?: string,
   columns?: [],
@@ -30,12 +32,10 @@ type Props = {
 // ];
 
 
-const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = '', page = 'options' }): ReactElement => {
-  const [data, setData] = useState<IRuleMetaData[]>([] as IRuleMetaData[]);
-  const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: {id} }, () => getData());
+const RuleList: FC<Props> = ({ rules, getRules, search = '', fullColumns = true, listClasses = '', page = 'options' }): ReactElement => {
+  const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: {id} }, () => getRules());
   const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
-  const getData = (): void => chrome.runtime.sendMessage({action: PostMessageAction.GetStorageRules}, setData);
-  const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getData())
+  const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getRules())
   const generateLastMatchedTime = (timestamp: number): string => {
     if(typeof timestamp !== 'number') return 'Not used';
     const { days, hours, minutes, seconds } = timeDifference(timestamp);
@@ -47,11 +47,9 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
     TrackService.trackEvent(`${PageName[ruleMetaData.pageType]} Rule Delete Event`);
     chrome.runtime.sendMessage({
         action: PostMessageAction.DeleteRule, data: {id: ruleMetaData.id} },
-        () => getData()
+        () => getRules()
     );
   };
-
-  useEffect(() => getData(), []);
 
   return (
     <>
@@ -63,9 +61,9 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
         <div className={`flex-1 ${!fullColumns ? 'flex justify-end' : ''}`}>Status</div>
         {fullColumns && <div className="flex-1 flex justify-end">Actions</div>}
       </div>
-      {data.length ?
+      {rules.length ?
       <ul className={twMerge(`overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
-        {data.filter((ruleMetaData) => ruleMetaData.name.includes(search))
+        {rules.filter((ruleMetaData) => ruleMetaData.name.includes(search))
         .reverse().map((ruleMetaData) => <li key={ruleMetaData.id} className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40">
           <div className="flex-1 flex" >{cutString (ruleMetaData.name)}</div>
           <div className="flex items-center gap-1 flex-1">
@@ -81,19 +79,19 @@ const RuleList: FC<Props> = ({ search = '', fullColumns = true, listClasses = ''
           </div>
           {fullColumns && <div className="flex-1 flex gap-5 justify-end">
             <Tooltip
-              actions={['hover']}
-              triggerElement={<div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleMetaData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>} >
-                <span className='text-slate-200'>Duplicate Rule</span>
+                content='Duplicate Rule'
+              >
+                <div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleMetaData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>
             </Tooltip>
             <Tooltip
-              actions={['hover']}
-              triggerElement={<Link className="cursor-pointer hover:text-sky-500" to={`/edit/${ruleMetaData.pageType}/${ruleMetaData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>} >
-                <span className='text-slate-200'>Edit Rule</span>
+                content='Edit Rule'
+              >
+                <Link className="cursor-pointer hover:text-sky-500" to={`/edit/${ruleMetaData.pageType}/${ruleMetaData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
             </Tooltip>
             <Tooltip
-              actions={['hover']}
-              triggerElement={<div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleMetaData)}><span className="w-[24px] inline-block"><TrashSVG /></span></div>} >
-                <span className='text-slate-200'>Delete Rule</span>
+                content='Delete Rule'
+              >
+                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleMetaData)}><span className="w-[24px] inline-block"><TrashSVG /></span></div>
             </Tooltip>
           </div>}
         </li>)}
