@@ -15,7 +15,7 @@ const Header =  () => {
           <Tooltip
             isOpen={!showOverlay}
             place="bottom"
-            render={() => <div className="text-center">``
+            render={() => <div className="text-center">
                 <p>Extension is disabled</p>
                 <p>All modification will not work</p>
               </div>
