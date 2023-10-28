@@ -7,7 +7,6 @@ const Tooltip = ({ children, place = 'top', ...rest }: PropsWithChildren<IToolti
     {React.cloneElement(children as any, { 'data-tooltip-id': id })}
     <ReactTooltip
         id={id}
-        className="tooltip tooltip-content"
         place={place}
         {...rest}
       />
