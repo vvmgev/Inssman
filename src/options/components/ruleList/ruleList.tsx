@@ -79,19 +79,19 @@ const RuleList: FC<Props> = ({ rules, getRules, search = '', fullColumns = true,
           </div>
           {fullColumns && <div className="flex-1 flex gap-5 justify-end">
             <Tooltip
-              actions={['hover']}
-              triggerElement={<div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleMetaData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>} >
-                <span className='text-slate-200'>Duplicate Rule</span>
+                content='Duplicate Rule'
+              >
+                <div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(ruleMetaData.id)}><span className="w-[24px] inline-block"><DocumentCopySVG /></span></div>
             </Tooltip>
             <Tooltip
-              actions={['hover']}
-              triggerElement={<Link className="cursor-pointer hover:text-sky-500" to={`/edit/${ruleMetaData.pageType}/${ruleMetaData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>} >
-                <span className='text-slate-200'>Edit Rule</span>
+                content='Edit Rule'
+              >
+                <Link className="cursor-pointer hover:text-sky-500" to={`/edit/${ruleMetaData.pageType}/${ruleMetaData.id}`}><span className="w-[24px] inline-block"><PencilSVG /></span></Link>
             </Tooltip>
             <Tooltip
-              actions={['hover']}
-              triggerElement={<div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleMetaData)}><span className="w-[24px] inline-block"><TrashSVG /></span></div>} >
-                <span className='text-slate-200'>Delete Rule</span>
+                content='Delete Rule'
+              >
+                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(ruleMetaData)}><span className="w-[24px] inline-block"><TrashSVG /></span></div>
             </Tooltip>
           </div>}
         </li>)}

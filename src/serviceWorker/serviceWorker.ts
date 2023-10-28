@@ -39,12 +39,6 @@ class ServiceWorker extends BaseService {
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   };
 
-  async unregisterListener(): Promise<void> {
-    this.removeListener(ListenerType.ON_MESSAGE, this.onMessage)
-    .removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
-    .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
-  }
-
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
     (async () => {
@@ -243,14 +237,16 @@ class ServiceWorker extends BaseService {
 
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
-      this.registerListener();
+      this.addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
       for (const ruleMetaData of ruleMetaDatas) {
         const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{...rule, id: ruleMetaData.id}])
       }
     } else {
-      this.unregisterListener();
+      this.removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+      .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       await RuleService.clear();
     }
   }

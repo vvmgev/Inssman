@@ -1,29 +1,19 @@
-import { PropsWithChildren } from 'react';
-import Popup from 'reactjs-popup';
-import { EventType, PopupPosition } from 'reactjs-popup/dist/types';
-import './tooltip.css';
+import React, { PropsWithChildren, useId } from 'react';
+import { Tooltip as ReactTooltip, ITooltip } from 'react-tooltip';
 
-type Props = PropsWithChildren<{
-    triggerElement: JSX.Element,
-    actions?: EventType[],
-    position?: PopupPosition | PopupPosition[],
-    open?: boolean;
-    closeOnDocumentClick?: boolean;
-}>
+const Tooltip = ({ children, place = 'top', ...rest }: PropsWithChildren<ITooltip> ): JSX.Element => {
+  const id = useId();
+  return <>
+    {React.cloneElement(children as any, { 'data-tooltip-id': id })}
+    <ReactTooltip
+        id={id}
+        className="tooltip tooltip-content"
+        place={place}
+        {...rest}
+      />
+  </>
 
-const Tooltip = ({ children, triggerElement, open, closeOnDocumentClick = true, position = 'top center', actions = [] }: Props
-    ): JSX.Element => {
-    return <Popup
-        mouseEnterDelay={500}
-        className="tooltip"
-        on={actions}
-        trigger={() => triggerElement}
-        position={position}
-        open={open}
-        closeOnDocumentClick={closeOnDocumentClick}
-    >
-        <span>{children}</span>
-  </Popup>
+
 }
 
 

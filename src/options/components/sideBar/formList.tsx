@@ -22,9 +22,8 @@ const FormList = () => {
           <span className="min-w-[24px]">{icon}</span>
           <span>{text}</span>
           {popularPaths.includes(path) && <Tooltip
-              actions={['hover']}
-              triggerElement={<span className="w-[24px] text-yellow-400">{<StarSVG />}</span>}>
-                <span className='text-slate-200'>Popular</span>
+              content="Popular">
+                <span className="w-[24px] text-yellow-400">{<StarSVG />}</span>
             </Tooltip>
           }
         </div>
