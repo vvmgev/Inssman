@@ -83,7 +83,8 @@ export default () => {
                   <div><OutlineButton onClick={onHandleExportRules} trackName='Export rules' icon={<ArrowUpLongSVG />}>Export</OutlineButton></div>
                   <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
                       trigger={<div><OutlineButton classes='hover:text-red-400 hover:border-red-400' trackName='Delete All Rules Popup' icon={<TrashSVG />}>Delete All Rules</OutlineButton></div>}
-                      modal position="right center">
+                      modal position="right center"
+                      overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
                   {/* @ts-ignore */}
                   {(close: any) => (
                       <ColorCover classes="bg-opacity-90 py-15">
