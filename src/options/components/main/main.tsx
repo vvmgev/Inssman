@@ -48,7 +48,8 @@ export default () => {
   return <div className="min-h-[250px] overflow-hidden mx-[5%]">
     <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
       open={importFailed} onClose={() => setImportFailed(false)}
-      modal position="right center">
+      modal position="right center"
+      overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
         {/* @ts-ignore */}
         {(close: any) => (
           <ColorCover classes="bg-opacity-90 py-15">
