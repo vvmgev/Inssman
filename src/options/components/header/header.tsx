@@ -20,7 +20,7 @@ const Header =  () => {
                 <p>All modification will not work</p>
               </div>
             }>
-              <div><ExtensionToggle /></div>
+              <ExtensionToggle />
           </Tooltip>
         </ColorCover>
         <ColorCover classes="flex gap-5 p-5 w-[initial] rounded-none">
