@@ -19,4 +19,6 @@ export enum PostMessageAction {
     ToggleExntesion,
     ToggleExntesionOptions,
     StartRecording,
+    StopRecording,
+    SaveRecording,
 }

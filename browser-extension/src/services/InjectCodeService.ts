@@ -26,7 +26,6 @@ class InjectCodeService extends BaseService {
   };
 
   onChangeNavigation = (transation): void => {
-    console.log('transation', transation)
     this.rulesData.forEach((ruleMetaData: IRuleMetaData) => {
       if(ruleMetaData.pageType === PageType.INJECT_FILE) {
         if(MatcherService.isUrlsMatch(ruleMetaData.source, transation.url, ruleMetaData.matchType)) {

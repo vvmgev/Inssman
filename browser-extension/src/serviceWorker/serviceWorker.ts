@@ -6,6 +6,7 @@ import BaseService from 'services/BaseService';
 import MatcherService from 'services/MatcherService';
 import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
+import RecordingService from 'services/RecordingService';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
@@ -76,6 +77,10 @@ class ServiceWorker extends BaseService {
           responseData = this.importRules(data);
         } else if(action === PostMessageAction.StartRecording) {
           responseData = this.startRecording(data);
+        } else if(action === PostMessageAction.StopRecording) {
+          responseData = this.stopRecording();
+        } else if(action === PostMessageAction.SaveRecording) {
+          responseData = this.saveRecording(data);
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -266,7 +271,15 @@ class ServiceWorker extends BaseService {
   }
 
   async startRecording({ url }: { url: string }): Promise<void> {
-    const tab = await chrome.tabs.create({ url });
+    await RecordingService.startRecording(url);
+  }
+
+  async stopRecording(): Promise<void> {
+    await RecordingService.stopRecording();
+  }
+
+  async saveRecording(data): Promise<void> {
+    console.log('data', data);
   }
 }
 
