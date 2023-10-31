@@ -8,7 +8,7 @@ class RuleService {
 
     constructor() {
       const getRules = async () => {
-        console.log(await this.get());
+        // console.log(await this.get());
       }
       getRules();
     }

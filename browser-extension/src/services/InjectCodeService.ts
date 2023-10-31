@@ -41,7 +41,7 @@ class InjectCodeService extends BaseService {
               this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
             }
           } else {
-            this.injectAndExecute(transation.tabId, ruleMetaData.editorValue, InjectFileTagMap[ruleMetaData.editorLang as string]);
+            this.injectInternalScript(transation.tabId, ruleMetaData.editorValue, InjectFileTagMap[ruleMetaData.editorLang as string]);
           }
           StorageService.updateTimestamp(String(ruleMetaData.id));
         }
@@ -141,7 +141,7 @@ class InjectCodeService extends BaseService {
     });
   };
 
-  injectAndExecute(tabId, code, tag, shouldRemove = false): void {
+  injectInternalScript(tabId, code, tag, shouldRemove = false): void {
     chrome.scripting.executeScript({
       target: {tabId},
       // this code runs in the browser tab

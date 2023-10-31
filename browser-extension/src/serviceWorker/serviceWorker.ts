@@ -6,7 +6,7 @@ import BaseService from 'services/BaseService';
 import MatcherService from 'services/MatcherService';
 import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
-import RecordingService from 'services/RecordingService';
+import RecordingService from 'src/services/RecordingService/RecordingService';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
@@ -35,6 +35,7 @@ class ServiceWorker extends BaseService {
 
   async registerListener(): Promise<void> {
     console.log('recorded session');
+    // console.log(await StorageService.remove('recordedSession'));
     console.log(await StorageService.getSingleItem('recordedSession'));
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
