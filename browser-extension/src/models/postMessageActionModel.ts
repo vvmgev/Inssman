@@ -21,4 +21,5 @@ export enum PostMessageAction {
     StartRecording,
     StopRecording,
     SaveRecording,
+    GetRecordedSessions,
 }

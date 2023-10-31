@@ -26,9 +26,9 @@ class StorageService {
       return (await this.get(key))[key];
     }
 
-    async set(rules: { [key: string]: any }): Promise<void> {
+    async set(data: { [key: string]: any }): Promise<void> {
       // for(const key in rules) CacheService.set(this.cacheName, key, rules[key]);
-      return chrome.storage.local.set(rules)
+      return chrome.storage.local.set(data)
     }
 
     async remove(key: string): Promise<void> {

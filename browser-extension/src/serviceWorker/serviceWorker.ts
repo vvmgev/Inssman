@@ -34,6 +34,8 @@ class ServiceWorker extends BaseService {
   };
 
   async registerListener(): Promise<void> {
+    console.log('recorded session');
+    console.log(await StorageService.getSingleItem('recordedSession'));
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
@@ -81,6 +83,8 @@ class ServiceWorker extends BaseService {
           responseData = this.stopRecording();
         } else if(action === PostMessageAction.SaveRecording) {
           responseData = this.saveRecording(data);
+        } else if(action === PostMessageAction.GetRecordedSessions) {
+          responseData = StorageService.getSingleItem('recordedSession');
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -274,12 +278,13 @@ class ServiceWorker extends BaseService {
     await RecordingService.startRecording(url);
   }
 
-  async stopRecording(): Promise<void> {
-    await RecordingService.stopRecording();
+  stopRecording(): void {
+    RecordingService.stopRecording();
   }
 
-  async saveRecording(data): Promise<void> {
+  saveRecording(data: any): void {
     console.log('data', data);
+    RecordingService.saveRecording(data.events);
   }
 }
 
