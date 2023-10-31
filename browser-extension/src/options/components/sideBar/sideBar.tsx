@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import Logo  from 'assets/icons/logo.svg';
 import ColorCover from '../common/colorCover/colorCover';
 import TemplateList from './templateList';
-import FormList from './formList';
+import FormList from './components/formList/formList';
+import Record from './components/record/record';
 
 const SideBar = () => {
   return <div className="flex flex-col gap-10 h-full w-1/6">
@@ -11,6 +12,9 @@ const SideBar = () => {
     </ColorCover>
     <ColorCover classes="rounded-tl-none rounded-bl-none">
       <FormList />
+    </ColorCover>
+    <ColorCover classes="rounded-tl-none rounded-bl-none">
+      <Record />
     </ColorCover>
     <ColorCover classes="rounded-tl-none rounded-bl-none">
       <TemplateList />

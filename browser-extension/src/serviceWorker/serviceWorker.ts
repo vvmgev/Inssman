@@ -74,6 +74,8 @@ class ServiceWorker extends BaseService {
           responseData = this.toggleExtension(data, sender);
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
+        } else if(action === PostMessageAction.StartRecording) {
+          responseData = this.startRecording(data);
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -261,6 +263,10 @@ class ServiceWorker extends BaseService {
         });
       } catch (error) {}
     }
+  }
+
+  async startRecording({ url }: { url: string }): Promise<void> {
+    const tab = await chrome.tabs.create({ url });
   }
 }
 

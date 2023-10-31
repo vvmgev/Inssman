@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import HTTPLogger from 'pages/httpLogger/httpLogger';
+import Record from 'pages/record/record';
 import FormHOC from 'options/HOC/formHOC';
 import withParams from 'options/HOC/withParams';
 import Main from 'components/main/main'
@@ -37,6 +38,7 @@ const RuleRoutes = () => {
         <Route path="modify-request-body" element={<Form key={35} />} />
         <Route path="inject-file" element={<Form key={36} />} />
     </Route>
+    <Route path="/record" element={<Record key={37} />} />
   </Routes>
 }
 

@@ -26,6 +26,7 @@ class InjectCodeService extends BaseService {
   };
 
   onChangeNavigation = (transation): void => {
+    console.log('transation', transation)
     this.rulesData.forEach((ruleMetaData: IRuleMetaData) => {
       if(ruleMetaData.pageType === PageType.INJECT_FILE) {
         if(MatcherService.isUrlsMatch(ruleMetaData.source, transation.url, ruleMetaData.matchType)) {
@@ -57,8 +58,8 @@ class InjectCodeService extends BaseService {
         this.rulesData = await this.getInjectFileRules();
         if(this.isRegisteredListener && !this.rulesData.length) {
           this.isRegisteredListener = false;
-          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);  
-        } 
+          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
+        }
         if(!this.isRegisteredListener && this.rulesData.length) {
           this.isRegisteredListener = true;
           this.addListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
@@ -66,7 +67,7 @@ class InjectCodeService extends BaseService {
       }
     })
   }
-  
+
   async getInjectFileRules(): Promise<IRuleMetaData[]> {
     const filters = [{key: 'pageType', value: PageType.INJECT_FILE}, {key: 'enabled', value: true}];
     return await StorageService.getFilteredRules(filters);
@@ -162,7 +163,7 @@ class InjectCodeService extends BaseService {
       injectImmediately: true,
     });
   };
-  
+
   injectContentScript = async (tabId, rules) => {
     chrome.scripting.executeScript({
       target : {tabId},
