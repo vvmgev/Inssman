@@ -3,7 +3,6 @@ import { record } from 'rrweb/dist/record/rrweb-record';
 
 const scriptContent = record.toString();
 
-
 export default `
 (() => {
   if(window.startRecording) return;

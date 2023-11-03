@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["cotentScript/cotentScript.js"],
+      "js": ["cotentScript/cotentScript.js", "recordSession/recordSession.js"],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"

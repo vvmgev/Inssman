@@ -5,6 +5,7 @@ import { PostMessageAction } from 'models/postMessageActionModel';
 import { NAMESPACE } from 'options/constant';
 
 ((NAMESPACE) => {
+
   window[NAMESPACE] = window[NAMESPACE] || {};
   window[NAMESPACE].rules = window[NAMESPACE].rules || [];
   window[NAMESPACE].queueRequests = [];

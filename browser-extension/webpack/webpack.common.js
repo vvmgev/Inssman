@@ -13,6 +13,7 @@ module.exports = {
    entry: {
       serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
       cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
+      recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
       HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),

@@ -4,7 +4,7 @@ import TabService from "../TabService";
 import StorageService from "../StorageService";
 import { InjectFileTagName } from "models/formFieldModel";
 import { ListenerType } from "../ListenerService/ListenerService";
-import code from './contentCode';
+// import code from './contentCode';
 
 import Tab = chrome.tabs.Tab;
 import WebNavigationTransitionCallbackDetails = chrome.webNavigation.WebNavigationTransitionCallbackDetails;
@@ -15,7 +15,7 @@ class RecordingService extends BaseService {
 
   onChangeNavigation = (transation: WebNavigationTransitionCallbackDetails): void => {
     if(transation.tabId === this.currentTab?.id) {
-      InjectCodeService.injectInternalScript(this.currentTab.id, code, InjectFileTagName.JAVASCRIPT);
+      InjectCodeService.injectInternalScript(this.currentTab.id, 'console.log("inssman"); window.startRecord()', InjectFileTagName.JAVASCRIPT);
     }
   }
 

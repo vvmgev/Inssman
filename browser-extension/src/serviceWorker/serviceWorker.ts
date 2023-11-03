@@ -17,6 +17,7 @@ import { PageSource } from 'src/models/pageSource';
 import { storeRuleMetaData } from './firebase';
 import { getSender } from 'src/utils';
 import 'services/WebRequestService';
+
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
