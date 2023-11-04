@@ -18,6 +18,12 @@
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["newCotentScript/newCotentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true
     }
   ],
   "externally_connectable": {
