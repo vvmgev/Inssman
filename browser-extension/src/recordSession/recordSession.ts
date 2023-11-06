@@ -1,12 +1,15 @@
 import { record } from "rrweb";
 import { PostMessageAction } from "src/models/postMessageActionModel";
+import { NAMESPACE } from "src/options/constant";
+
+window[NAMESPACE] = window[NAMESPACE] || {};
 
 class RecordSession {
   stopRecording;
-  runtimeId;
+  events: any = [];
 
-  constructor(runtimeId) {
-    this.runtimeId = runtimeId;
+  constructor() {
+    console.log('constructor RecordSession');
   }
 
   start() {
@@ -15,17 +18,21 @@ class RecordSession {
       recordAfter: 'DOMContentLoaded',
       recordCrossOriginIframes: true,
       emit: (event) => {
-        this.sendEvent(event);
+        console.log('event', event);
+        this.events.push(event);
+        // this.sendEvent();
       },
     });
   }
 
 
-  sendEvent(event) {
+  sendEvent() {
+    const copyEvents = JSON.parse(JSON.stringify(this.events));
+    this.events = []
     try {
-      chrome.runtime.sendMessage(this.runtimeId, {
-        action: PostMessageAction.UpdateTimestamp,
-        data: {event}
+      chrome.runtime.sendMessage({
+        action: PostMessageAction.SaveRecording,
+        data: {events: copyEvents}
       });
     } catch (error) {
 
@@ -34,9 +41,11 @@ class RecordSession {
 
   stop() {
     this.stopRecording();
+    this.sendEvent();
   }
 
 
 }
 
-export default RecordSession;
+window[NAMESPACE] = window[NAMESPACE] || {};
+window[NAMESPACE].recordSession = window[NAMESPACE].recordSession || RecordSession;

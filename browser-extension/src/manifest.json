@@ -11,17 +11,20 @@
     "page": "options/options.html",
     "open_in_tab": true
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["cotentScript/cotentScript.js", "recordSession/recordSession.js"],
+      "js": ["cotentScript/cotentScript.js"],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"
     },
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["newCotentScript/newCotentScript.js"],
+      "js": ["newCotentScript/newCotentScript.js", "recordSession/recordSession.js"],
       "run_at": "document_start",
       "all_frames": true
     }

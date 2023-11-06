@@ -4,6 +4,7 @@ import BaseService from "./BaseService";
 import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, IRuleMetaData } from "src/models/formFieldModel";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { NAMESPACE } from "src/options/constant";
+import ExecutionWorld = chrome.scripting.ExecutionWorld;
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleMetaData[] = [];
@@ -141,7 +142,7 @@ class InjectCodeService extends BaseService {
     });
   };
 
-  injectInternalScript(tabId, code, tag, shouldRemove = false): void {
+  injectInternalScript(tabId, code, tag, shouldRemove = false, world = 'MAIN' as ExecutionWorld): void {
     chrome.scripting.executeScript({
       target: {tabId},
       // this code runs in the browser tab
@@ -157,7 +158,7 @@ class InjectCodeService extends BaseService {
         }
       },
       args: [code, tag, InjectFileTypeMap[tag], shouldRemove],
-      world: 'MAIN',
+      world,
       //@ts-ignore
       injectImmediately: true,
     });
