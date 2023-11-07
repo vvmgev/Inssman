@@ -6,7 +6,7 @@ import BaseService from 'services/BaseService';
 import MatcherService from 'services/MatcherService';
 import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
-import RecordingService from 'src/services/RecordingService/RecordingService';
+import RecordingService from 'src/services/RecordingService';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
@@ -45,8 +45,8 @@ class ServiceWorker extends BaseService {
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
-    console.log('serviceWorker request', request);
-    console.log('serviceWorker sender', sender);
+    console.log('inssman serviceWorker request', request);
+    console.log('inssman serviceWorker sender', sender);
     (async () => {
       let responseData: any;
       try {

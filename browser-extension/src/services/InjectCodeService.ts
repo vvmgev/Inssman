@@ -5,6 +5,7 @@ import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFi
 import { ListenerType } from "./ListenerService/ListenerService";
 import { NAMESPACE } from "src/options/constant";
 import ExecutionWorld = chrome.scripting.ExecutionWorld;
+import InjectionResult = chrome.scripting.InjectionResult;
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleMetaData[] = [];
@@ -158,6 +159,28 @@ class InjectCodeService extends BaseService {
         }
       },
       args: [code, tag, InjectFileTypeMap[tag], shouldRemove],
+      world,
+      //@ts-ignore
+      injectImmediately: true,
+    });
+  };
+
+  async injectInternalScriptToDocument(tabId, code, shouldRemove = false, world = 'MAIN' as ExecutionWorld): Promise<InjectionResult[]> {
+    return chrome.scripting.executeScript({
+      target: {tabId},
+      // this code runs in the browser tab
+      func: (code, tag, type, shouldRemove) => {
+        const element = document.createElement(tag);
+        element.textContent = code;
+        element.type = type || '';
+        element.className = `inssman_${tag}`;
+        document.documentElement.appendChild(element);
+
+        if(shouldRemove) {
+          element.remove();
+        }
+      },
+      args: [code, 'script', 'text/javascript', shouldRemove],
       world,
       //@ts-ignore
       injectImmediately: true,

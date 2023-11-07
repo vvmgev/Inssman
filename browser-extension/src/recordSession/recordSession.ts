@@ -2,7 +2,8 @@ import { record } from "rrweb";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { NAMESPACE } from "src/options/constant";
 
-window[NAMESPACE] = window[NAMESPACE] || {};
+
+console.log('RecordSession file');
 
 class RecordSession {
   stopRecording;
@@ -13,6 +14,7 @@ class RecordSession {
   }
 
   start() {
+    console.log('inssman start recordin');
     this.stopRecording = record({
       // @ts-ignore
       recordAfter: 'DOMContentLoaded',
@@ -25,9 +27,17 @@ class RecordSession {
     });
   }
 
+  getSession() {
+    const copyEvents = JSON.parse(JSON.stringify(this.events));
+    this.events = [];
+    return copyEvents;
+  }
+
 
   sendEvent() {
     const copyEvents = JSON.parse(JSON.stringify(this.events));
+    console.log('inssman sendEvent', copyEvents);
+
     this.events = []
     try {
       chrome.runtime.sendMessage({
@@ -40,8 +50,9 @@ class RecordSession {
   }
 
   stop() {
+    console.log('inssman stop recordin');
     this.stopRecording();
-    this.sendEvent();
+    // this.sendEvent();
   }
 
 
