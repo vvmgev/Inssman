@@ -7,7 +7,7 @@ console.log('RecordSession file');
 
 class RecordSession {
   stopRecording;
-  events: any = [];
+  events: unknown[] = [];
 
   constructor() {
     console.log('constructor RecordSession');
@@ -45,7 +45,6 @@ class RecordSession {
         data: {events: copyEvents}
       });
     } catch (error) {
-
     }
   }
 

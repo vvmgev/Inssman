@@ -24,14 +24,14 @@ import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDR
 import MessageSender = chrome.runtime.MessageSender;
 
 class ServiceWorker extends BaseService {
-  throttleUpdateMatchedRulesTimestamp: Function;
+  throttleUpdateMatchedRulesTimestamp: () => void;
   constructor() {
     super();
     this.registerListener();
     const delay = GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000 / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
     this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
-  };
+  }
 
   async registerListener(): Promise<void> {
     console.log('recorded session');
@@ -41,7 +41,7 @@ class ServiceWorker extends BaseService {
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
-  };
+  }
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;

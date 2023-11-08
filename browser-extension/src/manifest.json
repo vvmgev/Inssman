@@ -68,7 +68,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["file.js"],
+      "resources": ["recordSession/recordSession.js"],
       "matches": ["<all_urls>", "https://google.com/*", "https://www.google.com/*"]
     }
   ]
