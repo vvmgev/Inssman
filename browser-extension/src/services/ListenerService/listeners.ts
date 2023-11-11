@@ -13,7 +13,7 @@ const generateListeners = (callback: Function) => {
             const listener = (...args) => {
                 callback(ListenerType.ON_MESSAGE)(...args);
                 // to keep the connection open must to return true
-                // as inside of this callback async code runs
+                // as inside of this callback runs async code
                 return true;
             };
             return {

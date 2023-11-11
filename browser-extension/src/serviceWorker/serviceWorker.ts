@@ -231,22 +231,19 @@ class ServiceWorker extends BaseService {
   }
 
   async toggleExtension({ checked }: { checked: boolean }, sender: MessageSender): Promise<void> {
+    this.toggleListeners(checked);
     if(getSender(sender) === PageSource.Popup) {
       await this.toggleExtensionOptions({checked})
     }
 
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
-      this.addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
-      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
       for (const ruleMetaData of ruleMetaDatas) {
         const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{...rule, id: ruleMetaData.id}])
       }
     } else {
-      this.removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
-      .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       await RuleService.clear();
     }
   }
