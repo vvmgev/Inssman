@@ -32,22 +32,8 @@ export default function Home() {
 
       <div className="absolute top-[50%] left-[50%] text-center text-6xl -translate-x-2/4 -translate-y-2/4">
         <h1>COMING SOON 😍</h1>
-        <hr />
-        <div className="mt-10 text-xl flex gap-2 flex-col">
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <a target="_blank" href="https://chromewebstore.google.com/detail/inssman-open-source-modif/ghlpdbkhlenlfiglgphledhfhchjfjfk" className="hover:text-sky-500">Download the extension for Google Chrome</a>
-            <span className="w-5">
-              <img alt="Chrome logo" src="https://github.com/vvmgev/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7" />
-            </span>
-          </div>
-          <div className="flex flex-row gap-2 items-center justify-center">
-            <a target="_blank" href="https://microsoftedge.microsoft.com/addons/detail/inssman-opensource-mod/obibnmkbiilpbkhpkoagnkkjlghlndpf" className="hover:text-sky-500">Download the extension for Microsoft Egde</a>
-            <span className="w-5">
-              <img alt="Microsoft Edge logo" src="https://github.com/vvmgev/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3" />
-            </span>
-          </div>
-        </div>
-      </div>
+      <hr />
+    </div>
 
     </main>
   )
