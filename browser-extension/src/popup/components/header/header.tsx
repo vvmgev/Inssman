@@ -22,7 +22,7 @@ const Header =  () => {
 
   const onHandleOpen = () => {
     if(openWebApp) {
-      chrome.tabs.create({url: "https://inssman.com"});
+      chrome.tabs.create({url: "https://inssman.com/app"});
     } else {
       chrome.runtime.openOptionsPage();
     }
@@ -35,7 +35,6 @@ const Header =  () => {
             <ExtensionToggle />
             <Button trackName="Open Application" onClick={onHandleOpen}>Open Application</Button>
           </div>
-
       </div>
   </ColorCover>
 }
