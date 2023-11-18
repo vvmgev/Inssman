@@ -5,22 +5,28 @@ import ExtensionToggle from 'common/extensionToggle/extensionToggle';
 import { useEffect, useState } from 'react';
 
 const Header =  () => {
-  console.log('www');
   const [openWebApp, setOpenWebApp] = useState<boolean>(false);
-  useEffect(() => {
 
+  useEffect(() => {
     const makeRequest = async () => {
       try {
-        const res = await fetch('https://inssman.com/pages/config');
+        const res = await fetch('https://inssman.com/api/config');
         const config = await res.json();
-        console.log('config', config);
         setOpenWebApp(config.featureToggles.shouldOpenWebApp);
       } catch (error) {
+        setOpenWebApp(false);
       }
     }
     makeRequest();
   }, []);
-  const onHandleOpen = () => openWebApp ? 12321 : chrome.runtime.openOptionsPage();
+
+  const onHandleOpen = () => {
+    if(openWebApp) {
+      chrome.tabs.create({url: "https://inssman.com"});
+    } else {
+      chrome.runtime.openOptionsPage();
+    }
+  };
 
   return <ColorCover classes='h-30 py-3 px-2 border-t-0 border-l-0 border-r-0 h-[initial] rounded-none'>
       <div className="flex items-center flex-row justify-between">

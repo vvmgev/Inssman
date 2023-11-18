@@ -29,7 +29,7 @@
       "world": "MAIN"
     },
     {
-      "matches": ["*://*.inssman.com/*"],
+      "matches": ["*://*.inssman.com/app/*"],
       "js": ["iframeContentScript/iframeContentScript.js"],
       "run_at": "document_start",
       "world": "MAIN"
