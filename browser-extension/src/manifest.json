@@ -11,12 +11,27 @@
     "page": "options/options.html",
     "open_in_tab": true
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
   "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["setupContentConfig/setupContentConfig.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    },
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["cotentScript/cotentScript.js"],
       "run_at": "document_start",
       "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["*://*.inssman.com/*"],
+      "js": ["iframeContentScript/iframeContentScript.js"],
+      "run_at": "document_start",
       "world": "MAIN"
     }
   ],
@@ -55,5 +70,15 @@
     "32": "/assets/images/icons/inssman_32.png",
     "48": "/assets/images/icons/inssman_48.png",
     "128": "/assets/images/icons/inssman_128.png"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["recordSession/recordSession.js"],
+      "matches": ["<all_urls>"]
+    },
+    {
+      "resources": ["options/options.html"],
+      "matches": ["*://*.inssman.com/*"]
+    }
+  ]
 }
