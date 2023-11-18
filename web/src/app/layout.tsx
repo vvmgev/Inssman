@@ -6,7 +6,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Inssman: Open-Source: Modify HTTP Request',
-  description: 'Browser extension to Intercept/Modify HTTP Request/Response/Headers/Bodyapp',
+  description: `Browser extension to intercept HTTP(S) Request, Modify Headers, Log headers, Change Response,
+  Block Request, Redirect, Custom HTML/CSS/JS/JSON`,
 }
 
 export default function RootLayout({
