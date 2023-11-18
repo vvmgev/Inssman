@@ -21,4 +21,11 @@ window.addEventListener('message', event => {
       }
     });
   }
+
+  if(action === 'recordSession') {
+    console.log('data', data);
+  }
 });
+
+console.log('setup content');
+

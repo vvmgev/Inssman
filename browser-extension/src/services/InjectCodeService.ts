@@ -104,15 +104,21 @@ class InjectCodeService extends BaseService {
       target: {tabId},
       // this code runs in the browser tab
       func: (url, shouldRemove) => {
-        const element = document.createElement('script');
-        element.type = 'text/javascript';
-        element.className = 'inssman_script';
-        element.src = url;
-        document.head.appendChild(element);
+        try {
+          const element = document.createElement('script');
+          element.type = 'text/javascript';
+          element.className = 'inssman_script';
+          element.src = url;
+          document.head.appendChild(element);
 
-        if(shouldRemove) {
-          element.remove();
+          if(shouldRemove) {
+            element.remove();
+          }
+        } catch (error) {
+          console.log('error');
+          console.log(error);
         }
+
       },
       args: [url, shouldRemove],
       world: 'MAIN',
@@ -187,6 +193,20 @@ class InjectCodeService extends BaseService {
     });
   };
 
+  injectFile = async (tabId, path) => {
+    chrome.scripting.executeScript({
+      target : {tabId},
+      files: [path],
+      world: 'MAIN',
+      // @ts-ignore
+      injectImmediately: true,
+    }).catch((error) => {
+      console.log('error');
+      console.log(error);
+      // should be tracking here
+    });
+  }
+
   injectContentScript = async (tabId, rules) => {
     chrome.scripting.executeScript({
       target : {tabId},
@@ -200,7 +220,9 @@ class InjectCodeService extends BaseService {
       args: [rules, NAMESPACE, chrome.runtime.id],
       // @ts-ignore
       injectImmediately: true,
-    }).catch(() => {
+    }).catch((error) => {
+      console.log('error');
+      console.log(error);
       // should be tracking here
     });
   }

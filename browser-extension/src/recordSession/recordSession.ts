@@ -1,9 +1,5 @@
 import { record } from "rrweb";
 import { PostMessageAction } from "src/models/postMessageActionModel";
-import { NAMESPACE } from "src/options/constant";
-
-
-console.log('RecordSession file');
 
 class RecordSession {
   stopRecording;
@@ -38,14 +34,15 @@ class RecordSession {
     const copyEvents = JSON.parse(JSON.stringify(this.events));
     console.log('inssman sendEvent', copyEvents);
 
-    this.events = []
-    try {
-      chrome.runtime.sendMessage({
-        action: PostMessageAction.SaveRecording,
-        data: {events: copyEvents}
-      });
-    } catch (error) {
-    }
+    this.events = [];
+    window.postMessage({source: 'inssman:recordSession', action: 'saveRecordSession', data: { events: copyEvents } })
+    // try {
+    //   chrome.runtime.sendMessage({
+    //     action: PostMessageAction.SaveRecording,
+    //     data: {events: copyEvents}
+    //   });
+    // } catch (error) {
+    // }
   }
 
   stop() {
@@ -53,9 +50,23 @@ class RecordSession {
     this.stopRecording();
     // this.sendEvent();
   }
-
-
 }
 
-window[NAMESPACE] = window[NAMESPACE] || {};
-window[NAMESPACE].recordSession = window[NAMESPACE].recordSession || RecordSession;
+alert();
+console.log('recordSession')
+
+let recordSession = new RecordSession();
+window.addEventListener('message', event => {
+  const { action, source, data } = event.data;
+  if ((event.origin !== window.origin) || (!source?.startsWith?.('inssman:') || source.startsWith('inssman:recordSession'))) return;
+  switch (event.data.action) {
+    case 'startRecording':
+      recordSession.start();
+    break;
+    case 'stopRecording':
+      recordSession.stop()
+    break;
+  }
+
+  console.log('Received message:', event.data);
+});

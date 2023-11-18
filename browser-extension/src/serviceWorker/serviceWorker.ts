@@ -21,6 +21,8 @@ import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
 
+console.log('wwwwww');
+
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
   constructor() {

@@ -18,8 +18,7 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["setupContentConfig/setupContentConfig.js"],
-      "run_at": "document_start",
-      "all_frames": true
+      "run_at": "document_start"
     },
     {
       "matches": ["http://*/*", "https://*/*"],
@@ -37,6 +36,12 @@
     ],
     "accepts_tls_channel_id": false
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["recordSession/recordSession.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "permissions": [
     "storage",
     "declarativeNetRequest",

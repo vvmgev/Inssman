@@ -37,7 +37,7 @@ class RecordingService extends BaseService {
     console.log('tabId', tabId);
     console.log('this.currentTab?.i', this.currentTab?.id);
     console.log('tab.status', tab.status);
-    if(tabId === this.currentTab?.id && tab.status === 'complete') {
+    if(tabId === this.currentTab?.id && tab.status === 'complete' && false) {
       this.isRecording = true;
       InjectCodeService.injectExternalScript(tabId, chrome.runtime.getURL('recordSession/recordSession.js'));
       InjectCodeService.injectInternalScriptToDocument(tabId, `(${createRecorderWidget.toString()})();`);
@@ -51,13 +51,19 @@ class RecordingService extends BaseService {
   }
 
   async startRecording(url: string): Promise<void> {
-    this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
+    // this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
     this.currentTab = await TabService.createTab(url);
-    chrome.tabs.onRemoved.addListener((tabId, info) => {
-        if(tabId === this.currentTab?.id) {
-          console.log('info', info);
-        }
-    });
+    setTimeout(() => {
+      console.log('setTimeout');
+      InjectCodeService.injectExternalScript(this.currentTab?.id, chrome.runtime.getURL('recordSession/recordSession.js'));
+      console.log('setTimeout');
+    }, 3000)
+
+    // chrome.tabs.onRemoved.addListener((tabId, info) => {
+    //     if(tabId === this.currentTab?.id) {
+    //       console.log('info', info);
+    //     }
+    // });
   }
 
   async stopRecording(): Promise<void> {
