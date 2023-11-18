@@ -1,5 +1,5 @@
-import { WebRequestListenerType, WebRequestClients } from "src/models/WebRequestModel";
 import BaseService from "./BaseService";
+import { WebRequestListenerType, WebRequestClients } from "src/models/WebRequestModel";
 import { ListenerType } from "./ListenerService/ListenerService";
 
 chrome.runtime.onConnect.addListener(port => {
@@ -16,7 +16,7 @@ chrome.runtime.onConnect.addListener(port => {
                     url: chrome.runtime.getURL("HTTPLoggerWindow/HTTPLoggerWindow.html"),
                     type: "popup"
                 });
-            }     
+            }
         });
         port.onDisconnect.addListener(() => {
             WR?.unregisterListener();

@@ -23,7 +23,7 @@ const FormList = () => {
           <span>{text}</span>
           {popularPaths.includes(path) && <Tooltip
               content="Popular">
-                <span className="w-[24px] text-yellow-400">{<StarSVG />}</span>
+                <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
             </Tooltip>
           }
         </div>

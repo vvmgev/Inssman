@@ -13,9 +13,7 @@ import { IRuleMetaData, PageType } from 'models/formFieldModel';
 import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
-import { PageSource } from 'src/models/pageSource';
 import { storeRuleMetaData } from './firebase';
-import { getSender } from 'src/utils';
 import 'services/WebRequestService';
 
 import Rule = chrome.declarativeNetRequest.Rule;
@@ -238,29 +236,24 @@ class ServiceWorker extends BaseService {
   }
 
   async toggleExtensionOptions({ checked }: { checked: boolean }): Promise<void> {
-    const tabs = await chrome.tabs.query({url: chrome.runtime.getURL('options/options.html')});
+    const tabs = await chrome.tabs.query({url: ['https://*.inssman.com/*', chrome.runtime.getURL('options/options.html')]});
     if(tabs.length) {
-      chrome.tabs.sendMessage(tabs[0].id as number, {action: PostMessageAction.ToggleExntesionOptions, data : { checked }})
+      tabs.forEach(tab => {
+        chrome.tabs.sendMessage(tab.id as number, {action: PostMessageAction.ToggleExntesionOptions, data : { checked }})
+      })
     }
   }
 
   async toggleExtension({ checked }: { checked: boolean }, sender: MessageSender): Promise<void> {
-    if(getSender(sender) === PageSource.Popup) {
-      await this.toggleExtensionOptions({checked})
-    }
-
+    await this.toggleExtensionOptions({checked})
     await StorageService.set({[StorageKey.EXTENSION_STATUS]: checked });
     if(checked) {
-      this.addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
-      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
       for (const ruleMetaData of ruleMetaDatas) {
         const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{...rule, id: ruleMetaData.id}])
       }
     } else {
-      this.removeListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
-      .removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
       await RuleService.clear();
     }
   }
