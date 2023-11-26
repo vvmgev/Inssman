@@ -1,12 +1,16 @@
 import { record } from "rrweb";
-import { PostMessageAction } from "src/models/postMessageActionModel";
+
+let recordSession;
+let isRecording = false;
 
 class RecordSession {
   stopRecording;
   events: unknown[] = [];
 
   constructor() {
-    console.log('constructor RecordSession');
+    window.addEventListener('beforeunload', () => {
+      this.sendEvent();
+    });
   }
 
   start() {
@@ -16,9 +20,7 @@ class RecordSession {
       recordAfter: 'DOMContentLoaded',
       recordCrossOriginIframes: true,
       emit: (event) => {
-        console.log('event', event);
         this.events.push(event);
-        // this.sendEvent();
       },
     });
   }
@@ -29,44 +31,32 @@ class RecordSession {
     return copyEvents;
   }
 
-
   sendEvent() {
     const copyEvents = JSON.parse(JSON.stringify(this.events));
-    console.log('inssman sendEvent', copyEvents);
-
     this.events = [];
-    window.postMessage({source: 'inssman:recordSession', action: 'saveRecordSession', data: { events: copyEvents } })
-    // try {
-    //   chrome.runtime.sendMessage({
-    //     action: PostMessageAction.SaveRecording,
-    //     data: {events: copyEvents}
-    //   });
-    // } catch (error) {
-    // }
+    window.postMessage({source: 'inssman:recordSession', action: 'saveRecordedSession', data: { events: copyEvents } })
   }
 
   stop() {
     console.log('inssman stop recordin');
     this.stopRecording();
-    // this.sendEvent();
+    this.sendEvent();
   }
 }
 
-alert();
-console.log('recordSession')
-
-let recordSession = new RecordSession();
 window.addEventListener('message', event => {
   const { action, source, data } = event.data;
   if ((event.origin !== window.origin) || (!source?.startsWith?.('inssman:') || source.startsWith('inssman:recordSession'))) return;
   switch (event.data.action) {
     case 'startRecording':
+      if(isRecording) return;
+      recordSession = new RecordSession();
+      isRecording = true;
       recordSession.start();
     break;
     case 'stopRecording':
+      isRecording = false;
       recordSession.stop()
     break;
   }
-
-  console.log('Received message:', event.data);
 });

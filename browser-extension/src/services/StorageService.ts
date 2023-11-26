@@ -1,9 +1,20 @@
 // import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "models/storageModel";
 import { IRuleMetaData } from "src/models/formFieldModel";
+import { RecordSession } from "src/models/recordSessionModel";
 
 class StorageService {
     private readonly cacheName = 'StorageService';
+
+    constructor() {
+      const asa = async () => {
+        console.log('this.get()', await this.get());
+        console.log('this.getRecordedSessions()', await this.getRecordedSessions());
+        // this.clear();
+      }
+
+      asa();
+    }
 
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
       // const cache = CacheService.get(this.cacheName, keys as string);
@@ -15,6 +26,10 @@ class StorageService {
 
     async getRules(): Promise<IRuleMetaData[]> {
       return Object.values(await this.get()).filter(rule => typeof rule === 'object' && rule.type === StorageItemType.RULE);
+    }
+
+    async getRecordedSessions(): Promise<RecordSession[]> {
+      return Object.values(await this.get()).filter(session => typeof session === 'object' && session.type === StorageItemType.RECORDED_SESSION);
     }
 
     async getFilteredRules(filters: {[key: string]: any}[] ): Promise<IRuleMetaData[]> {

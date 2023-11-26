@@ -20,8 +20,7 @@ import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
-
-console.log('wwwwww');
+import { RecordSession } from 'src/models/recordSessionModel';
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
@@ -34,9 +33,6 @@ class ServiceWorker extends BaseService {
   }
 
   async registerListener(): Promise<void> {
-    console.log('recorded session');
-    // console.log(await StorageService.remove('recordedSession'));
-    console.log(await StorageService.getSingleItem('recordedSession'));
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
@@ -52,7 +48,7 @@ class ServiceWorker extends BaseService {
       try {
         if(action === PostMessageAction.GetStorageRules) {
           responseData = this.getStorageRules();
-        } else if(action === PostMessageAction.GetRule) {
+        } else if(action === PostMessageAction.GetRuleById) {
           responseData = this.getRule(data);
         } else if(action === PostMessageAction.AddRule) {
           storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.AddRule]});
@@ -87,7 +83,7 @@ class ServiceWorker extends BaseService {
         } else if(action === PostMessageAction.SaveRecording) {
           responseData = this.saveRecording(data);
         } else if(action === PostMessageAction.GetRecordedSessions) {
-          responseData = StorageService.getSingleItem('recordedSession');
+          responseData = this.getSessions();
         }
         sendResponse(await responseData);
       } catch (error: any) {
@@ -281,8 +277,11 @@ class ServiceWorker extends BaseService {
   }
 
   saveRecording(data: any): void {
-    console.log('data', data);
     RecordingService.saveRecording(data.events);
+  }
+
+  async getSessions(): Promise<RecordSession[]> {
+    return await StorageService.getRecordedSessions();
   }
 }
 

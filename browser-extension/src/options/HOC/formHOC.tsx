@@ -39,7 +39,7 @@ const FormHOC = () => {
       super(props);
       const id = props.params.id ? Number(props.params.id) : null;
       const mode = id ? FormMode.UPDATE : FormMode.CREATE;
-      const state = this.props.location.state;  
+      const state = this.props.location.state;
       let ruleMetaData: IRuleMetaData = {} as IRuleMetaData;
       this.pageType = this.getPageType(mode);
       this.fields = config[this.pageType].fields;
@@ -105,7 +105,7 @@ const FormHOC = () => {
       });
       return error;
     }
-    
+
     validateAll = (ruleMetaData) => {
       let error = {};
       this.fields.forEach(field => {
@@ -124,7 +124,7 @@ const FormHOC = () => {
       const { name, value } = event.target;
       const { validations = {} } = field;
       const error = Array.isArray(value) ? this.validateArray(name, value, validations) : this.validate(name, value, validations[name]);
-      
+
       this.setState(state => ({
         ...state,
         error: {
@@ -142,7 +142,7 @@ const FormHOC = () => {
       TrackService.trackEvent(`Rule Delete By ID Event`);
       const { id } = this.state;
       chrome.runtime.sendMessage({
-          action: PostMessageAction.DeleteRule, data: { id } }, 
+          action: PostMessageAction.DeleteRule, data: { id } },
           () => (this.props as any).navigate('/')
       );
     };
@@ -170,7 +170,7 @@ const FormHOC = () => {
       }
       return Boolean(findError(error[keys[index]]));
     };
-    
+
     onSave = (rule: IRule) => {
       const { ruleMetaData, id } = this.state;
       const cloneRuleMetaData = this.formatter(structuredClone(ruleMetaData));
@@ -199,7 +199,7 @@ const FormHOC = () => {
           form.rule.id = id;
         }
       }
-      
+
       chrome.runtime.sendMessage({
         action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
         data: form
@@ -277,7 +277,7 @@ const FormHOC = () => {
           this.showToaster();
         }
         chrome.runtime.sendMessage({
-          action: PostMessageAction.GetRule,
+          action: PostMessageAction.GetRuleById,
           data: {id: this.state.id},
         }, ({ruleMetaData}) => this.setState({ruleMetaData, showToaster: false}));
         return;

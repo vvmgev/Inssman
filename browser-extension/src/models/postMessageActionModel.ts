@@ -5,7 +5,7 @@ export enum PostMessageAction {
     DeleteRules,
     DeleteRule,
     GetStorageRules,
-    GetRule,
+    GetRuleById,
     EnableRule,
     DissableRule,
     Log,
@@ -22,4 +22,5 @@ export enum PostMessageAction {
     StopRecording,
     SaveRecording,
     GetRecordedSessions,
+    GetRecordedSessionById
 }

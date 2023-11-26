@@ -24,17 +24,15 @@ window.addEventListener('message', event => {
   switch (event.data.action) {
     case 'startRecording':
       if(isRecording) return;
-      RecordSession = new window[NAMESPACE].recordSession();
-      RecordSession.start();
+      // RecordSession = new window[NAMESPACE].recordSession();
+      // RecordSession.start();
       isRecording = true;
     break;
     case 'stopRecording':
-      RecordSession.stop();
+      // RecordSession.stop();
       isRecording = false;
       console.log('inssman window[NAMESPACE]', window[NAMESPACE]);
-      chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {action: PostMessageAction.SaveRecording, data: {events: RecordSession.getSession()}});
+      // chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {action: PostMessageAction.SaveRecording, data: {events: RecordSession.getSession()}});
     break;
   }
-
-  console.log('Received message:', event.data);
 });

@@ -20,8 +20,9 @@ const Record: FC = (): ReactElement => {
     chrome.runtime.sendMessage({
       action: PostMessageAction.GetRecordedSessions},
       (recordedSessions) => {
-        console.log('inssman recordedSessions', recordedSessions)
-        setVideo(recordedSessions);
+        if(recordedSessions.length > 1) {
+          setVideo(recordedSessions);
+        }
       }
     );
   }, []);

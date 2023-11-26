@@ -38,7 +38,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["recordSession/recordSession.js"],
+      "resources": ["recordSession/recordSession.js", "recorderWidget/recorderWidget.js"],
       "matches": ["<all_urls>"]
     }
   ],
