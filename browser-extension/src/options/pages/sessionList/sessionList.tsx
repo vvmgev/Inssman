@@ -3,6 +3,7 @@ import ColorCover from "common/colorCover/colorCover";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
+import Session from "./components/session/session";
 
 const SessionList: FC = (): ReactElement => {
   const [sessions, setSessions] = useState<RecordSession[]>([]);
@@ -12,18 +13,17 @@ const SessionList: FC = (): ReactElement => {
     getSessions();
   }, [])
 
-  console.log('sessions');
-  console.log(sessions);
+  console.log('sessions', sessions);
 
 
   return <ColorCover classes="mx-[5%] p-5">
     <div className="flex gap-5">SessionList</div>
     <div className="flex flex-col">
       {sessions.map(session => (
-        <div className="flex flex-row">
+        <div className="flex flex-row" key={session.id}>
           <Link to={`${session.id}`}>
-            <div className={`flex items-center hover:text-sky-500 gap-2`}>
-              {session.url}
+            <div className="w-[100px] h-[100px]">
+              <Session data={session}/>
             </div>
           </Link>
         </div>
