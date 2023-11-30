@@ -32,7 +32,7 @@ const Session: FC = (): ReactElement => {
         },
       });
       // @ts-ignore
-      videoRef.current.play();
+      // videoRef.current.play();
     }
   }, [video])
 
