@@ -41,8 +41,6 @@ class ServiceWorker extends BaseService {
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
-    console.log('inssman serviceWorker request', request);
-    console.log('inssman serviceWorker sender', sender);
     (async () => {
       let responseData: any;
       try {
@@ -84,7 +82,15 @@ class ServiceWorker extends BaseService {
           responseData = this.saveRecording(data);
         } else if(action === PostMessageAction.GetRecordedSessions) {
           responseData = this.getSessions();
+        } else if(action === PostMessageAction.GetRecordedSessionById) {
+          responseData = this.getSessionById(data);
+        } else if(action === PostMessageAction.GetLastRecordedSession) {
+          responseData = this.getLastRecordedSession();
+        } else if(action === PostMessageAction.DeleteRecordedSessionById) {
+          responseData = this.deleteRecordedSessionById(data);
         }
+
+
         sendResponse(await responseData);
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
@@ -282,6 +288,25 @@ class ServiceWorker extends BaseService {
 
   async getSessions(): Promise<RecordSession[]> {
     return await StorageService.getRecordedSessions();
+  }
+
+  async getSessionById({ id }): Promise<RecordSession> {
+    return await StorageService.getSingleItem(id);
+  }
+
+  async getLastRecordedSession(): Promise<RecordSession | null> {
+    const recordedSessions: RecordSession[] = await this.getSessions();
+    let lastRecordedSession: RecordSession | null = null;
+    recordedSessions.forEach(session => {
+      if(!lastRecordedSession || (Number(lastRecordedSession.id) < Number(session.id))) {
+        lastRecordedSession = session;
+      }
+    })
+    return lastRecordedSession;
+  }
+
+  async deleteRecordedSessionById({ id }): Promise<void> {
+    await StorageService.remove(String(id));
   }
 }
 

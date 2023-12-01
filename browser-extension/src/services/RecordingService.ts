@@ -3,9 +3,10 @@ import InjectCodeService from "./InjectCodeService";
 import TabService from "./TabService";
 import StorageService from "./StorageService";
 import { ListenerType } from "./ListenerService/ListenerService";
+import { StorageItemType } from "src/models/storageModel";
+import { extractDomain } from "src/utils";
 
 import Tab = chrome.tabs.Tab;
-import { StorageItemType } from "src/models/storageModel";
 
 class RecordingService extends BaseService {
   private currentTab: Tab | null = null;
@@ -38,7 +39,9 @@ class RecordingService extends BaseService {
       id: this.sessionId,
       events: [...events, ...data],
       type: StorageItemType.RECORDED_SESSION,
-      url: this.url
+      url: this.url,
+      date: new Date().toLocaleString(),
+      name: extractDomain(this.url),
     }});
   }
 }

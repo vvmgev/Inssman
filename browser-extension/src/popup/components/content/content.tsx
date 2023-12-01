@@ -25,7 +25,7 @@ const Content = () => {
             {tab === Tabs.CreatRule ?
                 <CreateRules /> :
                 <div className='overflow-hidden h-full'>
-                  <RuleList rules={rules} getRules={getRules} fullColumns={false} listClasses='max-h-[250px]' page='popup' />
+                  <RuleList rules={rules} getRules={getRules} listClasses='max-h-[250px]' page='popup' />
                 </div>
             }
         </ColorCover>

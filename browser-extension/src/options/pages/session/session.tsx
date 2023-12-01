@@ -1,41 +1,39 @@
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import ColorCover from "common/colorCover/colorCover";
 import { PostMessageAction } from "src/models/postMessageActionModel";
+import { useParams } from "react-router-dom";
+import rrwebPlayer from "rrweb-player";
+import { RecordSession } from "src/models/recordSessionModel";
 
 const Session: FC = (): ReactElement => {
-  const videoRef = useRef();
+  const { id } = useParams();
+  const videoRef = useRef<rrwebPlayer>();
   const videoTagRef = useRef<any>();
-  const [video, setVideo] = useState<Array<any>>();
+  const [session, setSession] = useState<RecordSession>();
 
   useEffect(() => {
     chrome.runtime.sendMessage({
-      action: PostMessageAction.GetRecordedSessionById},
-      (recordedSessions) => {
-        if(recordedSessions.length > 1) {
-          setVideo(recordedSessions);
+      action: PostMessageAction.GetRecordedSessionById, data: { id }},
+      (session) => {
+        if(session.events.length > 1) {
+          setSession(session);
         }
       }
     );
   }, []);
 
   useEffect(() => {
-    if(!videoRef.current && video) {
-      console.log('videoTagRef.current')
-      console.log(videoTagRef.current)
-      // @ts-ignore
+    if(!videoRef.current && session) {
       videoRef.current = new rrwebPlayer({
-        target: videoTagRef.current, // customizable root element
+        target: videoTagRef.current,
         props: {
-          // @ts-ignore
-          events: video,
+          events: session.events,
           showController: true,
+          autoPlay: false,
         },
       });
-      // @ts-ignore
-      // videoRef.current.play();
     }
-  }, [video])
-
+  }, [session])
 
   return <ColorCover classes="mx-[5%] p-5">
     <div className="flex gap-5">session</div>

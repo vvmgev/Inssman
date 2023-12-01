@@ -22,5 +22,7 @@ export enum PostMessageAction {
     StopRecording,
     SaveRecording,
     GetRecordedSessions,
-    GetRecordedSessionById
+    GetRecordedSessionById,
+    GetLastRecordedSession,
+    DeleteRecordedSessionById,
 }

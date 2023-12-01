@@ -11,10 +11,10 @@ type Props = PropsWithChildren<{
 
 const Button = ({trackName, children, onClick, classes, icon}: Props) => {
     const handler = event => {
-        event.preventDefault();
         if(onClick) {
-            TrackService.trackEvent(trackName);
-            onClick(event);
+          event.preventDefault();
+          TrackService.trackEvent(trackName);
+          onClick(event);
         };
     }
     return <button onClick={handler} className={twMerge('bg-sky-400 hover:bg-sky-600 text-gray-900 hover:text-gray-100 font-bold py-2 px-4 inline-flex items-center rounded outline-0', classes)}>

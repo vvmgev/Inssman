@@ -104,13 +104,13 @@ export default () => {
                   )}
                   </Popup>
                   <div className="text-sm">
-                  <Input
-                      placeholder="Search By Rule Name"
-                      onChange={onChangeSearch}
-                      value={search}
-                      starts={<span className="w-[24px]"><SearchSVG /></span>}
-                      ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
-                  />
+                    <Input
+                        placeholder="Search By Rule Name"
+                        onChange={onChangeSearch}
+                        value={search}
+                        starts={<span className="w-[24px]"><SearchSVG /></span>}
+                        ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
+                    />
                   </div>
               </div>
           </div>
