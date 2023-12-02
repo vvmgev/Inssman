@@ -15,8 +15,15 @@ import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
 
+enum SessionListType {
+  GRID = 'grid',
+  LIST = 'list',
+}
+
+const sessionListType = window.localStorage.getItem('sessionListType') as SessionListType || SessionListType.GRID;
+
 const SessionList: FC = (): ReactElement => {
-  const [isGrid, setIsGrid] = useState<boolean>(true);
+  const [listType, setListType] = useState<SessionListType>(sessionListType);
   const [search, setSearch] = useState<string>('');
   const [sessions, setSessions] = useState<RecordSession[]>([]);
   const onHandleClearSearch = () => setSearch('');
@@ -35,6 +42,11 @@ const SessionList: FC = (): ReactElement => {
       getSessions
     );
   }
+
+  const handleListType = (listType: SessionListType): void => {
+    window.localStorage.setItem('sessionListType', listType);
+    setListType(listType);
+  };
 
   const LIST_HEADERS: ListHeader[] = useMemo(() => {
     return [
@@ -86,25 +98,32 @@ const SessionList: FC = (): ReactElement => {
             }
           />
         </div>
-        <button onClick={() => setIsGrid(true)} className={`flex items-center rounded px-4 py-2 ${isGrid ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
+        <button onClick={() => handleListType(SessionListType.GRID)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.GRID ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
           <span className="w-[24px]"><SquaresSVG /></span>
         </button>
-        <button onClick={() => setIsGrid(false)} className={`flex items-center rounded px-4 py-2 ${!isGrid ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
+        <button onClick={() => handleListType(SessionListType.LIST)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.LIST ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
           <span className="w-[24px]"><ListSVG /></span>
         </button>
       </div>
     </div>
-    <div className={`flex flex-row flex-wrap gap-5 mt-4 ${isGrid ? 'mx-5': ''}`}>
-      {isGrid ? filteredSessions.map(session => (
+    {filteredSessions.length ? <div className={`flex flex-row flex-wrap mt-4 ${listType === SessionListType.GRID ? 'mx-5': ''}`}>
+      {listType === SessionListType.GRID ? filteredSessions.map(session => (
           <div className="flex flex-row" key={session.id}>
             <Link to={String(session.id)}>
-              {isGrid ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
-
+              {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
             </Link>
           </div>
         )) : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
       }
+    </div> :
+    <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
+      <div className="w-full text-center">
+        <p className="text-2xl">Seems You Have Not Recorded a Session</p>
+        <p className="mt-3">Please Select 'Record' Section In The Sidebar To Record</p>
+      </div>
     </div>
+    }
+
   </ColorCover>
 };
 

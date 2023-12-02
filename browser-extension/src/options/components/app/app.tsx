@@ -7,6 +7,7 @@ import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 import BrowserSupport from './browserSupport';
 import BrowserSupportService from 'src/services/BrowserSupportService';
+import SideBarContextProvider from 'src/context/sideBarContext';
 import OverlayContextProvider, { OverlayContext } from 'src/context/overlayContext';
 import { useContext } from 'react';
 import 'services/TrackService';
@@ -43,7 +44,9 @@ const Wrapper = () => {
       <Background>
         <HashRouter>
           <OverlayContextProvider source="options">
-            <App />
+            <SideBarContextProvider>
+              <App />
+            </SideBarContextProvider>
           </OverlayContextProvider>
         </HashRouter>
       </Background>

@@ -1,15 +1,29 @@
-import { FC, ReactElement, useEffect, useRef, useState } from "react";
+import { FC, ReactElement, useContext, useEffect, useRef, useState } from "react";
 import ColorCover from "common/colorCover/colorCover";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { useParams } from "react-router-dom";
 import rrwebPlayer from "rrweb-player";
 import { RecordSession } from "src/models/recordSessionModel";
+import { useLocation } from 'react-router-dom';
+import { SideBarContext } from "src/context/sideBarContext";
+
 
 const Session: FC = (): ReactElement => {
-  const { id } = useParams();
+  const location = useLocation()
   const videoRef = useRef<rrwebPlayer>();
   const videoTagRef = useRef<any>();
   const [session, setSession] = useState<RecordSession>();
+  const { setFull } = useContext(SideBarContext);
+  const { id } = useParams();
+
+  useEffect(() => {
+    setFull(false);
+
+    return () => {
+      setFull(true);
+    }
+  }, [location])
+
 
   useEffect(() => {
     chrome.runtime.sendMessage({
