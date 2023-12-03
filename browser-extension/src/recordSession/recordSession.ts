@@ -1,11 +1,12 @@
 import { record } from "rrweb";
 
+const MAX_DURATION = 5 * 60 * 1000;
 let recordSession;
 let isRecording = false;
 
 class RecordSession {
   stopRecording;
-  events: unknown[] = [];
+  events: any[] = [];
 
   constructor() {
     window.addEventListener('beforeunload', () => {
@@ -20,7 +21,10 @@ class RecordSession {
       recordCrossOriginIframes: true,
       blockClass: 'inssman-ignore-element',
       emit: (event) => {
-        this.events.push(event);
+        const timeDiff = this.events[this.events.length - 1]?.timestamp - this.events[0]?.timestamp;
+        if(!this.events.length || (timeDiff <= MAX_DURATION)) {
+          this.events.push(event);
+        }
       },
     });
   }

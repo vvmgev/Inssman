@@ -116,9 +116,7 @@ const SessionList: FC = (): ReactElement => {
     {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
       {listType === SessionListType.GRID ? filteredSessions.map(session => (
           <div className="flex flex-row" key={session.id}>
-            <Link to={String(session.id)}>
-              {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
-            </Link>
+            {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
           </div>
         )) : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
       }

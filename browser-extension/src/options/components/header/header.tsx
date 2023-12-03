@@ -13,9 +13,9 @@ const Header =  () => {
     return <div className="flex justify-end max-h-[10%]">
         <ColorCover classes={`overflow-visible flex gap-5 box-border items-center px-5 w-[initial] rounded-tl-none rounded-tr-none rounded-br-none ${!showOverlay ? 'z-20': ''}`}>
           <Tooltip
-            isOpen={!showOverlay}
+            visible={!showOverlay}
             place="bottom"
-            render={() => <div className="text-center">
+            content={<div className="text-center">
                 <p>Extension is disabled</p>
                 <p>All modification will not work</p>
               </div>
