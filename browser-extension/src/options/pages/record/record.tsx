@@ -1,17 +1,15 @@
-import { ReactElement, useState, FC, useEffect, useRef } from "react";
-import rrwebPlayer from 'rrweb-player';
+import SessionPlayer from "src/options/components/common/sessionPlayer/sessionPlayer";
 import ColorCover from "common/colorCover/colorCover";
 import Input from "common/input/input";
 import Button from "common/button/button";
 import VideoCameraSVG  from 'assets/icons/videoCamera.svg'
+import { ReactElement, useState, FC, useEffect } from "react";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
-import 'rrweb-player/dist/style.css';
 import { Link } from "react-router-dom";
+import 'rrweb-player/dist/style.css';
 
 const Record: FC = (): ReactElement => {
-  const videoRef = useRef<rrwebPlayer>();
-  const videoTagRef = useRef<HTMLDivElement>(null);
   const [url, setUrl] = useState<string>('https://google.com');
   const [session, setSession] = useState<RecordSession>();
   const startRecording = () => {
@@ -29,21 +27,6 @@ const Record: FC = (): ReactElement => {
     );
   }, []);
 
-  useEffect(() => {
-    if(!videoRef.current && session) {
-      videoRef.current = new rrwebPlayer({
-        target: videoTagRef.current as HTMLElement,
-        props: {
-          width: 600,
-          height: 400,
-          events: session.events,
-          showController: true,
-          autoPlay: false
-        },
-      });
-    }
-  }, [session])
-
 
   const onChangeUrl = (event) => {
     setUrl(event.target.value)
@@ -52,8 +35,8 @@ const Record: FC = (): ReactElement => {
   return <ColorCover classes="flex justify-between mx-[5%] p-5">
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <span className="text-2xl">Record Session & Replay</span>
         <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
+        <span className="text-2xl">Record Session & Replay</span>
       </div>
       <div className="text-slate-400 leading-7">
         <p>Record all events in the browser and replay them with precise timing and interactions</p>
@@ -76,11 +59,11 @@ const Record: FC = (): ReactElement => {
             <Button trackName="Open Last Recorder Session">Open</Button>
           </Link>
         </div>
-        <span className="text-slate-400 leading-7">
-          <span className="font-bold text-slate-300">URL:  </span>
+        <span className="leading-7 flex gap-2">
+          <span className="font-bold text-slate-300">URL:</span>
           <span> {session.url}</span>
-          </span>
-        <div ref={videoTagRef}></div>
+        </span>
+        <SessionPlayer session={session} playerOptions={{autoPlay: false}}/>
       </ColorCover>
     }
   </ColorCover>

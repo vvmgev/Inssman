@@ -23,7 +23,7 @@ window.addEventListener('message', event => {
   if ((event.origin !== window.origin) || (!source?.startsWith?.('inssman:') || source.startsWith('inssman:setup'))) return;
 
   if(action === 'runtimeId') {
-    //@ts-ignore  
+    //@ts-ignore
     event.source.postMessage({
       source: 'inssman:setup',
       action: 'runtimeId',
@@ -44,6 +44,10 @@ window.addEventListener('message', event => {
 
   if(action === 'saveRecordedSession') {
     chrome.runtime.sendMessage({action: PostMessageAction.SaveRecording, data: { events: data.events }});
+  }
+
+  if(action === 'stopRecordedSession') {
+    chrome.runtime.sendMessage({action: PostMessageAction.StopRecording});
   }
 });
 

@@ -50,7 +50,8 @@
     "webNavigation",
     "scripting",
     "tabs",
-    "webRequest"
+    "webRequest",
+    "unlimitedStorage"
   ],
   "host_permissions": [
     "*://*/*"

@@ -3,6 +3,7 @@ import PlayCircleSVG  from 'assets/icons/playCircle.svg';
 import TrashSVG  from 'assets/icons/trash.svg';
 import ColorCover from "src/options/components/common/colorCover/colorCover";
 import Tooltip from 'common/tooltip/tooltip';
+import SessionPlayer from "common/sessionPlayer/sessionPlayer";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import { RecordSession } from "src/models/recordSessionModel";
 
@@ -13,7 +14,6 @@ type Props = {
 
 const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
   const videoRef = useRef<rrwebPlayer>();
-  const videoTagRef = useRef<HTMLDivElement>(null);
   const [session, setSession] = useState<RecordSession>();
 
   const handleMouseEnter = () => {
@@ -30,20 +30,6 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if(!videoRef.current && session) {
-      videoRef.current = new rrwebPlayer({
-        target: videoTagRef.current as HTMLElement,
-        props: {
-          width: 250,
-          height: 185,
-          events: session.events,
-          autoPlay: false,
-          showController: false,
-        },
-      });
-    }
-  }, [session]);
 
   const onHandleDelete = (event) => {
     event.preventDefault();
@@ -62,8 +48,9 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
         </div>
       </div>
       <div className="relative group">
-        <span className="bg-black bg-opacity-70 text-sky-400 rounded-full group-hover:visible invisible w-[80px] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"><PlayCircleSVG /></span>
-        <div ref={videoTagRef}></div>
+        <span className="bg-black bg-opacity-70 rounded-full group-hover:visible invisible w-[80px] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"><PlayCircleSVG /></span>
+        {/* @ts-ignore */}
+        <SessionPlayer session={session} playerOptions={{width: 250, height: 200, showController: false}} ref={videoRef}/>
       </div>
     </ColorCover>
   </div>

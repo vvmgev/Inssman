@@ -2,6 +2,7 @@ import ColorCover from "common/colorCover/colorCover";
 import Input from "common/input/input";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import ListSVG  from 'assets/icons/list.svg';
+import PlaySVG  from 'assets/icons/play.svg';
 import SquaresSVG  from 'assets/icons/squares.svg';
 import ShareSVG  from 'assets/icons/share.svg';
 import SearchSVG  from 'assets/icons/search.svg';
@@ -59,10 +60,16 @@ const SessionList: FC = (): ReactElement => {
 
   const LIST_ITEMS: ListItems[] = useMemo(() => {
     return [
-      {field: 'name', render: function(item) {return item[this.field]}},
+      {field: 'name', render: function(item) {return <span className="capitalize">{item[this.field]}</span>}},
       {field: 'url', render: function(item) {return item[this.field]}},
       {field: 'date', render: function(item) {return item[this.field]}},
       {field: 'actions', classes: 'flex justify-end', render: function(item) {return <div className="flex gap-5">
+        <Tooltip
+          content='Play'>
+            <Link to={String(item.id)}>
+              <div className="cursor-pointer hover:text-sky-500"><span className="w-[24px] inline-block"><PlaySVG /></span></div>
+            </Link>
+        </Tooltip>
         <Tooltip
           content='Share (cooming soon)'>
           <div className="cursor-pointer hover:text-sky-500"><span className="w-[24px] inline-block"><ShareSVG /></span></div>
@@ -78,7 +85,7 @@ const SessionList: FC = (): ReactElement => {
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
 
-  return <ColorCover classes="mx-[5%] p-0 pb-5">
+  return <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[350px]">
     <div className="flex text-2xl justify-between p-5">
       <span className="flex flex-row items-center gap-2">
         <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
@@ -106,7 +113,7 @@ const SessionList: FC = (): ReactElement => {
         </button>
       </div>
     </div>
-    {filteredSessions.length ? <div className={`flex flex-row flex-wrap mt-4 ${listType === SessionListType.GRID ? 'mx-5': ''}`}>
+    {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
       {listType === SessionListType.GRID ? filteredSessions.map(session => (
           <div className="flex flex-row" key={session.id}>
             <Link to={String(session.id)}>

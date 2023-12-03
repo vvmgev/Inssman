@@ -9,9 +9,8 @@ import { FC, ReactElement, useMemo } from 'react';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { Link } from 'react-router-dom';
 import { IRuleMetaData, IconsMap, PageName } from 'models/formFieldModel';
-import { timeDifference } from 'utils/timeDifference';
+import { cutString, generateLastMatchedTime } from 'src/utils';
 
-const COUNT_SYMBOLS = 22;
 type Props = {
   rules: IRuleMetaData[],
   getRules: () => void,
@@ -24,14 +23,6 @@ type Props = {
 const RuleList: FC<Props> = ({ rules, getRules, search = '', listClasses = '', page = 'options' }): ReactElement => {
   const duplicateRule = (id: number): void => chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: {id} }, () => getRules());
   const onChangeRuleStatus = (event, id): void => chrome.runtime.sendMessage({action: PostMessageAction.ChangeRuleStatusById, data: {id, checked: event.target.checked}}, () => getRules())
-  const cutString = (string: string): string => string.length > COUNT_SYMBOLS ? string.slice(0, COUNT_SYMBOLS) + '...' : string;
-  const generateLastMatchedTime = (timestamp: number): string => {
-    if(typeof timestamp !== 'number') return 'Not used';
-    const { days, hours, minutes, seconds } = timeDifference(timestamp);
-    if(days) return `${days} day${days > 1 ? 's': ''}  ago`;
-    return `${hours > 0 ? `${hours}h` : '' } ${minutes > 0 ? `${minutes}m` : '' } ${hours > 0 ? '' : `${seconds}s`} ago`;
-  }
-
   const handleDelete = (ruleMetaData) => {
     TrackService.trackEvent(`${PageName[ruleMetaData.pageType]} Rule Delete Event`);
     chrome.runtime.sendMessage({

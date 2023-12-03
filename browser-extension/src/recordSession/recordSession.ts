@@ -14,7 +14,6 @@ class RecordSession {
   }
 
   start() {
-    console.log('inssman start recordin');
     this.stopRecording = record({
       // @ts-ignore
       recordAfter: 'DOMContentLoaded',
@@ -38,7 +37,7 @@ class RecordSession {
   }
 
   stop() {
-    console.log('inssman stop recordin');
+    window.postMessage({source: 'inssman:recordSession', action: 'stopRecordedSession' })
     this.stopRecording();
     this.sendEvent();
   }
@@ -47,7 +46,7 @@ class RecordSession {
 window.addEventListener('message', event => {
   const { action, source, data } = event.data;
   if ((event.origin !== window.origin) || (!source?.startsWith?.('inssman:') || source.startsWith('inssman:recordSession'))) return;
-  switch (event.data.action) {
+  switch (action) {
     case 'startRecording':
       if(isRecording) return;
       recordSession = new RecordSession();

@@ -1,17 +1,18 @@
-import { FC, ReactElement, useContext, useEffect, useRef, useState } from "react";
 import ColorCover from "common/colorCover/colorCover";
+import SessionPlayer from "common/sessionPlayer/sessionPlayer";
+import OutlineButton from "src/options/components/common/outlineButton/outlineButton";
+import TrashSVG  from 'assets/icons/trash.svg';
+import { FC, ReactElement, useContext, useEffect, useState } from "react";
 import { PostMessageAction } from "src/models/postMessageActionModel";
-import { useParams } from "react-router-dom";
-import rrwebPlayer from "rrweb-player";
+import { useParams, useLocation } from "react-router-dom";
 import { RecordSession } from "src/models/recordSessionModel";
-import { useLocation } from 'react-router-dom';
 import { SideBarContext } from "src/context/sideBarContext";
+import { useNavigate } from 'react-router-dom';
 
 
 const Session: FC = (): ReactElement => {
-  const location = useLocation()
-  const videoRef = useRef<rrwebPlayer>();
-  const videoTagRef = useRef<any>();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [session, setSession] = useState<RecordSession>();
   const { setFull } = useContext(SideBarContext);
   const { id } = useParams();
@@ -24,7 +25,6 @@ const Session: FC = (): ReactElement => {
     }
   }, [location])
 
-
   useEffect(() => {
     chrome.runtime.sendMessage({
       action: PostMessageAction.GetRecordedSessionById, data: { id }},
@@ -36,22 +36,37 @@ const Session: FC = (): ReactElement => {
     );
   }, []);
 
-  useEffect(() => {
-    if(!videoRef.current && session) {
-      videoRef.current = new rrwebPlayer({
-        target: videoTagRef.current,
-        props: {
-          events: session.events,
-          showController: true,
-          autoPlay: false,
-        },
-      });
-    }
-  }, [session])
+  const handleDelete = () => {
+    chrome.runtime.sendMessage({
+        action: PostMessageAction.DeleteRecordedSessionById,
+        data: {id: session?.id}
+      },
+      () => navigate(-1)
+    );
+  }
 
-  return <ColorCover classes="mx-[5%] p-5">
-    <div className="flex gap-5">session</div>
-    <div ref={videoTagRef}></div>
+  return <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
+    {session && <>
+      <div className="flex justify-between">
+        <div className="text-xl capitalize">{session?.name}</div>
+        <OutlineButton trackName='Delete Recorded Session in view mode' classes='hover:border-red-400 hover:text-red-400'
+            onClick={handleDelete}
+            icon={<TrashSVG />}>Delete</OutlineButton>
+      </div>
+      <div className="flex gap-5">
+      <ColorCover classes="rounded flex gap-2">
+        <span className="text-slate-400">URL: </span>
+        <span>{session.url}</span>
+      </ColorCover>
+      <ColorCover classes="rounded flex gap-2">
+        <span className="text-slate-400">Recorded at: </span>
+        <span>{session.date}</span>
+      </ColorCover>
+      </div>
+    </>}
+    <div className="m-auto">
+      <SessionPlayer session={session} playerOptions={{width: 800, height: 500}} />
+    </div>
   </ColorCover>
 };
 

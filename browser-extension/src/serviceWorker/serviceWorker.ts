@@ -6,7 +6,7 @@ import BaseService from 'services/BaseService';
 import MatcherService from 'services/MatcherService';
 import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
-import RecordingService from 'src/services/RecordingService';
+import RecordSessionService from 'src/services/RecordSessionService';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
@@ -41,6 +41,7 @@ class ServiceWorker extends BaseService {
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
+    console.log('inssman action', action, PostMessageAction[action]);
     (async () => {
       let responseData: any;
       try {
@@ -275,15 +276,15 @@ class ServiceWorker extends BaseService {
   }
 
   async startRecording({ url }: { url: string }): Promise<void> {
-    await RecordingService.startRecording(url);
+    await RecordSessionService.startRecording(url);
   }
 
   stopRecording(): void {
-    RecordingService.stopRecording();
+    RecordSessionService.stopRecording();
   }
 
   saveRecording(data: any): void {
-    RecordingService.saveRecording(data.events);
+    RecordSessionService.saveRecording(data.events);
   }
 
   async getSessions(): Promise<RecordSession[]> {

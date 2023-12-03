@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 
 const Record: FC = (): ReactElement => {
   return <div>
-    <div className="pl-2 mb-2 text-slate-400">Record Session</div>
+    <div className="flex">
+      <div className="pl-2 mb-2 text-slate-400">Record Session</div>
+      <sup className="text-xs inline-block bottom-4 text-red-400">&nbsp;Beta</sup>
+    </div>
     <Link to="/record/session">
       <div className={`${location.pathname === '/record/session' ? 'text-sky-500' : ''} flex items-center hover:text-sky-500 gap-2 pl-2 mb-2`}>
         <span className="w-[24px]">{<SquaresSVG />}</span><span>Recorded Sessions</span>

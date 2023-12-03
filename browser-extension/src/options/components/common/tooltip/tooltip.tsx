@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useId } from 'react';
+import { PropsWithChildren, useId } from 'react';
 import { Tooltip as ReactTooltip, ITooltip } from 'react-tooltip';
 
 const Tooltip = ({ children, place = 'top', ...rest }: PropsWithChildren<ITooltip> ): JSX.Element => {

@@ -4,6 +4,7 @@ import TabService from "./TabService";
 import StorageService from "./StorageService";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { StorageItemType } from "src/models/storageModel";
+import { extractDomain } from "src/utils";
 
 import Tab = chrome.tabs.Tab;
 
@@ -15,8 +16,8 @@ class RecordSessionService extends BaseService {
 
   onUpdateTab = (tabId: number): void => {
     if(tabId === this.currentTab?.id) {
-      InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:serviceWorker', action: 'showWidget'})`);
-      InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:serviceWorker', action: 'startRecording'})`);
+      InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:setup', action: 'showWidget'})`);
+      InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:setup', action: 'startRecording'})`);
     }
   }
 
@@ -26,19 +27,20 @@ class RecordSessionService extends BaseService {
     this.currentTab = await TabService.createTab(url);
     this.sessionId = String(await StorageService.generateNextId());
   }
-
   stopRecording(): void {
     this.currentTab = null;
     this.removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
   }
 
-  async saveRecording(data: unknown[]): Promise<void> {
-    const events = await StorageService.getSingleItem(this.sessionId) || [];
+  async saveRecording(data: any[]): Promise<void> {
+    const session = await StorageService.getSingleItem(this.sessionId) || {};
     await StorageService.set({[this.sessionId]:  {
       id: this.sessionId,
-      events: [...events, ...data],
+      events: [...(session.events || []), ...data],
       type: StorageItemType.RECORDED_SESSION,
-      url: this.url
+      url: this.url,
+      date: new Date().toLocaleString(),
+      name: extractDomain(this.url),
     }});
   }
 }
