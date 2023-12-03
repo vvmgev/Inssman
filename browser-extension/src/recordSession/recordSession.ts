@@ -18,6 +18,7 @@ class RecordSession {
       // @ts-ignore
       recordAfter: 'DOMContentLoaded',
       recordCrossOriginIframes: true,
+      blockClass: 'inssman-ignore-element',
       emit: (event) => {
         this.events.push(event);
       },

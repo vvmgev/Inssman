@@ -2,31 +2,21 @@
 
 let isWidgetShown = false;
 
-const sendData = () => {
-  window.postMessage({action: "stopRecording", source: 'inssman:recorderWidget'}, window.origin);
-}
-
 class RecordSessionWidget extends HTMLElement {
   constructor() {
     super();
-
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = this.getHTML();
-
-    this.shadowRoot.querySelector('.inssman-rocerder-widget .stop-content')?.addEventListener('click', () => {
+    this.shadowRoot.querySelector('.inssman-recorder-widget .stop-content')?.addEventListener('click', () => {
+      this.shadowRoot.querySelector('.inssman-recorder-widget').classList.add("hide");
       window.postMessage({action: "stopRecording", source: 'inssman:recorderWidget'}, window.origin);
     })
-
-    // div.addEventListener('click', () => {
-    //   window.postMessage({action: "stopRecording", source: 'inssman:recorderWidget'}, window.origin);
-    // });
-
   }
 
 
   getHTML() {
     return `
-    <div class="inssman-rocerder-widget container">
+    <div class="inssman-recorder-widget container">
       <div class="recording-content">
         <span class="record-icon"></span>
         <span>Recording</span>
@@ -43,23 +33,26 @@ class RecordSessionWidget extends HTMLElement {
         bottom: 100px;
         left: 30px;
         display: inline-flex;
-        gap: 20px;
-        background: rgba(15, 23, 42, 1);
         color: white;
         align-items: center;
         justify-content: center;
-        padding: 10px 15px;
+        background: rgba(15, 23, 42, 1);
         border-radius: 20px;
+        padding: 3px;
+      }
+      .stop-content {
+        background: red;
       }
       .stop-content,
-      .remove-content {
+      .recording-content {
+        border-radius: 20px;
+        padding: 10px 15px;
         display: flex;
         gap: 5px;
         align-items: center;
         justify-content: center;
       }
-      .stop-content:hover,
-      .remove-content:hover {
+      .stop-content:hover {
         cursor: pointer;
       }
       .recording-content {
@@ -91,7 +84,11 @@ class RecordSessionWidget extends HTMLElement {
         display: inline-block;
         width: 10px;
         height: 10px;
-        background: red;
+        background: white;
+      }
+
+      .hide {
+        display: none;
       }
 
       @keyframes blink {
@@ -115,7 +112,9 @@ window.addEventListener('message', event => {
   switch (action) {
     case 'showWidget':
       if(isWidgetShown) return;
-      document.documentElement.appendChild(document.createElement('inssman-record-session-widget'));
+      const widget = document.createElement('inssman-record-session-widget');
+      widget.classList.add("inssman-ignore-element");
+      document.documentElement.appendChild(widget);
       isWidgetShown = true;
     break;
   }
