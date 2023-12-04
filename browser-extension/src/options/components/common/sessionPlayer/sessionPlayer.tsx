@@ -12,6 +12,7 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
   const videoTagRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let player;
     if(!videoRef.current && session) {
       videoRef.current = new rrwebPlayer({
         target: videoTagRef.current as HTMLDivElement,
@@ -25,9 +26,14 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
           ...playerOptions,
         },
       });
+      player = videoRef.current;
       if(ref) {
         ref.current = videoRef.current;
       }
+    }
+
+    return () => {
+      player?.$destroy?.();
     }
   }, [session, videoRef.current]);
 

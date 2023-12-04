@@ -16,10 +16,19 @@ import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
 
+import { FixedSizeList } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+
 enum SessionListType {
   GRID = 'grid',
   LIST = 'list',
 }
+
+const Row = ({ index, style }) => (
+  <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
+    Row {index}
+  </div>
+);
 
 const sessionListType = window.localStorage.getItem('sessionListType') as SessionListType || SessionListType.GRID;
 
@@ -113,13 +122,50 @@ const SessionList: FC = (): ReactElement => {
         </button>
       </div>
     </div>
-    {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
-      {listType === SessionListType.GRID ? filteredSessions.map(session => (
+    {/* {sessions.length &&
+    <AutoSizer>
+    {({ height, width }) => {
+      return (
+      <FixedSizeList
+        className="flex flex-col"
+        height={height}
+        itemCount={1000}
+        itemSize={35}
+        width={width}
+      >
+        {Row}
+      </FixedSizeList>
+    )}}
+  </AutoSizer>} */}
+    {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 w-full h-full ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
+      {listType === SessionListType.GRID ? <>
+          <AutoSizer>
+            {({ height, width }) => {
+              console.log('height, width', height, width);
+              return (
+              <FixedSizeList
+                className="List"
+                height={height}
+                itemCount={sessions.length}
+                itemSize={35}
+                width={width}
+              >
+                {Row}
+              </FixedSizeList>
+            )}}
+          </AutoSizer>
+        </>
+          // <div className="flex flex-row" key={session.id}>
+          //   {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
+          // </div>
+        : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
+      }
+      {/* {listType === SessionListType.GRID ? filteredSessions.map(session => (
           <div className="flex flex-row" key={session.id}>
             {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
           </div>
         )) : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
-      }
+      } */}
     </div> :
     <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
       <div className="w-full text-center">
