@@ -24,11 +24,17 @@ enum SessionListType {
   LIST = 'list',
 }
 
-const Row = ({ index, style }) => (
-  <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
-    Row {index}
+const Row = (props) => {
+  const { index, style, data } = props;
+
+  return <div className={index % 2 ? "ListItemOdd w-[200px] overflow-hidden" : " overflow-hidden ListItemEven w-[200px]"} style={style}>
+    <div className="flex gap-3">
+      <SessionPreview data={data[index]} onDelete={alert}/>
+      {data[index + 1] && <SessionPreview data={data[index + 1]} onDelete={alert}/>}
+      {data[index + 2] && <SessionPreview data={data[index + 2]} onDelete={alert}/>}
+    </div>
   </div>
-);
+};
 
 const sessionListType = window.localStorage.getItem('sessionListType') as SessionListType || SessionListType.GRID;
 
@@ -93,8 +99,10 @@ const SessionList: FC = (): ReactElement => {
   }, [])
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
+  console.log('sessions.length', sessions.length);
+  console.log('sessions.length >= 3 ? sessions.length / 3 : 1', sessions.length >= 3 ? sessions.length / 3 : 1);
 
-  return <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[350px]">
+  return <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
     <div className="flex text-2xl justify-between p-5">
       <span className="flex flex-row items-center gap-2">
         <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
@@ -122,21 +130,6 @@ const SessionList: FC = (): ReactElement => {
         </button>
       </div>
     </div>
-    {/* {sessions.length &&
-    <AutoSizer>
-    {({ height, width }) => {
-      return (
-      <FixedSizeList
-        className="flex flex-col"
-        height={height}
-        itemCount={1000}
-        itemSize={35}
-        width={width}
-      >
-        {Row}
-      </FixedSizeList>
-    )}}
-  </AutoSizer>} */}
     {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 w-full h-full ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
       {listType === SessionListType.GRID ? <>
           <AutoSizer>
@@ -146,9 +139,10 @@ const SessionList: FC = (): ReactElement => {
               <FixedSizeList
                 className="List"
                 height={height}
-                itemCount={sessions.length}
-                itemSize={35}
+                itemCount={sessions.length >= 3 ? sessions.length / 3 : 1}
+                itemSize={280}
                 width={width}
+                itemData={sessions}
               >
                 {Row}
               </FixedSizeList>
