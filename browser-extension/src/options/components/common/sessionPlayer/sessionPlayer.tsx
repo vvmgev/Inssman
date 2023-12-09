@@ -33,7 +33,7 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
     }
 
     return () => {
-      // player?.$destroy?.();
+      player?.$destroy?.();
     }
   }, [session, videoRef.current]);
 

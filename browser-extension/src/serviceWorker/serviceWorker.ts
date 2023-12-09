@@ -14,13 +14,13 @@ import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
 import { storeRuleMetaData } from './firebase';
+import { RecordSession } from 'src/models/recordSessionModel';
 import 'services/WebRequestService';
 
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
-import { RecordSession } from 'src/models/recordSessionModel';
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
@@ -89,6 +89,8 @@ class ServiceWorker extends BaseService {
           responseData = this.getLastRecordedSession();
         } else if(action === PostMessageAction.DeleteRecordedSessionById) {
           responseData = this.deleteRecordedSessionById(data);
+        } else if(action === PostMessageAction.DeleteRecordedSessions) {
+          responseData = this.deleteRecordedSessions();
         }
 
 
@@ -194,7 +196,7 @@ class ServiceWorker extends BaseService {
 
   async deleteRules(): Promise<void> {
     await RuleService.clear();
-    await StorageService.clear();
+    await StorageService.remove((await StorageService.getRules()).map(({id}) => String(id)))
   }
 
   async deleteRule(data): Promise<void> {
@@ -308,6 +310,10 @@ class ServiceWorker extends BaseService {
 
   async deleteRecordedSessionById({ id }): Promise<void> {
     await StorageService.remove(String(id));
+  }
+
+  async deleteRecordedSessions(): Promise<void> {
+    await StorageService.remove((await StorageService.getRecordedSessions()).map(({id }) => String(id)));
   }
 }
 

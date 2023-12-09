@@ -12,8 +12,8 @@ type Props = PropsWithChildren<{
 
 const OutlineButton = ({ classes = '', onClick = () => {}, children, icon, trackName }: Props) => {
     const handler = event => {
-        event.preventDefault();
         if(onClick) {
+            event.preventDefault();
             TrackService.trackEvent(trackName);
             onClick(event);
         };

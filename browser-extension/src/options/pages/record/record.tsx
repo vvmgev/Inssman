@@ -7,13 +7,16 @@ import { ReactElement, useState, FC, useEffect } from "react";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
+import { addProtocol } from "src/utils";
 import 'rrweb-player/dist/style.css';
 
 const Record: FC = (): ReactElement => {
-  const [url, setUrl] = useState<string>('https://google.com');
+  const [url, setUrl] = useState<string>('');
   const [session, setSession] = useState<RecordSession>();
   const startRecording = () => {
-    chrome.runtime.sendMessage({ action: PostMessageAction.StartRecording, data: { url }});
+    const urlWithProtocol = addProtocol(url);
+    setUrl(urlWithProtocol);
+    chrome.runtime.sendMessage({ action: PostMessageAction.StartRecording, data: { url: urlWithProtocol }});
   }
 
   useEffect(() => {

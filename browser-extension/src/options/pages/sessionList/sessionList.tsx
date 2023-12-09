@@ -1,4 +1,6 @@
+import AutoSizer from "react-virtualized-auto-sizer";
 import ColorCover from "common/colorCover/colorCover";
+import OutlineButton from "common/outlineButton/outlineButton";
 import Input from "common/input/input";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import ListSVG  from 'assets/icons/list.svg';
@@ -15,28 +17,14 @@ import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
-
 import { FixedSizeList } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
+import Popup from "reactjs-popup";
 
 enum SessionListType {
   GRID = 'grid',
   LIST = 'list',
 }
-
-const Row = (props) => {
-  const { index, style, data } = props;
-
-  return <div className={index % 2 ? "ListItemOdd w-[200px] overflow-hidden" : " overflow-hidden ListItemEven w-[200px]"} style={style}>
-    <div className="flex gap-3">
-      <SessionPreview data={data[index]} onDelete={alert}/>
-      {data[index + 1] && <SessionPreview data={data[index + 1]} onDelete={alert}/>}
-      {data[index + 2] && <SessionPreview data={data[index + 2]} onDelete={alert}/>}
-    </div>
-  </div>
-};
-
-const sessionListType = window.localStorage.getItem('sessionListType') as SessionListType || SessionListType.GRID;
+const sessionListType = window.localStorage.getItem('sessionListType') as SessionListType || SessionListType.LIST;
 
 const SessionList: FC = (): ReactElement => {
   const [listType, setListType] = useState<SessionListType>(sessionListType);
@@ -59,6 +47,13 @@ const SessionList: FC = (): ReactElement => {
     );
   }
 
+  const handleDeleteSessions = (close) => {
+    chrome.runtime.sendMessage({action: PostMessageAction.DeleteRecordedSessions}, () => {
+      close();
+      getSessions();
+    });
+  }
+
   const handleListType = (listType: SessionListType): void => {
     window.localStorage.setItem('sessionListType', listType);
     setListType(listType);
@@ -75,7 +70,10 @@ const SessionList: FC = (): ReactElement => {
 
   const LIST_ITEMS: ListItems[] = useMemo(() => {
     return [
-      {field: 'name', render: function(item) {return <span className="capitalize">{item[this.field]}</span>}},
+      {field: 'name', render: function(item) {return <div className="flex gap-2">
+        <img src={`${item.url}/favicon.ico`} onLoad={(event: any) => event.target.classList?.toggle('invisible')} alt="" className="w-5 h-5 invisible"/>
+        <span className="capitalize">{item[this.field]}</span>
+      </div>}},
       {field: 'url', render: function(item) {return item[this.field]}},
       {field: 'date', render: function(item) {return item[this.field]}},
       {field: 'actions', classes: 'flex justify-end', render: function(item) {return <div className="flex gap-5">
@@ -99,8 +97,6 @@ const SessionList: FC = (): ReactElement => {
   }, [])
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
-  console.log('sessions.length', sessions.length);
-  console.log('sessions.length >= 3 ? sessions.length / 3 : 1', sessions.length >= 3 ? sessions.length / 3 : 1);
 
   return <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
     <div className="flex text-2xl justify-between p-5">
@@ -108,7 +104,28 @@ const SessionList: FC = (): ReactElement => {
         <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
         <span>Recorded Sessions</span>
       </span>
-      <div className="flex gap-1">
+      <div className="flex gap-3">
+      <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
+            trigger={<OutlineButton classes='text-sm hover:text-red-400 hover:border-red-400' trackName='Delete All Session' icon={<TrashSVG />}>Delete All Sessions</OutlineButton>}
+            modal position="right center"
+            overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
+        {/* @ts-ignore */}
+        {(close: any) => (
+            <ColorCover classes="bg-opacity-90 py-15">
+            <div className="flex border-b border-slate-700 pb-5">
+                <div className="text-slate-200 text-2xl flex-1">Confirm Deletion</div>
+                <div className="flex justify-end flex-1">
+                <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"><CrossSVG /></span>
+                </div>
+            </div>
+            <div className="text-slate-200 text-2xl text-center my-10">Are You Sure Want To Delete All Recorded Sessions?</div>
+            <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
+                <OutlineButton trackName='Delete All Rules - NO' classes="min-w-[100px]" onClick={close}>No</OutlineButton>
+                <OutlineButton icon={<TrashSVG />} classes="min-w-[100px] hover:text-red-400 hover:border-red-400" trackName="Delete All Rules - YES" onClick={() => handleDeleteSessions(close)}>Yes</OutlineButton>
+            </div>
+        </ColorCover>
+        )}
+        </Popup>
         <div className="text-sm mr-4">
           <Input
             placeholder="Search By Session Name"
@@ -122,45 +139,44 @@ const SessionList: FC = (): ReactElement => {
             }
           />
         </div>
-        <button onClick={() => handleListType(SessionListType.GRID)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.GRID ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
+        {/* <button onClick={() => handleListType(SessionListType.GRID)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.GRID ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
           <span className="w-[24px]"><SquaresSVG /></span>
         </button>
         <button onClick={() => handleListType(SessionListType.LIST)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.LIST ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
           <span className="w-[24px]"><ListSVG /></span>
-        </button>
+        </button> */}
       </div>
     </div>
-    {sessions.length ? <div className={`flex flex-row flex-wrap mt-4 w-full h-full ${listType === SessionListType.GRID ? 'mx-5 gap-2 justify-between': ''}`}>
-      {listType === SessionListType.GRID ? <>
-          <AutoSizer>
-            {({ height, width }) => {
-              console.log('height, width', height, width);
-              return (
-              <FixedSizeList
-                className="List"
-                height={height}
-                itemCount={sessions.length >= 3 ? sessions.length / 3 : 1}
-                itemSize={280}
-                width={width}
-                itemData={sessions}
-              >
-                {Row}
-              </FixedSizeList>
-            )}}
-          </AutoSizer>
-        </>
-          // <div className="flex flex-row" key={session.id}>
-          //   {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
-          // </div>
-        : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
+    {sessions.length ? <>
+      {listType === SessionListType.GRID ? <div className="flex flex-row flex-wrap mt-4 mx-5 gap-2 justify-between w-full h-full">
+        <AutoSizer>
+          {({ height, width }) => (
+            <FixedSizeList
+              className="List"
+              height={height}
+              itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
+              itemSize={280}
+              width={width}
+              itemData={filteredSessions}
+            >
+              {({index, data, style}) => (
+                <div className="w-[200px]" style={style}>
+                 <div className="flex gap-3">
+                   {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert}/>}
+                   {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert}/>}
+                   {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert}/>}
+                 </div>
+               </div>
+              )}
+            </FixedSizeList>
+          )}
+        </AutoSizer>
+        </div>
+        : <div className="flex flex-row flex-wrap mt-4">
+          <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
+        </div>
       }
-      {/* {listType === SessionListType.GRID ? filteredSessions.map(session => (
-          <div className="flex flex-row" key={session.id}>
-            {listType === SessionListType.GRID ? <SessionPreview data={session} onDelete={handleDelete}/> : null }
-          </div>
-        )) : <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
-      } */}
-    </div> :
+    </> :
     <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
       <div className="w-full text-center">
         <p className="text-2xl">Seems You Have Not Recorded a Session</p>

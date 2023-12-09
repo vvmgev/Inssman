@@ -6,16 +6,6 @@ import { RecordSession } from "src/models/recordSessionModel";
 class StorageService {
     private readonly cacheName = 'StorageService';
 
-    constructor() {
-      const asa = async () => {
-        console.log('this.get()', await this.get());
-        console.log('this.getRecordedSessions()', await this.getRecordedSessions());
-        // this.clear();
-      }
-
-      asa();
-    }
-
     async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
       // const cache = CacheService.get(this.cacheName, keys as string);
       // if(cache) return {[keys as string]: cache};
@@ -29,7 +19,8 @@ class StorageService {
     }
 
     async getRecordedSessions(): Promise<RecordSession[]> {
-      return Object.values(await this.get()).filter(session => typeof session === 'object' && session.type === StorageItemType.RECORDED_SESSION);
+      return Object.values(await this.get())
+        .filter(session => typeof session === 'object' && session.type === StorageItemType.RECORDED_SESSION);
     }
 
     async getFilteredRules(filters: {[key: string]: any}[] ): Promise<IRuleMetaData[]> {
@@ -42,11 +33,11 @@ class StorageService {
     }
 
     async set(data: { [key: string]: any }): Promise<void> {
-      // for(const key in rules) CacheService.set(this.cacheName, key, rules[key]);
+      // for(const key in data) CacheService.set(this.cacheName, key, data[key]);
       return chrome.storage.local.set(data)
     }
 
-    async remove(key: string): Promise<void> {
+    async remove(key: string | string[]): Promise<void> {
       // CacheService.remove(this.cacheName, key);
       return chrome.storage.local.remove(key);
     }

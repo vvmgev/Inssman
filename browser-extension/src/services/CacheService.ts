@@ -1,5 +1,5 @@
 class CacheService {
-    public cache: any = {};
+    private cache: Record<string, unknown> = {};
 
     public set = (cacheKey: string, key: string, value: unknown): unknown => {
         const cache = this.cache[cacheKey] || (this.cache[cacheKey] = {});
@@ -11,9 +11,9 @@ class CacheService {
         delete cache[key];
     };
 
-    public get = (cacheKey: string, key: string): unknown => {
+    public get = (cacheKey: string, key?: string): unknown => {
         const cache = this.cache[cacheKey] || (this.cache[cacheKey] = {});
-        return cache[key];
+        return typeof key === 'undefined' ? cache : cache[key];
     };
 
     public clear = (): void => {
