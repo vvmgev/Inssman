@@ -79,7 +79,7 @@ const Session: FC = (): ReactElement => {
       </div>
     </>}
     <div className="m-auto">
-      <SessionPlayer session={session} playerOptions={{width: 800, height: 500}} />
+      <SessionPlayer session={session} playerOptions={{width: 800, height: 500, autoPlay: true}} />
     </div>
   </ColorCover>
 };
