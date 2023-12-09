@@ -2,6 +2,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import ColorCover from "common/colorCover/colorCover";
 import OutlineButton from "common/outlineButton/outlineButton";
 import Input from "common/input/input";
+import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import ListSVG  from 'assets/icons/list.svg';
 import PlaySVG  from 'assets/icons/play.svg';
@@ -18,7 +19,6 @@ import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
-import Popup from "reactjs-popup";
 import { timeDifference } from "src/utils";
 
 enum SessionListType {

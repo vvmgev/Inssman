@@ -3,12 +3,14 @@ import ColorCover from '../common/colorCover/colorCover';
 import TemplateList from './templateList';
 import FormList from './components/formList/formList';
 import Record from './components/record/record';
-import { SideBarContext } from 'src/context/sideBarContext';
 import { useContext } from 'react';
+import { SideBarContext } from 'src/context/sideBarContext';
+import { FeatureToggleContext } from 'src/context/featureToggleContext';
 import { Link } from 'react-router-dom';
 
 const SideBar = () => {
   const { full } = useContext(SideBarContext);
+  const { toggles } = useContext(FeatureToggleContext);
   return <div className={`flex flex-col gap-1 h-full w-1/6 ${full ? '' : ''}`}>
     <ColorCover classes="rounded-bl-none rounded-tl-none rounded-tr-none">
       <Link className="hover:cursor-pointer" to="/"><Logo /></Link>
@@ -16,9 +18,10 @@ const SideBar = () => {
     <ColorCover classes="rounded-tl-none rounded-bl-none">
       <FormList />
     </ColorCover>
-    <ColorCover classes="rounded-tl-none rounded-bl-none transition ease-in-out bg-[#2a3e6c]">
+    {toggles.featureShowRecord && <ColorCover classes="rounded-tl-none rounded-bl-none transition ease-in-out bg-[#2a3e6c]">
       <Record />
     </ColorCover>
+    }
     <ColorCover classes="rounded-tl-none rounded-bl-none">
       <TemplateList />
     </ColorCover>
