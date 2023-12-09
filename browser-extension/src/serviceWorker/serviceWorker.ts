@@ -99,7 +99,7 @@ class ServiceWorker extends BaseService {
         const { version } = chrome.runtime.getManifest();
         // hot fix for unique id
         if(error.message.includes('does not have a unique ID')) {
-          const ID: number = await StorageService.getSingleItem(StorageKey.NEXT_ID) || 1;
+          const ID: number = await StorageService.getSingleItem(StorageKey.NEXT_ID) || 200;
           StorageService.set({[StorageKey.NEXT_ID]: ID + 50 });
           sendResponse(await this.addRule(data));
           error.message = 'handled error ID'
