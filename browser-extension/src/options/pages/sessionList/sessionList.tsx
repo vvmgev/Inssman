@@ -19,6 +19,7 @@ import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
 import Popup from "reactjs-popup";
+import { timeDifference } from "src/utils";
 
 enum SessionListType {
   GRID = 'grid',
@@ -64,6 +65,7 @@ const SessionList: FC = (): ReactElement => {
       {title: 'Name', render: function() {return this.title}},
       {title: 'URL', render: function() {return this.title}},
       {title: 'Date', render: function() {return this.title}},
+      {title: 'Duration', classes: 'flex justify-end', render: function() {return this.title}},
       {title: 'Actions', classes: 'flex justify-end', render: function() {return this.title}},
     ];
   }, []);
@@ -76,6 +78,14 @@ const SessionList: FC = (): ReactElement => {
       </div>}},
       {field: 'url', render: function(item) {return item[this.field]}},
       {field: 'date', render: function(item) {return item[this.field]}},
+      {field: 'duration', classes: 'flex justify-end', render: function(item) {
+        try {
+          const { minutes, seconds } = timeDifference(item.events[0].timestamp, item.events[item.events.length - 1].timestamp);
+          return `${minutes > 0 ? `${minutes}m` : '' } ${seconds}s `;
+        } catch (error) {
+          return '';
+        }
+      }},
       {field: 'actions', classes: 'flex justify-end', render: function(item) {return <div className="flex gap-5">
         <Tooltip
           content='Play'>

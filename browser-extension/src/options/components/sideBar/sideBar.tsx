@@ -16,7 +16,7 @@ const SideBar = () => {
     <ColorCover classes="rounded-tl-none rounded-bl-none">
       <FormList />
     </ColorCover>
-    <ColorCover classes="rounded-tl-none rounded-bl-none transition ease-in-out ">
+    <ColorCover classes="rounded-tl-none rounded-bl-none transition ease-in-out bg-[#2a3e6c]">
       <Record />
     </ColorCover>
     <ColorCover classes="rounded-tl-none rounded-bl-none">

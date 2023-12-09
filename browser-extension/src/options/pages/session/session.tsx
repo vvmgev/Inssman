@@ -8,6 +8,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { RecordSession } from "src/models/recordSessionModel";
 import { SideBarContext } from "src/context/sideBarContext";
 import { useNavigate } from 'react-router-dom';
+import { timeDifference } from "src/utils";
 
 
 const Session: FC = (): ReactElement => {
@@ -45,6 +46,15 @@ const Session: FC = (): ReactElement => {
     );
   }
 
+  const getDuration = (session) => {
+    try {
+      const { minutes, seconds } = timeDifference(session.events[0].timestamp, session.events[session.events.length - 1].timestamp);
+      return `${minutes > 0 ? `${minutes}m` : '' } ${seconds}s `;
+    } catch (error) {
+      return '';
+    }
+  }
+
   return <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
     {session && <>
       <div className="flex justify-between">
@@ -61,6 +71,10 @@ const Session: FC = (): ReactElement => {
       <ColorCover classes="rounded flex gap-2">
         <span className="text-slate-400">Recorded at: </span>
         <span>{session.date}</span>
+      </ColorCover>
+      <ColorCover classes="rounded flex gap-2">
+        <span className="text-slate-400">Duraction: </span>
+        <span>{getDuration(session)}</span>
       </ColorCover>
       </div>
     </>}
