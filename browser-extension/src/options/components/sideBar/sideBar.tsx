@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 const SideBar = () => {
   const { full } = useContext(SideBarContext);
-  return <div className={`flex flex-col gap-10 h-full w-1/6 ${full ? '' : ''}`}>
+  return <div className={`flex flex-col gap-1 h-full w-1/6 ${full ? '' : ''}`}>
     <ColorCover classes="rounded-bl-none rounded-tl-none rounded-tr-none">
       <Link className="hover:cursor-pointer" to="/"><Logo /></Link>
     </ColorCover>

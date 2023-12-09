@@ -76,7 +76,7 @@ export default () => {
                   <span className="w-[24px]">{<ListSVG />}</span>
                   <span>All Rules</span>
               </span>
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2 text-sm">
                   <div>
                   <input type="file" onChange={onHandleUploadFile} ref={importRulesRef} className="hidden" accept='application/JSON'/>
                   <OutlineButton onClick={onHandleImport} trackName='Import rules' icon={<ArrowDownLongSVG />}>Import</OutlineButton>
