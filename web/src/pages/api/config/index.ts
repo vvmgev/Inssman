@@ -12,5 +12,6 @@ export default function handler(
 ) {
   res.status(200).json({ featureToggles: {
     shouldOpenWebApp: false,
+    useCache: false,
   }})
 }
