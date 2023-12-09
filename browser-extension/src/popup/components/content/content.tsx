@@ -45,8 +45,8 @@ const Content = () => {
             <div className='p-4 h-full'><Tab active={tab} onChangeTab={onChangeTab} /></div>
             {tab === Tabs.CreatRule ?
                 <CreateRules /> :
-                <div className='overflow-hidden h-full'>
-                  <List headers={LIST_HEADERS} items={LIST_ITEMS} data={rules} />
+                <div className='overflow-hidden'>
+                  <List listClasses="min-h-[initial] max-h-[initial] h-[300px]" headers={LIST_HEADERS} items={LIST_ITEMS} data={rules} />
                 </div>
             }
         </ColorCover>
