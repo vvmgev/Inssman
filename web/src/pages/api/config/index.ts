@@ -11,7 +11,8 @@ export default function handler(
   res: NextApiResponse<ResponseData>
 ) {
   res.status(200).json({ featureToggles: {
-    shouldOpenWebApp: false,
-    useCache: false,
+    featureOpenWebApp: false,
+    featureUseCache: false,
+    featureShowRecord: false,
   }})
 }
