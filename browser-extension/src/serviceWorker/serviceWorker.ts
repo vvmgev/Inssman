@@ -41,7 +41,6 @@ class ServiceWorker extends BaseService {
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
-    console.log('inssman action', action, PostMessageAction[action]);
     (async () => {
       let responseData: any;
       try {
