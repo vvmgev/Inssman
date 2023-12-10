@@ -40,6 +40,13 @@ const generateListeners = (callback: Function) => {
                 removeListener: () => chrome.tabs.onUpdated.removeListener(listener),
             }
         })(),
+        [ListenerType.ON_REMOVED_TAB]: (() => {
+          const listener = callback(ListenerType.ON_REMOVED_TAB);
+          return {
+              addListener: () => chrome.tabs.onRemoved.addListener(listener),
+              removeListener: () => chrome.tabs.onRemoved.removeListener(listener),
+          }
+      })(),
         [ListenerType.ON_BEFORE_SEND_HEADERS]: (() => {
             const listener = callback(ListenerType.ON_BEFORE_SEND_HEADERS);
             return {

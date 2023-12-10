@@ -18,20 +18,13 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["setupContentConfig/setupContentConfig.js"],
-      "run_at": "document_start",
-      "all_frames": true
+      "run_at": "document_start"
     },
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["cotentScript/cotentScript.js"],
       "run_at": "document_start",
       "all_frames": true,
-      "world": "MAIN"
-    },
-    {
-      "matches": ["*://*.inssman.com/app/*"],
-      "js": ["iframeContentScript/iframeContentScript.js"],
-      "run_at": "document_start",
       "world": "MAIN"
     }
   ],
@@ -43,6 +36,12 @@
     ],
     "accepts_tls_channel_id": false
   },
+  "web_accessible_resources": [
+    {
+      "resources": ["recordSession/recordSession.js", "recorderWidget/recorderWidget.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
   "permissions": [
     "storage",
     "declarativeNetRequest",
@@ -51,7 +50,8 @@
     "webNavigation",
     "scripting",
     "tabs",
-    "webRequest"
+    "webRequest",
+    "unlimitedStorage"
   ],
   "host_permissions": [
     "*://*/*"
@@ -70,15 +70,5 @@
     "32": "/assets/images/icons/inssman_32.png",
     "48": "/assets/images/icons/inssman_48.png",
     "128": "/assets/images/icons/inssman_128.png"
-  },
-  "web_accessible_resources": [
-    {
-      "resources": ["recordSession/recordSession.js"],
-      "matches": ["<all_urls>"]
-    },
-    {
-      "resources": ["options/options.html"],
-      "matches": ["*://*.inssman.com/*"]
-    }
-  ]
+  }
 }

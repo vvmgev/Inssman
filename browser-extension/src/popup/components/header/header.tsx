@@ -1,23 +1,16 @@
 import ColorCover from 'common/colorCover/colorCover';
-import Logo  from 'assets/icons/logo.svg';
 import Button from 'common/button/button';
 import ExtensionToggle from 'common/extensionToggle/extensionToggle';
-import { useEffect, useState } from 'react';
+import Logo  from 'assets/icons/logo.svg';
+import { FeatureToggleContext } from 'src/context/featureToggleContext';
+import { useEffect, useState, useContext } from 'react';
 
 const Header =  () => {
   const [openWebApp, setOpenWebApp] = useState<boolean>(false);
+  const { toggles } = useContext(FeatureToggleContext);
 
   useEffect(() => {
-    const makeRequest = async () => {
-      try {
-        const res = await fetch('https://inssman.com/api/config');
-        const config = await res.json();
-        setOpenWebApp(config.featureToggles.shouldOpenWebApp);
-      } catch (error) {
-        setOpenWebApp(false);
-      }
-    }
-    makeRequest();
+      setOpenWebApp(toggles.shouldOpenWebApp);
   }, []);
 
   const onHandleOpen = () => {

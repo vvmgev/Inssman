@@ -1,5 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import HTTPLogger from 'pages/httpLogger/httpLogger';
+import Record from 'pages/record/record';
+import SessionList from 'pages/sessionList/sessionList';
+import Session from 'pages/session/session';
 import FormHOC from 'options/HOC/formHOC';
 import withParams from 'options/HOC/withParams';
 import Main from 'components/main/main'
@@ -36,6 +39,11 @@ const RuleRoutes = () => {
         <Route path="modify-response" element={<Form key={34} />} />
         <Route path="modify-request-body" element={<Form key={35} />} />
         <Route path="inject-file" element={<Form key={36} />} />
+    </Route>
+    <Route path="/record">
+      <Route path="" element={<Record key={37} />} />
+      <Route path="session" element={<SessionList key={38} />} />
+      <Route path="session/:id" element={<Session key={39} />} />
     </Route>
   </Routes>
 }

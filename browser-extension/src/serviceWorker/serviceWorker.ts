@@ -6,6 +6,7 @@ import BaseService from 'services/BaseService';
 import MatcherService from 'services/MatcherService';
 import config from 'options/formBuilder/config';
 import handleError from './errorHandler';
+import RecordSessionService from 'src/services/RecordSessionService';
 import { ListenerType } from 'services/ListenerService/ListenerService';
 import { PostMessageAction } from 'models/postMessageActionModel';
 import { IRuleMetaData, PageType } from 'models/formFieldModel';
@@ -13,29 +14,30 @@ import { StorageKey } from 'models/storageModel';
 import { UNINSTALL_URL, EXCLUDED_URLS } from 'options/constant';
 import { throttle } from 'src/utils/throttle';
 import { storeRuleMetaData } from './firebase';
+import { RecordSession } from 'src/models/recordSessionModel';
 import 'services/WebRequestService';
+
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
 
-
 class ServiceWorker extends BaseService {
-  throttleUpdateMatchedRulesTimestamp: Function;
+  throttleUpdateMatchedRulesTimestamp: () => void;
   constructor() {
     super();
     this.registerListener();
     const delay = GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000 / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
     this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
-  };
+  }
 
   async registerListener(): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
     .addListener(ListenerType.ON_MESSAGE, this.onMessage)
     .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
     .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
-  };
+  }
 
   onMessage = (request, sender, sendResponse): void => {
     const { action, data } = request;
@@ -44,12 +46,14 @@ class ServiceWorker extends BaseService {
       try {
         if(action === PostMessageAction.GetStorageRules) {
           responseData = this.getStorageRules();
-        } else if(action === PostMessageAction.GetRule) {
+        } else if(action === PostMessageAction.GetRuleById) {
           responseData = this.getRule(data);
         } else if(action === PostMessageAction.AddRule) {
+          // Tracking
           storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.AddRule]});
           responseData = this.addRule(data);
         } else if(action === PostMessageAction.UpdateRule) {
+          // Tracking
           storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.UpdateRule]});
           responseData = this.updateRule(data);
         } else if(action === PostMessageAction.DeleteRules) {
@@ -72,13 +76,31 @@ class ServiceWorker extends BaseService {
           responseData = this.toggleExtension(data, sender);
         } else if(action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
+        } else if(action === PostMessageAction.StartRecordingByUrl) {
+          responseData = this.startRecordingByUrl(data);
+        } else if(action === PostMessageAction.StopRecording) {
+          responseData = this.stopRecording();
+        } else if(action === PostMessageAction.SaveRecording) {
+          responseData = this.saveRecording(data);
+        } else if(action === PostMessageAction.GetRecordedSessions) {
+          responseData = this.getSessions();
+        } else if(action === PostMessageAction.GetRecordedSessionById) {
+          responseData = this.getSessionById(data);
+        } else if(action === PostMessageAction.GetLastRecordedSession) {
+          responseData = this.getLastRecordedSession();
+        } else if(action === PostMessageAction.DeleteRecordedSessionById) {
+          responseData = this.deleteRecordedSessionById(data);
+        } else if(action === PostMessageAction.DeleteRecordedSessions) {
+          responseData = this.deleteRecordedSessions();
         }
+
+
         sendResponse(await responseData);
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
         // hot fix for unique id
         if(error.message.includes('does not have a unique ID')) {
-          const ID: number = await StorageService.getSingleItem(StorageKey.NEXT_ID) || 1;
+          const ID: number = await StorageService.getSingleItem(StorageKey.NEXT_ID) || 200;
           StorageService.set({[StorageKey.NEXT_ID]: ID + 50 });
           sendResponse(await this.addRule(data));
           error.message = 'handled error ID'
@@ -175,7 +197,7 @@ class ServiceWorker extends BaseService {
 
   async deleteRules(): Promise<void> {
     await RuleService.clear();
-    await StorageService.clear();
+    await StorageService.remove((await StorageService.getRules()).map(({id}) => String(id)))
   }
 
   async deleteRule(data): Promise<void> {
@@ -254,6 +276,45 @@ class ServiceWorker extends BaseService {
         });
       } catch (error) {}
     }
+  }
+
+  async startRecordingByUrl({ url }: { url: string }): Promise<void> {
+    await RecordSessionService.startRecordingByUrl(url);
+  }
+
+  stopRecording(): void {
+    RecordSessionService.stopRecording();
+  }
+
+  saveRecording(data: any): void {
+    RecordSessionService.saveRecording(data.events);
+  }
+
+  async getSessions(): Promise<RecordSession[]> {
+    return await StorageService.getRecordedSessions();
+  }
+
+  async getSessionById({ id }): Promise<RecordSession> {
+    return await StorageService.getSingleItem(id);
+  }
+
+  async getLastRecordedSession(): Promise<RecordSession | null> {
+    const recordedSessions: RecordSession[] = await this.getSessions();
+    let lastRecordedSession: RecordSession | null = null;
+    recordedSessions.forEach(session => {
+      if(!lastRecordedSession || (Number(lastRecordedSession.id) < Number(session.id))) {
+        lastRecordedSession = session;
+      }
+    })
+    return lastRecordedSession;
+  }
+
+  async deleteRecordedSessionById({ id }): Promise<void> {
+    await StorageService.remove(String(id));
+  }
+
+  async deleteRecordedSessions(): Promise<void> {
+    await StorageService.remove((await StorageService.getRecordedSessions()).map(({id }) => String(id)));
   }
 }
 

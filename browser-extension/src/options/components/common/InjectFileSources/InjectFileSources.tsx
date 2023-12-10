@@ -1,7 +1,7 @@
+import { useMemo } from 'react';
 import Select from '../select/select';
 import Input from '../input/input';
 import Editor from '../editor/editor';
-import { useMemo } from 'react';
 import { InjectFileOperator, InjectFileSource, InjectFileType } from 'src/models/formFieldModel';
 
 
@@ -12,12 +12,12 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
         previous.push({value: value.toLowerCase(), label})
         return previous;
       }, []), []);
-    
+
       const injectFileSourceOptions = useMemo(() => Object.entries(InjectFileSource).reduce((previous: any, [value, label]: any) => {
         previous.push({value: value.toLowerCase(), label})
         return previous;
       }, []), []);
-    
+
       const injectFileOperatorOptions = useMemo(() => Object.entries(InjectFileOperator).reduce((previous: any, [value, label]: any) => {
         previous.push({value: value.toLowerCase(), label})
         return previous;
@@ -60,7 +60,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 <Input
                     value={tagSelector || ''}
                     name='tagSelector'
-                    onChange={onChange} 
+                    onChange={onChange}
                     placeholder="document.getElementById('app')"
                     error={error?.tagSelector}
                 />
@@ -85,7 +85,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 <Input
                     value={fileSource || ''}
                     name='fileSource'
-                    onChange={onChange} 
+                    onChange={onChange}
                     placeholder={`Source URL ( https://example.com/path/to/file )`}
                     error={error?.fileSource}
                     required

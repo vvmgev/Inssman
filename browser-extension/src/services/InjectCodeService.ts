@@ -4,6 +4,8 @@ import BaseService from "./BaseService";
 import { PageType, InjectFileTagMap, InjectFileType, InjectFileTypeMap, InjectFileSource, IRuleMetaData } from "src/models/formFieldModel";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { NAMESPACE } from "src/options/constant";
+import ExecutionWorld = chrome.scripting.ExecutionWorld;
+import InjectionResult = chrome.scripting.InjectionResult;
 
 class InjectCodeService extends BaseService {
   rulesData: IRuleMetaData[] = [];
@@ -41,7 +43,7 @@ class InjectCodeService extends BaseService {
               this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
             }
           } else {
-            this.injectAndExecute(transation.tabId, ruleMetaData.editorValue, InjectFileTagMap[ruleMetaData.editorLang as string]);
+            this.injectInternalScript(transation.tabId, ruleMetaData.editorValue, InjectFileTagMap[ruleMetaData.editorLang as string]);
           }
           StorageService.updateTimestamp(String(ruleMetaData.id));
         }
@@ -57,8 +59,8 @@ class InjectCodeService extends BaseService {
         this.rulesData = await this.getInjectFileRules();
         if(this.isRegisteredListener && !this.rulesData.length) {
           this.isRegisteredListener = false;
-          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);  
-        } 
+          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
+        }
         if(!this.isRegisteredListener && this.rulesData.length) {
           this.isRegisteredListener = true;
           this.addListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
@@ -66,7 +68,7 @@ class InjectCodeService extends BaseService {
       }
     })
   }
-  
+
   async getInjectFileRules(): Promise<IRuleMetaData[]> {
     const filters = [{key: 'pageType', value: PageType.INJECT_FILE}, {key: 'enabled', value: true}];
     return await StorageService.getFilteredRules(filters);
@@ -102,15 +104,21 @@ class InjectCodeService extends BaseService {
       target: {tabId},
       // this code runs in the browser tab
       func: (url, shouldRemove) => {
-        const element = document.createElement('script');
-        element.type = 'text/javascript';
-        element.className = 'inssman_script';
-        element.src = url;
-        document.head.appendChild(element);
+        try {
+          const element = document.createElement('script');
+          element.type = 'text/javascript';
+          element.className = 'inssman_script';
+          element.src = url;
+          document.head.appendChild(element);
 
-        if(shouldRemove) {
-          element.remove();
+          if(shouldRemove) {
+            element.remove();
+          }
+        } catch (error) {
+          console.log('error');
+          console.log(error);
         }
+
       },
       args: [url, shouldRemove],
       world: 'MAIN',
@@ -141,7 +149,7 @@ class InjectCodeService extends BaseService {
     });
   };
 
-  injectAndExecute(tabId, code, tag, shouldRemove = false): void {
+  injectInternalScript(tabId, code, tag, shouldRemove = false, world = 'MAIN' as ExecutionWorld): void {
     chrome.scripting.executeScript({
       target: {tabId},
       // this code runs in the browser tab
@@ -157,12 +165,48 @@ class InjectCodeService extends BaseService {
         }
       },
       args: [code, tag, InjectFileTypeMap[tag], shouldRemove],
-      world: 'MAIN',
+      world,
       //@ts-ignore
       injectImmediately: true,
     });
   };
-  
+
+  async injectInternalScriptToDocument(tabId, code, shouldRemove = false, world = 'MAIN' as ExecutionWorld): Promise<InjectionResult[]> {
+    return chrome.scripting.executeScript({
+      target: {tabId},
+      // this code runs in the browser tab
+      func: (code, tag, type, shouldRemove) => {
+        const element = document.createElement(tag);
+        element.textContent = code;
+        element.type = type || '';
+        element.className = `inssman_${tag}`;
+        document.documentElement.appendChild(element);
+
+        if(shouldRemove) {
+          element.remove();
+        }
+      },
+      args: [code, 'script', 'text/javascript', shouldRemove],
+      world,
+      //@ts-ignore
+      injectImmediately: true,
+    });
+  };
+
+  injectFile = async (tabId, path) => {
+    chrome.scripting.executeScript({
+      target : {tabId},
+      files: [path],
+      world: 'MAIN',
+      // @ts-ignore
+      injectImmediately: true,
+    }).catch((error) => {
+      console.log('error');
+      console.log(error);
+      // should be tracking here
+    });
+  }
+
   injectContentScript = async (tabId, rules) => {
     chrome.scripting.executeScript({
       target : {tabId},
@@ -176,7 +220,9 @@ class InjectCodeService extends BaseService {
       args: [rules, NAMESPACE, chrome.runtime.id],
       // @ts-ignore
       injectImmediately: true,
-    }).catch(() => {
+    }).catch((error) => {
+      console.log('error');
+      console.log(error);
       // should be tracking here
     });
   }

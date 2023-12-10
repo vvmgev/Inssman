@@ -76,14 +76,14 @@ export default () => {
                   <span className="w-[24px]">{<ListSVG />}</span>
                   <span>All Rules</span>
               </span>
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2 text-sm">
                   <div>
                   <input type="file" onChange={onHandleUploadFile} ref={importRulesRef} className="hidden" accept='application/JSON'/>
                   <OutlineButton onClick={onHandleImport} trackName='Import rules' icon={<ArrowDownLongSVG />}>Import</OutlineButton>
                   </div>
                   <div><OutlineButton onClick={onHandleExportRules} trackName='Export rules' icon={<ArrowUpLongSVG />}>Export</OutlineButton></div>
                   <Popup closeOnDocumentClick={true} contentStyle={{background: 'transparent', border: 'none'}}
-                      trigger={<div><OutlineButton classes='hover:text-red-400 hover:border-red-400' trackName='Delete All Rules Popup' icon={<TrashSVG />}>Delete All Rules</OutlineButton></div>}
+                      trigger={<OutlineButton classes='hover:text-red-400 hover:border-red-400' trackName='Delete All Rules Popup' icon={<TrashSVG />}>Delete All Rules</OutlineButton>}
                       modal position="right center"
                       overlayStyle={{backdropFilter: 'blur(1.5px)'}}>
                   {/* @ts-ignore */}
@@ -95,7 +95,7 @@ export default () => {
                           <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"><CrossSVG /></span>
                           </div>
                       </div>
-                      <div className="text-slate-200 text-2xl text-center my-10">Are you sure you want to delete all rules?</div>
+                      <div className="text-slate-200 text-2xl text-center my-10">Are you sure want to delete all rules?</div>
                       <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
                           <OutlineButton trackName='Delete All Rules - NO' classes="min-w-[100px]" onClick={close}>No</OutlineButton>
                           <OutlineButton icon={<TrashSVG />} classes="min-w-[100px] hover:text-red-400 hover:border-red-400" trackName="Delete All Rules - YES" onClick={() => onHandleDeleteRules(close)}>Yes</OutlineButton>
@@ -104,13 +104,13 @@ export default () => {
                   )}
                   </Popup>
                   <div className="text-sm">
-                  <Input
-                      placeholder="Search By Rule Name"
-                      onChange={onChangeSearch}
-                      value={search}
-                      starts={<span className="w-[24px]"><SearchSVG /></span>}
-                      ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
-                  />
+                    <Input
+                        placeholder="Search By Rule Name"
+                        onChange={onChangeSearch}
+                        value={search}
+                        starts={<span className="w-[24px]"><SearchSVG /></span>}
+                        ends={<span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer"><CrossSVG /></span>}
+                    />
                   </div>
               </div>
           </div>

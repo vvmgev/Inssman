@@ -1,6 +1,5 @@
-export const timeDifference = (timestamp: number) => {
-  const currentTime = Date.now();
-  const elapsedMilliseconds = currentTime - timestamp;
+export const timeDifference = (timestamp: number, startTimestamp?: number) => {
+  const elapsedMilliseconds = (startTimestamp || Date.now()) - timestamp;
 
   const days = Math.floor(elapsedMilliseconds / (1000 * 60 * 60 * 24)); // 1 day = 86400000 milliseconds
   const hours = Math.floor(elapsedMilliseconds / 3600000); // 1 hour = 3600000 milliseconds

@@ -7,7 +7,9 @@ import SideBar from '../sideBar/sideBar'
 import RuleRoutes from './routes';
 import BrowserSupport from './browserSupport';
 import BrowserSupportService from 'src/services/BrowserSupportService';
+import SideBarContextProvider from 'src/context/sideBarContext';
 import OverlayContextProvider, { OverlayContext } from 'src/context/overlayContext';
+import FeatureToggleProvider from 'src/context/featureToggleContext';
 import { useContext } from 'react';
 import 'services/TrackService';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,9 +44,13 @@ const Wrapper = () => {
       />
       <Background>
         <HashRouter>
-          <OverlayContextProvider source="options">
-            <App />
-          </OverlayContextProvider>
+          <FeatureToggleProvider>
+            <OverlayContextProvider source="options">
+              <SideBarContextProvider>
+                <App />
+              </SideBarContextProvider>
+            </OverlayContextProvider>
+          </FeatureToggleProvider>
         </HashRouter>
       </Background>
   </div>

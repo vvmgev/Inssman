@@ -9,11 +9,11 @@ const CreateRules: FC = (): ReactElement => {
             const { hostname } = new URL(tab[0].url as string);
             const hostnameArr = hostname.split('.')
             const name = hostnameArr[hostnameArr.length - 2];
-            const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`; 
-            chrome.tabs.create({url: chrome.runtime.getURL(url)});    
+            const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`;
+            chrome.tabs.create({url: chrome.runtime.getURL(url)});
         });
     };
-    
+
     return (
         <ColorCover classes="p-5 rounded-none">
             <div className="flex flex-row flex-wrap">

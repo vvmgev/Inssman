@@ -14,6 +14,7 @@ export enum ListenerType {
     ON_MESSAGE = 'onMessage',
     ON_MESSAGE_EXTERNAL = 'onMessageExternal',
     ON_UPDATE_TAB = 'onUpdated',
+    ON_REMOVED_TAB = 'onRemoved',
     ON_BEFORE_SEND_HEADERS = 'onBeforeSendHeaders',
     ON_HEADERS_RECEVIED = 'onHeadersReceived',
     ON_COMPLETED = 'onCompleted',

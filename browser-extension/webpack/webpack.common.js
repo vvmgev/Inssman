@@ -13,10 +13,12 @@ module.exports = {
    entry: {
       serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
       cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
+      recorderWidget: path.resolve(__dirname, "../src/cotentScript", "recorderWidget.ts"),
+      setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
+      recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),
       options: path.resolve(__dirname, "../src/options", "options.tsx"),
       popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
       iframeContentScript: path.resolve(__dirname, "../src/iframeContentScript", "iframeContentScript.ts"),
-      setupContentConfig: path.resolve(__dirname, "../src/setupContentConfig", "setupContentConfig.ts"),
       HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),
       'editor.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/editor/editor.worker.js'),
       'json.worker': path.resolve(__dirname, '../node_modules/monaco-editor/esm/vs/language/json/json.worker'),
@@ -44,6 +46,9 @@ module.exports = {
          services: path.resolve(__dirname, '..', 'src', 'services')
       },
    },
+   stats: {
+    errorDetails: true,
+  },
    module: {
       rules: [
          {
