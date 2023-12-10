@@ -25,9 +25,17 @@ class RecordSessionService extends BaseService {
     }
   }
 
+  onRemovedTab = async (tabId: number): Promise<void> => {
+    if(tabId === this.currentTab?.id) {
+      this.removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
+      this.removeListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
+    }
+  }
+
   async startRecordingByUrl(url: string): Promise<void> {
     this.url = url;
     this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
+    this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
     this.currentTab = await TabService.createTab(url);
     this.sessionId = String(await StorageService.generateNextId());
   }
@@ -35,6 +43,7 @@ class RecordSessionService extends BaseService {
   stopRecording(): void {
     this.currentTab = null;
     this.removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
+    this.removeListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
   }
 
   async saveRecording(data: any[]): Promise<void> {

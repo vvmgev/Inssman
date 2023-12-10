@@ -49,9 +49,11 @@ class ServiceWorker extends BaseService {
         } else if(action === PostMessageAction.GetRuleById) {
           responseData = this.getRule(data);
         } else if(action === PostMessageAction.AddRule) {
+          // Tracking
           storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.AddRule]});
           responseData = this.addRule(data);
         } else if(action === PostMessageAction.UpdateRule) {
+          // Tracking
           storeRuleMetaData({...data.ruleMetaData, actionType: PostMessageAction[PostMessageAction.UpdateRule]});
           responseData = this.updateRule(data);
         } else if(action === PostMessageAction.DeleteRules) {
