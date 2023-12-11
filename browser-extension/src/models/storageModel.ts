@@ -8,5 +8,4 @@ export enum StorageKey {
 
 export enum StorageItemType {
     RULE = 'rule',
-    RECORDED_SESSION = 'recordedSession',
 }

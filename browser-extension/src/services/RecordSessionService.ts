@@ -2,10 +2,10 @@ import BaseService from "./BaseService";
 import InjectCodeService from "./InjectCodeService";
 import TabService from "./TabService";
 import StorageService from "./StorageService";
+import indexDBService from "./indexDBService";
 import { ListenerType } from "./ListenerService/ListenerService";
-import { StorageItemType } from "src/models/storageModel";
 import { extractDomain } from "src/utils";
-
+import { RecordSession } from "src/models/recordSessionModel";
 import Tab = chrome.tabs.Tab;
 
 class RecordSessionService extends BaseService {
@@ -47,16 +47,30 @@ class RecordSessionService extends BaseService {
   }
 
   async saveRecording(data: any[]): Promise<void> {
-    const session = await StorageService.getSingleItem(this.sessionId) || {};
-    await StorageService.set({[this.sessionId]:  {
-      id: this.sessionId,
-      events: [...(session.events || []), ...data],
-      type: StorageItemType.RECORDED_SESSION,
+    indexDBService.add({
+      events: data,
       url: this.url,
       date: new Date().toLocaleString(),
       name: extractDomain(this.url),
-    }});
+    });
   }
+
+  async getRecordedSessions(): Promise<RecordSession[]> {
+    return indexDBService.getAll();
+  }
+
+  async getSessionById(id): Promise<RecordSession> {
+    return indexDBService.get(id);
+  }
+
+  clear(): void {
+    indexDBService.clear();
+  }
+
+  removeById(id) {
+    indexDBService.remove(id);
+  }
+
 }
 
 export default new RecordSessionService();

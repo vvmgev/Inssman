@@ -16,6 +16,7 @@ import { throttle } from 'src/utils/throttle';
 import { storeRuleMetaData } from './firebase';
 import { RecordSession } from 'src/models/recordSessionModel';
 import 'services/WebRequestService';
+import 'services/indexDBService';
 
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
@@ -287,18 +288,20 @@ class ServiceWorker extends BaseService {
   }
 
   saveRecording(data: any): void {
+    console.log('service worker saveRecording', data);
     RecordSessionService.saveRecording(data.events);
   }
 
   async getSessions(): Promise<RecordSession[]> {
-    return await StorageService.getRecordedSessions();
+    return await RecordSessionService.getRecordedSessions();
   }
 
   async getSessionById({ id }): Promise<RecordSession> {
-    return await StorageService.getSingleItem(id);
+    return await RecordSessionService.getSessionById(id);
   }
 
   async getLastRecordedSession(): Promise<RecordSession | null> {
+    return null;
     const recordedSessions: RecordSession[] = await this.getSessions();
     let lastRecordedSession: RecordSession | null = null;
     recordedSessions.forEach(session => {
@@ -310,11 +313,11 @@ class ServiceWorker extends BaseService {
   }
 
   async deleteRecordedSessionById({ id }): Promise<void> {
-    await StorageService.remove(String(id));
+    await RecordSessionService.removeById(id);
   }
 
   async deleteRecordedSessions(): Promise<void> {
-    await StorageService.remove((await StorageService.getRecordedSessions()).map(({id }) => String(id)));
+    RecordSessionService.clear()
   }
 }
 

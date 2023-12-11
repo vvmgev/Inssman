@@ -12,6 +12,7 @@ const FeatureToggleProvider: FC<Props> = ({ children }) => {
     const getConfig = async () => {
       const response = await fetch('https://inssman.com/api/config');
       const data = await response.json();
+      data.featureToggles.featureShowRecord = true;
       setToggles(data.featureToggles);
     };
 
