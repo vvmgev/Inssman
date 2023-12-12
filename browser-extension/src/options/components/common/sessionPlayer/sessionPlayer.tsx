@@ -1,6 +1,6 @@
 import rrwebPlayer, { RRwebPlayerOptions } from "rrweb-player";
 import { RecordSession } from "models/recordSessionModel";
-import { FC, useEffect, useRef, forwardRef } from "react";
+import { FC, useEffect, useRef, forwardRef, memo } from "react";
 import './sessionPlayer.css';
 
 type Props = {
@@ -40,4 +40,4 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
   return <div ref={videoTagRef}></div>
 })
 
-export default SessionPlayer;
+export default memo(SessionPlayer);

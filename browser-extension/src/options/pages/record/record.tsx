@@ -3,7 +3,7 @@ import ColorCover from "common/colorCover/colorCover";
 import Input from "common/input/input";
 import Button from "common/button/button";
 import VideoCameraSVG  from 'assets/icons/videoCamera.svg'
-import { ReactElement, useState, FC, useEffect, useRef } from "react";
+import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
@@ -66,4 +66,4 @@ const Record: FC = (): ReactElement => {
   </ColorCover>
 };
 
-export default Record;
+export default memo(Record);

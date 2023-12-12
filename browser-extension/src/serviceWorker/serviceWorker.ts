@@ -288,7 +288,6 @@ class ServiceWorker extends BaseService {
   }
 
   saveRecording(data: any): void {
-    console.log('service worker saveRecording', data);
     RecordSessionService.saveRecording(data.events);
   }
 
@@ -301,15 +300,7 @@ class ServiceWorker extends BaseService {
   }
 
   async getLastRecordedSession(): Promise<RecordSession | null> {
-    return null;
-    const recordedSessions: RecordSession[] = await this.getSessions();
-    let lastRecordedSession: RecordSession | null = null;
-    recordedSessions.forEach(session => {
-      if(!lastRecordedSession || (Number(lastRecordedSession.id) < Number(session.id))) {
-        lastRecordedSession = session;
-      }
-    })
-    return lastRecordedSession;
+    return await RecordSessionService.getLastRecordedSession();
   }
 
   async deleteRecordedSessionById({ id }): Promise<void> {
