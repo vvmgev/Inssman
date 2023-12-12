@@ -2,6 +2,7 @@ import ColorCover from "common/colorCover/colorCover";
 import SessionPlayer from "common/sessionPlayer/sessionPlayer";
 import OutlineButton from "src/options/components/common/outlineButton/outlineButton";
 import TrashSVG  from 'assets/icons/trash.svg';
+import ArrowLeftSVG  from 'assets/icons/arrowLeft.svg';
 import { FC, ReactElement, useContext, useEffect, useState } from "react";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { useParams, useLocation } from "react-router-dom";
@@ -58,7 +59,14 @@ const Session: FC = (): ReactElement => {
   return <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
     {session && <>
       <div className="flex justify-between">
-        <div className="text-xl capitalize">{session?.name}</div>
+        <div className="flex gap-2">
+          <OutlineButton trackName='Back' classes='hover:border-red-400 hover:text-red-400'
+              onClick={alert}
+              icon={<ArrowLeftSVG />}
+            >Back
+          </OutlineButton>
+          <div className="text-xl capitalize">{session?.name}</div>
+        </div>
         <OutlineButton trackName='Delete Recorded Session in view mode' classes='hover:border-red-400 hover:text-red-400'
             onClick={handleDelete}
             icon={<TrashSVG />}>Delete</OutlineButton>
