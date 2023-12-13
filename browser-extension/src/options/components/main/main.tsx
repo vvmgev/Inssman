@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import Popup from 'reactjs-popup';
-import Input from 'components/common/input/input';
-import OutlineButton from 'components/common/outlineButton/outlineButton';
-import ColorCover from 'components/common/colorCover/colorCover';
+import Input from 'common/input/input';
+import BackButton from 'common/backButton/backButton';
+import OutlineButton from 'common/outlineButton/outlineButton';
+import ColorCover from 'common/colorCover/colorCover';
 import RuleList from '../ruleList/ruleList';
 import CrossSVG  from 'assets/icons/cross.svg';
 import SearchSVG  from 'assets/icons/search.svg';
@@ -71,8 +72,9 @@ export default () => {
         )}
       </Popup>
       <div className="w-full rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
-          <div className="text-lg py-5 max-h-[90%] w-full flex justify-between items-center px-6">
-              <span className="flex flex-row items-center gap-2">
+          <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
+            <BackButton />
+              <span className="flex flex-row items-center gap-2 text-lg">
                   <span className="w-[24px]">{<ListSVG />}</span>
                   <span>All Rules</span>
               </span>

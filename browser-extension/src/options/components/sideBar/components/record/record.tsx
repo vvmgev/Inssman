@@ -1,10 +1,11 @@
 import { ReactElement, FC, useContext } from "react";
 import VideoCameraSVG  from 'assets/icons/videoCamera.svg'
 import SquaresSVG  from 'assets/icons/squares.svg'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FeatureToggleContext } from 'src/context/featureToggleContext';
 
 const Record: FC = (): ReactElement => {
+  const location = useLocation();
   const { toggles } = useContext(FeatureToggleContext);
   return <div>
     <div className="flex">
