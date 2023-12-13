@@ -58,7 +58,7 @@ const Session: FC = (): ReactElement => {
   return <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
     {session && <>
       <div className="flex justify-between">
-        <BackButton />
+        <BackButton trackName="session" />
         <div className="text-xl capitalize">{session?.name}</div>
         <OutlineButton trackName='Delete Recorded Session in view mode' classes='hover:border-red-400 hover:text-red-400'
             onClick={handleDelete}

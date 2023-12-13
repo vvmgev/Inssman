@@ -37,7 +37,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = 'create' }
 
   return <>
       <div className="flex justify-between mb-3">
-        <BackButton />
+        <BackButton trackName={pageType} />
         <span className="flex flex-col items-center">
           <span>{mode === 'create' ? 'Create New Rule' : 'Edit Rule'}</span>
           <span className="text-xs gap-1 text-slate-400 flex items-center">

@@ -68,7 +68,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   return <div className={`${clientName === WebRequestClients.WINDOW ? 'h-[95%]' : 'h-[80%]'} mx-[5%] flex flex-col gap-2`}>
     <ColorCover classes={`h-[50%] p-5`}>
       <div className="text-sm flex justify-between mb-3">
-        {showOpenWindowBtn && <BackButton />}
+        {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
         <div className="flex justify-end gap-5 items-center ">
           {showOpenWindowBtn && <OutlineButton trackName='Open In Window' onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>Open In Window</OutlineButton>}
           <OutlineButton trackName='Clear Logs' onClick={handleClearLogs} icon={<CrossSVG />}>Clear Logs</OutlineButton>
