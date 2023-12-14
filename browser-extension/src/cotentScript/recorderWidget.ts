@@ -47,7 +47,10 @@ class RecordSessionWidget extends HTMLElement {
         padding: 3px;
       }
       .stop-content {
-        background: red;
+        background: #FF0000;
+      }
+      .stop-content:hover {
+        background: #b31900;
       }
       .stop-content,
       .recording-content {

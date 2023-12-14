@@ -2,6 +2,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import ColorCover from "common/colorCover/colorCover";
 import OutlineButton from "common/outlineButton/outlineButton";
 import Input from "common/input/input";
+import BackButton from "common/backButton/backButton";
 import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import ListSVG from "assets/icons/list.svg";
@@ -199,7 +200,8 @@ const SessionList: FC = (): ReactElement => {
 
   return (
     <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
-      <div className="flex text-2xl justify-between p-5">
+      <div className="flex justify-between p-5">
+        <BackButton trackName="back session list" />
         <span className="flex flex-row items-center gap-2">
           <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
           <span>Recorded Sessions</span>

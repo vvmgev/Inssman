@@ -1,7 +1,8 @@
-import SessionPlayer from "src/options/components/common/sessionPlayer/sessionPlayer";
+import SessionPlayer from "common/sessionPlayer/sessionPlayer";
 import ColorCover from "common/colorCover/colorCover";
 import Input from "common/input/input";
 import Button from "common/button/button";
+import BackButton from "common/backButton/backButton";
 import VideoCameraSVG from "assets/icons/videoCamera.svg";
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
 import { PostMessageAction } from "models/postMessageActionModel";
@@ -37,10 +38,14 @@ const Record: FC = (): ReactElement => {
   return (
     <ColorCover classes="flex justify-between mx-[5%] p-5">
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-3">
-          <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
-          <span className="text-2xl">Record Session & Replay</span>
+        <div className="flex justify-between">
+          <BackButton trackName="record" />
+          <div className="flex items-center gap-3">
+            <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
+            <span>Record Session & Replay</span>
+          </div>
         </div>
+
         <div className="text-slate-400 leading-7">
           <p>
             Record all events in the browser and replay them with precise timing
@@ -67,7 +72,7 @@ const Record: FC = (): ReactElement => {
         </div>
       </div>
       {session && (
-        <ColorCover classes="flex flex-col gap-5 rounded">
+        <ColorCover classes="ml-5 flex flex-col gap-5 rounded">
           <div className="flex justify-between">
             <span className="text-xl">Last Recorded Session</span>
             <Link to={`session/${session.id}`}>
