@@ -1,9 +1,12 @@
-export const throttle = (func: Function, delay: number): (...args: unknown[]) => void => {
+export const throttle = (
+  func: Function,
+  delay: number
+): ((...args: unknown[]) => void) => {
   let throttleRunning = false;
   let callImmedeiately = true;
 
   return function (...args: unknown[]) {
-    if(throttleRunning) return;
+    if (throttleRunning) return;
     throttleRunning = true;
 
     setTimeout(() => {

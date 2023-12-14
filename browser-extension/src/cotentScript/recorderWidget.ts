@@ -5,14 +5,20 @@ let isWidgetShown = false;
 class RecordSessionWidget extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this.getHTML();
-    this.shadowRoot.querySelector('.inssman-recorder-widget .stop-content')?.addEventListener('click', () => {
-      this.shadowRoot.querySelector('.inssman-recorder-widget').classList.add("hide");
-      window.postMessage({action: "stopRecording", source: 'inssman:recorderWidget'}, window.origin);
-    })
+    this.shadowRoot
+      .querySelector(".inssman-recorder-widget .stop-content")
+      ?.addEventListener("click", () => {
+        this.shadowRoot
+          .querySelector(".inssman-recorder-widget")
+          .classList.add("hide");
+        window.postMessage(
+          { action: "stopRecording", source: "inssman:recorderWidget" },
+          window.origin
+        );
+      });
   }
-
 
   getHTML() {
     return `
@@ -99,23 +105,27 @@ class RecordSessionWidget extends HTMLElement {
           opacity: 0;
         }
       }
-    `
+    `;
   }
-
 }
 
-customElements.define('inssman-record-session-widget', RecordSessionWidget);
+customElements.define("inssman-record-session-widget", RecordSessionWidget);
 
-window.addEventListener('message', event => {
+window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
-  if ((event.origin !== window.origin) || (!source?.startsWith?.('inssman:') || source.startsWith('inssman:recorderWidget'))) return;
+  if (
+    event.origin !== window.origin ||
+    !source?.startsWith?.("inssman:") ||
+    source.startsWith("inssman:recorderWidget")
+  )
+    return;
   switch (action) {
-    case 'showWidget':
-      if(isWidgetShown) return;
-      const widget = document.createElement('inssman-record-session-widget');
+    case "showWidget":
+      if (isWidgetShown) return;
+      const widget = document.createElement("inssman-record-session-widget");
       widget.classList.add("inssman-ignore-element");
       document.documentElement.appendChild(widget);
       isWidgetShown = true;
-    break;
+      break;
   }
 });

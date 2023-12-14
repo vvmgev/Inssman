@@ -1,5 +1,5 @@
 export enum PageSource {
-  Popup = 'popup',
-  Options = 'options',
-  Web = 'web',
+  Popup = "popup",
+  Options = "options",
+  Web = "web",
 }

@@ -1,9 +1,9 @@
-import { StorageItemType } from "./storageModel"
+import { StorageItemType } from "./storageModel";
 
 export type RecordSession = {
-  id: number,
-  url: string,
-  events: any[],
-  name: string,
-  date: string,
-}
+  id: number;
+  url: string;
+  events: any[];
+  name: string;
+  date: string;
+};

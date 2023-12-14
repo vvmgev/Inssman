@@ -10,27 +10,33 @@ import Tab = chrome.tabs.Tab;
 
 class RecordSessionService extends BaseService {
   private currentTab: Tab | null = null;
-  private url: string = '';
+  private url: string = "";
   // @ts-ignore
   private sessionId: number | null;
 
   injectCodes = (tabId: number) => {
-    InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:setup', action: 'showWidget'})`);
-    InjectCodeService.injectInternalScriptToDocument(tabId, `window.postMessage({source: 'inssman:setup', action: 'startRecording'})`);
-  }
+    InjectCodeService.injectInternalScriptToDocument(
+      tabId,
+      `window.postMessage({source: 'inssman:setup', action: 'showWidget'})`
+    );
+    InjectCodeService.injectInternalScriptToDocument(
+      tabId,
+      `window.postMessage({source: 'inssman:setup', action: 'startRecording'})`
+    );
+  };
 
   onUpdateTab = (tabId: number): void => {
-    if(tabId === this.currentTab?.id) {
+    if (tabId === this.currentTab?.id) {
       this.injectCodes(tabId);
     }
-  }
+  };
 
   onRemovedTab = async (tabId: number): Promise<void> => {
-    if(tabId === this.currentTab?.id) {
+    if (tabId === this.currentTab?.id) {
       this.removeListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
       this.removeListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
     }
-  }
+  };
 
   async startRecordingByUrl(url: string): Promise<void> {
     this.sessionId = null;
@@ -52,8 +58,8 @@ class RecordSessionService extends BaseService {
       url: this.url,
       date: new Date().toLocaleString(),
       name: extractDomain(this.url),
-    }
-    if(this.sessionId) {
+    };
+    if (this.sessionId) {
       const prevSession = await this.getSessionById(this.sessionId);
       session.id = this.sessionId;
       session.events = [...prevSession.events, ...session.events];
@@ -82,7 +88,6 @@ class RecordSessionService extends BaseService {
   getLastRecordedSession() {
     return indexDBService.getLastItem();
   }
-
 }
 
 export default new RecordSessionService();

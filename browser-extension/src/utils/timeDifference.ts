@@ -10,6 +10,6 @@ export const timeDifference = (timestamp: number, startTimestamp?: number) => {
     days,
     hours,
     minutes,
-    seconds
+    seconds,
   };
-}
+};

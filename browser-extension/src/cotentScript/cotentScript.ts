@@ -1,8 +1,8 @@
 // @ts-nocheck
-import MatcherService from 'services/MatcherService';
-import { IRuleMetaData } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
-import { NAMESPACE } from 'options/constant';
+import MatcherService from "services/MatcherService";
+import { IRuleMetaData } from "models/formFieldModel";
+import { PostMessageAction } from "models/postMessageActionModel";
+import { NAMESPACE } from "options/constant";
 
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
@@ -10,7 +10,7 @@ import { NAMESPACE } from 'options/constant';
   window[NAMESPACE].queueRequests = [];
   window[NAMESPACE].gotRules = false;
   window[NAMESPACE].start = () => {
-    if(window[NAMESPACE].gotRules) return;
+    if (window[NAMESPACE].gotRules) return;
     window[NAMESPACE].gotRules = true;
     startIntercept();
   };
@@ -22,10 +22,12 @@ import { NAMESPACE } from 'options/constant';
       return dummyLink.href;
     };
 
-    const getMatchedRuleByUrl = url => {
+    const getMatchedRuleByUrl = (url) => {
       const absoluteUrl = getAbsoluteUrl(url);
-      const matchedRule = window[NAMESPACE].rules.find(rule => MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType))
-      if(matchedRule) updateTimestamp(matchedRule);
+      const matchedRule = window[NAMESPACE].rules.find((rule) =>
+        MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType)
+      );
+      if (matchedRule) updateTimestamp(matchedRule);
       return matchedRule;
     };
 
@@ -33,10 +35,10 @@ import { NAMESPACE } from 'options/constant';
       try {
         chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
           action: PostMessageAction.UpdateTimestamp,
-          data: {ruleMetaData, timestamp: Date.now()}
+          data: { ruleMetaData, timestamp: Date.now() },
         });
       } catch (error) {}
-    }
+    };
 
     // Fetch interceptor
     const originalFetch = window.fetch;
@@ -54,8 +56,11 @@ import { NAMESPACE } from 'options/constant';
 
       const matchedRule = getMatchedRuleByUrl(request.url);
 
-      if(["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
-        try{
+      if (
+        ["GET", "HEAD"].includes(request.method.toUpperCase()) ||
+        !matchedRule
+      ) {
+        try {
           return await getOriginalResponse();
         } catch (error) {
           return Promise.reject(error);
@@ -81,7 +86,7 @@ import { NAMESPACE } from 'options/constant';
       } catch (error) {
         return Promise.reject(error);
       }
-    }
+    };
 
     // XMLHttpRequest interceptor
     const XHR = XMLHttpRequest;
@@ -116,6 +121,4 @@ import { NAMESPACE } from 'options/constant';
       setRequestHeader.apply(this, arguments);
     };
   };
-
-
 })(NAMESPACE);

@@ -1,8 +1,8 @@
 // @ts-nocheck
-import MatcherService from 'services/MatcherService';
-import { IRuleMetaData } from 'models/formFieldModel';
-import { PostMessageAction } from 'models/postMessageActionModel';
-import { NAMESPACE } from 'options/constant';
+import MatcherService from "services/MatcherService";
+import { IRuleMetaData } from "models/formFieldModel";
+import { PostMessageAction } from "models/postMessageActionModel";
+import { NAMESPACE } from "options/constant";
 
 window[NAMESPACE] = window[NAMESPACE] || {};
 window[NAMESPACE].interceptor = window[NAMESPACE].interceptor || {};
@@ -10,7 +10,7 @@ window[NAMESPACE].interceptor.rules = window[NAMESPACE].interceptor.rules || [];
 window[NAMESPACE].interceptor.queueRequests = [];
 window[NAMESPACE].interceptor.hasLoadedRules = false;
 window[NAMESPACE].start = () => {
-  if(window[NAMESPACE].interceptor.hasLoadedRules) return;
+  if (window[NAMESPACE].interceptor.hasLoadedRules) return;
   window[NAMESPACE].interceptor.hasLoadedRules = true;
   startIntercept();
 };
@@ -22,10 +22,12 @@ const startIntercept = () => {
     return dummyLink.href;
   };
 
-  const getMatchedRuleByUrl = url => {
+  const getMatchedRuleByUrl = (url) => {
     const absoluteUrl = getAbsoluteUrl(url);
-    const matchedRule = window[NAMESPACE].interceptor.rules.find(rule => MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType))
-    if(matchedRule) updateTimestamp(matchedRule);
+    const matchedRule = window[NAMESPACE].interceptor.rules.find((rule) =>
+      MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType)
+    );
+    if (matchedRule) updateTimestamp(matchedRule);
     return matchedRule;
   };
 
@@ -33,10 +35,10 @@ const startIntercept = () => {
     try {
       chrome.runtime.sendMessage(window[NAMESPACE].interceptor.runtimeId, {
         action: PostMessageAction.UpdateTimestamp,
-        data: {ruleMetaData, timestamp: Date.now()}
+        data: { ruleMetaData, timestamp: Date.now() },
       });
     } catch (error) {}
-  }
+  };
 
   // Fetch interceptor
   const originalFetch = window.fetch;
@@ -54,8 +56,11 @@ const startIntercept = () => {
 
     const matchedRule = getMatchedRuleByUrl(request.url);
 
-    if(["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
-      try{
+    if (
+      ["GET", "HEAD"].includes(request.method.toUpperCase()) ||
+      !matchedRule
+    ) {
+      try {
         return await getOriginalResponse();
       } catch (error) {
         return Promise.reject(error);
@@ -81,7 +86,7 @@ const startIntercept = () => {
     } catch (error) {
       return Promise.reject(error);
     }
-  }
+  };
 
   // XMLHttpRequest interceptor
   const XHR = XMLHttpRequest;
