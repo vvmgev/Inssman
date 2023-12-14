@@ -33,7 +33,7 @@ const Session: FC = (): ReactElement => {
         data: { id },
       },
       (session) => {
-        if (session.events.length > 1) {
+        if (session.events?.length > 1) {
           setSession(session);
         }
       }
@@ -79,7 +79,7 @@ const Session: FC = (): ReactElement => {
             </OutlineButton>
           </div>
           <div className="flex gap-5">
-            <ColorCover classes="rounded flex gap-2">
+            <ColorCover classes="rounded flex gap-2 max-w-[300px]">
               <span className="text-slate-400">URL: </span>
               <span>{session.url}</span>
             </ColorCover>

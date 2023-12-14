@@ -93,6 +93,8 @@ class ServiceWorker extends BaseService {
           responseData = this.importRules(data);
         } else if (action === PostMessageAction.StartRecordingByUrl) {
           responseData = this.startRecordingByUrl(data);
+        } else if (action === PostMessageAction.StartRecordingByCurrentTab) {
+          responseData = this.startRecordingByCurrentTab();
         } else if (action === PostMessageAction.StopRecording) {
           responseData = this.stopRecording();
         } else if (action === PostMessageAction.SaveRecording) {
@@ -354,6 +356,10 @@ class ServiceWorker extends BaseService {
 
   async startRecordingByUrl({ url }: { url: string }): Promise<void> {
     await RecordSessionService.startRecordingByUrl(url);
+  }
+
+  async startRecordingByCurrentTab(): Promise<void> {
+    await RecordSessionService.startRecordingByCurrentTab();
   }
 
   stopRecording(): void {

@@ -11,9 +11,15 @@ const Record: FC = (): ReactElement => {
     <div>
       <div className="flex">
         <div className="pl-2 mb-2 text-slate-400">Record Session</div>
-        <sup className="text-xs inline-block bottom-4 text-sky-500">
-          &nbsp;Coming Soon
-        </sup>
+        {toggles.featureShowRecord ? (
+          <sup className="text-xs inline-block bottom-4 text-red-500">
+            &nbsp;Beta
+          </sup>
+        ) : (
+          <sup className="text-xs inline-block bottom-4 text-sky-500">
+            &nbsp;Coming Soon
+          </sup>
+        )}
       </div>
       <Link to={toggles.featureShowRecord ? "/record" : "#"}>
         <div

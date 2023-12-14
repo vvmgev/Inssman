@@ -20,7 +20,7 @@ import { PostMessageAction } from "src/models/postMessageActionModel";
 import { RecordSession } from "src/models/recordSessionModel";
 import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
-import { timeDifference } from "src/utils";
+import { cutString, timeDifference } from "src/utils";
 
 enum SessionListType {
   GRID = "grid",
@@ -116,7 +116,7 @@ const SessionList: FC = (): ReactElement => {
           return (
             <div className="flex gap-2">
               <img
-                src={`${item.url}/favicon.ico`}
+                src={`http://${new URL(item.url).hostname}/favicon.ico`}
                 onLoad={(event: any) =>
                   event.target.classList?.toggle("invisible")
                 }
@@ -131,7 +131,7 @@ const SessionList: FC = (): ReactElement => {
       {
         field: "url",
         render: function (item) {
-          return item[this.field];
+          return cutString(item[this.field]);
         },
       },
       {

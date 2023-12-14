@@ -5,7 +5,8 @@ import StorageService from "./StorageService";
 import indexDBService from "./indexDBService";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { extractDomain } from "src/utils";
-import { RecordSession } from "src/models/recordSessionModel";
+import { RecordSession } from "models/recordSessionModel";
+
 import Tab = chrome.tabs.Tab;
 
 class RecordSessionService extends BaseService {
@@ -44,6 +45,17 @@ class RecordSessionService extends BaseService {
     this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
     this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
     this.currentTab = await TabService.createTab(url);
+  }
+
+  async startRecordingByCurrentTab(): Promise<void> {
+    this.sessionId = null;
+    this.currentTab = await TabService.getCurrentTab();
+    if(this.currentTab) {
+      this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
+      this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
+      this.url = this.currentTab.url as string;
+      this.injectCodes(this.currentTab.id as number)
+    }
   }
 
   stopRecording(): void {

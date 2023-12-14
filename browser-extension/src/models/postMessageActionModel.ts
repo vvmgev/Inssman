@@ -19,6 +19,7 @@ export enum PostMessageAction {
   ToggleExntesion,
   ToggleExntesionOptions,
   StartRecordingByUrl,
+  StartRecordingByCurrentTab,
   StopRecording,
   SaveRecording,
   GetRecordedSessions,
