@@ -44,7 +44,7 @@ const Footer = () => {
                 }
               }}
             >
-              Start Recording {url ? "" : "Current Tab"}
+              Start Recording {url ? "" : "This Tab"}
             </Button>
           </div>
         </ColorCover>
