@@ -39,7 +39,12 @@ const SessionList: FC = (): ReactElement => {
   const getSessions = (): void =>
     chrome.runtime.sendMessage(
       { action: PostMessageAction.GetRecordedSessions },
-      setSessions
+      (data) => {
+        if (data.error) {
+          return;
+        }
+        setSessions(data);
+      }
     );
 
   useEffect(() => {

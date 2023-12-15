@@ -131,7 +131,7 @@ class ServiceWorker extends BaseService {
           error: true,
           info: handleError(error, {
             action: PostMessageAction[action],
-            data: { ...data, version },
+            data: { ...(data || {}), version },
           }),
         });
       }
