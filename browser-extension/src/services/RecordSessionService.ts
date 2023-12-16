@@ -1,11 +1,12 @@
 import BaseService from "./BaseService";
 import InjectCodeService from "./InjectCodeService";
 import TabService from "./TabService";
-import StorageService from "./StorageService";
-import indexDBService from "./indexDBService";
+import IndexDBService from "./indexDBService";
+import handleError from "src/serviceWorker/errorHandler";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { extractDomain } from "src/utils";
 import { RecordSession } from "models/recordSessionModel";
+import { PostMessageAction } from "src/models/postMessageActionModel";
 
 import Tab = chrome.tabs.Tab;
 
@@ -14,6 +15,51 @@ class RecordSessionService extends BaseService {
   private url: string = "";
   // @ts-ignore
   private sessionId: number | null;
+
+  constructor() {
+    super();
+    this.addListener(ListenerType.ON_MESSAGE, this.onMessage);
+  }
+
+  private onMessage = (request, sender, sendResponse): void => {
+    const { action, data } = request;
+    (async () => {
+      let responseData: any;
+      try {
+        if (action === PostMessageAction.StartRecordingByUrl) {
+          responseData = this.startRecordingByUrl(data);
+        } else if (action === PostMessageAction.StartRecordingByCurrentTab) {
+          responseData = this.startRecordingByCurrentTab();
+        } else if (action === PostMessageAction.StopRecording) {
+          responseData = this.stopRecording();
+        } else if (action === PostMessageAction.SaveRecording) {
+          responseData = this.saveRecording(data);
+        } else if (action === PostMessageAction.GetRecordedSessions) {
+          responseData = this.getRecordedSessions();
+        } else if (action === PostMessageAction.GetRecordedSessionById) {
+          responseData = this.getSessionById(data);
+        } else if (action === PostMessageAction.GetLastRecordedSession) {
+          responseData = this.getLastRecordedSession();
+        } else if (action === PostMessageAction.DeleteRecordedSessionById) {
+          responseData = this.removeById(data);
+        } else if (action === PostMessageAction.DeleteRecordedSessions) {
+          responseData = this.clear();
+        }
+        if (responseData) {
+          sendResponse(await responseData);
+        }
+      } catch (error: any) {
+        const { version } = chrome.runtime.getManifest();
+        sendResponse({
+          error: true,
+          info: handleError(error, {
+            action: PostMessageAction[action],
+            data: { ...(data || {}), version },
+          }),
+        });
+      }
+    })();
+  };
 
   injectCodes = (tabId: number) => {
     InjectCodeService.injectInternalScriptToDocument(
@@ -50,11 +96,11 @@ class RecordSessionService extends BaseService {
   async startRecordingByCurrentTab(): Promise<void> {
     this.sessionId = null;
     this.currentTab = await TabService.getCurrentTab();
-    if(this.currentTab) {
+    if (this.currentTab) {
       this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
       this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
       this.url = this.currentTab.url as string;
-      this.injectCodes(this.currentTab.id as number)
+      this.injectCodes(this.currentTab.id as number);
     }
   }
 
@@ -75,30 +121,30 @@ class RecordSessionService extends BaseService {
       const prevSession = await this.getSessionById(this.sessionId);
       session.id = this.sessionId;
       session.events = [...prevSession.events, ...session.events];
-      await indexDBService.put(session);
+      await IndexDBService.put(session);
     } else {
-      this.sessionId = await indexDBService.add(session);
+      this.sessionId = await IndexDBService.add(session);
     }
   }
 
   async getRecordedSessions(): Promise<RecordSession[]> {
-    return indexDBService.getAll();
+    return IndexDBService.getAll();
   }
 
   async getSessionById(id): Promise<RecordSession> {
-    return indexDBService.get(id);
+    return IndexDBService.get(id);
   }
 
   clear(): void {
-    indexDBService.clear();
+    IndexDBService.clear();
   }
 
   removeById(id) {
-    indexDBService.remove(id);
+    IndexDBService.remove(id);
   }
 
   getLastRecordedSession() {
-    return indexDBService.getLastItem();
+    return IndexDBService.getLastItem();
   }
 }
 

@@ -6,7 +6,6 @@ import BaseService from "services/BaseService";
 import MatcherService from "services/MatcherService";
 import config from "options/formBuilder/config";
 import handleError from "./errorHandler";
-import RecordSessionService from "src/services/RecordSessionService";
 import { ListenerType } from "services/ListenerService/ListenerService";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "models/formFieldModel";
@@ -14,14 +13,14 @@ import { StorageKey } from "models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "options/constant";
 import { throttle } from "src/utils/throttle";
 import { storeRuleMetaData } from "./firebase";
-import { RecordSession } from "src/models/recordSessionModel";
+import "src/services/RecordSessionService";
 import "services/WebRequestService";
 import "services/indexDBService";
 
-import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
+import Rule = chrome.declarativeNetRequest.Rule;
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
@@ -91,27 +90,11 @@ class ServiceWorker extends BaseService {
           responseData = this.toggleExtension(data, sender);
         } else if (action === PostMessageAction.ImportRules) {
           responseData = this.importRules(data);
-        } else if (action === PostMessageAction.StartRecordingByUrl) {
-          responseData = this.startRecordingByUrl(data);
-        } else if (action === PostMessageAction.StartRecordingByCurrentTab) {
-          responseData = this.startRecordingByCurrentTab();
-        } else if (action === PostMessageAction.StopRecording) {
-          responseData = this.stopRecording();
-        } else if (action === PostMessageAction.SaveRecording) {
-          responseData = this.saveRecording(data);
-        } else if (action === PostMessageAction.GetRecordedSessions) {
-          responseData = this.getSessions();
-        } else if (action === PostMessageAction.GetRecordedSessionById) {
-          responseData = this.getSessionById(data);
-        } else if (action === PostMessageAction.GetLastRecordedSession) {
-          responseData = this.getLastRecordedSession();
-        } else if (action === PostMessageAction.DeleteRecordedSessionById) {
-          responseData = this.deleteRecordedSessionById(data);
-        } else if (action === PostMessageAction.DeleteRecordedSessions) {
-          responseData = this.deleteRecordedSessions();
         }
 
-        sendResponse(await responseData);
+        if (responseData) {
+          sendResponse(await responseData);
+        }
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
         // hot fix for unique id
@@ -352,42 +335,6 @@ class ServiceWorker extends BaseService {
         });
       } catch (error) {}
     }
-  }
-
-  async startRecordingByUrl({ url }: { url: string }): Promise<void> {
-    await RecordSessionService.startRecordingByUrl(url);
-  }
-
-  async startRecordingByCurrentTab(): Promise<void> {
-    await RecordSessionService.startRecordingByCurrentTab();
-  }
-
-  stopRecording(): void {
-    RecordSessionService.stopRecording();
-  }
-
-  saveRecording(data: any): void {
-    RecordSessionService.saveRecording(data.events);
-  }
-
-  async getSessions(): Promise<RecordSession[]> {
-    return await RecordSessionService.getRecordedSessions();
-  }
-
-  async getSessionById({ id }): Promise<RecordSession> {
-    return await RecordSessionService.getSessionById(id);
-  }
-
-  async getLastRecordedSession(): Promise<RecordSession | null> {
-    return await RecordSessionService.getLastRecordedSession();
-  }
-
-  async deleteRecordedSessionById({ id }): Promise<void> {
-    await RecordSessionService.removeById(id);
-  }
-
-  async deleteRecordedSessions(): Promise<void> {
-    RecordSessionService.clear();
   }
 }
 
