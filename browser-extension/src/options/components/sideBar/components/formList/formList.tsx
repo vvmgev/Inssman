@@ -32,14 +32,16 @@ const FormList = () => {
               } flex items-center hover:text-sky-500 gap-2`}
             >
               <span className="min-w-[24px]">{icon}</span>
-              <span>{text}</span>
-              {popularPaths.includes(path) && (
-                <Tooltip content="Popular">
-                  <span className="w-[24px] inline-block text-yellow-400">
-                    {<StarSVG />}
-                  </span>
-                </Tooltip>
-              )}
+              <>
+                <span>{text}</span>
+                {popularPaths.includes(path) && (
+                  <Tooltip content="Popular">
+                    <span className="w-[24px] inline-block text-yellow-400">
+                      {<StarSVG />}
+                    </span>
+                  </Tooltip>
+                )}
+              </>
             </div>
           </Link>
         </li>

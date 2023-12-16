@@ -19,18 +19,18 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
   return (
-    <div className="flex flex-row h-full">
-      <SideBar />
-      <div className="flex flex-col gap-10 w-5/6">
+    <div className="flex flex-row h-screen w-screen overflow-hidden">
+      <div className="">
+        <SideBar />
+      </div>
+      <div className="flex flex-col gap-10 w-full">
         <Header />
-        {!showOverlay && (
-          <div className="absolute z-10 bg-black opacity-50 top-0 bottom-0 left-0 right-0"></div>
-        )}
-        {BrowserSupportService.isSupportRules() ? (
+        <BrowserSupport>
+          {!showOverlay && (
+            <div className="absolute z-10 bg-black opacity-50 top-0 bottom-0 left-0 right-0"></div>
+          )}
           <RuleRoutes />
-        ) : (
-          <BrowserSupport />
-        )}
+        </BrowserSupport>
         <Footer />
       </div>
     </div>
@@ -39,7 +39,7 @@ const App = () => {
 
 const Wrapper = () => {
   return (
-    <div className="h-screen w-screen overflow-hidden">
+    <>
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -63,7 +63,7 @@ const Wrapper = () => {
           </FeatureToggleProvider>
         </HashRouter>
       </Background>
-    </div>
+    </>
   );
 };
 

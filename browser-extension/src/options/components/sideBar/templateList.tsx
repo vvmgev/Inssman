@@ -10,6 +10,7 @@ const TemplateList = () => {
       <li className="pl-2 mb-2 text-slate-400">
         <div>Templates</div>
       </li>
+
       {paths.map(({ icon, path }) => {
         const ruleTemplates = templates[path];
         if (!ruleTemplates) return null;

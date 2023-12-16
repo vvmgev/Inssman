@@ -3,9 +3,12 @@ import ListSVG from "assets/icons/list.svg";
 import StarSVG from "assets/icons/star.svg";
 import { paths, popularPaths } from "../app/paths";
 import Tooltip from "common/tooltip/tooltip";
+import { SideBarContext } from "src/context/sideBarContext";
+import { useContext } from "react";
 
 const FormList = () => {
   const location = useLocation();
+  const { full } = useContext(SideBarContext);
   return (
     <ul>
       <li className="pl-2 mb-2">
@@ -16,7 +19,7 @@ const FormList = () => {
             } flex items-center hover:text-sky-500 gap-2`}
           >
             <span className="w-[24px]">{<ListSVG />}</span>
-            <span>All Rules</span>
+            {full && <span>All Rules</span>}
           </div>
         </Link>
       </li>
@@ -32,13 +35,17 @@ const FormList = () => {
               } flex items-center hover:text-sky-500 gap-2`}
             >
               <span className="min-w-[24px]">{icon}</span>
-              <span>{text}</span>
-              {popularPaths.includes(path) && (
-                <Tooltip content="Popular">
-                  <span className="w-[24px] inline-block text-yellow-400">
-                    {<StarSVG />}
-                  </span>
-                </Tooltip>
+              {full && (
+                <>
+                  <span>{text}</span>
+                  {popularPaths.includes(path) && (
+                    <Tooltip content="Popular">
+                      <span className="w-[24px] inline-block text-yellow-400">
+                        {<StarSVG />}
+                      </span>
+                    </Tooltip>
+                  )}
+                </>
               )}
             </div>
           </Link>

@@ -1,6 +1,10 @@
-import ColorCover from "../common/colorCover/colorCover";
+import BrowserSupportService from "services/BrowserSupportService";
+import ColorCover from "common/colorCover/colorCover";
 
-const BrowserSupport = () => {
+const BrowserSupport = ({ children }) => {
+  if (BrowserSupportService.isSupportRules()) {
+    return children;
+  }
   return (
     <ColorCover classes="mx-[5%]">
       <div className="py-5 px-5 text-lg w-full mx-[5%]">

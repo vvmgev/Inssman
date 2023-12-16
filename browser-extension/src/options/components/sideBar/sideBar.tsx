@@ -6,26 +6,39 @@ import Record from "./components/record/record";
 import { useContext } from "react";
 import { SideBarContext } from "src/context/sideBarContext";
 import { Link } from "react-router-dom";
+import ArrowLeftSVG from "assets/icons/arrowLeft.svg";
+import ArrowRightSVG from "assets/icons/arrowRight.svg";
 
 const SideBar = () => {
-  const { full } = useContext(SideBarContext);
+  const { full, setFull } = useContext(SideBarContext);
   return (
-    <div className={`flex flex-col gap-1 h-full w-1/6 ${full ? "" : ""}`}>
-      <ColorCover classes="rounded-bl-none rounded-tl-none rounded-tr-none">
-        <Link className="hover:cursor-pointer" to="/">
+    <ColorCover classes="rounded-none h-full p-0 flex flex-col">
+      <Link className="hover:cursor-pointer" to="/">
+        <div className="pl-2 py-2 border border-slate-700">
           <Logo />
-        </Link>
-      </ColorCover>
-      <ColorCover classes="rounded-tl-none rounded-bl-none">
+        </div>
+      </Link>
+      <div className="py-2 border border-slate-700">
         <FormList />
-      </ColorCover>
-      <ColorCover classes="rounded-tl-none rounded-bl-none transition ease-in-out bg-[#2a3e6c]">
+      </div>
+      <div className="py-2 border border-slate-700">
         <Record />
-      </ColorCover>
-      <ColorCover classes="rounded-tl-none rounded-bl-none">
+      </div>
+      <div className="py-2 border border-slate-700 border-b-0">
         <TemplateList />
-      </ColorCover>
-    </div>
+      </div>
+      {/* <div className="py-2 border border-slate-700 flex flex-col flex-1 justify-end">
+        <div
+          className="cursor-pointer flex items-center hover:text-sky-500 gap-2 pl-2 mb-2"
+          onClick={() => setFull(!full)}
+        >
+          <span className="w-[24px]">
+              {full ? <ArrowLeftSVG /> : <ArrowRightSVG />}
+            </span>
+            {full && <span>Collapse</span>}
+        </div>
+      </div> */}
+    </ColorCover>
   );
 };
 
