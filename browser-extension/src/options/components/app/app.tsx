@@ -8,10 +8,10 @@ import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
 import BrowserSupportService from "src/services/BrowserSupportService";
 import SideBarContextProvider from "src/context/sideBarContext";
+import FeatureToggleProvider from "src/context/featureToggleContext";
 import OverlayContextProvider, {
   OverlayContext,
 } from "src/context/overlayContext";
-import FeatureToggleProvider from "src/context/featureToggleContext";
 import { useContext } from "react";
 import "services/TrackService";
 import "react-toastify/dist/ReactToastify.css";

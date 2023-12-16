@@ -64,8 +64,10 @@ class StorageService {
     timestamp: number = Date.now()
   ): Promise<void> {
     const storageRule = await this.getSingleItem(id);
-    storageRule.lastMatchedTimestamp = timestamp;
-    await this.set({ [id]: storageRule });
+    if (storageRule) {
+      storageRule.lastMatchedTimestamp = timestamp;
+      await this.set({ [id]: storageRule });
+    }
   }
 
   async getUserId(): Promise<number> {
