@@ -10,13 +10,15 @@ const Record: FC = (): ReactElement => {
   return (
     <div>
       <div className="flex">
-        <div className="pl-2 mb-2 text-slate-400">Record Session</div>
+        <div className="pl-2 mb-2 text-slate-400 whitespace-nowrap">
+          Record Session
+        </div>
         {featureShowRecord ? (
-          <sup className="text-xs inline-block bottom-4 text-red-500">
+          <sup className="text-xs inline-block bottom-4 text-red-500 whitespace-nowrap">
             &nbsp;Beta
           </sup>
         ) : (
-          <sup className="text-xs inline-block bottom-4 text-sky-500">
+          <sup className="text-xs inline-block bottom-4 text-sky-500 whitespace-nowrap">
             &nbsp;Coming Soon
           </sup>
         )}
@@ -27,8 +29,8 @@ const Record: FC = (): ReactElement => {
             location.pathname === "/record" ? "text-sky-500" : ""
           } flex items-center hover:text-sky-500 gap-2 pl-2 mb-2`}
         >
-          <span className="w-[24px]">{<VideoCameraSVG />}</span>
-          <span>Record</span>
+          <span className="min-w-[24px]">{<VideoCameraSVG />}</span>
+          <span className="whitespace-nowrap">Record</span>
         </div>
       </Link>
       <Link to={featureShowRecord ? "/record/session" : "#"}>
@@ -37,8 +39,8 @@ const Record: FC = (): ReactElement => {
             location.pathname === "/record/session" ? "text-sky-500" : ""
           } flex items-center hover:text-sky-500 gap-2 pl-2 mb-2`}
         >
-          <span className="w-[24px]">{<SquaresSVG />}</span>
-          <span>Recorded Sessions</span>
+          <span className="min-w-[24px]">{<SquaresSVG />}</span>
+          <span className="whitespace-nowrap">Recorded Sessions</span>
         </div>
       </Link>
     </div>

@@ -16,7 +16,11 @@ const SideBar = () => {
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
-    <ColorCover classes="rounded-none h-full p-0 flex flex-col">
+    <ColorCover
+      classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${
+        full ? "" : ""
+      }`}
+    >
       <Link className="hover:cursor-pointer" to="/">
         <div className="pl-2 py-2 border-b border-slate-700">
           <Logo />
@@ -43,9 +47,9 @@ const SideBar = () => {
           onClick={() => setFull(!full)}
         >
           <span className="w-[24px]">
-              {full ? <ArrowLeftSVG /> : <ArrowRightSVG />}
-            </span>
-            {full && <span>Collapse</span>}
+            {full ? <ArrowLeftSVG /> : <ArrowRightSVG />}
+          </span>
+          {full && <span>Collapse</span>}
         </div>
       </div> */}
     </ColorCover>

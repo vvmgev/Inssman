@@ -27,7 +27,7 @@ const TemplateList = () => {
                   } flex items-center hover:text-sky-500 gap-2`}
                 >
                   <span className="min-w-[24px]">{icon}</span>
-                  <span>{template.name}</span>
+                  <span className="whitespace-nowrap">{template.name}</span>
                 </div>
               </Link>
             </li>

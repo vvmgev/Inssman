@@ -15,13 +15,13 @@ const FormList = () => {
               location.pathname === "/" ? "text-sky-500" : ""
             } flex items-center hover:text-sky-500 gap-2`}
           >
-            <span className="w-[24px]">{<ListSVG />}</span>
-            <span>All Rules</span>
+            <span className="min-w-[24px]">{<ListSVG />}</span>
+            <span className="whitespace-nowrap">All Rules</span>
           </div>
         </Link>
       </li>
       <li className="pl-2 mt-5 mb-2 text-slate-400">
-        <div>Create Rule</div>
+        <div className="whitespace-nowrap">Create Rule</div>
       </li>
       {paths.map(({ icon, text, path }, index) => (
         <li className="pl-2 mb-2" key={index}>
@@ -33,7 +33,7 @@ const FormList = () => {
             >
               <span className="min-w-[24px]">{icon}</span>
               <>
-                <span>{text}</span>
+                <span className="whitespace-nowrap">{text}</span>
                 {popularPaths.includes(path) && (
                   <Tooltip content="Popular">
                     <span className="w-[24px] inline-block text-yellow-400">

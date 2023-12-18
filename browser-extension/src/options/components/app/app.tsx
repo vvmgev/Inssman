@@ -7,7 +7,9 @@ import SideBar from "../sideBar/sideBar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
 import BrowserSupportService from "src/services/BrowserSupportService";
-import SideBarContextProvider from "src/context/sideBarContext";
+import SideBarContextProvider, {
+  SideBarContext,
+} from "src/context/sideBarContext";
 import FeatureToggleProvider from "src/context/featureToggleContext";
 import OverlayContextProvider, {
   OverlayContext,
@@ -18,11 +20,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
+  const { full, setFull } = useContext(SideBarContext);
+
   return (
     <div className="flex flex-row h-screen w-screen overflow-hidden">
-      <div className="">
-        <SideBar />
-      </div>
+      <SideBar />
       <div className="flex flex-col gap-10 w-full">
         <Header />
         <BrowserSupport>
