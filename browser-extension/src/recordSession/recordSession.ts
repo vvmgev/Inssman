@@ -48,12 +48,12 @@ class RecordSession {
   }
 
   stop() {
+    this.stopRecording();
+    this.sendEvent();
     window.postMessage({
       source: "inssman:recordSession",
       action: "stopRecordedSession",
     });
-    this.stopRecording();
-    this.sendEvent();
   }
 }
 

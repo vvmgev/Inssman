@@ -3,7 +3,14 @@ import SessionPlayer from "common/sessionPlayer/sessionPlayer";
 import OutlineButton from "common/outlineButton/outlineButton";
 import BackButton from "common/backButton/backButton";
 import TrashSVG from "assets/icons/trash.svg";
-import { FC, ReactElement, useContext, useEffect, useState } from "react";
+import {
+  FC,
+  ReactElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { useParams, useLocation } from "react-router-dom";
 import { RecordSession } from "src/models/recordSessionModel";
@@ -62,6 +69,12 @@ const Session: FC = (): ReactElement => {
     }
   };
 
+  const sessionMemo = useMemo(() => session, [session]);
+  const playerOptions = useMemo(
+    () => ({ width: 800, height: 500, autoPlay: true }),
+    []
+  );
+
   return (
     <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
       {session && (
@@ -95,10 +108,7 @@ const Session: FC = (): ReactElement => {
         </>
       )}
       <div className="m-auto">
-        <SessionPlayer
-          session={session}
-          playerOptions={{ width: 800, height: 500, autoPlay: true }}
-        />
+        <SessionPlayer session={sessionMemo} playerOptions={playerOptions} />
       </div>
     </ColorCover>
   );

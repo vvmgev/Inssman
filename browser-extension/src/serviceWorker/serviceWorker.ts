@@ -6,7 +6,8 @@ import BaseService from "services/BaseService";
 import MatcherService from "services/MatcherService";
 import config from "options/formBuilder/config";
 import handleError from "./errorHandler";
-import RecordSessionService from "src/services/RecordSessionService";
+import RecordSessionService from "services/RecordSessionService";
+import TabService from "services/TabService";
 import { ListenerType } from "services/ListenerService/ListenerService";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "models/formFieldModel";
@@ -362,8 +363,15 @@ class ServiceWorker extends BaseService {
     await RecordSessionService.startRecordingByCurrentTab();
   }
 
-  stopRecording(): void {
+  async stopRecording(): Promise<void> {
     RecordSessionService.stopRecording();
+    const lastRecordedSession = await this.getLastRecordedSession();
+    if (lastRecordedSession?.id) {
+      const url = chrome.runtime.getURL(
+        `options/options.html#/record/session/${lastRecordedSession.id}`
+      );
+      TabService.createTab(url);
+    }
   }
 
   saveRecording(data: any): void {
