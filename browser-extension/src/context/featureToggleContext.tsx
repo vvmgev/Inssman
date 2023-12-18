@@ -6,28 +6,30 @@ import {
   useState,
 } from "react";
 
-type FeatureToggleValue = Record<string, boolean>;
+export type FeatureToggles = {
+  featureOpenWebApp: boolean;
+  featureUseCache: boolean;
+  featureShowRecord: boolean;
+};
 type Props = PropsWithChildren<{}>;
 
-export const FeatureToggleContext = createContext({
-  toggles: {} as FeatureToggleValue,
-});
+export const FeatureToggleContext = createContext({} as FeatureToggles);
 
 const FeatureToggleProvider: FC<Props> = ({ children }) => {
-  const [toggles, setToggles] = useState<FeatureToggleValue>({});
+  const [toggles, setToggles] = useState<FeatureToggles>({} as FeatureToggles);
 
   useEffect(() => {
     const getConfig = async () => {
       const response = await fetch("https://inssman.com/api/config");
-      const data = await response.json();
-      setToggles(data.featureToggles);
+      const data: FeatureToggles = await response.json();
+      setToggles(data);
     };
 
     getConfig();
   }, []);
 
   return (
-    <FeatureToggleContext.Provider value={{ toggles }}>
+    <FeatureToggleContext.Provider value={toggles}>
       {children}
     </FeatureToggleContext.Provider>
   );

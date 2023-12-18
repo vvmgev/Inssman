@@ -3,28 +3,38 @@ import ColorCover from "../common/colorCover/colorCover";
 import TemplateList from "./templateList";
 import FormList from "./components/formList/formList";
 import Record from "./components/record/record";
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import { SideBarContext } from "src/context/sideBarContext";
 import { Link } from "react-router-dom";
 import ArrowLeftSVG from "assets/icons/arrowLeft.svg";
 import ArrowRightSVG from "assets/icons/arrowRight.svg";
+import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
+import { FeatureToggleContext } from "src/context/featureToggleContext";
 
 const SideBar = () => {
   const { full, setFull } = useContext(SideBarContext);
+  const { featureShowRecord } = useContext(FeatureToggleContext);
+  const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
     <ColorCover classes="rounded-none h-full p-0 flex flex-col">
       <Link className="hover:cursor-pointer" to="/">
-        <div className="pl-2 py-2 border border-slate-700">
+        <div className="pl-2 py-2 border-b border-slate-700">
           <Logo />
         </div>
       </Link>
-      <div className="py-2 border border-slate-700">
+      <div className="py-2 border-b border-slate-700">
         <FormList />
       </div>
-      <div className="py-2 border border-slate-700">
-        <Record />
+      <div
+        className={`${
+          featureShowRecord ? "" : "py-2"
+        } border-b border-slate-700`}
+      >
+        <AnimationElement>
+          <Record />
+        </AnimationElement>
       </div>
-      <div className="py-2 border border-slate-700 border-b-0">
+      <div className="py-2 border-none">
         <TemplateList />
       </div>
       {/* <div className="py-2 border border-slate-700 flex flex-col flex-1 justify-end">

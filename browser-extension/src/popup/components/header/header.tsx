@@ -7,10 +7,10 @@ import { useEffect, useState, useContext } from "react";
 
 const Header = () => {
   const [openWebApp, setOpenWebApp] = useState<boolean>(false);
-  const { toggles } = useContext(FeatureToggleContext);
+  const { featureOpenWebApp } = useContext(FeatureToggleContext);
 
   useEffect(() => {
-    setOpenWebApp(toggles.shouldOpenWebApp);
+    setOpenWebApp(featureOpenWebApp);
   }, []);
 
   const onHandleOpen = () => {

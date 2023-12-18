@@ -10,10 +10,10 @@ import { addProtocol } from "src/utils";
 const Footer = () => {
   const [url, setUrl] = useState<string>();
   const searchRef = useRef<HTMLInputElement>();
-  const { toggles } = useContext(FeatureToggleContext);
+  const { featureShowRecord } = useContext(FeatureToggleContext);
   return (
     <div>
-      {toggles.featureShowRecord && (
+      {featureShowRecord && (
         <ColorCover classes="border-b-0 border-l-0 border-r-0 h-[initial] rounded-none pt-0 flex flex-col gap-1">
           <div className="text-sm m-0 text-gray-400">
             Record Session And Replay In Your Browser & Share
@@ -32,15 +32,21 @@ const Footer = () => {
               onClick={() => {
                 const url = searchRef.current?.value || "";
                 if (searchRef.current?.value) {
-                  chrome.runtime.sendMessage({
-                    action: PostMessageAction.StartRecordingByUrl,
-                    data: { url: addProtocol(url) },
-                  });
+                  chrome.runtime.sendMessage(
+                    {
+                      action: PostMessageAction.StartRecordingByUrl,
+                      data: { url: addProtocol(url) },
+                    },
+                    window.close
+                  );
                 } else {
-                  chrome.runtime.sendMessage({
-                    action: PostMessageAction.StartRecordingByCurrentTab,
-                    data: {},
-                  });
+                  chrome.runtime.sendMessage(
+                    {
+                      action: PostMessageAction.StartRecordingByCurrentTab,
+                      data: {},
+                    },
+                    window.close
+                  );
                 }
               }}
             >

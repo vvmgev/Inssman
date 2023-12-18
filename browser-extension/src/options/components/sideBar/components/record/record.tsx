@@ -6,12 +6,12 @@ import { FeatureToggleContext } from "src/context/featureToggleContext";
 
 const Record: FC = (): ReactElement => {
   const location = useLocation();
-  const { toggles } = useContext(FeatureToggleContext);
+  const { featureShowRecord } = useContext(FeatureToggleContext);
   return (
     <div>
       <div className="flex">
         <div className="pl-2 mb-2 text-slate-400">Record Session</div>
-        {toggles.featureShowRecord ? (
+        {featureShowRecord ? (
           <sup className="text-xs inline-block bottom-4 text-red-500">
             &nbsp;Beta
           </sup>
@@ -21,7 +21,7 @@ const Record: FC = (): ReactElement => {
           </sup>
         )}
       </div>
-      <Link to={toggles.featureShowRecord ? "/record" : "#"}>
+      <Link to={featureShowRecord ? "/record" : "#"}>
         <div
           className={`${
             location.pathname === "/record" ? "text-sky-500" : ""
@@ -31,7 +31,7 @@ const Record: FC = (): ReactElement => {
           <span>Record</span>
         </div>
       </Link>
-      <Link to={toggles.featureShowRecord ? "/record/session" : "#"}>
+      <Link to={featureShowRecord ? "/record/session" : "#"}>
         <div
           className={`${
             location.pathname === "/record/session" ? "text-sky-500" : ""
