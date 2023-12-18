@@ -24,6 +24,11 @@ const Session: FC = (): ReactElement => {
   const [session, setSession] = useState<RecordSession>();
   const { setFull } = useContext(SideBarContext);
   const { id } = useParams();
+  const sessionMemo = useMemo(() => session, [session]);
+  const playerOptions = useMemo(
+    () => ({ width: 800, height: 500, autoPlay: true }),
+    []
+  );
 
   useEffect(() => {
     setFull(false);
@@ -69,18 +74,16 @@ const Session: FC = (): ReactElement => {
     }
   };
 
-  const sessionMemo = useMemo(() => session, [session]);
-  const playerOptions = useMemo(
-    () => ({ width: 800, height: 500, autoPlay: true }),
-    []
-  );
-
   return (
     <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
       {session && (
         <>
           <div className="flex justify-between">
-            <BackButton trackName="session" url="/record/session" />
+            <BackButton
+              trackName="session"
+              url="/record/session"
+              text="Sessions"
+            />
             <div className="text-xl capitalize">{session?.name}</div>
             <OutlineButton
               trackName="Delete Recorded Session in view mode"

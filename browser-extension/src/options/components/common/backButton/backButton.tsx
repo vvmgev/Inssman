@@ -6,8 +6,9 @@ import { FC } from "react";
 type Props = {
   trackName: string;
   url?: string;
+  text?: string;
 };
-const BackButton: FC<Props> = ({ trackName, url }) => {
+const BackButton: FC<Props> = ({ trackName, url, text }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +17,7 @@ const BackButton: FC<Props> = ({ trackName, url }) => {
       onClick={() => navigate((url || -1) as string)}
       icon={<ArrowLeftSVG />}
     >
-      Back
+      {text || "Back"}
     </OutlineButton>
   );
 };

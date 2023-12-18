@@ -1,18 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type FeatureToggle = Record<string, boolean>;
 
-type ResponseData = {
-  featureToggles: FeatureToggle;
-}
-
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
+  res: NextApiResponse<FeatureToggle>
 ) {
-  res.status(200).json({ featureToggles: {
+  res.status(200).json({
     featureOpenWebApp: false,
     featureUseCache: false,
     featureShowRecord: false,
-  }})
+  });
 }
