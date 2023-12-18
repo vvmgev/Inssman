@@ -9,7 +9,7 @@ const Toast: FC = (): ReactElement => {
         <div className="w-[24px] text-sky-500">
           <CheckCircleSVG />
         </div>
-        <div className="text-base">Successfully Saved The Rule!</div>
+        <div className="text-base text-white">Successfully Saved The Rule!</div>
       </div>
     </ColorCover>
   );
