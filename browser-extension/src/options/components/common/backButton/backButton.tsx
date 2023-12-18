@@ -5,13 +5,15 @@ import { FC } from "react";
 
 type Props = {
   trackName: string;
+  url?: string;
 };
-const BackButton: FC<Props> = ({ trackName }) => {
+const BackButton: FC<Props> = ({ trackName, url }) => {
   const navigate = useNavigate();
+
   return (
     <OutlineButton
       trackName={`Back ${trackName}`}
-      onClick={() => navigate(-1)}
+      onClick={() => navigate((url || -1) as string)}
       icon={<ArrowLeftSVG />}
     >
       Back

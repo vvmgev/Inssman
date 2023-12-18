@@ -67,7 +67,7 @@ const Session: FC = (): ReactElement => {
       {session && (
         <>
           <div className="flex justify-between">
-            <BackButton trackName="session" />
+            <BackButton trackName="session" url="/record/session" />
             <div className="text-xl capitalize">{session?.name}</div>
             <OutlineButton
               trackName="Delete Recorded Session in view mode"

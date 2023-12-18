@@ -39,7 +39,6 @@ const Record: FC = (): ReactElement => {
     <ColorCover classes="flex justify-between mx-[5%] p-5">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
-          <BackButton trackName="record" />
           <div className="flex items-center gap-3">
             <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
             <span>Record Session & Replay</span>

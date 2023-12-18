@@ -206,7 +206,6 @@ const SessionList: FC = (): ReactElement => {
   return (
     <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
       <div className="flex justify-between p-5">
-        <BackButton trackName="back session list" />
         <span className="flex flex-row items-center gap-2">
           <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
           <span>Recorded Sessions</span>

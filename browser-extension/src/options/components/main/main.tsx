@@ -118,7 +118,6 @@ export default () => {
       </Popup>
       <div className="w-full rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
         <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
-          <BackButton trackName="list" />
           <span className="flex flex-row items-center gap-2 text-lg">
             <span className="w-[24px]">{<ListSVG />}</span>
             <span>All Rules</span>
