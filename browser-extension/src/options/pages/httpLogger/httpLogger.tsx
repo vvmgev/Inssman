@@ -86,7 +86,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     >
       <ColorCover classes={`h-[50%] p-5`}>
         <div className="text-sm flex justify-between mb-3">
-          {showOpenWindowBtn && <BackButton trackName="HTTPLogger" url="/" />}
+          {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex justify-end gap-5 items-center ">
             {showOpenWindowBtn && (
               <OutlineButton
