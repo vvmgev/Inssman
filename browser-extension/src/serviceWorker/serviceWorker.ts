@@ -122,6 +122,7 @@ class ServiceWorker extends BaseService {
           StorageService.set({ [StorageKey.NEXT_ID]: ID + 50 });
           sendResponse(await this.addRule(data));
           error.message = "handled error ID";
+          console.log('erroreeeeeeee', error);
           handleError(error, {
             action: PostMessageAction[action],
             data: { ...data, version },
@@ -269,16 +270,25 @@ class ServiceWorker extends BaseService {
     const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(
       String(id)
     );
-    if (checked) {
-      if (ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        const rule: Rule =
-          config[ruleMetaData.pageType].generateRule(ruleMetaData);
-        await RuleService.set([{ ...rule, id }]);
+    const ruleServiceRule = await RuleService.getRuleById(id);
+    try {
+      if (checked) {
+        if (ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+          const rule: Rule =
+            config[ruleMetaData.pageType].generateRule(ruleMetaData);
+          await RuleService.set([{ ...rule, id }]);
+        }
+      } else {
+        await RuleService.removeById(id);
       }
-    } else {
-      await RuleService.removeById(id);
+      await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
+    } catch (error) {
+      handleError(error, {
+            action: 'ChangeRuleStatusById',
+            data: { checked, ruleServiceRule, ruleMetaData },
+      });
+      return Promise.reject(error);
     }
-    await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
   }
 
   async copyRuleById({ id }: { id: number }): Promise<void> {
