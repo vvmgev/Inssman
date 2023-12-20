@@ -122,7 +122,6 @@ class ServiceWorker extends BaseService {
           StorageService.set({ [StorageKey.NEXT_ID]: ID + 50 });
           sendResponse(await this.addRule(data));
           error.message = "handled error ID";
-          console.log('erroreeeeeeee', error);
           handleError(error, {
             action: PostMessageAction[action],
             data: { ...data, version },
