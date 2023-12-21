@@ -6,7 +6,6 @@ import Footer from "../footer/footer";
 import SideBar from "../sideBar/sideBar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
-import BrowserSupportService from "src/services/BrowserSupportService";
 import SideBarContextProvider, {
   SideBarContext,
 } from "src/context/sideBarContext";
