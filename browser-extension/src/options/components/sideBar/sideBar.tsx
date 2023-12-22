@@ -13,10 +13,8 @@ import { FeatureToggleContext } from "src/context/featureToggleContext";
 
 const SideBar = () => {
   const { full, setFull } = useContext(SideBarContext);
-  const toggles = useContext(FeatureToggleContext);
-  const AnimationElement = toggles?.featureShowRecord
-    ? SkeletonAnimation
-    : Fragment;
+  const { featureShowRecord } = useContext(FeatureToggleContext);
+  const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
     <ColorCover
       classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${
@@ -33,7 +31,7 @@ const SideBar = () => {
       </div>
       <div
         className={`${
-          toggles?.featureShowRecord ? "" : "py-2"
+          featureShowRecord ? "" : "py-2"
         } border-b border-slate-700`}
       >
         <AnimationElement>
