@@ -8,47 +8,33 @@ import { generateUniqueID } from "src/utils";
 import { useMemo } from "react";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
-const ModifyHeaderFields = ({
-  headers,
-  onChangeHeader,
-  onRemoveHeader,
-  error,
-}) => {
+const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) => {
   const modifyHeaderActionOptions = useMemo(
     () =>
-      Object.entries(HeaderOperation).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
   const modifyHeaderActionOptionsWithoutAppend = useMemo(
     () =>
-      Object.entries(HeaderOperation).reduce(
-        (previous: any, [value, label]: any) => {
-          if (value.toLowerCase() !== HeaderOperation.APPEND) {
-            previous.push({ value: value.toLowerCase(), label });
-          }
-          return previous;
-        },
-        []
-      ),
+      Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
+        if (value.toLowerCase() !== HeaderOperation.APPEND) {
+          previous.push({ value: value.toLowerCase(), label });
+        }
+        return previous;
+      }, []),
     []
   );
 
   const headerModificationTypeOptions = useMemo(
     () =>
-      Object.entries(HeaderModificationType).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(HeaderModificationType).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
@@ -134,10 +120,7 @@ const ModifyHeaderFields = ({
                 hidden={header.operation === HeaderOperation.REMOVE}
                 classes="flex-[2]"
               />
-              <div
-                className="cursor-pointer"
-                onClick={(e) => onRemoveHeader(e, index)}
-              >
+              <div className="cursor-pointer" onClick={(e) => onRemoveHeader(e, index)}>
                 <span className="w-[24px] inline-block">
                   <CrossSVG />
                 </span>

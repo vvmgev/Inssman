@@ -58,7 +58,7 @@ const Record: FC = (): ReactElement => {
           <span className="text-slate-400">
             All Recorded Sessions Are Stored On Your Device
           </span>
-          <form className="flex gap-5 pt-5">
+          <form className="flex pt-5 gap-5">
             <Input
               ref={searchRef}
               classes="w-2/3"
@@ -78,7 +78,7 @@ const Record: FC = (): ReactElement => {
               <Button trackName="Open Last Recorder Session">Open</Button>
             </Link>
           </div>
-          <span className="leading-7 flex gap-2">
+          <span className="flex leading-7 gap-2">
             <span className="font-bold text-slate-300">URL:</span>
             <span> {session.url}</span>
           </span>

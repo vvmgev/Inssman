@@ -26,9 +26,7 @@ enum SessionListType {
   GRID = "grid",
   LIST = "list",
 }
-const sessionListType =
-  (window.localStorage.getItem("sessionListType") as SessionListType) ||
-  SessionListType.LIST;
+const sessionListType = (window.localStorage.getItem("sessionListType") as SessionListType) || SessionListType.LIST;
 
 const SessionList: FC = (): ReactElement => {
   const [listType, setListType] = useState<SessionListType>(sessionListType);
@@ -37,15 +35,12 @@ const SessionList: FC = (): ReactElement => {
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
   const getSessions = (): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetRecordedSessions },
-      (data) => {
-        if (data.error) {
-          return;
-        }
-        setSessions(data);
+    chrome.runtime.sendMessage({ action: PostMessageAction.GetRecordedSessions }, (data) => {
+      if (data.error) {
+        return;
       }
-    );
+      setSessions(data);
+    });
 
   useEffect(() => {
     getSessions();
@@ -62,13 +57,10 @@ const SessionList: FC = (): ReactElement => {
   };
 
   const handleDeleteSessions = (close) => {
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.DeleteRecordedSessions },
-      () => {
-        close();
-        getSessions();
-      }
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.DeleteRecordedSessions }, () => {
+      close();
+      getSessions();
+    });
   };
 
   const handleListType = (listType: SessionListType): void => {
@@ -122,11 +114,9 @@ const SessionList: FC = (): ReactElement => {
             <div className="flex gap-2">
               <img
                 src={`http://${new URL(item.url).hostname}/favicon.ico`}
-                onLoad={(event: any) =>
-                  event.target.classList?.toggle("invisible")
-                }
+                onLoad={(event: any) => event.target.classList?.toggle("invisible")}
                 alt=""
-                className="w-5 h-5 invisible"
+                className="invisible w-5 h-5"
               />
               <span className="capitalize">{item[this.field]}</span>
             </div>
@@ -183,10 +173,7 @@ const SessionList: FC = (): ReactElement => {
                 </div>
               </Tooltip>
               <Tooltip content="Delete Session">
-                <div
-                  className="cursor-pointer hover:text-red-400"
-                  onClick={() => handleDelete(item)}
-                >
+                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(item)}>
                   <span className="w-[24px] inline-block">
                     <TrashSVG />
                   </span>
@@ -199,9 +186,7 @@ const SessionList: FC = (): ReactElement => {
     ];
   }, []);
 
-  const filteredSessions = sessions
-    .filter((session) => session.name.includes(search))
-    .reverse();
+  const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
 
   return (
     <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
@@ -230,28 +215,19 @@ const SessionList: FC = (): ReactElement => {
             {/* @ts-ignore */}
             {(close: any) => (
               <ColorCover classes="bg-opacity-90 py-15">
-                <div className="flex border-b border-slate-700 pb-5">
-                  <div className="text-slate-200 text-2xl flex-1">
-                    Confirm Deletion
-                  </div>
+                <div className="flex pb-5 border-b border-slate-700">
+                  <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                   <div className="flex justify-end flex-1">
-                    <span
-                      onClick={close}
-                      className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"
-                    >
+                    <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
                       <CrossSVG />
                     </span>
                   </div>
                 </div>
-                <div className="text-slate-200 text-2xl text-center my-10">
+                <div className="my-10 text-2xl text-center text-slate-200">
                   Are You Sure Want To Delete All Recorded Sessions?
                 </div>
-                <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
-                  <OutlineButton
-                    trackName="Delete All Rules - NO"
-                    classes="min-w-[100px]"
-                    onClick={close}
-                  >
+                <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
+                  <OutlineButton trackName="Delete All Rules - NO" classes="min-w-[100px]" onClick={close}>
                     No
                   </OutlineButton>
                   <OutlineButton
@@ -266,7 +242,7 @@ const SessionList: FC = (): ReactElement => {
               </ColorCover>
             )}
           </Popup>
-          <div className="text-sm mr-4">
+          <div className="mr-4 text-sm">
             <Input
               placeholder="Search By Session Name"
               onChange={onChangeSearch}
@@ -277,10 +253,7 @@ const SessionList: FC = (): ReactElement => {
                 </span>
               }
               ends={
-                <span
-                  onClick={onHandleClearSearch}
-                  className="w-[24px] hover:text-red-400 cursor-pointer"
-                >
+                <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
                   <CrossSVG />
                 </span>
               }
@@ -297,15 +270,13 @@ const SessionList: FC = (): ReactElement => {
       {sessions.length ? (
         <>
           {listType === SessionListType.GRID ? (
-            <div className="flex flex-row flex-wrap mt-4 mx-5 gap-2 justify-between w-full h-full">
+            <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
               <AutoSizer>
                 {({ height, width }) => (
                   <FixedSizeList
                     className="List"
                     height={height}
-                    itemCount={
-                      sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1
-                    }
+                    itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
                     itemSize={280}
                     width={width}
                     itemData={filteredSessions}
@@ -313,24 +284,9 @@ const SessionList: FC = (): ReactElement => {
                     {({ index, data, style }) => (
                       <div className="w-[200px]" style={style}>
                         <div className="flex gap-3">
-                          {data[index * 3] && (
-                            <SessionPreview
-                              data={data[index * 3]}
-                              onDelete={alert}
-                            />
-                          )}
-                          {data[index * 3 + 1] && (
-                            <SessionPreview
-                              data={data[index * 3 + 1]}
-                              onDelete={alert}
-                            />
-                          )}
-                          {data[index * 3 + 2] && (
-                            <SessionPreview
-                              data={data[index * 3 + 2]}
-                              onDelete={alert}
-                            />
-                          )}
+                          {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert} />}
+                          {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert} />}
+                          {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert} />}
                         </div>
                       </div>
                     )}
@@ -340,11 +296,7 @@ const SessionList: FC = (): ReactElement => {
             </div>
           ) : (
             <div className="flex flex-row flex-wrap mt-4">
-              <List
-                headers={LIST_HEADERS}
-                items={LIST_ITEMS}
-                data={filteredSessions}
-              />
+              <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
             </div>
           )}
         </>
@@ -352,9 +304,7 @@ const SessionList: FC = (): ReactElement => {
         <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
           <div className="w-full text-center">
             <p className="text-2xl">Seems You Have Not Recorded a Session</p>
-            <p className="mt-3">
-              Please Select 'Record' Section In The Sidebar To Record
-            </p>
+            <p className="mt-3">Please Select 'Record' Section In The Sidebar To Record</p>
           </div>
         </div>
       )}

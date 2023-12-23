@@ -27,5 +27,4 @@ const storeData = (ref, data) => {
 };
 
 export const storeError = (error) => storeData(errorRef, error);
-export const storeRuleMetaData = (ruleMetaData) =>
-  storeData(ruleMetaDataRef, ruleMetaData);
+export const storeRuleMetaData = (ruleMetaData) => storeData(ruleMetaDataRef, ruleMetaData);

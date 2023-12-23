@@ -21,7 +21,7 @@ const Checkbox = ({ label, onChange, name, ...props }) => {
         id="checked-checkbox"
         type="checkbox"
         value=""
-        className="w-4 h-4 text-sky-500 rounded"
+        className="w-4 h-4 rounded text-sky-500"
         {...props}
       />
     </div>

@@ -62,9 +62,7 @@ const FormHOC = () => {
 
     getPageType = (mode: FormMode): string => {
       const pathArr = this.props.location.pathname.split("/");
-      return mode === FormMode.CREATE
-        ? pathArr[pathArr.length - 1]
-        : pathArr[pathArr.length - 2];
+      return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
     };
 
     setError = (fieldName, message) => {
@@ -81,9 +79,7 @@ const FormHOC = () => {
       const error = {};
       fieldValidations?.forEach((validation) => {
         if (error[name]) return;
-        error[name] = this.inValid(value, validation.regexp)
-          ? validation.message
-          : null;
+        error[name] = this.inValid(value, validation.regexp) ? validation.message : null;
       });
       return error;
     };
@@ -101,11 +97,7 @@ const FormHOC = () => {
               ...error[name],
               [index]: {
                 ...error[name]?.[index],
-                ...this.validate(
-                  validationKey,
-                  item[validationKey],
-                  validation
-                ),
+                ...this.validate(validationKey, item[validationKey], validation),
               },
             },
           };
@@ -178,11 +170,9 @@ const FormHOC = () => {
       let index = 0;
       const keys = Object.keys(error);
       const findError = (item): boolean => {
-        if (typeof item === "object" && item)
-          return this.hasErrors(error[keys[index]]);
+        if (typeof item === "object" && item) return this.hasErrors(error[keys[index]]);
         if (Boolean(item)) return true;
-        if (typeof error[keys[++index]] !== "undefined")
-          return findError(error[keys[index]]);
+        if (typeof error[keys[++index]] !== "undefined") return findError(error[keys[index]]);
         return false;
       };
       return Boolean(findError(error[keys[index]]));
@@ -202,10 +192,7 @@ const FormHOC = () => {
         rule,
         ruleMetaData: {
           ...cloneRuleMetaData,
-          enabled:
-            typeof ruleMetaData.enabled !== "undefined"
-              ? ruleMetaData.enabled
-              : true,
+          enabled: typeof ruleMetaData.enabled !== "undefined" ? ruleMetaData.enabled : true,
           type: StorageItemType.RULE,
           lastMatchedTimestamp: ruleMetaData.lastMatchedTimestamp || null,
         },
@@ -215,9 +202,7 @@ const FormHOC = () => {
         form.rule.condition.isUrlFilterCaseSensitive = false;
         // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
         form.rule.condition.requestMethods =
-          ruleMetaData.requestMethods?.length > 0
-            ? ruleMetaData.requestMethods
-            : undefined;
+          ruleMetaData.requestMethods?.length > 0 ? ruleMetaData.requestMethods : undefined;
         if (id) {
           form.rule.id = id;
         }
@@ -225,10 +210,7 @@ const FormHOC = () => {
 
       chrome.runtime.sendMessage(
         {
-          action:
-            this.state.mode === FormMode.CREATE
-              ? PostMessageAction.AddRule
-              : PostMessageAction.UpdateRule,
+          action: this.state.mode === FormMode.CREATE ? PostMessageAction.AddRule : PostMessageAction.UpdateRule,
           data: form,
         },
         (data) => {
@@ -301,8 +283,7 @@ const FormHOC = () => {
           ruleMetaData: {
             ...state.ruleMetaData,
             ...defaultValues,
-            source:
-              urlSearchParams.get("source") || (defaultValues.source as string),
+            source: urlSearchParams.get("source") || (defaultValues.source as string),
             name: urlSearchParams.get("name") || (defaultValues.name as string),
           },
         }));
@@ -317,8 +298,7 @@ const FormHOC = () => {
             action: PostMessageAction.GetRuleById,
             data: { id: this.state.id },
           },
-          ({ ruleMetaData }) =>
-            this.setState({ ruleMetaData, showToaster: false })
+          ({ ruleMetaData }) => this.setState({ ruleMetaData, showToaster: false })
         );
         return;
       }
@@ -327,10 +307,7 @@ const FormHOC = () => {
     componentDidUpdate(prevProps: Readonly<{}>): void {
       const state = (this.props as any).location.state;
       const prevState = (prevProps as any).location.state;
-      if (
-        state?.template &&
-        state.ruleMetaData.id !== prevState.ruleMetaData.id
-      ) {
+      if (state?.template && state.ruleMetaData.id !== prevState.ruleMetaData.id) {
         this.setState({ ruleMetaData: state.ruleMetaData });
       }
     }

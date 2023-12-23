@@ -2,11 +2,7 @@ import { useMemo } from "react";
 import Select from "../select/select";
 import Input from "../input/input";
 import Editor from "../editor/editor";
-import {
-  InjectFileOperator,
-  InjectFileSource,
-  InjectFileType,
-} from "src/models/formFieldModel";
+import { InjectFileOperator, InjectFileSource, InjectFileType } from "src/models/formFieldModel";
 
 const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
   const {
@@ -20,43 +16,34 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
 
   const editorLangOptions = useMemo(
     () =>
-      Object.entries(InjectFileType).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(InjectFileType).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
   const injectFileSourceOptions = useMemo(
     () =>
-      Object.entries(InjectFileSource).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(InjectFileSource).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
   const injectFileOperatorOptions = useMemo(
     () =>
-      Object.entries(InjectFileOperator).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(InjectFileOperator).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
   return (
     <>
-      <div className="flex mt-5 items-center w-full">
+      <div className="flex items-center w-full mt-5">
         <span className="mr-5">File Type &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         <div className="w-[150px]">
           <Select
@@ -68,7 +55,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
         </div>
         {editorLang !== InjectFileType.HTML && (
           <div className="flex items-center">
-            <span className="mr-5 ml-5">Source Type</span>
+            <span className="ml-5 mr-5">Source Type</span>
             <div className="w-[150px]">
               <Select
                 onChange={onChange}
@@ -81,7 +68,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
         )}
         {editorLang === InjectFileType.HTML && (
           <>
-            <span className="mr-5 ml-5">Operator</span>
+            <span className="ml-5 mr-5">Operator</span>
             <div className="w-1/7">
               <Select
                 onChange={onChange}
@@ -90,7 +77,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
                 name="tagSelectorOperator"
               />
             </div>
-            <span className="mr-5 ml-5">Tag Selector</span>
+            <span className="ml-5 mr-5">Tag Selector</span>
             <div className="w-1/3">
               <Input
                 value={tagSelector || ""}
@@ -103,7 +90,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
           </>
         )}
       </div>
-      {/* <div className="flex mt-5 items-center w-full">
+      {/* <div className="flex items-center w-full mt-5">
             <Checkbox
                 name="shouldRemoveHeader"
                 label="Remove Header"
@@ -113,34 +100,26 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
             </div> */}
       <div
         className={`mt-5 ${
-          fileSourceType === InjectFileSource.CODE ||
-          editorLang === InjectFileType.HTML
-            ? ""
-            : "hidden"
+          fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML ? "" : "hidden"
         }`}
       >
-        <Editor
-          value={editorValue}
-          language={editorLang || "javascript"}
-          onChange={onChange}
-        />
+        <Editor value={editorValue} language={editorLang || "javascript"} onChange={onChange} />
       </div>
-      {fileSourceType === InjectFileSource.URL &&
-        editorLang !== InjectFileType.HTML && (
-          <div className="flex mt-5 items-center w-full">
-            <span className="mr-5">Source URL &nbsp;</span>
-            <div className="w-2/3">
-              <Input
-                value={fileSource || ""}
-                name="fileSource"
-                onChange={onChange}
-                placeholder={`Source URL ( https://example.com/path/to/file )`}
-                error={error?.fileSource}
-                required
-              />
-            </div>
+      {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && (
+        <div className="flex items-center w-full mt-5">
+          <span className="mr-5">Source URL &nbsp;</span>
+          <div className="w-2/3">
+            <Input
+              value={fileSource || ""}
+              name="fileSource"
+              onChange={onChange}
+              placeholder={`Source URL ( https://example.com/path/to/file )`}
+              error={error?.fileSource}
+              required
+            />
           </div>
-        )}
+        </div>
+      )}
     </>
   );
 };

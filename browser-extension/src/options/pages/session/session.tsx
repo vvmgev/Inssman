@@ -3,14 +3,7 @@ import SessionPlayer from "common/sessionPlayer/sessionPlayer";
 import OutlineButton from "common/outlineButton/outlineButton";
 import BackButton from "common/backButton/backButton";
 import TrashSVG from "assets/icons/trash.svg";
-import {
-  FC,
-  ReactElement,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { FC, ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { useParams, useLocation } from "react-router-dom";
 import { RecordSession } from "src/models/recordSessionModel";
@@ -25,10 +18,7 @@ const Session: FC = (): ReactElement => {
   const { setFull } = useContext(SideBarContext);
   const { id } = useParams();
   const sessionMemo = useMemo(() => session, [session]);
-  const playerOptions = useMemo(
-    () => ({ width: 800, height: 500, autoPlay: true }),
-    []
-  );
+  const playerOptions = useMemo(() => ({ width: 800, height: 500, autoPlay: true }), []);
 
   useEffect(() => {
     setFull(false);
@@ -79,11 +69,7 @@ const Session: FC = (): ReactElement => {
       {session && (
         <>
           <div className="flex justify-between">
-            <BackButton
-              trackName="session"
-              url="/record/session"
-              text="Sessions"
-            />
+            <BackButton trackName="session" url="/record/session" text="Sessions" />
             <div className="text-xl capitalize">{session?.name}</div>
             <OutlineButton
               trackName="Delete Recorded Session in view mode"

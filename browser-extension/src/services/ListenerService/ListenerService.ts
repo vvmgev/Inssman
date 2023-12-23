@@ -27,25 +27,17 @@ class ListenerService {
   private events: { [key: string]: Function[] } = {};
   private mapListener: MapListener = {};
   private executeListeners: boolean = true;
-  private excludedListeners: ListenerType[] = [
-    ListenerType.ON_MESSAGE,
-    ListenerType.ON_INSTALL,
-  ];
+  private excludedListeners: ListenerType[] = [ListenerType.ON_MESSAGE, ListenerType.ON_INSTALL];
   private constructor() {
     this.mapListener = generateListeners(this.listener);
   }
 
   public static getInstance = () => {
-    return (
-      ListenerService.instance ||
-      (ListenerService.instance = new ListenerService())
-    );
+    return ListenerService.instance || (ListenerService.instance = new ListenerService());
   };
 
-  private on = (name: ListenerType, ...args: unknown[]): void =>
-    this.getListeners(name).addListener(...args);
-  private off = (name: ListenerType): void =>
-    this.getListeners(name).removeListener();
+  private on = (name: ListenerType, ...args: unknown[]): void => this.getListeners(name).addListener(...args);
+  private off = (name: ListenerType): void => this.getListeners(name).removeListener();
   private listener =
     (name: ListenerType) =>
     (...args: unknown[]) => {
@@ -55,11 +47,7 @@ class ListenerService {
       this.events[name].forEach((fn) => fn(...args));
     };
 
-  public addListener = (
-    name: ListenerType,
-    callback: any,
-    ...args: any[]
-  ): void => {
+  public addListener = (name: ListenerType, callback: any, ...args: any[]): void => {
     this.on(name, ...args);
     this.events[name] = this.events[name] || [];
     this.events[name].push(callback);
@@ -74,10 +62,8 @@ class ListenerService {
 
   private getListeners = (name: ListenerType) => {
     return {
-      addListener: (...args: any[]) =>
-        this.mapListener[name].addListener(...args),
-      removeListener: (...args: any[]) =>
-        this.mapListener[name].removeListener(...args),
+      addListener: (...args: any[]) => this.mapListener[name].addListener(...args),
+      removeListener: (...args: any[]) => this.mapListener[name].removeListener(...args),
     };
   };
 

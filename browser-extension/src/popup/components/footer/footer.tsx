@@ -15,10 +15,8 @@ const Footer = () => {
     <div>
       {featureShowRecord && (
         <ColorCover classes="border-b-0 border-l-0 border-r-0 h-[initial] rounded-none pt-0 flex flex-col gap-1">
-          <div className="text-sm m-0 text-gray-400">
-            Record Session And Replay In Your Browser & Share
-          </div>
-          <div className="flex gap-2 justify-between">
+          <div className="m-0 text-sm text-gray-400">Record Session And Replay In Your Browser & Share</div>
+          <div className="flex justify-between gap-2">
             <Input
               value={url}
               onChange={(e) => setUrl(e.target.value)}

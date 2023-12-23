@@ -15,14 +15,7 @@ type Props = PropsWithChildren<{
   mode: string;
 }>;
 
-const Form = ({
-  children,
-  onSubmit,
-  onDelete,
-  error,
-  pageType,
-  mode = "create",
-}: Props) => {
+const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }: Props) => {
   const onSubmitHandler = (event) => {
     event.preventDefault();
     onSubmit();
@@ -31,7 +24,7 @@ const Form = ({
   const errors = Object.values(error).map((error: any, index) => {
     if (typeof error === "string") {
       return (
-        <p key={index} className="text-red-500 text-base mb-1">
+        <p key={index} className="mb-1 text-base text-red-500">
           {error}
         </p>
       );
@@ -40,7 +33,7 @@ const Form = ({
     for (const index in error) {
       for (const key in error[index]) {
         errors.push(
-          <p key={index + key} className="text-red-500 text-base mb-1">
+          <p key={index + key} className="mb-1 text-base text-red-500">
             {error[index][key]}
           </p>
         );
@@ -55,7 +48,7 @@ const Form = ({
         <BackButton trackName={pageType} url="/" text="Rules" />
         <span className="flex flex-col items-center">
           <span>{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
-          <span className="text-xs gap-1 text-slate-400 flex items-center">
+          <span className="flex items-center gap-1 text-xs text-slate-400">
             <span className="w-4">{IconsMap[pageType]}</span>
             {PageName[pageType]}
           </span>
@@ -84,11 +77,7 @@ const Form = ({
             </OutlineButton>
           )}
           <div>
-            <Button
-              icon={<PencilSVG />}
-              trackName={`${PageName[pageType]} Rule Create Event`}
-              onClick={onSubmit}
-            >
+            <Button icon={<PencilSVG />} trackName={`${PageName[pageType]} Rule Create Event`} onClick={onSubmit}>
               {mode === "create" ? "Create" : "Edit"}
             </Button>
           </div>

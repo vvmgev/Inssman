@@ -20,8 +20,7 @@ export type IRuleCondition = {
 export interface RuleWithResourceTypes extends Rule {
   condition: IRuleCondition;
 }
-export interface IRule
-  extends WithOptional<RuleWithResourceTypes, "id" | "priority"> {}
+export interface IRule extends WithOptional<RuleWithResourceTypes, "id" | "priority"> {}
 export type RequestHeader = {
   header: string;
   operation: HeaderOperation;

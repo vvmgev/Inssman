@@ -36,7 +36,7 @@ const List: FC<Props> = ({
 }) => {
   return (
     <>
-      <div className="py-3 px-6 flex justify-between items-center w-full border-b border-slate-700 bg-slate-700 bg-opacity-40">
+      <div className="flex items-center justify-between w-full px-6 py-3 border-b border-slate-700 bg-slate-700 bg-opacity-40">
         {headers.map((item) => {
           return (
             <div key={item.title} className={`flex-1 ${item.classes || ""}`}>
@@ -46,12 +46,7 @@ const List: FC<Props> = ({
         })}
       </div>
       {data.length ? (
-        <ul
-          className={twMerge(
-            `w-full overflow-y-auto min-h-[350px] max-h-[450px]`,
-            listClasses
-          )}
-        >
+        <ul className={twMerge(`w-full overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
           {data.map((row) => (
             <li
               key={row.id}
@@ -59,10 +54,7 @@ const List: FC<Props> = ({
             >
               {items.map((item) => {
                 return (
-                  <div
-                    key={item.field}
-                    className={`flex flex-1 ${item.classes || ""}`}
-                  >
+                  <div key={item.field} className={`flex flex-1 ${item.classes || ""}`}>
                     {item.render(row)}
                   </div>
                 );

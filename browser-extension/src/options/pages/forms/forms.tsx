@@ -18,8 +18,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const Forms = ({ children, ...props }: Props) => {
-  const { onDelete, onSave, mode, error, pageType, ruleMetaData, onChange } =
-    props;
+  const { onDelete, onSave, mode, error, pageType, ruleMetaData, onChange } = props;
   const { generateRule } = config[pageType];
 
   const onSubmit = () => {
@@ -29,20 +28,8 @@ const Forms = ({ children, ...props }: Props) => {
 
   return (
     <ColorCover classes="mx-[5%] p-5">
-      <Form
-        onDelete={onDelete}
-        onSubmit={onSubmit}
-        mode={mode}
-        error={error}
-        pageType={pageType}
-      >
-        <FormBuilder
-          ruleMetaData={ruleMetaData}
-          onChange={onChange}
-          error={error}
-          mode={mode}
-          pageType={pageType}
-        />
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
+        <FormBuilder ruleMetaData={ruleMetaData} onChange={onChange} error={error} mode={mode} pageType={pageType} />
       </Form>
     </ColorCover>
   );

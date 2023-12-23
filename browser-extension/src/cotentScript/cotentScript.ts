@@ -56,10 +56,7 @@ import { NAMESPACE } from "options/constant";
 
       const matchedRule = getMatchedRuleByUrl(request.url);
 
-      if (
-        ["GET", "HEAD"].includes(request.method.toUpperCase()) ||
-        !matchedRule
-      ) {
+      if (["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
         try {
           return await getOriginalResponse();
         } catch (error) {

@@ -1,11 +1,6 @@
 import { Fragment, useMemo, PropsWithChildren, FC } from "react";
 import config from "./config";
-import {
-  EditorLanguage,
-  FormMode,
-  HeaderModificationType,
-  QueryParamAction,
-} from "src/models/formFieldModel";
+import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from "src/models/formFieldModel";
 import SourceFields from "components/common/source/sourceFields";
 import Destination from "components/common/destination/destination";
 import QueryParamFields from "components/common/queryParamFields/queryParamFields";
@@ -27,12 +22,7 @@ type Props = PropsWithChildren<{
   pageType: string;
 }>;
 
-const FormBuilder: FC<Props> = ({
-  ruleMetaData,
-  onChange,
-  error,
-  pageType,
-}) => {
+const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => {
   const { fields } = config[pageType];
 
   const generateField = (field: any) => {
@@ -51,31 +41,22 @@ const FormBuilder: FC<Props> = ({
         );
       case "sourceFields":
         return (
-          <div className="flex mt-5 items-center w-full">
+          <div className="flex items-center w-full mt-5">
             <SourceFields
-              matchType={
-                ruleMetaData.matchType || field.defaultValues.matchType
-              }
-              requestMethods={
-                ruleMetaData.requestMethods ||
-                field.defaultValues.requestMethods
-              }
-              resourceTypes={
-                ruleMetaData.resourceTypes || field.defaultValues.resourceTypes
-              }
+              matchType={ruleMetaData.matchType || field.defaultValues.matchType}
+              requestMethods={ruleMetaData.requestMethods || field.defaultValues.requestMethods}
+              resourceTypes={ruleMetaData.resourceTypes || field.defaultValues.resourceTypes}
               onChange={(e) => onChange(e, field)}
               source={ruleMetaData.source || field.defaultValues.source}
               error={error}
-              showFields={
-                ruleMetaData.showFields || field.defaultValues.showFields
-              }
+              showFields={ruleMetaData.showFields || field.defaultValues.showFields}
               {...field.props}
             />
           </div>
         );
       case "destination":
         return (
-          <div className="flex mt-5 items-center">
+          <div className="flex items-center mt-5">
             <div className="min-w-[100px]">Redirect to</div>
             <div className="w-3/5">
               <Destination
@@ -99,7 +80,7 @@ const FormBuilder: FC<Props> = ({
               />
             </div>
             <div
-              className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer"
+              className="inline-block px-4 py-2 mt-5 border rounded cursor-pointer border-slate-500 text-slate-200"
               onClick={() => onAddQueryParam(field)}
             >
               Add
@@ -116,7 +97,7 @@ const FormBuilder: FC<Props> = ({
               error={error}
             />
             <div
-              className="border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer"
+              className="inline-block px-4 py-2 mt-5 border rounded cursor-pointer border-slate-500 text-slate-200"
               onClick={() => onAddHeader(field)}
             >
               Add
@@ -125,7 +106,7 @@ const FormBuilder: FC<Props> = ({
         );
       case "editorLang":
         return (
-          <div className="mt-5 flex items-center">
+          <div className="flex items-center mt-5">
             <span className="mr-5">Response Type</span>
             <div className="w-[150px]">
               <Select
@@ -148,13 +129,7 @@ const FormBuilder: FC<Props> = ({
           </div>
         );
       case "injectFileSources":
-        return (
-          <InjectFileSources
-            ruleMetaData={ruleMetaData}
-            onChange={(e) => onChange(e, field)}
-            error={error}
-          />
-        );
+        return <InjectFileSources ruleMetaData={ruleMetaData} onChange={(e) => onChange(e, field)} error={error} />;
       default:
         break;
     }
@@ -162,13 +137,10 @@ const FormBuilder: FC<Props> = ({
 
   const editorLangOptions = useMemo(
     () =>
-      Object.entries(EditorLanguage).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(EditorLanguage).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
@@ -197,9 +169,7 @@ const FormBuilder: FC<Props> = ({
       {
         target: {
           name: "headers",
-          value: ruleMetaData.headers.filter(
-            (_, headerIndex) => headerIndex !== index
-          ),
+          value: ruleMetaData.headers.filter((_, headerIndex) => headerIndex !== index),
         },
       },
       field
@@ -217,10 +187,7 @@ const FormBuilder: FC<Props> = ({
       {
         target: {
           name: "queryParams",
-          value: [
-            ...ruleMetaData.queryParams,
-            { key: "", value: "", action: QueryParamAction.ADD },
-          ],
+          value: [...ruleMetaData.queryParams, { key: "", value: "", action: QueryParamAction.ADD }],
         },
       },
       field
@@ -238,9 +205,7 @@ const FormBuilder: FC<Props> = ({
       {
         target: {
           name: "queryParams",
-          value: ruleMetaData.queryParams.filter(
-            (_, index) => index !== deletingIndex
-          ),
+          value: ruleMetaData.queryParams.filter((_, index) => index !== deletingIndex),
         },
       },
       field

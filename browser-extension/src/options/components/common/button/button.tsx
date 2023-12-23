@@ -25,7 +25,7 @@ const Button = ({ trackName, children, onClick, classes, icon }: Props) => {
         classes
       )}
     >
-      <span className="flex justify-center items-center gap-2">
+      <span className="flex items-center justify-center gap-2">
         {icon && <span className="w-[20px] inline-block">{icon}</span>}
         <span>{children}</span>
       </span>

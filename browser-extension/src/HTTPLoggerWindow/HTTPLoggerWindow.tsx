@@ -9,13 +9,10 @@ const container = document.getElementById("root") as HTMLDivElement;
 const root = createRoot(container);
 root.render(
   <StrictMode>
-    <div className="h-screen w-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-hidden">
       <Background>
         <div className="m-[10px] h-full">
-          <HTTPLogger
-            clientName={WebRequestClients.WINDOW}
-            showOpenWindowBtn={false}
-          />
+          <HTTPLogger clientName={WebRequestClients.WINDOW} showOpenWindowBtn={false} />
         </div>
       </Background>
     </div>

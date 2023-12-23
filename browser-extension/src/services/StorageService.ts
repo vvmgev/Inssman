@@ -5,9 +5,7 @@ import { IRuleMetaData } from "src/models/formFieldModel";
 class StorageService {
   private readonly cacheName = "StorageService";
 
-  async get(
-    keys?: string | string[] | { [key: string]: any } | null
-  ): Promise<{ [key: string]: any }> {
+  async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
     // const cache = CacheService.get(this.cacheName, keys as string);
     // if(cache) return {[keys as string]: cache};
     const data = await chrome.storage.local.get(keys);
@@ -21,13 +19,9 @@ class StorageService {
     );
   }
 
-  async getFilteredRules(
-    filters: { [key: string]: any }[]
-  ): Promise<IRuleMetaData[]> {
+  async getFilteredRules(filters: { [key: string]: any }[]): Promise<IRuleMetaData[]> {
     const rules = await this.getRules();
-    return rules.filter((rule) =>
-      filters.every((filter) => rule[filter.key] === filter.value)
-    );
+    return rules.filter((rule) => filters.every((filter) => rule[filter.key] === filter.value));
   }
 
   async getSingleItem(key: string): Promise<any> {
@@ -53,16 +47,12 @@ class StorageService {
   }
 
   async generateNextId(): Promise<number> {
-    const nextId: number =
-      ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
+    const nextId: number = ((await this.getSingleItem(StorageKey.NEXT_ID)) || 1) + 1;
     this.set({ [StorageKey.NEXT_ID]: nextId });
     return nextId;
   }
 
-  async updateTimestamp(
-    id: string,
-    timestamp: number = Date.now()
-  ): Promise<void> {
+  async updateTimestamp(id: string, timestamp: number = Date.now()): Promise<void> {
     const storageRule = await this.getSingleItem(id);
     if (storageRule) {
       storageRule.lastMatchedTimestamp = timestamp;
@@ -72,8 +62,7 @@ class StorageService {
 
   async getUserId(): Promise<number> {
     const timestamp: number = Date.now();
-    const userId: number =
-      (await this.getSingleItem(StorageKey.USER_ID)) || timestamp;
+    const userId: number = (await this.getSingleItem(StorageKey.USER_ID)) || timestamp;
     if (userId === timestamp) {
       this.set({ [StorageKey.USER_ID]: userId });
     }

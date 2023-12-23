@@ -14,7 +14,7 @@ type Props = {
 
 const Tab: FC<Props> = ({ active, onChangeTab }): ReactElement => {
   return (
-    <ul className="flex text-sm font-medium text-center divide-x shadow divide-gray-700 cursor-pointer">
+    <ul className="flex text-sm font-medium text-center divide-x divide-gray-700 shadow cursor-pointer">
       <li className="w-full" onClick={() => onChangeTab(Tabs.RuleList)}>
         <div
           className={`flex items-center gap-3 w-full p-4 ${
@@ -27,7 +27,7 @@ const Tab: FC<Props> = ({ active, onChangeTab }): ReactElement => {
           <span>Rule List</span>
         </div>
       </li>
-      <li className="w-full flex" onClick={() => onChangeTab(Tabs.CreatRule)}>
+      <li className="flex w-full" onClick={() => onChangeTab(Tabs.CreatRule)}>
         <div
           className={`flex items-center gap-3 w-full p-4 ${
             active === Tabs.CreatRule

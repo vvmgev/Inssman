@@ -21,10 +21,7 @@ const RuleRoutes = () => {
         <Route path="modify-response" element={<Form key={4} />} />
         <Route path="modify-request-body" element={<Form key={5} />} />
         <Route path="inject-file" element={<Form key={6} />} />
-        <Route
-          path="http-logger"
-          element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />}
-        />
+        <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />} />
       </Route>
       <Route path="/edit">
         <Route path="redirect/:id" element={<Form key={7} />} />

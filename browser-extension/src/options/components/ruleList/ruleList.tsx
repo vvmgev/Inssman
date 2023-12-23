@@ -20,18 +20,9 @@ type Props = {
   page?: string;
 };
 
-const RuleList: FC<Props> = ({
-  rules,
-  getRules,
-  search = "",
-  listClasses = "",
-  page = "options",
-}): ReactElement => {
+const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", page = "options" }): ReactElement => {
   const duplicateRule = (id: number): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.CopyRuleById, data: { id } },
-      () => getRules()
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.CopyRuleById, data: { id } }, () => getRules());
   const onChangeRuleStatus = (event, id): void =>
     chrome.runtime.sendMessage(
       {
@@ -41,9 +32,7 @@ const RuleList: FC<Props> = ({
       () => getRules()
     );
   const handleDelete = (ruleMetaData) => {
-    TrackService.trackEvent(
-      `${PageName[ruleMetaData.pageType]} Rule Delete Event`
-    );
+    TrackService.trackEvent(`${PageName[ruleMetaData.pageType]} Rule Delete Event`);
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRule,
@@ -79,9 +68,7 @@ const RuleList: FC<Props> = ({
           return (
             <span>
               {this.title}
-              <sup className="text-xs inline-block bottom-4 text-red-500">
-                Beta
-              </sup>
+              <sup className="inline-block text-xs text-red-500 bottom-4">Beta</sup>
             </span>
           );
         },
@@ -136,12 +123,7 @@ const RuleList: FC<Props> = ({
       {
         field: "enabled",
         render: function (item) {
-          return (
-            <Switcher
-              checked={item[this.field]}
-              onChange={(event) => onChangeRuleStatus(event, item.id)}
-            />
-          );
+          return <Switcher checked={item[this.field]} onChange={(event) => onChangeRuleStatus(event, item.id)} />;
         },
       },
       {
@@ -151,30 +133,21 @@ const RuleList: FC<Props> = ({
           return (
             <>
               <Tooltip content="Duplicate Rule">
-                <div
-                  className="cursor-pointer hover:text-sky-500"
-                  onClick={() => duplicateRule(item.id)}
-                >
+                <div className="cursor-pointer hover:text-sky-500" onClick={() => duplicateRule(item.id)}>
                   <span className="w-[24px] inline-block">
                     <DocumentCopySVG />
                   </span>
                 </div>
               </Tooltip>
               <Tooltip content="Edit Rule">
-                <Link
-                  className="cursor-pointer hover:text-sky-500"
-                  to={`/edit/${item.pageType}/${item.id}`}
-                >
+                <Link className="cursor-pointer hover:text-sky-500" to={`/edit/${item.pageType}/${item.id}`}>
                   <span className="w-[24px] inline-block">
                     <PencilSVG />
                   </span>
                 </Link>
               </Tooltip>
               <Tooltip content="Delete Rule">
-                <div
-                  className="cursor-pointer hover:text-red-400"
-                  onClick={() => handleDelete(item)}
-                >
+                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(item)}>
                   <span className="w-[24px] inline-block">
                     <TrashSVG />
                   </span>
@@ -191,9 +164,7 @@ const RuleList: FC<Props> = ({
     <List
       headers={LIST_HEADERS}
       items={LIST_ITEMS}
-      data={rules
-        .filter((ruleMetaData) => ruleMetaData.name.includes(search))
-        .reverse()}
+      data={rules.filter((ruleMetaData) => ruleMetaData.name.includes(search)).reverse()}
       listClasses={listClasses}
       texts={{
         title: "Seems You Have Not Created a Rule Yet",

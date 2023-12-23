@@ -9,11 +9,7 @@ type Props = PropsWithChildren<{
 const FormContextProvider: FC<Props> = ({ pageType, children }) => {
   const [state, setState] = useState({ pageType });
 
-  return (
-    <FormContext.Provider value={{ state, setState }}>
-      {children}
-    </FormContext.Provider>
-  );
+  return <FormContext.Provider value={{ state, setState }}>{children}</FormContext.Provider>;
 };
 
 export default FormContextProvider;

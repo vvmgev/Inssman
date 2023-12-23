@@ -12,11 +12,7 @@ const Editor = ({ language, value, onChange = (data) => {} }) => {
 
   return (
     <div className="relative w-full h-full">
-      <MonacoEditor
-        onChangeHandler={handleChangeEditor}
-        language={language}
-        value={value}
-      />
+      <MonacoEditor onChangeHandler={handleChangeEditor} language={language} value={value} />
     </div>
   );
 };

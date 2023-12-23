@@ -50,11 +50,11 @@ class RecordSessionService extends BaseService {
   async startRecordingByCurrentTab(): Promise<void> {
     this.sessionId = null;
     this.currentTab = await TabService.getCurrentTab();
-    if(this.currentTab) {
+    if (this.currentTab) {
       this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
       this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
       this.url = this.currentTab.url as string;
-      this.injectCodes(this.currentTab.id as number)
+      this.injectCodes(this.currentTab.id as number);
     }
   }
 

@@ -1,11 +1,4 @@
-import {
-  FC,
-  PropsWithChildren,
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { FC, PropsWithChildren, createContext, useCallback, useEffect, useState } from "react";
 import { PageSource } from "src/models/pageSource";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 
@@ -23,10 +16,7 @@ export const OverlayContext = createContext({} as OverlayContextValue);
 const OverlayContextProvider: FC<Props> = ({ children, source = "" }) => {
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const getExtensionStatus = () => {
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetExtensionStatus },
-      setShowOverlay
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.GetExtensionStatus }, setShowOverlay);
   };
   const handleSetShowOverlay = (checked: boolean) => {
     setShowOverlay(checked);
@@ -56,9 +46,7 @@ const OverlayContextProvider: FC<Props> = ({ children, source = "" }) => {
   }, []);
 
   return (
-    <OverlayContext.Provider
-      value={{ showOverlay, setShowOverlay: handleSetShowOverlay }}
-    >
+    <OverlayContext.Provider value={{ showOverlay, setShowOverlay: handleSetShowOverlay }}>
       {children}
     </OverlayContext.Provider>
   );

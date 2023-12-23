@@ -29,13 +29,8 @@ class ServiceWorker extends BaseService {
   constructor() {
     super();
     this.registerListener();
-    const delay =
-      (GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000) /
-      MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
-    this.throttleUpdateMatchedRulesTimestamp = throttle(
-      this.updateMatchedRulesTimestamp,
-      delay
-    );
+    const delay = (GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000) / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+    this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
 
@@ -80,10 +75,7 @@ class ServiceWorker extends BaseService {
         } else if (action === PostMessageAction.CopyRuleById) {
           responseData = this.copyRuleById(data);
         } else if (action === PostMessageAction.UpdateTimestamp) {
-          responseData = StorageService.updateTimestamp(
-            String(data.ruleMetaData.id),
-            data.timestamp
-          );
+          responseData = StorageService.updateTimestamp(String(data.ruleMetaData.id), data.timestamp);
         } else if (action === PostMessageAction.ExportRules) {
           responseData = this.exportRules();
         } else if (action === PostMessageAction.GetExtensionStatus) {
@@ -117,8 +109,7 @@ class ServiceWorker extends BaseService {
         const { version } = chrome.runtime.getManifest();
         // hot fix for unique id
         if (error.message.includes("does not have a unique ID")) {
-          const ID: number =
-            (await StorageService.getSingleItem(StorageKey.NEXT_ID)) || 200;
+          const ID: number = (await StorageService.getSingleItem(StorageKey.NEXT_ID)) || 200;
           StorageService.set({ [StorageKey.NEXT_ID]: ID + 50 });
           sendResponse(await this.addRule(data));
           error.message = "handled error ID";
@@ -166,13 +157,8 @@ class ServiceWorker extends BaseService {
 
   getMatchedRules = async (tab) => {
     if (tab.status === "complete") {
-      const enabledRules: IRuleMetaData[] =
-        await StorageService.getFilteredRules([
-          { key: "enabled", value: true },
-        ]);
-      const isUrlsMatch = enabledRules.some((rule) =>
-        MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType)
-      );
+      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{ key: "enabled", value: true }]);
+      const isUrlsMatch = enabledRules.some((rule) => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
       const hasRedirectRule = enabledRules.some(
         (rule: IRuleMetaData) =>
           // On redirect url doesn't match
@@ -196,18 +182,13 @@ class ServiceWorker extends BaseService {
   };
 
   injectContentScript = async (tabId, _, tab) => {
-    const isUrlExluded: boolean = EXCLUDED_URLS.some((url) =>
-      tab.url?.startsWith(url)
-    );
+    const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => tab.url?.startsWith(url));
     const filters = [
       { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
       { key: "enabled", value: true },
     ];
-    const rules: IRuleMetaData[] = await StorageService.getFilteredRules(
-      filters
-    );
-    if (!BSService.isSupportScripting() || isUrlExluded || !rules.length)
-      return;
+    const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
+    if (!BSService.isSupportScripting() || isUrlExluded || !rules.length) return;
     InjectCodeService.injectContentScript(tabId, rules);
   };
 
@@ -216,13 +197,7 @@ class ServiceWorker extends BaseService {
     return { ruleMetaData: ruleMetaData[data.id] };
   }
 
-  async addRule({
-    rule,
-    ruleMetaData,
-  }: {
-    rule?;
-    ruleMetaData: IRuleMetaData;
-  }): Promise<IRuleMetaData> {
+  async addRule({ rule, ruleMetaData }: { rule?; ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> {
     const id: number = await StorageService.generateNextId();
     if (rule && ruleMetaData.enabled) {
       await RuleService.set([{ ...rule, id }]);
@@ -245,9 +220,7 @@ class ServiceWorker extends BaseService {
 
   async deleteRules(): Promise<void> {
     await RuleService.clear();
-    await StorageService.remove(
-      (await StorageService.getRules()).map(({ id }) => String(id))
-    );
+    await StorageService.remove((await StorageService.getRules()).map(({ id }) => String(id)));
   }
 
   async deleteRule(data): Promise<void> {
@@ -259,22 +232,13 @@ class ServiceWorker extends BaseService {
     return { [StorageKey.USER_ID]: await StorageService.getUserId() };
   }
 
-  async changeRuleStatusById({
-    id,
-    checked,
-  }: {
-    id: number;
-    checked: boolean;
-  }): Promise<void> {
-    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(
-      String(id)
-    );
+  async changeRuleStatusById({ id, checked }: { id: number; checked: boolean }): Promise<void> {
+    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
     const ruleServiceRule = await RuleService.getRuleById(id);
     try {
       if (checked) {
         if (ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-          const rule: Rule =
-            config[ruleMetaData.pageType].generateRule(ruleMetaData);
+          const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
           await RuleService.set([{ ...rule, id }]);
         }
       } else {
@@ -283,8 +247,8 @@ class ServiceWorker extends BaseService {
       await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
     } catch (error) {
       handleError(error, {
-            action: 'ChangeRuleStatusById',
-            data: { checked, ruleServiceRule, ruleMetaData },
+        action: "ChangeRuleStatusById",
+        data: { checked, ruleServiceRule, ruleMetaData },
       });
       return Promise.reject(error);
     }
@@ -307,22 +271,13 @@ class ServiceWorker extends BaseService {
   }
 
   async getExtensionStatus(): Promise<boolean> {
-    const status: boolean = await StorageService.getSingleItem(
-      StorageKey.EXTENSION_STATUS
-    );
+    const status: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
     return typeof status === "undefined" ? !status : status;
   }
 
-  async toggleExtensionOptions({
-    checked,
-  }: {
-    checked: boolean;
-  }): Promise<void> {
+  async toggleExtensionOptions({ checked }: { checked: boolean }): Promise<void> {
     const tabs = await chrome.tabs.query({
-      url: [
-        "https://*.inssman.com/*",
-        chrome.runtime.getURL("options/options.html"),
-      ],
+      url: ["https://*.inssman.com/*", chrome.runtime.getURL("options/options.html")],
     });
     if (tabs.length) {
       tabs.forEach((tab) => {
@@ -334,17 +289,13 @@ class ServiceWorker extends BaseService {
     }
   }
 
-  async toggleExtension(
-    { checked }: { checked: boolean },
-    sender: MessageSender
-  ): Promise<void> {
+  async toggleExtension({ checked }: { checked: boolean }, sender: MessageSender): Promise<void> {
     await this.toggleExtensionOptions({ checked });
     await StorageService.set({ [StorageKey.EXTENSION_STATUS]: checked });
     if (checked) {
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
       for (const ruleMetaData of ruleMetaDatas) {
-        const rule: Rule =
-          config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
         await RuleService.set([{ ...rule, id: ruleMetaData.id }]);
       }
     } else {
@@ -376,9 +327,7 @@ class ServiceWorker extends BaseService {
     RecordSessionService.stopRecording();
     const lastRecordedSession = await this.getLastRecordedSession();
     if (lastRecordedSession?.id) {
-      const url = chrome.runtime.getURL(
-        `options/options.html#/record/session/${lastRecordedSession.id}`
-      );
+      const url = chrome.runtime.getURL(`options/options.html#/record/session/${lastRecordedSession.id}`);
       TabService.createTab(url);
     }
   }

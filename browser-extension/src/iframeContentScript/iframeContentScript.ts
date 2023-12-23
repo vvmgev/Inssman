@@ -22,11 +22,7 @@ window.postMessage({
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
-  if (
-    event.origin !== window.origin ||
-    !source?.startsWith?.("inssman:") ||
-    source.startsWith("inssman:iframe")
-  )
+  if (event.origin !== window.origin || !source?.startsWith?.("inssman:") || source.startsWith("inssman:iframe"))
     return;
 
   if (action === "generateUrl") {

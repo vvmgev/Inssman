@@ -1,10 +1,4 @@
-import {
-  FC,
-  PropsWithChildren,
-  createContext,
-  useEffect,
-  useState,
-} from "react";
+import { FC, PropsWithChildren, createContext, useEffect, useState } from "react";
 
 export type FeatureToggles = {
   featureOpenWebApp: boolean;
@@ -22,17 +16,14 @@ const FeatureToggleProvider: FC<Props> = ({ children }) => {
     const getConfig = async () => {
       const response = await fetch("https://inssman.com/api/config");
       const data: FeatureToggles = await response.json();
+      data.featureShowRecord = true;
       setToggles(data);
     };
 
     getConfig();
   }, []);
 
-  return (
-    <FeatureToggleContext.Provider value={toggles}>
-      {children}
-    </FeatureToggleContext.Provider>
-  );
+  return <FeatureToggleContext.Provider value={toggles}>{children}</FeatureToggleContext.Provider>;
 };
 
 export default FeatureToggleProvider;

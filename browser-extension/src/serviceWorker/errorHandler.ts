@@ -1,16 +1,11 @@
 import { storeError } from "./firebase";
 
-const destinationError =
-  'specifies an incorrect value for the "action.redirect.regexSubstitution"';
-const destinationError2 =
-  'specify the "regexSubstitution" key without specifying the "regexFilter" key';
+const destinationError = 'specifies an incorrect value for the "action.redirect.regexSubstitution"';
+const destinationError2 = 'specify the "regexSubstitution" key without specifying the "regexFilter" key';
 const sourceError = 'specifies an incorrect value for the "regexFilter"';
-const actionError =
-  "standard HTTP request headers that can specify multiple values for a single entry are supported";
-const emptyHeaders =
-  'does not specify a value for "action.requestHeaders" or "action.responseHeaders" key';
-const complexRegexFilter =
-  'more complex regex than allowed as part of the "regexFilter" key';
+const actionError = "standard HTTP request headers that can specify multiple values for a single entry are supported";
+const emptyHeaders = 'does not specify a value for "action.requestHeaders" or "action.responseHeaders" key';
+const complexRegexFilter = 'more complex regex than allowed as part of the "regexFilter" key';
 
 const errors = {
   [destinationError]: "Incorrect value",
@@ -18,8 +13,7 @@ const errors = {
   [sourceError]: "Incorrect value",
   [actionError]:
     'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
-  [emptyHeaders]:
-    'May you need to specify headers for request or response, press "Add" button',
+  [emptyHeaders]: 'May you need to specify headers for request or response, press "Add" button',
   [complexRegexFilter]: "The source field has more characters than allowed",
 };
 

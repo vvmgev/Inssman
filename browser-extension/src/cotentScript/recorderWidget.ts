@@ -7,22 +7,15 @@ class RecordSessionWidget extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
     this.shadowRoot.innerHTML = this.getHTML();
-    this.shadowRoot
-      .querySelector(".inssman-recorder-widget .stop-content")
-      ?.addEventListener("click", () => {
-        this.shadowRoot
-          .querySelector(".inssman-recorder-widget")
-          .classList.add("hide");
-        window.postMessage(
-          { action: "stopRecording", source: "inssman:recorderWidget" },
-          window.origin
-        );
-      });
+    this.shadowRoot.querySelector(".inssman-recorder-widget .stop-content")?.addEventListener("click", () => {
+      this.shadowRoot.querySelector(".inssman-recorder-widget").classList.add("hide");
+      window.postMessage({ action: "stopRecording", source: "inssman:recorderWidget" }, window.origin);
+    });
   }
 
   getHTML() {
     return `
-    <div class="inssman-recorder-widget container">
+    <div class="container inssman-recorder-widget">
       <div class="recording-content">
         <span class="record-icon"></span>
         <span>Recording</span>

@@ -14,9 +14,7 @@ const FormList = () => {
       <li className="pl-2 mb-2">
         <Link to="/">
           <div
-            className={`${
-              location.pathname === "/" ? "text-sky-500" : ""
-            } flex items-center hover:text-sky-500 gap-2`}
+            className={`${location.pathname === "/" ? "text-sky-500" : ""} flex items-center hover:text-sky-500 gap-2`}
           >
             <span className="w-[24px]">{<ListSVG />}</span>
             {full && <span>All Rules</span>}
@@ -40,9 +38,7 @@ const FormList = () => {
                   <span>{text}</span>
                   {popularPaths.includes(path) && (
                     <Tooltip content="Popular">
-                      <span className="w-[24px] inline-block text-yellow-400">
-                        {<StarSVG />}
-                      </span>
+                      <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
                     </Tooltip>
                   )}
                 </>

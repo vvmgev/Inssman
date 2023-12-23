@@ -1,10 +1,7 @@
 import ColorCover from "options/components/common/colorCover/colorCover";
 import Switcher from "src/options/components/common/switcher/switcher";
 import CreateRules from "../createRules/createRules";
-import List, {
-  ListHeader,
-  ListItems,
-} from "src/options/components/common/list/list";
+import List, { ListHeader, ListItems } from "src/options/components/common/list/list";
 import Tab, { Tabs } from "src/popup/components/tab/tab";
 import { PostMessageAction } from "src/models/postMessageActionModel";
 import { IRuleMetaData, IconsMap, PageName } from "src/models/formFieldModel";
@@ -14,11 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 const Content = () => {
   const [tab, setTab] = useState<Tabs>(Tabs.RuleList);
   const [rules, setRules] = useState<IRuleMetaData[]>([]);
-  const getRules = (): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetStorageRules },
-      setRules
-    );
+  const getRules = (): void => chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, setRules);
   const onChangeRuleStatus = (event, id): void =>
     chrome.runtime.sendMessage(
       {
@@ -29,12 +22,9 @@ const Content = () => {
     );
   const onChangeTab = (tab: Tabs) => setTab(tab);
   useEffect(() => {
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetStorageRules },
-      (rules) => {
-        setTab(rules.length ? Tabs.RuleList : Tabs.CreatRule);
-      }
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, (rules) => {
+      setTab(rules.length ? Tabs.RuleList : Tabs.CreatRule);
+    });
   }, []);
 
   useEffect(() => getRules(), []);
@@ -98,12 +88,7 @@ const Content = () => {
         field: "enabled",
         classes: "justify-end",
         render: function (item) {
-          return (
-            <Switcher
-              checked={item[this.field]}
-              onChange={(event) => onChangeRuleStatus(event, item.id)}
-            />
-          );
+          return <Switcher checked={item[this.field]} onChange={(event) => onChangeRuleStatus(event, item.id)} />;
         },
       },
     ];
@@ -111,7 +96,7 @@ const Content = () => {
 
   return (
     <ColorCover classes="border-l-0 border-r-0 rounded-none p-0">
-      <div className="p-4 h-full">
+      <div className="h-full p-4">
         <Tab active={tab} onChangeTab={onChangeTab} />
       </div>
       {tab === Tabs.CreatRule ? (

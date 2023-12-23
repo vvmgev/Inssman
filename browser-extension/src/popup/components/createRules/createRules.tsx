@@ -9,9 +9,7 @@ const CreateRules: FC = (): ReactElement => {
       const { hostname } = new URL(tab[0].url as string);
       const hostnameArr = hostname.split(".");
       const name = hostnameArr[hostnameArr.length - 2];
-      const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(
-        name
-      )}`;
+      const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`;
       chrome.tabs.create({ url: chrome.runtime.getURL(url) });
     });
   };
@@ -24,7 +22,7 @@ const CreateRules: FC = (): ReactElement => {
             {index % 3 === 0 ? <div className="w-full"></div> : null}
             <ColorCover classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer">
               <div onClick={() => onClick(path)}>
-                <div className="flex flex-col items-center align-center gap-3 hover:text-sky-500">
+                <div className="flex flex-col items-center gap-3 align-center hover:text-sky-500">
                   <div className="w-[24px]">{icon}</div>
                   <div>{text}</div>
                 </div>
