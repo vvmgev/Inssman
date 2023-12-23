@@ -5,7 +5,7 @@
   "main": "serviceWorker.js",
   "scripts": {
     "dev": "BROWSER=chrome webpack --config webpack/webpack.development.js --watch",
-    "build:vite": "vite build --debug",
+    "build:vite": "vite build --mode development --debug --watch",
     "dev:vite": "vite serve",
     "build": "npm run build:chrome && npm run build:edge",
     "build:chrome": "BROWSER=chrome webpack --config webpack/webpack.production.js",
