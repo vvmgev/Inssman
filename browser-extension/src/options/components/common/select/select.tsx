@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import SlimSelect from "slim-select";
-import { generateUniqueID } from "src/utils";
+import { generateUniqueID } from "@utils/generateUniqueID";
 import "../../../../../node_modules/slim-select/dist/slimselect.css";
 import "./select.css";
 

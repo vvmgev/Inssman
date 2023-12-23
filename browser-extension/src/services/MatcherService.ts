@@ -1,5 +1,5 @@
-import { MatchType } from "src/models/formFieldModel";
-import { replaceAsteriskToPlus } from "src/utils";
+import { MatchType } from "@models/formFieldModel";
+import { replaceAsteriskToPlus } from "@utils/regExp";
 
 class MatcherService {
   isUrlsMatch(sourceUrl: string, currentUrl: string, matchType: string): boolean {

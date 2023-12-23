@@ -1,26 +1,27 @@
 import AutoSizer from "react-virtualized-auto-sizer";
-import ColorCover from "common/colorCover/colorCover";
-import OutlineButton from "common/outlineButton/outlineButton";
-import Input from "common/input/input";
-import BackButton from "common/backButton/backButton";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import Input from "@options/components/common/input/input";
+import BackButton from "@options/components/common/backButton/backButton";
 import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
-import ListSVG from "assets/icons/list.svg";
-import PlaySVG from "assets/icons/play.svg";
-import SquaresSVG from "assets/icons/squares.svg";
-import ShareSVG from "assets/icons/share.svg";
-import SearchSVG from "assets/icons/search.svg";
-import CrossSVG from "assets/icons/cross.svg";
-import VideoCameraSVG from "assets/icons/videoCamera.svg";
-import Tooltip from "common/tooltip/tooltip";
-import TrashSVG from "assets/icons/trash.svg";
-import List, { ListHeader, ListItems } from "common/list/list";
+import ListSVG from "@assets/icons/list.svg";
+import PlaySVG from "@assets/icons/play.svg";
+import SquaresSVG from "@assets/icons/squares.svg";
+import ShareSVG from "@assets/icons/share.svg";
+import SearchSVG from "@assets/icons/search.svg";
+import CrossSVG from "@assets/icons/cross.svg";
+import VideoCameraSVG from "@assets/icons/videoCamera.svg";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import TrashSVG from "@assets/icons/trash.svg";
+import List, { ListHeader, ListItems } from "@options/components/common/list/list";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
-import { PostMessageAction } from "src/models/postMessageActionModel";
-import { RecordSession } from "src/models/recordSessionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
-import { cutString, timeDifference } from "src/utils";
+import { timeDifference } from "@utils/timeDifference";
+import { cutString } from "@utils/cutString";
 
 enum SessionListType {
   GRID = "grid",

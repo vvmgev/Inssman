@@ -1,15 +1,16 @@
-import TrackService from "services/TrackService";
-import Switcher from "common/switcher/switcher";
-import Tooltip from "common/tooltip/tooltip";
-import PencilSVG from "assets/icons/pencil.svg";
-import TrashSVG from "assets/icons/trash.svg";
-import DocumentCopySVG from "assets/icons/documentCopy.svg";
-import List, { ListHeader, ListItems } from "common/list/list";
+import TrackService from "@services/TrackService";
+import Switcher from "@options/components/common/switcher/switcher";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import PencilSVG from "@assets/icons/pencil.svg";
+import TrashSVG from "@assets/icons/trash.svg";
+import DocumentCopySVG from "@assets/icons/documentCopy.svg";
+import List, { ListHeader, ListItems } from "@options/components/common/list/list";
 import { FC, ReactElement, useMemo } from "react";
-import { PostMessageAction } from "models/postMessageActionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
 import { Link } from "react-router-dom";
-import { IRuleMetaData, IconsMap, PageName } from "models/formFieldModel";
-import { cutString, generateLastMatchedTime } from "src/utils";
+import { IRuleMetaData, IconsMap, PageName } from "@models/formFieldModel";
+import { generateLastMatchedTime } from "@utils/generateLastMatchedTime";
+import { cutString } from "@utils/cutString";
 
 type Props = {
   rules: IRuleMetaData[];

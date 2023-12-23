@@ -4,8 +4,8 @@ import TabService from "./TabService";
 import StorageService from "./StorageService";
 import indexDBService from "./indexDBService";
 import { ListenerType } from "./ListenerService/ListenerService";
-import { extractDomain } from "src/utils";
-import { RecordSession } from "models/recordSessionModel";
+import { extractDomain } from "@utils/extractDomain";
+import { RecordSession } from "@models/recordSessionModel";
 
 import Tab = chrome.tabs.Tab;
 

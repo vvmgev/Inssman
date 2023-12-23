@@ -1,13 +1,13 @@
 import rrwebPlayer from "rrweb-player";
-import PlayCircleSVG from "assets/icons/playCircle.svg";
-import TrashSVG from "assets/icons/trash.svg";
-import ShareSVG from "assets/icons/share.svg";
-import PlaySVG from "assets/icons/play.svg";
-import ColorCover from "src/options/components/common/colorCover/colorCover";
-import Tooltip from "common/tooltip/tooltip";
-import SessionPlayer from "common/sessionPlayer/sessionPlayer";
+import PlayCircleSVG from "@assets/icons/playCircle.svg";
+import TrashSVG from "@assets/icons/trash.svg";
+import ShareSVG from "@assets/icons/share.svg";
+import PlaySVG from "@assets/icons/play.svg";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
-import { RecordSession } from "src/models/recordSessionModel";
+import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
 
 type Props = {

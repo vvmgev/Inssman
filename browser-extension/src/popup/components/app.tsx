@@ -1,7 +1,7 @@
 import { HashRouter } from "react-router-dom";
-import Background from "src/options/components/common/background/background";
-import OverlayContextProvider, { OverlayContext } from "src/context/overlayContext";
-import FeatureToggleProvider from "src/context/featureToggleContext";
+import Background from "@options/components/common/background/background";
+import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
+import FeatureToggleProvider from "@context/featureToggleContext";
 import Content from "./content/content";
 import Footer from "./footer/footer";
 import Header from "./header/header";

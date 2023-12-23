@@ -1,9 +1,9 @@
-import GithubSVG from "assets/icons/github.svg";
-import DocumentSVG from "assets/icons/document.svg";
-import BugSVG from "assets/icons/bug.svg";
-import ColorCover from "common/colorCover/colorCover";
-import ExtensionToggle from "common/extensionToggle/extensionToggle";
-import { OverlayContext } from "src/context/overlayContext";
+import GithubSVG from "@assets/icons/github.svg";
+import DocumentSVG from "@assets/icons/document.svg";
+import BugSVG from "@assets/icons/bug.svg";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
+import { OverlayContext } from "@context/overlayContext";
 import { useContext } from "react";
 import Tooltip from "../common/tooltip/tooltip";
 

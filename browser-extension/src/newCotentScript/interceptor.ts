@@ -1,8 +1,8 @@
 // @ts-nocheck
-import MatcherService from "services/MatcherService";
-import { IRuleMetaData } from "models/formFieldModel";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { NAMESPACE } from "options/constant";
+import MatcherService from "@services/MatcherService";
+import { IRuleMetaData } from "@models/formFieldModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { NAMESPACE } from "@options/constant";
 
 window[NAMESPACE] = window[NAMESPACE] || {};
 window[NAMESPACE].interceptor = window[NAMESPACE].interceptor || {};

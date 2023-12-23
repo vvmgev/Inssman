@@ -1,14 +1,14 @@
-import SessionPlayer from "common/sessionPlayer/sessionPlayer";
-import ColorCover from "common/colorCover/colorCover";
-import Input from "common/input/input";
-import Button from "common/button/button";
-import BackButton from "common/backButton/backButton";
-import VideoCameraSVG from "assets/icons/videoCamera.svg";
+import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
+import Button from "@options/components/common/button/button";
+import BackButton from "@options/components/common/backButton/backButton";
+import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { RecordSession } from "src/models/recordSessionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
-import { addProtocol } from "src/utils";
+import { addProtocol } from "@utils/regExp";
 import "rrweb-player/dist/style.css";
 
 const Record: FC = (): ReactElement => {
@@ -45,25 +45,16 @@ const Record: FC = (): ReactElement => {
           </div>
         </div>
 
-        <div className="text-slate-400 leading-7">
-          <p>
-            Record all events in the browser and replay them with precise timing
-            and interactions
-          </p>
+        <div className="leading-7 text-slate-400">
+          <p>Record all events in the browser and replay them with precise timing and interactions</p>
           <p>allowing to thoroughly test and debug web applications</p>
           <p>for optimal performance and user experience.</p>
         </div>
         <div className="mt-auto">
           <span className="font-bold">Note: </span>
-          <span className="text-slate-400">
-            All Recorded Sessions Are Stored On Your Device
-          </span>
-          <form className="flex pt-5 gap-5">
-            <Input
-              ref={searchRef}
-              classes="w-2/3"
-              placeholder="Enter URL e.g https://google.com"
-            />
+          <span className="text-slate-400">All Recorded Sessions Are Stored On Your Device</span>
+          <form className="flex gap-5 pt-5">
+            <Input ref={searchRef} classes="w-2/3" placeholder="Enter URL e.g https://google.com" />
             <Button onClick={startRecording} trackName="Start Recording">
               Start Recording
             </Button>
@@ -78,14 +69,11 @@ const Record: FC = (): ReactElement => {
               <Button trackName="Open Last Recorder Session">Open</Button>
             </Link>
           </div>
-          <span className="flex leading-7 gap-2">
+          <span className="flex gap-2 leading-7">
             <span className="font-bold text-slate-300">URL:</span>
             <span> {session.url}</span>
           </span>
-          <SessionPlayer
-            session={session}
-            playerOptions={{ autoPlay: false }}
-          />
+          <SessionPlayer session={session} playerOptions={{ autoPlay: false }} />
         </ColorCover>
       )}
     </ColorCover>

@@ -1,6 +1,6 @@
 import { FC, ReactElement } from "react";
-import ListSVG from "assets/icons/list.svg";
-import PlusSVG from "assets/icons/plus.svg";
+import ListSVG from "@assets/icons/list.svg";
+import PlusSVG from "@assets/icons/plus.svg";
 
 export enum Tabs {
   CreatRule,

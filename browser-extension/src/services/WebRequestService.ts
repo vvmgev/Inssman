@@ -1,5 +1,5 @@
 import BaseService from "./BaseService";
-import { WebRequestListenerType, WebRequestClients } from "src/models/WebRequestModel";
+import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
 import { ListenerType } from "./ListenerService/ListenerService";
 
 chrome.runtime.onConnect.addListener((port) => {

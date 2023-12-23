@@ -1,5 +1,5 @@
-import OutlineButton from "common/outlineButton/outlineButton";
-import ArrowLeftSVG from "assets/icons/arrowLeft.svg";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import ArrowLeftSVG from "@assets/icons/arrowLeft.svg";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 

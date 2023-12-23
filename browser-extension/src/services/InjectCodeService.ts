@@ -8,9 +8,9 @@ import {
   InjectFileTypeMap,
   InjectFileSource,
   IRuleMetaData,
-} from "src/models/formFieldModel";
+} from "@models/formFieldModel";
 import { ListenerType } from "./ListenerService/ListenerService";
-import { NAMESPACE } from "src/options/constant";
+import { NAMESPACE } from "@options/constant";
 import ExecutionWorld = chrome.scripting.ExecutionWorld;
 import InjectionResult = chrome.scripting.InjectionResult;
 

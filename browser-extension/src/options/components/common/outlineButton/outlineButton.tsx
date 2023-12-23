@@ -1,5 +1,5 @@
 import { ReactNode, PropsWithChildren, forwardRef } from "react";
-import TrackService from "src/services/TrackService";
+import TrackService from "@services/TrackService";
 import { twMerge } from "tailwind-merge";
 
 type Props = PropsWithChildren<{

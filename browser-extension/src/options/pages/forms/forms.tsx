@@ -1,10 +1,10 @@
 import { PropsWithChildren } from "react";
-import { FormMode, IRule, IRuleMetaData } from "src/models/formFieldModel";
-import ColorCover from "src/options/components/common/colorCover/colorCover";
-import Form from "src/options/components/common/form/form";
-import FormBuilder from "src/options/formBuilder/formBuilder";
-import config from "src/options/formBuilder/config";
-import { FormError } from "src/options/HOC/formHOC";
+import { FormMode, IRule, IRuleMetaData } from "@models/formFieldModel";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Form from "@options/components/common/form/form";
+import FormBuilder from "@options/formBuilder/formBuilder";
+import config from "@options/formBuilder/config";
+import { FormError } from "@options/HOC/formHOC";
 
 type Props = PropsWithChildren<{
   onDelete: Function;

@@ -6,11 +6,11 @@ import Footer from "../footer/footer";
 import SideBar from "../sideBar/sideBar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
-import SideBarContextProvider, { SideBarContext } from "src/context/sideBarContext";
-import FeatureToggleProvider from "src/context/featureToggleContext";
-import OverlayContextProvider, { OverlayContext } from "src/context/overlayContext";
+import SideBarContextProvider, { SideBarContext } from "@context/sideBarContext";
+import FeatureToggleProvider from "@context/featureToggleContext";
+import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
 import { useContext } from "react";
-import "services/TrackService";
+import "@services/TrackService";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
