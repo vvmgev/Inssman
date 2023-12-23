@@ -1,8 +1,8 @@
 import { ReactElement, FC, useContext } from "react";
-import VideoCameraSVG from "assets/icons/videoCamera.svg";
-import SquaresSVG from "assets/icons/squares.svg";
+import VideoCameraSVG from "@assets/icons/videoCamera.svg";
+import SquaresSVG from "@assets/icons/squares.svg";
 import { Link, useLocation } from "react-router-dom";
-import { FeatureToggleContext } from "src/context/featureToggleContext";
+import { FeatureToggleContext } from "@context/featureToggleContext";
 
 const Record: FC = (): ReactElement => {
   const location = useLocation();

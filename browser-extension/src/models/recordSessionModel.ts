@@ -1,5 +1,3 @@
-import { StorageItemType } from "./storageModel";
-
 export type RecordSession = {
   id: number;
   url: string;

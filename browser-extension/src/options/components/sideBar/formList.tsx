@@ -1,9 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import ListSVG from "assets/icons/list.svg";
-import StarSVG from "assets/icons/star.svg";
+import ListSVG from "@assets/icons/list.svg";
+import StarSVG from "@assets/icons/star.svg";
 import { paths, popularPaths } from "../app/paths";
-import Tooltip from "common/tooltip/tooltip";
-import { SideBarContext } from "src/context/sideBarContext";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import { SideBarContext } from "@context/sideBarContext";
 import { useContext } from "react";
 
 const FormList = () => {

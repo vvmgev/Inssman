@@ -1,8 +1,8 @@
-import ColorCover from "common/colorCover/colorCover";
-import SessionPlayer from "common/sessionPlayer/sessionPlayer";
-import OutlineButton from "common/outlineButton/outlineButton";
-import BackButton from "common/backButton/backButton";
-import TrashSVG from "assets/icons/trash.svg";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import BackButton from "@options/components/common/backButton/backButton";
+import TrashSVG from "@assets/icons/trash.svg";
 import {
   FC,
   ReactElement,
@@ -11,12 +11,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import { PostMessageAction } from "src/models/postMessageActionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation } from "react-router-dom";
-import { RecordSession } from "src/models/recordSessionModel";
-import { SideBarContext } from "src/context/sideBarContext";
+import { RecordSession } from "@models/recordSessionModel";
+import { SideBarContext } from "@context/sideBarContext";
 import { useNavigate } from "react-router-dom";
-import { timeDifference } from "src/utils";
+import { timeDifference } from "@utils/timeDifference";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();

@@ -1,6 +1,6 @@
-import StorageService from "./StorageService";
-import MatcherService from "./MatcherService";
-import BaseService from "./BaseService";
+import StorageService from "@services/StorageService";
+import MatcherService from "@services/MatcherService";
+import BaseService from "@services/BaseService";
 import {
   PageType,
   InjectFileTagMap,
@@ -8,9 +8,9 @@ import {
   InjectFileTypeMap,
   InjectFileSource,
   IRuleMetaData,
-} from "src/models/formFieldModel";
-import { ListenerType } from "./ListenerService/ListenerService";
-import { NAMESPACE } from "src/options/constant";
+} from "@models/formFieldModel";
+import { ListenerType } from "@services/ListenerService/ListenerService";
+import { NAMESPACE } from "@options/constant";
 import ExecutionWorld = chrome.scripting.ExecutionWorld;
 import InjectionResult = chrome.scripting.InjectionResult;
 

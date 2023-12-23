@@ -1,7 +1,7 @@
 import mixpanel from "mixpanel-browser";
 import { init } from "@amplitude/analytics-browser";
 import { track } from "@amplitude/analytics-browser";
-import { PostMessageAction } from "src/models/postMessageActionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
 
 class TrackService {
   #userId;

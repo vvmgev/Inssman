@@ -1,14 +1,14 @@
-import SessionPlayer from "common/sessionPlayer/sessionPlayer";
-import ColorCover from "common/colorCover/colorCover";
-import Input from "common/input/input";
-import Button from "common/button/button";
-import BackButton from "common/backButton/backButton";
-import VideoCameraSVG from "assets/icons/videoCamera.svg";
+import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
+import Button from "@options/components/common/button/button";
+import BackButton from "@options/components/common/backButton/backButton";
+import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { RecordSession } from "src/models/recordSessionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
-import { addProtocol } from "src/utils";
+import { addProtocol } from "@utils/regExp";
 import "rrweb-player/dist/style.css";
 
 const Record: FC = (): ReactElement => {

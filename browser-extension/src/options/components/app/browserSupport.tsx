@@ -1,5 +1,5 @@
-import BrowserSupportService from "services/BrowserSupportService";
-import ColorCover from "common/colorCover/colorCover";
+import BrowserSupportService from "@services/BrowserSupportService";
+import ColorCover from "@options/components/common/colorCover/colorCover";
 
 const BrowserSupport = ({ children }) => {
   if (BrowserSupportService.isSupportRules()) {

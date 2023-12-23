@@ -6,7 +6,7 @@ import {
   InjectFileOperator,
   InjectFileSource,
   InjectFileType,
-} from "src/models/formFieldModel";
+} from "@models/formFieldModel";
 
 const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
   const {

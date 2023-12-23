@@ -1,6 +1,6 @@
 import { HashRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Background from "../common/background/background";
+import Background from "@options/components/common/background/background";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import SideBar from "../sideBar/sideBar";
@@ -8,13 +8,13 @@ import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
 import SideBarContextProvider, {
   SideBarContext,
-} from "src/context/sideBarContext";
-import FeatureToggleProvider from "src/context/featureToggleContext";
+} from "@context/sideBarContext";
+import FeatureToggleProvider from "@context/featureToggleContext";
 import OverlayContextProvider, {
   OverlayContext,
-} from "src/context/overlayContext";
+} from "@context/overlayContext";
 import { useContext } from "react";
-import "services/TrackService";
+import "@services/TrackService";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {

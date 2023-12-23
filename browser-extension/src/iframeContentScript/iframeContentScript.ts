@@ -1,4 +1,4 @@
-import { PostMessageAction } from "src/models/postMessageActionModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
 
 const createIframe = (src: string) => {
   const iframe = document.createElement("iframe");

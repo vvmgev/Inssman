@@ -1,28 +1,30 @@
-import RuleService from "services/RuleService";
-import StorageService from "services/StorageService";
-import BSService from "services/BrowserSupportService";
-import InjectCodeService from "services/InjectCodeService";
-import BaseService from "services/BaseService";
-import MatcherService from "services/MatcherService";
-import config from "options/formBuilder/config";
-import RecordSessionService from "services/RecordSessionService";
-import TabService from "services/TabService";
+import RuleService from "@services/RuleService";
+import StorageService from "@services/StorageService";
+import BSService from "@services/BrowserSupportService";
+import InjectCodeService from "@services/InjectCodeService";
+import BaseService from "@services/BaseService";
+import MatcherService from "@services/MatcherService";
+import config from "@options/formBuilder/config";
+import RecordSessionService from "@services/RecordSessionService";
+import TabService from "@services/TabService";
 import handleError from "./errorHandler";
-import { ListenerType } from "services/ListenerService/ListenerService";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { IRuleMetaData, PageType } from "models/formFieldModel";
-import { StorageKey } from "models/storageModel";
-import { UNINSTALL_URL, EXCLUDED_URLS } from "options/constant";
-import { throttle } from "src/utils/throttle";
+import { ListenerType } from "@services/ListenerService/ListenerService";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { IRuleMetaData, PageType } from "@models/formFieldModel";
+import { StorageKey } from "@models/storageModel";
+import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
+import { throttle } from "@utils/throttle";
 import { storeRuleMetaData } from "./firebase";
-import { RecordSession } from "src/models/recordSessionModel";
-import "services/WebRequestService";
-import "services/indexDBService";
+import { RecordSession } from "@models/recordSessionModel";
+import "@services/WebRequestService";
+import "@services/indexDBService";
 
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
+
+console.log(1212);
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
@@ -283,8 +285,8 @@ class ServiceWorker extends BaseService {
       await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
     } catch (error) {
       handleError(error, {
-            action: 'ChangeRuleStatusById',
-            data: { checked, ruleServiceRule, ruleMetaData },
+        action: "ChangeRuleStatusById",
+        data: { checked, ruleServiceRule, ruleMetaData },
       });
       return Promise.reject(error);
     }

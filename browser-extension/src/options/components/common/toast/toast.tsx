@@ -1,6 +1,6 @@
 import { ReactElement, FC } from "react";
-import CheckCircleSVG from "assets/icons/checkCircle.svg";
-import ColorCover from "components/common/colorCover/colorCover";
+import CheckCircleSVG from "@assets/icons/checkCircle.svg";
+import ColorCover from "@options/components/common/colorCover/colorCover";
 
 const Toast: FC = (): ReactElement => {
   return (

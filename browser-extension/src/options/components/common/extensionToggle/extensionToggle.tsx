@@ -1,6 +1,6 @@
 import Switcher from "../switcher/switcher";
 import { FC, useContext } from "react";
-import { OverlayContext } from "src/context/overlayContext";
+import { OverlayContext } from "@context/overlayContext";
 import ColorCover from "../colorCover/colorCover";
 
 const ExtensionToggle: FC = () => {

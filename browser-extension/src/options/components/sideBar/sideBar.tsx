@@ -1,15 +1,15 @@
-import Logo from "assets/icons/logo.svg";
+import Logo from "@assets/icons/logo.svg";
 import ColorCover from "../common/colorCover/colorCover";
 import TemplateList from "./templateList";
 import FormList from "./components/formList/formList";
 import Record from "./components/record/record";
 import { Fragment, useContext } from "react";
-import { SideBarContext } from "src/context/sideBarContext";
+import { SideBarContext } from "@context/sideBarContext";
 import { Link } from "react-router-dom";
-import ArrowLeftSVG from "assets/icons/arrowLeft.svg";
-import ArrowRightSVG from "assets/icons/arrowRight.svg";
+import ArrowLeftSVG from "@assets/icons/arrowLeft.svg";
+import ArrowRightSVG from "@assets/icons/arrowRight.svg";
 import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
-import { FeatureToggleContext } from "src/context/featureToggleContext";
+import { FeatureToggleContext } from "@context/featureToggleContext";
 
 const SideBar = () => {
   const { full, setFull } = useContext(SideBarContext);

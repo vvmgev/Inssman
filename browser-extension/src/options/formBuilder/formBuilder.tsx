@@ -5,16 +5,16 @@ import {
   FormMode,
   HeaderModificationType,
   QueryParamAction,
-} from "src/models/formFieldModel";
-import SourceFields from "components/common/source/sourceFields";
-import Destination from "components/common/destination/destination";
-import QueryParamFields from "components/common/queryParamFields/queryParamFields";
+} from "@models/formFieldModel";
+import SourceFields from "@options/components/common/source/sourceFields";
+import Destination from "@options/components/common/destination/destination";
+import QueryParamFields from "@options/components/common/queryParamFields/queryParamFields";
 import ModifyHeaderFields from "../pages/modifyHeader/modifyHeaderFields";
-import Select from "components/common/select/select";
-import Editor from "components/common/editor/editor";
-import InjectFileSources from "components/common/InjectFileSources/InjectFileSources";
-import Input from "components/common/input/input";
-import FormContextProvider from "src/context/formContext";
+import Select from "@options/components/common/select/select";
+import Editor from "@options/components/common/editor/editor";
+import InjectFileSources from "@options/components/common/InjectFileSources/InjectFileSources";
+import Input from "@options/components/common/input/input";
+import FormContextProvider from "@context/formContext";
 import { FormError } from "../HOC/formHOC";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 

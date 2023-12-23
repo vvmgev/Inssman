@@ -10,15 +10,15 @@ import {
   MimeTypeMap,
   PageType,
   QueryParamAction,
-} from "src/models/formFieldModel";
+} from "@models/formFieldModel";
 import {
+  replaceAsteriskToPlus,
   addProtocol,
-  encode,
   makeExactMatch,
   replaceAsterisk,
-  replaceAsteriskToPlus,
   replaceVariable,
-} from "src/utils";
+} from "@utils/regExp";
+import { encode } from "@utils/encode";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;

@@ -1,10 +1,10 @@
-import { HeaderModificationType } from "models/formFieldModel";
-import Input from "components/common/input/input";
-import Select from "components/common/select/select";
-import InputAutocomplete from "components/common/InputAutocomplete/inputAutocomplete";
-import CrossSVG from "assets/icons/cross.svg";
+import { HeaderModificationType } from "@models/formFieldModel";
+import Input from "@options/components/common/input/input";
+import Select from "@options/components/common/select/select";
+import InputAutocomplete from "@options/components/common/InputAutocomplete/inputAutocomplete";
+import CrossSVG from "@assets/icons/cross.svg";
 import HTTPHeaders from "./HTTPHeaders";
-import { generateUniqueID } from "src/utils";
+import { generateUniqueID } from "@utils/generateUniqueID";
 import { useMemo } from "react";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 

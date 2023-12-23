@@ -2,14 +2,14 @@ import { useEffect, useState, useRef } from "react";
 import {
   WebRequestListenerType,
   WebRequestClients,
-} from "models/WebRequestModel";
-import ColorCover from "common/colorCover/colorCover";
-import Input from "common/input/input";
-import CrossSVG from "assets/icons/cross.svg";
-import DoubleSquareSVG from "assets/icons/doubleSquare.svg";
-import SearchSVG from "assets/icons/search.svg";
-import OutlineButton from "common/outlineButton/outlineButton";
-import BackButton from "common/backButton/backButton";
+} from "@models/WebRequestModel";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
+import CrossSVG from "@assets/icons/cross.svg";
+import DoubleSquareSVG from "@assets/icons/doubleSquare.svg";
+import SearchSVG from "@assets/icons/search.svg";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import BackButton from "@options/components/common/backButton/backButton";
 
 const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   const portRef = useRef<any>();

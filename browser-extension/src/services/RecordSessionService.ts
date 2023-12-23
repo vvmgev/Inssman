@@ -1,11 +1,11 @@
-import BaseService from "./BaseService";
-import InjectCodeService from "./InjectCodeService";
-import TabService from "./TabService";
-import StorageService from "./StorageService";
-import indexDBService from "./indexDBService";
-import { ListenerType } from "./ListenerService/ListenerService";
-import { extractDomain } from "src/utils";
-import { RecordSession } from "models/recordSessionModel";
+import BaseService from "@services/BaseService";
+import InjectCodeService from "@services/InjectCodeService";
+import TabService from "@services/TabService";
+import StorageService from "@services/StorageService";
+import indexDBService from "@services/indexDBService";
+import { ListenerType } from "@services/ListenerService/ListenerService";
+import { extractDomain } from "@utils/extractDomain";
+import { RecordSession } from "@models/recordSessionModel";
 
 import Tab = chrome.tabs.Tab;
 

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import Input from "components/common/input/input";
-import { MatchType } from "src/models/formFieldModel";
+import Input from "@options/components/common/input/input";
+import { MatchType } from "@models/formFieldModel";
 
 const Destination = ({ value, onChange, matchType, error }) => {
   const placeholders = useMemo(

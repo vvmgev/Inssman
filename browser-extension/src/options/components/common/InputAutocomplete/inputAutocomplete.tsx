@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Popup from "reactjs-popup";
-import ColorCover from "components/common/colorCover/colorCover";
-import Input from "components/common/input/input";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
 
 const InputAutocomplete = ({ inputProps, list, id }: any) => {
   const [inputFocused, setInputFocused] = useState<boolean>(false);

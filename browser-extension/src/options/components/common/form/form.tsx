@@ -1,10 +1,10 @@
-import Button from "components/common/button/button";
-import BackButton from "common/backButton/backButton";
-import OutlineButton from "components/common/outlineButton/outlineButton";
-import TrashSVG from "assets/icons/trash.svg";
-import PencilSVG from "assets/icons/pencil.svg";
-import { PageName, IconsMap } from "src/models/formFieldModel";
-import { FormError } from "src/options/HOC/formHOC";
+import Button from "@options/components/common/button/button";
+import BackButton from "@options/components/common/backButton/backButton";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import TrashSVG from "@assets/icons/trash.svg";
+import PencilSVG from "@assets/icons/pencil.svg";
+import { PageName, IconsMap } from "@models/formFieldModel";
+import { FormError } from "@options/HOC/formHOC";
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<{

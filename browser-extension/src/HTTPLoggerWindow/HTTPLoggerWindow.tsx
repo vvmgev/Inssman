@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import HTTPLogger from "options/pages/httpLogger/httpLogger";
-import Background from "options/components/common/background/background";
-import { WebRequestClients } from "models/WebRequestModel";
+import HTTPLogger from "@options/pages/httpLogger/httpLogger";
+import Background from "@options/components/common/background/background";
+import { WebRequestClients } from "@models/WebRequestModel";
 import "./HTTPLoggerWindow.css";
 
 const container = document.getElementById("root") as HTMLDivElement;

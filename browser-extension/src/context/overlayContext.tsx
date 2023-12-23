@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { PageSource } from "src/models/pageSource";
-import { PostMessageAction } from "src/models/postMessageActionModel";
+import { PageSource } from "@models/pageSource";
+import { PostMessageAction } from "@models/postMessageActionModel";
 
 type OverlayContextValue = {
   showOverlay: boolean;

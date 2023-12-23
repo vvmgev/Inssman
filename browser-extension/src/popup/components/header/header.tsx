@@ -1,8 +1,8 @@
-import ColorCover from "common/colorCover/colorCover";
-import Button from "common/button/button";
-import ExtensionToggle from "common/extensionToggle/extensionToggle";
-import Logo from "assets/icons/logo.svg";
-import { FeatureToggleContext } from "src/context/featureToggleContext";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Button from "@options/components/common/button/button";
+import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
+import Logo from "@assets/icons/logo.svg";
+import { FeatureToggleContext } from "@context/featureToggleContext";
 import { useEffect, useState, useContext } from "react";
 
 const Header = () => {

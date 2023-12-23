@@ -1,14 +1,14 @@
-import ColorCover from "options/components/common/colorCover/colorCover";
-import Switcher from "src/options/components/common/switcher/switcher";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Switcher from "@options/components/common/switcher/switcher";
 import CreateRules from "../createRules/createRules";
 import List, {
   ListHeader,
   ListItems,
-} from "src/options/components/common/list/list";
-import Tab, { Tabs } from "src/popup/components/tab/tab";
-import { PostMessageAction } from "src/models/postMessageActionModel";
-import { IRuleMetaData, IconsMap, PageName } from "src/models/formFieldModel";
-import { cutString } from "src/utils";
+} from "@options/components/common/list/list";
+import Tab, { Tabs } from "@popup/components/tab/tab";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { IRuleMetaData, IconsMap, PageName } from "@models/formFieldModel";
+import { cutString } from "@utils/cutString";
 import { useEffect, useMemo, useState } from "react";
 
 const Content = () => {
