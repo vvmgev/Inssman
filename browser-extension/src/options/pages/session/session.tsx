@@ -18,7 +18,7 @@ const Session: FC = (): ReactElement => {
   const { setFull } = useContext(SideBarContext);
   const { id } = useParams();
   const sessionMemo = useMemo(() => session, [session]);
-  const playerOptions = useMemo(() => ({ width: 800, height: 500, autoPlay: true }), []);
+  const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
 
   useEffect(() => {
     setFull(false);
