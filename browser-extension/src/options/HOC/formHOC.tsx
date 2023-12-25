@@ -3,10 +3,11 @@ import TrackService from "src/services/TrackService";
 import Toast from "components/common/toast/toast";
 import Forms from "../pages/forms/forms";
 import config from "../formBuilder/config";
-import { FormMode, IForm, IRule, IRuleMetaData } from "models/formFieldModel";
+import { FormMode, IForm, IRule, IRuleMetaData, PageName } from "models/formFieldModel";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { StorageItemType } from "src/models/storageModel";
 import { toast } from "react-toastify";
+import { capitalizeFirstLetter } from "src/utils/capitalizeFirstLetter";
 
 export type FormError = {
   [key: string]: { message: string } | null;
@@ -192,6 +193,7 @@ const FormHOC = () => {
         rule,
         ruleMetaData: {
           ...cloneRuleMetaData,
+          name: cloneRuleMetaData.name || `${PageName[cloneRuleMetaData.pageType]}-${+new Date()}`,
           enabled: typeof ruleMetaData.enabled !== "undefined" ? ruleMetaData.enabled : true,
           type: StorageItemType.RULE,
           lastMatchedTimestamp: ruleMetaData.lastMatchedTimestamp || null,

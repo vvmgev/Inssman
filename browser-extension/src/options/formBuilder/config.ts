@@ -123,15 +123,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string): string => value.trim(),
         },
@@ -219,15 +210,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -281,15 +263,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -378,15 +351,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -484,15 +448,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -564,15 +519,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -649,15 +595,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },

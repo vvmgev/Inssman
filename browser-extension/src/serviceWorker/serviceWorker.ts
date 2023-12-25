@@ -17,7 +17,7 @@ import { throttle } from "src/utils/throttle";
 import { storeRuleMetaData } from "./firebase";
 import { RecordSession } from "src/models/recordSessionModel";
 import "services/WebRequestService";
-import "services/indexDBService";
+import "services/IndexDBService";
 
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
