@@ -2,14 +2,13 @@ import Button from "common/button/button";
 import ColorCover from "common/colorCover/colorCover";
 import Input from "common/input/input";
 import VideoCameraSVG from "assets/icons/videoCamera.svg";
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { FeatureToggleContext } from "src/context/featureToggleContext";
 import { PostMessageAction } from "models/postMessageActionModel";
 import { addProtocol } from "src/utils";
 
 const Footer = () => {
   const [url, setUrl] = useState<string>();
-  const searchRef = useRef<HTMLInputElement>();
   const { featureShowRecord } = useContext(FeatureToggleContext);
   return (
     <div>
@@ -28,8 +27,7 @@ const Footer = () => {
               trackName="Start Recording Popup"
               classes="whitespace-nowrap"
               onClick={() => {
-                const url = searchRef.current?.value || "";
-                if (searchRef.current?.value) {
+                if (url) {
                   chrome.runtime.sendMessage(
                     {
                       action: PostMessageAction.StartRecordingByUrl,

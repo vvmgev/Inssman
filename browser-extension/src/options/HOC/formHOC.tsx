@@ -7,7 +7,6 @@ import { FormMode, IForm, IRule, IRuleMetaData, PageName } from "models/formFiel
 import { PostMessageAction } from "models/postMessageActionModel";
 import { StorageItemType } from "src/models/storageModel";
 import { toast } from "react-toastify";
-import { capitalizeFirstLetter } from "src/utils/capitalizeFirstLetter";
 
 export type FormError = {
   [key: string]: { message: string } | null;
