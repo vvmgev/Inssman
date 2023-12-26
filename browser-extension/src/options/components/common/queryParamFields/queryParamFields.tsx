@@ -1,25 +1,11 @@
-import { useMemo } from "react";
-import { QueryParamAction } from "@models/formFieldModel";
-import Input from "@options/components/common/input/input";
-import Select from "@options/components/common/select/select";
-import CrossSVG from "assets/icons/cross.svg";
-import { generateUniqueID } from "src/utils";
-import { useMemo } from "react";
 import { QueryParamAction } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
 import CrossSVG from "@assets/icons/cross.svg";
 import { generateUniqueID } from "@utils/generateUniqueID";
+import { useMemo } from "react";
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
-  const queryParamActionOptions = useMemo(
-    () =>
-      Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
-        previous.push({ value: value.toLowerCase(), label });
-        return previous;
-      }, []),
-    []
-  );
   const queryParamActionOptions = useMemo(
     () =>
       Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {

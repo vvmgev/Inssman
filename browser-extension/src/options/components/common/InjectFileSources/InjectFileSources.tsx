@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import Select from "../select/select";
 import Input from "../input/input";
 import Editor from "../editor/editor";
-import { InjectFileOperator, InjectFileSource, InjectFileType } from "src/models/formFieldModel";
 import { InjectFileOperator, InjectFileSource, InjectFileType } from "@models/formFieldModel";
 
 const InjectFileSources = ({ onChange, ruleMetaData, error }) => {

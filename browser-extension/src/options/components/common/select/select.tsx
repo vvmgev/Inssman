@@ -14,26 +14,8 @@ type Props = {
   placeholder?: string;
   multiple?: boolean;
 };
-  value: string | string[];
-  name: string;
-  options: any;
-  onChange: any;
-  error?: any;
-  classes?: string;
-  placeholder?: string;
-  multiple?: boolean;
-};
 
-const Select = ({
-  value,
-  classes = "",
-  name,
-  options,
-  onChange,
-  error,
-  placeholder,
-  multiple = false,
-}: Props) => {
+const Select = ({ value, classes = "", name, options, onChange, error, placeholder, multiple = false }: Props) => {
   const selectRef = useRef<any>();
   const idRef = useRef<string>();
 
@@ -58,9 +40,7 @@ const Select = ({
       },
       events: {
         afterChange: (data) => {
-          const selectValue = multiple
-            ? data.map(({ value }) => value)
-            : data[0].value;
+          const selectValue = multiple ? data.map(({ value }) => value) : data[0].value;
           onChange({
             target: {
               name,
@@ -76,9 +56,7 @@ const Select = ({
     <div className={`inline-block w-full ${classes}`}>
       <select
         className={`w-full capitalize py-3 rounded focus:outline-none active:outline-none border-none focus:shadow-none
-            text-slate-200 bg-slate-700/70 ${
-              error ? "border border-red-500" : "focus:border-none"
-            }`}
+            text-slate-200 bg-slate-700/70 ${error ? "border border-red-500" : "focus:border-none"}`}
         id={idRef.current}
         name={name}
         multiple={multiple}
@@ -89,11 +67,7 @@ const Select = ({
         <option data-placeholder="true"></option>
         {options.map((item, id) => {
           return (
-            <option
-              className="!text-slate-200 my-1"
-              key={id}
-              value={item.value}
-            >
+            <option className="!text-slate-200 my-1" key={id} value={item.value}>
               {item.label}
             </option>
           );

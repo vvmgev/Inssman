@@ -1,5 +1,3 @@
-import BaseService from "./BaseService";
-import { ListenerType } from "./ListenerService/ListenerService";
 import BaseService from "@services/BaseService";
 import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";

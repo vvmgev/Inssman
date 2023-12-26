@@ -1,4 +1,3 @@
-import ListenerService, { ListenerType } from "./ListenerService/ListenerService";
 import ListenerService, { ListenerType } from "@services/ListenerService/ListenerService";
 
 class BaseService {
