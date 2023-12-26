@@ -1,5 +1,5 @@
 import rrwebPlayer, { RRwebPlayerOptions } from "rrweb-player";
-import { RecordSession } from "models/recordSessionModel";
+import { RecordSession } from "@models/recordSessionModel";
 import { FC, useEffect, useRef, forwardRef, memo } from "react";
 import "./sessionPlayer.css";
 

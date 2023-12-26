@@ -1,11 +1,11 @@
-import Button from "common/button/button";
-import ColorCover from "common/colorCover/colorCover";
-import Input from "common/input/input";
-import VideoCameraSVG from "assets/icons/videoCamera.svg";
+import Button from "@options/components/common/button/button";
+import ColorCover from "@options/components/common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
+import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import { useContext, useState } from "react";
-import { FeatureToggleContext } from "src/context/featureToggleContext";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { addProtocol } from "src/utils";
+import { FeatureToggleContext } from "@context/featureToggleContext";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { addProtocol } from "@utils/regExp";
 
 const Footer = () => {
   const [url, setUrl] = useState<string>();

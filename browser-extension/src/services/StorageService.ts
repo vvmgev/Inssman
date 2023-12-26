@@ -1,6 +1,6 @@
 // import CacheService from 'services/CacheService';
-import { StorageItemType, StorageKey } from "models/storageModel";
-import { IRuleMetaData } from "src/models/formFieldModel";
+import { StorageItemType, StorageKey } from "@models/storageModel";
+import { IRuleMetaData } from "@models/formFieldModel";
 
 class StorageService {
   private readonly cacheName = "StorageService";

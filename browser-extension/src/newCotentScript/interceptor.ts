@@ -1,7 +1,7 @@
 // @ts-nocheck
 import MatcherService from "services/MatcherService";
-import { IRuleMetaData } from "models/formFieldModel";
-import { PostMessageAction } from "models/postMessageActionModel";
+import { IRuleMetaData } from "@models/formFieldModel";
+import { PostMessageAction } from "@models/postMessageActionModel";
 import { NAMESPACE } from "options/constant";
 
 window[NAMESPACE] = window[NAMESPACE] || {};

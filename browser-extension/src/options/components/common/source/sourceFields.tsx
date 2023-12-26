@@ -1,10 +1,10 @@
 import { useCallback, useMemo, PropsWithChildren } from "react";
-import { MatchType } from "models/formFieldModel";
-import Input from "components/common/input/input";
-import Select from "components/common/select/select";
-import Tooltip from "components/common/tooltip/tooltip";
-import InfoSVG from "assets/icons/info.svg";
-import AdjustmentVerticalSVG from "assets/icons/adjustmentVertical.svg";
+import { MatchType } from "@models/formFieldModel";
+import Input from "@options/components/common/input/input";
+import Select from "@options/components/common/select/select";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import InfoSVG from "@assets/icons/info.svg";
+import AdjustmentVerticalSVG from "@assets/icons/adjustmentVertical.svg";
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 

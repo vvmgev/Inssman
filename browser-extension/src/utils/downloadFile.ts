@@ -1,4 +1,4 @@
-import { MimeType } from "src/models/formFieldModel";
+import { MimeType } from "@models/formFieldModel";
 
 export const downloadFile = (data: unknown = {}, type: string = MimeType.JSON): void => {
   const link = document.createElement("a");

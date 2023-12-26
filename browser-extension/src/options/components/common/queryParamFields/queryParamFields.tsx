@@ -1,9 +1,9 @@
+import { QueryParamAction } from "@models/formFieldModel";
+import Input from "@options/components/common/input/input";
+import Select from "@options/components/common/select/select";
+import CrossSVG from "@assets/icons/cross.svg";
+import { generateUniqueID } from "@utils/generateUniqueID";
 import { useMemo } from "react";
-import { QueryParamAction } from "models/formFieldModel";
-import Input from "components/common/input/input";
-import Select from "components/common/select/select";
-import CrossSVG from "assets/icons/cross.svg";
-import { generateUniqueID } from "src/utils";
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
   const queryParamActionOptions = useMemo(
@@ -29,7 +29,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
     <>
       {queryParams.map((param, index) => {
         return (
-          <div key={index} className="flex items-center mt-5 gap-5">
+          <div key={index} className="flex mt-5 gap-5 items-center">
             <span className="mr-4">Operator&nbsp;</span>
             <Select
               options={queryParamActionOptions}

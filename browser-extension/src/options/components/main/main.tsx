@@ -1,21 +1,21 @@
 import { useState, useRef, useEffect } from "react";
 import Popup from "reactjs-popup";
-import Input from "common/input/input";
-import BackButton from "common/backButton/backButton";
-import OutlineButton from "common/outlineButton/outlineButton";
-import ColorCover from "common/colorCover/colorCover";
+import Input from "@options/components/common/input/input";
+import BackButton from "@options/components/common/backButton/backButton";
+import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import ColorCover from "@options/components/common/colorCover/colorCover";
 import RuleList from "../ruleList/ruleList";
-import CrossSVG from "assets/icons/cross.svg";
-import SearchSVG from "assets/icons/search.svg";
-import ArrowDownLongSVG from "assets/icons/arrowDownLong.svg";
-import ArrowUpLongSVG from "assets/icons/arrowUpLong.svg";
-import TrashSVG from "assets/icons/trash.svg";
-import ListSVG from "assets/icons/list.svg";
-import { PostMessageAction } from "models/postMessageActionModel";
-import { downloadFile } from "src/utils/downloadFile";
-import { validateJSON } from "src/utils/validateJSON";
-import { readFile } from "src/utils/readFile";
-import { IRuleMetaData } from "src/models/formFieldModel";
+import CrossSVG from "@assets/icons/cross.svg";
+import SearchSVG from "@assets/icons/search.svg";
+import ArrowDownLongSVG from "@assets/icons/arrowDownLong.svg";
+import ArrowUpLongSVG from "@assets/icons/arrowUpLong.svg";
+import TrashSVG from "@assets/icons/trash.svg";
+import ListSVG from "@assets/icons/list.svg";
+import { PostMessageAction } from "@models/postMessageActionModel";
+import { downloadFile } from "@utils/downloadFile";
+import { validateJSON } from "@utils/validateJSON";
+import { readFile } from "@utils/readFile";
+import { IRuleMetaData } from "@models/formFieldModel";
 import "reactjs-popup/dist/index.css";
 
 export default () => {

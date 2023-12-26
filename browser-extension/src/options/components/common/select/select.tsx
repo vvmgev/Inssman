@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import SlimSelect from "slim-select";
-import { generateUniqueID } from "src/utils";
-import "../../../../../node_modules/slim-select/dist/slimselect.css";
+import { generateUniqueID } from "@utils/generateUniqueID";
 import "./select.css";
+import "../../../../../node_modules/slim-select/dist/slimselect.css";
 
 type Props = {
   value: string | string[];

@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "background": {
-    "service_worker": "./serviceWorker/serviceWorker.js"
+    "service_worker": "./serviceWorker/serviceWorker.js",
+    "type": "module"
+
   },
   "options_page": "options/options.html",
   "options_ui": {
