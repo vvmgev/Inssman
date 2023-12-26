@@ -192,6 +192,7 @@ const FormHOC = () => {
         rule,
         ruleMetaData: {
           ...cloneRuleMetaData,
+          name: cloneRuleMetaData.name || `${PageName[cloneRuleMetaData.pageType]}-${+new Date()}`,
           enabled: typeof ruleMetaData.enabled !== "undefined" ? ruleMetaData.enabled : true,
           type: StorageItemType.RULE,
           lastMatchedTimestamp: ruleMetaData.lastMatchedTimestamp || null,

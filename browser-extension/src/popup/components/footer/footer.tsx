@@ -7,9 +7,9 @@ import { FeatureToggleContext } from "@context/featureToggleContext";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { addProtocol } from "@utils/regExp";
 
+
 const Footer = () => {
   const [url, setUrl] = useState<string>();
-  const searchRef = useRef<HTMLInputElement>();
   const { featureShowRecord } = useContext(FeatureToggleContext);
   return (
     <div>
@@ -28,8 +28,7 @@ const Footer = () => {
               trackName="Start Recording Popup"
               classes="whitespace-nowrap"
               onClick={() => {
-                const url = searchRef.current?.value || "";
-                if (searchRef.current?.value) {
+                if (url) {
                   chrome.runtime.sendMessage(
                     {
                       action: PostMessageAction.StartRecordingByUrl,

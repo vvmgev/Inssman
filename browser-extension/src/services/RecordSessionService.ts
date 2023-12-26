@@ -2,7 +2,7 @@ import BaseService from "./BaseService";
 import InjectCodeService from "./InjectCodeService";
 import TabService from "./TabService";
 import StorageService from "./StorageService";
-import indexDBService from "./indexDBService";
+import IndexDBService from "./IndexDBService";
 import { ListenerType } from "./ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
@@ -75,30 +75,30 @@ class RecordSessionService extends BaseService {
       const prevSession = await this.getSessionById(this.sessionId);
       session.id = this.sessionId;
       session.events = [...prevSession.events, ...session.events];
-      await indexDBService.put(session);
+      await IndexDBService.put(session);
     } else {
-      this.sessionId = await indexDBService.add(session);
+      this.sessionId = await IndexDBService.add(session);
     }
   }
 
   async getRecordedSessions(): Promise<RecordSession[]> {
-    return indexDBService.getAll();
+    return IndexDBService.getAll();
   }
 
   async getSessionById(id): Promise<RecordSession> {
-    return indexDBService.get(id);
+    return IndexDBService.get(id);
   }
 
   clear(): void {
-    indexDBService.clear();
+    IndexDBService.clear();
   }
 
   removeById(id) {
-    indexDBService.remove(id);
+    IndexDBService.remove(id);
   }
 
   getLastRecordedSession() {
-    return indexDBService.getLastItem();
+    return IndexDBService.getLastItem();
   }
 }
 

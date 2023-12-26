@@ -22,6 +22,12 @@
       "run_at": "document_start"
     },
     {
+      "matches": ["*://*.inssman.com/app"],
+      "js": ["iframeContentScript/iframeContentScript.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["cotentScript/cotentScript.js"],
       "run_at": "document_start",
@@ -39,7 +45,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["recordSession/recordSession.js", "recorderWidget/recorderWidget.js"],
+      "resources": ["recordSession/recordSession.js", "recorderWidget/recorderWidget.js", "options/options.html"],
       "matches": ["<all_urls>"]
     }
   ],

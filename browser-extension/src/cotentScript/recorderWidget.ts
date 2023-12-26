@@ -29,8 +29,8 @@ class RecordSessionWidget extends HTMLElement {
     <style>
       .container {
         position: fixed;
-        bottom: 100px;
-        left: 30px;
+        bottom: 20px;
+        left: 20px;
         display: inline-flex;
         color: white;
         align-items: center;

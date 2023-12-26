@@ -4,8 +4,6 @@ import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 import MatchedRulesFilter = chrome.declarativeNetRequest.MatchedRulesFilter;
 
 class RuleService {
-  #DEFAULT_PRIOPRITY = 1;
-
   get(): Promise<Rule[]> {
     return chrome.declarativeNetRequest.getDynamicRules();
   }

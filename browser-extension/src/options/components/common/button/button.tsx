@@ -21,7 +21,7 @@ const Button = ({ trackName, children, onClick, classes, icon }: Props) => {
     <button
       onClick={handler}
       className={twMerge(
-        "bg-sky-400 hover:bg-sky-600 text-gray-900 hover:text-gray-100 font-bold py-2 px-4 inline-flex items-center rounded outline-0",
+        "bg-sky-600 hover:bg-sky-400 text-gray-100 hover:text-gray-800 font-bold py-2 px-4 inline-flex items-center rounded outline-0",
         classes
       )}
     >
