@@ -1,9 +1,6 @@
 import { MimeType } from "@models/formFieldModel";
 
-export const downloadFile = (
-  data: unknown = {},
-  type: string = MimeType.JSON
-): void => {
+export const downloadFile = (data: unknown = {}, type: string = MimeType.JSON): void => {
   const link = document.createElement("a");
   const file = new Blob([JSON.stringify(data, null, 2)], { type });
   link.href = URL.createObjectURL(file);

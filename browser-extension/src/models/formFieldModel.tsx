@@ -20,8 +20,7 @@ export type IRuleCondition = {
 export interface RuleWithResourceTypes extends Rule {
   condition: IRuleCondition;
 }
-export interface IRule
-  extends WithOptional<RuleWithResourceTypes, "id" | "priority"> {}
+export interface IRule extends WithOptional<RuleWithResourceTypes, "id" | "priority"> {}
 export type RequestHeader = {
   header: string;
   operation: HeaderOperation;
@@ -82,7 +81,7 @@ export const PageName = {
   [PageType.QUERY_PARAM]: "Query Param",
   [PageType.MODIFY_REQUEST_BODY]: "Modify Request Body",
   [PageType.INJECT_FILE]: "Inject File",
-};
+} as const;
 
 export const IconsMap = {
   [PageType.BLOCK]: <BlockSVG />,
@@ -92,7 +91,7 @@ export const IconsMap = {
   [PageType.MODIFY_RESPONSE]: <PencilSVG />,
   [PageType.MODIFY_REQUEST_BODY]: <PaperClipSVG />,
   [PageType.INJECT_FILE]: <WrenchSVG />,
-};
+} as const;
 
 export enum MatchType {
   CONTAIN = "contain",
@@ -157,19 +156,19 @@ export const InjectFileTagMap = {
   [InjectFileType.JAVASCRIPT]: InjectFileTagName.JAVASCRIPT,
   [InjectFileType.CSS]: InjectFileTagName.CSS,
   [InjectFileType.HTML]: InjectFileTagName.HTML,
-};
+} as const;
 
 export const InjectFileTypeMap = {
   [InjectFileTagName.JAVASCRIPT]: MimeType.JAVASCRIPT,
   [InjectFileTagName.CSS]: MimeType.CSS,
-};
+} as const;
 
 export const MimeTypeMap = {
   [EditorLanguage.HTML]: MimeType.HTML,
   [EditorLanguage.CSS]: MimeType.CSS,
   [EditorLanguage.JAVASCRIPT]: MimeType.JAVASCRIPT,
   [EditorLanguage.JSON]: MimeType.JSON,
-};
+} as const;
 
 export type FormField = {
   id: number;

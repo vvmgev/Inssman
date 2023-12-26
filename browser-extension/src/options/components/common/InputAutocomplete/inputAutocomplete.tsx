@@ -7,9 +7,7 @@ const InputAutocomplete = ({ inputProps, list, id }: any) => {
   const [inputFocused, setInputFocused] = useState<boolean>(false);
   const onFocus = () => setInputFocused(true);
   const onBlur = () => setTimeout(() => setInputFocused(false), 400);
-  const isMatch = list.find((item) =>
-    item.toLowerCase().includes(inputProps.value.toLowerCase())
-  );
+  const isMatch = list.find((item) => item.toLowerCase().includes(inputProps.value.toLowerCase()));
   const handleClick = (item) => {
     inputProps.onChange({ target: { name: inputProps.name, value: item } });
     setInputFocused(false);
@@ -36,14 +34,11 @@ const InputAutocomplete = ({ inputProps, list, id }: any) => {
           <ul className="max-h-[200px] overflow-y-auto">
             {list.map(
               (item, index) =>
-                (inputProps.value === "" ||
-                  item
-                    .toLowerCase()
-                    .includes(inputProps.value.toLowerCase())) && (
+                (inputProps.value === "" || item.toLowerCase().includes(inputProps.value.toLowerCase())) && (
                   <li
                     key={index}
                     onClick={() => handleClick(item)}
-                    className="text-slate-300 cursor-pointer hover:text-sky-500 last:border-none border-b border-slate-700 border-slate h-9 flex items-center"
+                    className="flex items-center border-b cursor-pointer text-slate-300 hover:text-sky-500 last:border-none border-slate-700 border-slate h-9"
                   >
                     <span className="px-4 whitespace-nowrap">{item}</span>
                   </li>

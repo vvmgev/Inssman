@@ -2,19 +2,30 @@ import { useMemo } from "react";
 import { QueryParamAction } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
+import CrossSVG from "assets/icons/cross.svg";
+import { generateUniqueID } from "src/utils";
+import { useMemo } from "react";
+import { QueryParamAction } from "@models/formFieldModel";
+import Input from "@options/components/common/input/input";
+import Select from "@options/components/common/select/select";
 import CrossSVG from "@assets/icons/cross.svg";
 import { generateUniqueID } from "@utils/generateUniqueID";
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
   const queryParamActionOptions = useMemo(
     () =>
-      Object.entries(QueryParamAction).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
+    []
+  );
+  const queryParamActionOptions = useMemo(
+    () =>
+      Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
@@ -60,10 +71,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
               placeholder="Value"
               classes="flex-[3]"
             />
-            <div
-              className="cursor-pointer"
-              onClick={(event) => onRemove(event, index)}
-            >
+            <div className="cursor-pointer" onClick={(event) => onRemove(event, index)}>
               <span className="w-[24px] inline-block">
                 <CrossSVG />
               </span>

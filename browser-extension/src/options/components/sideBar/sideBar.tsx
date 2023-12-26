@@ -16,24 +16,16 @@ const SideBar = () => {
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
-    <ColorCover
-      classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${
-        full ? "" : ""
-      }`}
-    >
+    <ColorCover classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${full ? "" : ""}`}>
       <Link className="hover:cursor-pointer" to="/">
-        <div className="pl-2 py-2 border-b border-slate-700">
+        <div className="py-2 pl-2 border-b border-slate-700">
           <Logo />
         </div>
       </Link>
       <div className="py-2 border-b border-slate-700">
         <FormList />
       </div>
-      <div
-        className={`${
-          featureShowRecord ? "" : "py-2"
-        } border-b border-slate-700`}
-      >
+      <div className={`${featureShowRecord ? "" : "py-2"} border-b border-slate-700`}>
         <AnimationElement>
           <Record />
         </AnimationElement>
@@ -41,9 +33,9 @@ const SideBar = () => {
       <div className="py-2 border-none">
         <TemplateList />
       </div>
-      {/* <div className="py-2 border border-slate-700 flex flex-col flex-1 justify-end">
+      {/* <div className="flex flex-col justify-end flex-1 py-2 border border-slate-700">
         <div
-          className="cursor-pointer flex items-center hover:text-sky-500 gap-2 pl-2 mb-2"
+          className="flex items-center gap-2 pl-2 mb-2 cursor-pointer hover:text-sky-500"
           onClick={() => setFull(!full)}
         >
           <span className="w-[24px]">

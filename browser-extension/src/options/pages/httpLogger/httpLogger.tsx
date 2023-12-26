@@ -1,8 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import {
-  WebRequestListenerType,
-  WebRequestClients,
-} from "@models/WebRequestModel";
+import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
 import ColorCover from "@options/components/common/colorCover/colorCover";
 import Input from "@options/components/common/input/input";
 import CrossSVG from "@assets/icons/cross.svg";
@@ -22,17 +19,8 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   const onMessage = (message) => {
     const newRequest: any = {};
     const { type: messageType, requestHeadersDetails } = message;
-    const {
-      requestId,
-      requestHeaders,
-      responseHeaders,
-      method,
-      url,
-      type,
-      ip,
-      fromCache,
-      statusCode,
-    } = requestHeadersDetails;
+    const { requestId, requestHeaders, responseHeaders, method, url, type, ip, fromCache, statusCode } =
+      requestHeadersDetails;
     newRequest.method = method;
     newRequest.url = url;
     newRequest.type = type;
@@ -79,29 +67,17 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   }, []);
 
   return (
-    <div
-      className={`${
-        clientName === WebRequestClients.WINDOW ? "h-[95%]" : "h-[80%]"
-      } mx-[5%] flex flex-col gap-2`}
-    >
+    <div className={`${clientName === WebRequestClients.WINDOW ? "h-[95%]" : "h-[80%]"} mx-[5%] flex flex-col gap-2`}>
       <ColorCover classes={`h-[50%] p-5`}>
-        <div className="text-sm flex justify-between mb-3">
+        <div className="flex justify-between mb-3 text-sm">
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
-          <div className="flex justify-end gap-5 items-center ">
+          <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
-              <OutlineButton
-                trackName="Open In Window"
-                onClick={handleOpenWindow}
-                icon={<DoubleSquareSVG />}
-              >
+              <OutlineButton trackName="Open In Window" onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>
                 Open In Window
               </OutlineButton>
             )}
-            <OutlineButton
-              trackName="Clear Logs"
-              onClick={handleClearLogs}
-              icon={<CrossSVG />}
-            >
+            <OutlineButton trackName="Clear Logs" onClick={handleClearLogs} icon={<CrossSVG />}>
               Clear Logs
             </OutlineButton>
             <div className="w-[250px]">
@@ -115,10 +91,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                   </span>
                 }
                 ends={
-                  <span
-                    onClick={onHandleClearSearch}
-                    className="w-[24px] hover:text-red-400 cursor-pointer"
-                  >
+                  <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
                     <CrossSVG />
                   </span>
                 }
@@ -144,22 +117,16 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                 onClick={() => setActiveRequestId(requestId)}
                 className={`text-sm border-slate-700 border-b py-3
                           w-full flex justify-between items-center hover:bg-slate-800 hover:bg-opacity-40
-                          ${
-                            requestId === activeReuquestId ? "text-sky-500" : ""
-                          }
+                          ${requestId === activeReuquestId ? "text-sky-500" : ""}
                           `}
               >
                 <div className="flex-[1]">{requestId || "unknown"}</div>
-                <div className="flex-[1]">
-                  {request.statusCode || "unknown"}
-                </div>
+                <div className="flex-[1]">{request.statusCode || "unknown"}</div>
                 <div className="flex-[1]">{request.method || "unknown"}</div>
                 <div className="flex-[1]">{request.type || "unknown"}</div>
                 <div className="flex-[1]">{request.ip || "unknown"}</div>
                 <div className="flex-[1]">{String(request.fromCache)}</div>
-                <div className="flex-[3] text-ellipsis whitespace-nowrap w-[1px]">
-                  {request.url || "unknown"}
-                </div>
+                <div className="flex-[3] text-ellipsis whitespace-nowrap w-[1px]">{request.url || "unknown"}</div>
               </li>
             ))}
         </ul>
@@ -172,19 +139,17 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                 <div className="text-xl font-extrabold">Request Headers</div>
                 <hr />
                 <ul>
-                  {requestList[activeReuquestId]?.requestHeaders?.map(
-                    ({ name, value }, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="gap-2 text-sm overflow-y-auto border-b border-slate-700 w-full flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40"
-                        >
-                          <span className="font-bold">{name}:</span>
-                          <span className="font-light">{value}</span>
-                        </div>
-                      );
-                    }
-                  )}
+                  {requestList[activeReuquestId]?.requestHeaders?.map(({ name, value }, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex w-full gap-2 py-1 overflow-y-auto text-sm border-b border-slate-700 whitespace-nowrap hover:bg-slate-800 hover:bg-opacity-40"
+                      >
+                        <span className="font-bold">{name}:</span>
+                        <span className="font-light">{value}</span>
+                      </div>
+                    );
+                  })}
                 </ul>
               </>
             )}
@@ -193,19 +158,17 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                 <div className="text-xl font-black">Response Headers</div>
                 <hr />
                 <ul>
-                  {requestList[activeReuquestId]?.responseHeaders?.map(
-                    ({ name, value }, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="gap-2 text-sm overflow-y-auto border-b border-slate-700 w-full flex whitespace-nowrap py-1 hover:bg-slate-800 hover:bg-opacity-40"
-                        >
-                          <span className="font-bold">{name}:</span>
-                          <span className="font-light">{value}</span>
-                        </div>
-                      );
-                    }
-                  )}
+                  {requestList[activeReuquestId]?.responseHeaders?.map(({ name, value }, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex w-full gap-2 py-1 overflow-y-auto text-sm border-b border-slate-700 whitespace-nowrap hover:bg-slate-800 hover:bg-opacity-40"
+                      >
+                        <span className="font-bold">{name}:</span>
+                        <span className="font-light">{value}</span>
+                      </div>
+                    );
+                  })}
                 </ul>
               </>
             )}

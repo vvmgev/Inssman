@@ -1,23 +1,15 @@
-import ListenerService, {
-  ListenerType,
-} from "@services/ListenerService/ListenerService";
+import ListenerService, { ListenerType } from "./ListenerService/ListenerService";
+import ListenerService, { ListenerType } from "@services/ListenerService/ListenerService";
 
 class BaseService {
   private listenerService: ListenerService = ListenerService.getInstance();
 
-  public addListener = (
-    name: ListenerType,
-    callback: any,
-    ...args: any[]
-  ): BaseService => {
+  public addListener = (name: ListenerType, callback: any, ...args: any[]): BaseService => {
     this.listenerService.addListener(name, callback, ...args);
     return this;
   };
 
-  public removeListener = (
-    name: ListenerType,
-    callback: Function
-  ): BaseService => {
+  public removeListener = (name: ListenerType, callback: Function): BaseService => {
     this.listenerService.removeListener(name, callback);
     return this;
   };

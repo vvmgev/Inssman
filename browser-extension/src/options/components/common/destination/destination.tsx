@@ -14,13 +14,7 @@ const Destination = ({ value, onChange, matchType, error }) => {
   );
 
   return (
-    <Input
-      value={value}
-      name="destination"
-      onChange={onChange}
-      placeholder={placeholders[matchType]}
-      error={error}
-    />
+    <Input value={value} name="destination" onChange={onChange} placeholder={placeholders[matchType]} error={error} />
   );
 };
 

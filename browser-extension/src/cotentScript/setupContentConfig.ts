@@ -15,19 +15,12 @@ const injectScript = (src: string) => {
   return script;
 };
 
-const injectRecordSession = () =>
-  injectScript(chrome.runtime.getURL("recordSession/recordSession.js"));
-const injectRecorderWidget = () =>
-  injectScript(chrome.runtime.getURL("recorderWidget/recorderWidget.js"));
+const injectRecordSession = () => injectScript(chrome.runtime.getURL("recordSession/recordSession.js"));
+const injectRecorderWidget = () => injectScript(chrome.runtime.getURL("recorderWidget/recorderWidget.js"));
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
-  if (
-    event.origin !== window.origin ||
-    !source?.startsWith?.("inssman:") ||
-    source.startsWith("inssman:setup")
-  )
-    return;
+  if (event.origin !== window.origin || !source?.startsWith?.("inssman:") || source.startsWith("inssman:setup")) return;
 
   if (action === "runtimeId") {
     //@ts-ignore

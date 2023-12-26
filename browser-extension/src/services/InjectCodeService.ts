@@ -37,17 +37,8 @@ class InjectCodeService extends BaseService {
   onChangeNavigation = (transation): void => {
     this.rulesData.forEach((ruleMetaData: IRuleMetaData) => {
       if (ruleMetaData.pageType === PageType.INJECT_FILE) {
-        if (
-          MatcherService.isUrlsMatch(
-            ruleMetaData.source,
-            transation.url,
-            ruleMetaData.matchType
-          )
-        ) {
-          if (
-            InjectFileTagMap[ruleMetaData.editorLang as string] ===
-            InjectFileTagMap[InjectFileType.HTML]
-          ) {
+        if (MatcherService.isUrlsMatch(ruleMetaData.source, transation.url, ruleMetaData.matchType)) {
+          if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
             this.injectHTML(
               transation.tabId,
               ruleMetaData.editorValue,
@@ -58,19 +49,10 @@ class InjectCodeService extends BaseService {
             return;
           }
           if (ruleMetaData.fileSourceType === InjectFileSource.URL) {
-            if (
-              InjectFileTagMap[ruleMetaData.editorLang as string] ===
-              InjectFileTagMap[InjectFileType.JAVASCRIPT]
-            ) {
-              this.injectExternalScript(
-                transation.tabId,
-                ruleMetaData.fileSource
-              );
+            if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.JAVASCRIPT]) {
+              this.injectExternalScript(transation.tabId, ruleMetaData.fileSource);
             } else {
-              this.injectExternalStyle(
-                transation.tabId,
-                ruleMetaData.fileSource
-              );
+              this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
             }
           } else {
             this.injectInternalScript(
@@ -89,17 +71,11 @@ class InjectCodeService extends BaseService {
     const changesArr: any = Object.values(changes);
     // check why changes argument is array
     changesArr.forEach(async ({ newValue, oldValue }) => {
-      if (
-        newValue?.pageType === PageType.INJECT_FILE ||
-        oldValue?.pageType === PageType.INJECT_FILE
-      ) {
+      if (newValue?.pageType === PageType.INJECT_FILE || oldValue?.pageType === PageType.INJECT_FILE) {
         this.rulesData = await this.getInjectFileRules();
         if (this.isRegisteredListener && !this.rulesData.length) {
           this.isRegisteredListener = false;
-          this.removeListener(
-            ListenerType.ON_COMMITTED,
-            this.onChangeNavigation
-          );
+          this.removeListener(ListenerType.ON_COMMITTED, this.onChangeNavigation);
         }
         if (!this.isRegisteredListener && this.rulesData.length) {
           this.isRegisteredListener = true;
@@ -191,13 +167,7 @@ class InjectCodeService extends BaseService {
     });
   }
 
-  injectInternalScript(
-    tabId,
-    code,
-    tag,
-    shouldRemove = false,
-    world = "MAIN" as ExecutionWorld
-  ): void {
+  injectInternalScript(tabId, code, tag, shouldRemove = false, world = "MAIN" as ExecutionWorld): void {
     chrome.scripting.executeScript({
       target: { tabId },
       // this code runs in the browser tab
@@ -267,11 +237,7 @@ class InjectCodeService extends BaseService {
       .executeScript({
         target: { tabId },
         // this code runs in the browser tab
-        func: (
-          rules: IRuleMetaData[],
-          NAMESPACE: string,
-          runtimeId: string
-        ) => {
+        func: (rules: IRuleMetaData[], NAMESPACE: string, runtimeId: string) => {
           window[NAMESPACE].rules = rules;
           window[NAMESPACE].runtimeId = runtimeId;
           window[NAMESPACE].start();

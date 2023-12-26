@@ -9,20 +9,17 @@ class TrackService {
   #tokenMixPanel = "e7c7c422b9e4a82b6887113213bf6c73";
   constructor() {
     if (process.env.NODE_ENV === "development") return;
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetUserId },
-      ({ userId }) => {
-        this.#userId = String(userId);
-        init(this.#token, this.#userId);
-        mixpanel.init(this.#tokenMixPanel, {
-          debug: true,
-          track_pageview: true,
-          persistence: "localStorage",
-          ignore_dnt: true,
-        });
-        mixpanel.identify(this.#userId);
-      }
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.GetUserId }, ({ userId }) => {
+      this.#userId = String(userId);
+      init(this.#token, this.#userId);
+      mixpanel.init(this.#tokenMixPanel, {
+        debug: true,
+        track_pageview: true,
+        persistence: "localStorage",
+        ignore_dnt: true,
+      });
+      mixpanel.identify(this.#userId);
+    });
   }
 
   trackEvent(name: string) {

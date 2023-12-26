@@ -1,14 +1,11 @@
+import BaseService from "./BaseService";
+import { ListenerType } from "./ListenerService/ListenerService";
 import BaseService from "@services/BaseService";
-import {
-  WebRequestListenerType,
-  WebRequestClients,
-} from "@models/WebRequestModel";
+import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 
 chrome.runtime.onConnect.addListener((port) => {
-  if (
-    Object.values(WebRequestClients).includes(port.name as WebRequestClients)
-  ) {
+  if (Object.values(WebRequestClients).includes(port.name as WebRequestClients)) {
     let WR: WebRequest | null = new WebRequest(port);
     port.onMessage.addListener((message) => {
       if (message === "disconnect") {
@@ -41,10 +38,7 @@ class WebRequest extends BaseService {
   }
 
   unregisterListener = (): void => {
-    this.removeListener(
-      ListenerType.ON_BEFORE_SEND_HEADERS,
-      this.beforeSendHeaders
-    )
+    this.removeListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders)
       .removeListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived)
       .removeListener(ListenerType.ON_COMPLETED, this.completed);
     this.port.disconnect();
@@ -52,23 +46,9 @@ class WebRequest extends BaseService {
   };
 
   registerListener = (): void => {
-    this.addListener(
-      ListenerType.ON_BEFORE_SEND_HEADERS,
-      this.beforeSendHeaders,
-      this.urlFilterObj,
-      ["requestHeaders"]
-    )
-      .addListener(
-        ListenerType.ON_HEADERS_RECEVIED,
-        this.headersReceived,
-        this.urlFilterObj,
-        ["responseHeaders"]
-      )
-      .addListener(
-        ListenerType.ON_COMPLETED,
-        this.completed,
-        this.urlFilterObj
-      );
+    this.addListener(ListenerType.ON_BEFORE_SEND_HEADERS, this.beforeSendHeaders, this.urlFilterObj, ["requestHeaders"])
+      .addListener(ListenerType.ON_HEADERS_RECEVIED, this.headersReceived, this.urlFilterObj, ["responseHeaders"])
+      .addListener(ListenerType.ON_COMPLETED, this.completed, this.urlFilterObj);
   };
 
   beforeRequest = (requestHeadersDetails): void => {

@@ -23,9 +23,9 @@ const Header = () => {
 
   return (
     <ColorCover classes="h-30 py-3 px-2 border-t-0 border-l-0 border-r-0 h-[initial] rounded-none">
-      <div className="flex items-center flex-row justify-between">
+      <div className="flex flex-row items-center justify-between">
         <Logo />
-        <div className="flex gap-3 items-center">
+        <div className="flex items-center gap-3">
           <ExtensionToggle />
           <Button trackName="Open Application" onClick={onHandleOpen}>
             Open Application

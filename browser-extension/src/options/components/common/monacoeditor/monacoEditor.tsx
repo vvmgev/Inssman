@@ -23,12 +23,9 @@ self.MonacoEnvironment = {
 const MonacoEditor = ({ language, onChangeHandler, value = "" }: any) => {
   const divEl = useRef<HTMLDivElement>(null);
   let editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
-  const getModel = () =>
-    editorRef.current?.getModel() as monaco.editor.ITextModel;
-  const onChange = () =>
-    onChangeHandler && onChangeHandler(getModel().getValue());
-  const pritter = () =>
-    editorRef.current?.getAction("editor.action.formatDocument").run();
+  const getModel = () => editorRef.current?.getModel() as monaco.editor.ITextModel;
+  const onChange = () => onChangeHandler && onChangeHandler(getModel().getValue());
+  const pritter = () => editorRef.current?.getAction("editor.action.formatDocument").run();
 
   useEffect(() => {
     editorRef.current = monaco.editor.create(divEl.current as HTMLDivElement, {
@@ -44,15 +41,12 @@ const MonacoEditor = ({ language, onChangeHandler, value = "" }: any) => {
     getModel().setValue(value);
   }, []);
 
-  useEffect(
-    () => monaco.editor.setModelLanguage(getModel(), language),
-    [language]
-  );
+  useEffect(() => monaco.editor.setModelLanguage(getModel(), language), [language]);
 
   return (
     <>
       <div
-        className="absolute z-10 right-5 top-0 border inline-block mt-5 border-slate-500 rounded py-2 px-4 text-slate-200 cursor-pointer"
+        className="absolute top-0 z-10 inline-block px-4 py-2 mt-5 border rounded cursor-pointer right-5 border-slate-500 text-slate-200"
         onClick={pritter}
       >
         Pritter

@@ -52,28 +52,22 @@ const SourceFields = ({
 
   const requestMethodOptions = useMemo(
     () =>
-      Object.entries(RequestMethod).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({ value: value.toLowerCase(), label });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(RequestMethod).reduce((previous: any, [value, label]: any) => {
+        previous.push({ value: value.toLowerCase(), label });
+        return previous;
+      }, []),
     []
   );
 
   const resourceTypeOptions = useMemo(
     () =>
-      Object.entries(ResourceType).reduce(
-        (previous: any, [value, label]: any) => {
-          previous.push({
-            value: value.toLowerCase(),
-            label: label.replace("_", " "),
-          });
-          return previous;
-        },
-        []
-      ),
+      Object.entries(ResourceType).reduce((previous: any, [value, label]: any) => {
+        previous.push({
+          value: value.toLowerCase(),
+          label: label.replace("_", " "),
+        });
+        return previous;
+      }, []),
     []
   );
 
@@ -110,7 +104,7 @@ const SourceFields = ({
             {...matchTypeProps}
           />
         </div>
-        <div className="ml-5 w-2/4">
+        <div className="w-2/4 ml-5">
           <Input
             value={source}
             name="source"
@@ -122,27 +116,21 @@ const SourceFields = ({
         </div>
         {showRequestMethods && showResourceTypes && (
           <div className="ml-1" onClick={toggleFields}>
-            <span
-              className={`w-[35px] cursor-pointer inline-block ${
-                showFields && "text-sky-500"
-              } hover:text-sky-500`}
-            >
+            <span className={`w-[35px] cursor-pointer inline-block ${showFields && "text-sky-500"} hover:text-sky-500`}>
               <AdjustmentVerticalSVG />
             </span>
           </div>
         )}
         {showAllButton && (
-          <div className="ml-5 w-1/4" onClick={applyToAllHandler}>
-            <div className="border inline-block border-slate-700 rounded py-2 px-4 text-slate-400 cursor-pointer">
+          <div className="w-1/4 ml-5" onClick={applyToAllHandler}>
+            <div className="inline-block px-4 py-2 border rounded cursor-pointer border-slate-700 text-slate-400">
               Apply to all URLs
             </div>
           </div>
         )}
       </div>
       <div
-        className={`${showFields ? "flex" : "hidden"} w-full ${
-          showRequestMethods || showResourceTypes ? "mt-5" : ""
-        }`}
+        className={`${showFields ? "flex" : "hidden"} w-full ${showRequestMethods || showResourceTypes ? "mt-5" : ""}`}
       >
         <div className="min-w-[100px]"></div>
         {showRequestMethods && (

@@ -10,17 +10,11 @@ const Record: FC = (): ReactElement => {
   return (
     <div>
       <div className="flex">
-        <div className="pl-2 mb-2 text-slate-400 whitespace-nowrap">
-          Record Session
-        </div>
+        <div className="pl-2 mb-2 text-slate-400 whitespace-nowrap">Record Session</div>
         {featureShowRecord ? (
-          <sup className="text-xs inline-block bottom-4 text-red-500 whitespace-nowrap">
-            &nbsp;Beta
-          </sup>
+          <sup className="inline-block text-xs text-red-500 bottom-4 whitespace-nowrap">&nbsp;Beta</sup>
         ) : (
-          <sup className="text-xs inline-block bottom-4 text-sky-500 whitespace-nowrap">
-            &nbsp;Coming Soon
-          </sup>
+          <sup className="inline-block text-xs bottom-4 text-sky-500 whitespace-nowrap">&nbsp;Coming Soon</sup>
         )}
       </div>
       <Link to={featureShowRecord ? "/record" : "#"}>

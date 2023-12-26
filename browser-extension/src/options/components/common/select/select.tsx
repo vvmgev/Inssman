@@ -14,6 +14,15 @@ type Props = {
   placeholder?: string;
   multiple?: boolean;
 };
+  value: string | string[];
+  name: string;
+  options: any;
+  onChange: any;
+  error?: any;
+  classes?: string;
+  placeholder?: string;
+  multiple?: boolean;
+};
 
 const Select = ({
   value,

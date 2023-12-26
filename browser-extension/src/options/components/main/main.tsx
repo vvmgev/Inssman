@@ -26,24 +26,14 @@ export default () => {
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
   const onHandleImport = () => importRulesRef.current.click();
-  const getRules = (): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.GetStorageRules },
-      setRules
-    );
+  const getRules = (): void => chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, setRules);
   const onHandleExportRules = (): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.ExportRules },
-      (rules) => downloadFile(rules)
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.ExportRules }, (rules) => downloadFile(rules));
   const onHandleDeleteRules = (close): void =>
-    chrome.runtime.sendMessage(
-      { action: PostMessageAction.DeleteRules },
-      () => {
-        close();
-        getRules();
-      }
-    );
+    chrome.runtime.sendMessage({ action: PostMessageAction.DeleteRules }, () => {
+      close();
+      getRules();
+    });
 
   const onHandleUploadFile = (event) => {
     readFile(event.target.files[0], (fileContent) => {
@@ -75,48 +65,37 @@ export default () => {
         {/* @ts-ignore */}
         {(close: any) => (
           <ColorCover classes="bg-opacity-90 py-15">
-            <div className="flex border-b border-slate-700 pb-5">
-              <div className="text-slate-200 text-2xl flex-1">
-                Import Failed
-              </div>
+            <div className="flex pb-5 border-b border-slate-700">
+              <div className="flex-1 text-2xl text-slate-200">Import Failed</div>
               <div className="flex justify-end flex-1">
-                <span
-                  onClick={close}
-                  className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"
-                >
+                <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
                   <CrossSVG />
                 </span>
               </div>
             </div>
-            <div className="text-slate-200 text-2xl text-center mt-10">
-              You have Invalid JSON file
-            </div>
-            <div className="text-slate-500 text-base text-center">
+            <div className="mt-10 text-2xl text-center text-slate-200">You have Invalid JSON file</div>
+            <div className="text-base text-center text-slate-500">
               Please make sure you are uploading valid JSON file
             </div>
-            <div className="text-slate-500 text-base text-center mb-10">
+            <div className="mb-10 text-base text-center text-slate-500">
               You can validate by this service &nbsp;
               <a
-                className="text-sky-500 cursor-pointer underline"
+                className="underline cursor-pointer text-sky-500"
                 href="https://codebeautify.org/jsonvalidator"
                 target="_black"
               >
                 Codebeautify.org
               </a>
             </div>
-            <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
-              <OutlineButton
-                trackName="invalid JSON Close"
-                classes="min-w-[100px]"
-                onClick={close}
-              >
+            <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
+              <OutlineButton trackName="invalid JSON Close" classes="min-w-[100px]" onClick={close}>
                 Close
               </OutlineButton>
             </div>
           </ColorCover>
         )}
       </Popup>
-      <div className="w-full rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border border-slate-700">
+      <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
         <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
           <span className="flex flex-row items-center gap-2 text-lg">
             <span className="w-[24px]">{<ListSVG />}</span>
@@ -131,20 +110,12 @@ export default () => {
                 className="hidden"
                 accept="application/JSON"
               />
-              <OutlineButton
-                onClick={onHandleImport}
-                trackName="Import rules"
-                icon={<ArrowDownLongSVG />}
-              >
+              <OutlineButton onClick={onHandleImport} trackName="Import rules" icon={<ArrowDownLongSVG />}>
                 Import
               </OutlineButton>
             </div>
             <div>
-              <OutlineButton
-                onClick={onHandleExportRules}
-                trackName="Export rules"
-                icon={<ArrowUpLongSVG />}
-              >
+              <OutlineButton onClick={onHandleExportRules} trackName="Export rules" icon={<ArrowUpLongSVG />}>
                 Export
               </OutlineButton>
             </div>
@@ -167,28 +138,19 @@ export default () => {
               {/* @ts-ignore */}
               {(close: any) => (
                 <ColorCover classes="bg-opacity-90 py-15">
-                  <div className="flex border-b border-slate-700 pb-5">
-                    <div className="text-slate-200 text-2xl flex-1">
-                      Confirm Deletion
-                    </div>
+                  <div className="flex pb-5 border-b border-slate-700">
+                    <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                     <div className="flex justify-end flex-1">
-                      <span
-                        onClick={close}
-                        className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500"
-                      >
+                      <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
                         <CrossSVG />
                       </span>
                     </div>
                   </div>
-                  <div className="text-slate-200 text-2xl text-center my-10">
+                  <div className="my-10 text-2xl text-center text-slate-200">
                     Are you sure want to delete all rules?
                   </div>
-                  <div className="flex flex-row text-slate-200 text-2xl items-center justify-center gap-10">
-                    <OutlineButton
-                      trackName="Delete All Rules - NO"
-                      classes="min-w-[100px]"
-                      onClick={close}
-                    >
+                  <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
+                    <OutlineButton trackName="Delete All Rules - NO" classes="min-w-[100px]" onClick={close}>
                       No
                     </OutlineButton>
                     <OutlineButton
@@ -214,10 +176,7 @@ export default () => {
                   </span>
                 }
                 ends={
-                  <span
-                    onClick={onHandleClearSearch}
-                    className="w-[24px] hover:text-red-400 cursor-pointer"
-                  >
+                  <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
                     <CrossSVG />
                   </span>
                 }
@@ -226,12 +185,7 @@ export default () => {
           </div>
         </div>
         <div>
-          <RuleList
-            rules={rules}
-            getRules={getRules}
-            search={search}
-            page="options"
-          />
+          <RuleList rules={rules} getRules={getRules} search={search} page="options" />
         </div>
       </div>
     </div>

@@ -40,7 +40,7 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
   return (
     <div>
       <ColorCover classes="flex flex-col gap-3 rounded-xl">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <div className="text-ellipsis gap-4 max-w-[150px] whitespace-nowrap	overflow-hidden">
             <Tooltip content={data.url}>
               <span>{data.url}</span>
@@ -64,10 +64,7 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
               </div>
             </Tooltip>
             <Tooltip content="Delete Recoreded Session">
-              <div
-                className="cursor-pointer hover:text-red-400"
-                onClick={onHandleDelete}
-              >
+              <div className="cursor-pointer hover:text-red-400" onClick={onHandleDelete}>
                 <span className="w-[24px] inline-block">
                   <TrashSVG />
                 </span>
@@ -75,11 +72,7 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
             </Tooltip>
           </div>
         </div>
-        <div
-          className="relative group"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
+        <div className="relative group" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <span className="bg-black bg-opacity-70 rounded-full group-hover:visible invisible w-[80px] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
             <PlayCircleSVG />
           </span>

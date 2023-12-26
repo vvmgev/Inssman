@@ -11,63 +11,20 @@ const outputPath = path.join(__dirname, "../", `dist/${process.env.BROWSER}`);
 
 module.exports = {
   entry: {
-    serviceWorker: path.resolve(
-      __dirname,
-      "../src/serviceWorker",
-      "serviceWorker.ts"
-    ),
-    cotentScript: path.resolve(
-      __dirname,
-      "../src/cotentScript",
-      "cotentScript.ts"
-    ),
-    recorderWidget: path.resolve(
-      __dirname,
-      "../src/cotentScript",
-      "recorderWidget.ts"
-    ),
-    setupContentConfig: path.resolve(
-      __dirname,
-      "../src/cotentScript",
-      "setupContentConfig.ts"
-    ),
-    recordSession: path.resolve(
-      __dirname,
-      "../src/recordSession",
-      "recordSession.ts"
-    ),
+    serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
+    cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
+    recorderWidget: path.resolve(__dirname, "../src/cotentScript", "recorderWidget.ts"),
+    setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
+    recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),
     options: path.resolve(__dirname, "../src/options", "options.tsx"),
     popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
-    iframeContentScript: path.resolve(
-      __dirname,
-      "../src/iframeContentScript",
-      "iframeContentScript.ts"
-    ),
-    HTTPLoggerWindow: path.resolve(
-      __dirname,
-      "../src/HTTPLoggerWindow",
-      "HTTPLoggerWindow.tsx"
-    ),
-    "editor.worker": path.resolve(
-      __dirname,
-      "../node_modules/monaco-editor/esm/vs/editor/editor.worker.js"
-    ),
-    "json.worker": path.resolve(
-      __dirname,
-      "../node_modules/monaco-editor/esm/vs/language/json/json.worker"
-    ),
-    "css.worker": path.resolve(
-      __dirname,
-      "../node_modules/monaco-editor/esm/vs/language/css/css.worker"
-    ),
-    "html.worker": path.resolve(
-      __dirname,
-      "../node_modules/monaco-editor/esm/vs/language/html/html.worker"
-    ),
-    "ts.worker": path.resolve(
-      __dirname,
-      "../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker"
-    ),
+    iframeContentScript: path.resolve(__dirname, "../src/iframeContentScript", "iframeContentScript.ts"),
+    HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),
+    "editor.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/editor/editor.worker.js"),
+    "json.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/language/json/json.worker"),
+    "css.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/language/css/css.worker"),
+    "html.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/language/html/html.worker"),
+    "ts.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/language/typescript/ts.worker"),
   },
   output: {
     path: outputPath,

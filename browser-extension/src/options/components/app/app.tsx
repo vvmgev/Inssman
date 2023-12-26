@@ -6,13 +6,9 @@ import Footer from "../footer/footer";
 import SideBar from "../sideBar/sideBar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
-import SideBarContextProvider, {
-  SideBarContext,
-} from "@context/sideBarContext";
+import SideBarContextProvider, { SideBarContext } from "@context/sideBarContext";
 import FeatureToggleProvider from "@context/featureToggleContext";
-import OverlayContextProvider, {
-  OverlayContext,
-} from "@context/overlayContext";
+import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
 import { useContext } from "react";
 import "@services/TrackService";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,14 +18,12 @@ const App = () => {
   const { full, setFull } = useContext(SideBarContext);
 
   return (
-    <div className="flex flex-row h-screen w-screen overflow-hidden">
+    <div className="flex flex-row w-screen h-screen overflow-hidden">
       <SideBar />
-      <div className="flex flex-col gap-10 w-full">
+      <div className="flex flex-col w-full gap-10">
         <Header />
         <BrowserSupport>
-          {!showOverlay && (
-            <div className="absolute z-10 bg-black opacity-50 top-0 bottom-0 left-0 right-0"></div>
-          )}
+          {!showOverlay && <div className="absolute top-0 bottom-0 left-0 right-0 z-10 bg-black opacity-50"></div>}
           <RuleRoutes />
         </BrowserSupport>
         <Footer />

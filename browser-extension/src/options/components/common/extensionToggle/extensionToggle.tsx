@@ -11,11 +11,9 @@ const ExtensionToggle: FC = () => {
 
   return (
     <ColorCover classes="rounded w-[170px]">
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <Switcher onChange={onChange} checked={showOverlay} />
-        <div className="text-sm text-end">
-          Extension {showOverlay ? "On" : "Off"}
-        </div>
+        <div className="text-sm text-end">Extension {showOverlay ? "On" : "Off"}</div>
       </div>
     </ColorCover>
   );

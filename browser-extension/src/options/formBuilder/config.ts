@@ -25,10 +25,7 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 const getQueryParams = (queryParams) => {
   return queryParams
-    .filter(
-      (queryParam) =>
-        queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE
-    )
+    .filter((queryParam) => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE)
     .map((queryParam) => ({
       key: queryParam.key,
       value: queryParam.value,
@@ -38,19 +35,13 @@ const getQueryParams = (queryParams) => {
 
 const getRemoveQueryParams = (queryParams) => {
   return queryParams
-    .filter(
-      (queryParam) =>
-        queryParam.key.length && queryParam.action === QueryParamAction.REMOVE
-    )
+    .filter((queryParam) => queryParam.key.length && queryParam.action === QueryParamAction.REMOVE)
     .map((queryParam) => queryParam.key);
 };
 
 const getRequestHeaders = (headers) => {
   return headers
-    .filter(
-      (header) =>
-        header.header.length && header.type === HeaderModificationType.REQUEST
-    )
+    .filter((header) => header.header.length && header.type === HeaderModificationType.REQUEST)
     .map((header) => ({
       header: header.header,
       operation: header.operation,
@@ -62,10 +53,7 @@ const getRequestHeaders = (headers) => {
 
 const getResponseHeaders = (headers) => {
   return headers
-    .filter(
-      (header) =>
-        header.header.length && header.type === HeaderModificationType.RESPONSE
-    )
+    .filter((header) => header.header.length && header.type === HeaderModificationType.RESPONSE)
     .map((header) => ({
       header: header.header,
       operation: header.operation,
@@ -75,11 +63,7 @@ const getResponseHeaders = (headers) => {
     }));
 };
 
-const generateMatchType = ({
-  matchType,
-  source,
-  pageType,
-}): Record<string, string> => {
+const generateMatchType = ({ matchType, source, pageType }): Record<string, string> => {
   let newSource: string = source;
 
   if (matchType === MatchType.EQUAL) {
@@ -87,10 +71,7 @@ const generateMatchType = ({
   }
 
   if (matchType === MatchType.WILDCARD) {
-    newSource =
-      PageType.MODIFY_REQUEST_BODY === pageType
-        ? replaceAsteriskToPlus(source)
-        : replaceAsterisk(source);
+    newSource = PageType.MODIFY_REQUEST_BODY === pageType ? replaceAsteriskToPlus(source) : replaceAsterisk(source);
   }
 
   return {
@@ -98,11 +79,7 @@ const generateMatchType = ({
   };
 };
 
-const generateRegexSubstitution = ({
-  matchType,
-  pageType,
-  destination,
-}): Record<string, string> => {
+const generateRegexSubstitution = ({ matchType, pageType, destination }): Record<string, string> => {
   const redirect: Record<string, string> = {};
   if (matchType === MatchType.WILDCARD && pageType === PageType.REDIRECT) {
     redirect.regexSubstitution = replaceVariable(destination as string);
@@ -125,9 +102,7 @@ export type Field = {
   defaultValues?: { [key: string]: unknown };
   props?: { [key: string]: unknown };
   placeholder?: string;
-  validations?:
-    | { [key: string]: Validation[] }
-    | { [key: string]: { [key: string]: Validation[] } };
+  validations?: { [key: string]: Validation[] } | { [key: string]: { [key: string]: Validation[] } };
   formatters?: { [key: string]: Function };
 };
 
@@ -148,15 +123,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string): string => value.trim(),
         },
@@ -231,9 +197,7 @@ const config: Config = {
       },
       condition: {
         ...generateMatchType(ruleMetaData),
-        resourceTypes: ruleMetaData.resourceTypes.length
-          ? ruleMetaData.resourceTypes
-          : Object.values(ResourceType),
+        resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
       },
     }),
   },
@@ -246,15 +210,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -295,9 +250,7 @@ const config: Config = {
       },
       condition: {
         ...generateMatchType(ruleMetaData),
-        resourceTypes: ruleMetaData.resourceTypes.length
-          ? ruleMetaData.resourceTypes
-          : Object.values(ResourceType),
+        resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
       },
     }),
   },
@@ -310,15 +263,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -394,9 +338,7 @@ const config: Config = {
       },
       condition: {
         ...generateMatchType(ruleMetaData),
-        resourceTypes: ruleMetaData.resourceTypes.length
-          ? ruleMetaData.resourceTypes
-          : Object.values(ResourceType),
+        resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
       },
     }),
   },
@@ -409,15 +351,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -501,9 +434,7 @@ const config: Config = {
         },
         condition: {
           ...generateMatchType(ruleMetaData),
-          resourceTypes: ruleMetaData.resourceTypes.length
-            ? ruleMetaData.resourceTypes
-            : Object.values(ResourceType),
+          resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
         },
       };
     },
@@ -517,15 +448,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -578,18 +500,13 @@ const config: Config = {
       action: {
         type: RuleActionType.REDIRECT,
         redirect: {
-          url: encode(
-            MimeTypeMap[ruleMetaData.editorLang],
-            ruleMetaData.editorValue
-          ),
+          url: encode(MimeTypeMap[ruleMetaData.editorLang], ruleMetaData.editorValue),
           ...generateRegexSubstitution(ruleMetaData),
         },
       },
       condition: {
         ...generateMatchType(ruleMetaData),
-        resourceTypes: ruleMetaData.resourceTypes.length
-          ? ruleMetaData.resourceTypes
-          : Object.values(ResourceType),
+        resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
       },
     }),
   },
@@ -602,15 +519,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },
@@ -674,9 +582,7 @@ const config: Config = {
       },
       condition: {
         ...generateMatchType(ruleMetaData),
-        resourceTypes: ruleMetaData.resourceTypes.length
-          ? ruleMetaData.resourceTypes
-          : Object.values(ResourceType),
+        resourceTypes: ruleMetaData.resourceTypes.length ? ruleMetaData.resourceTypes : Object.values(ResourceType),
       },
     }),
   },
@@ -689,15 +595,6 @@ const config: Config = {
         multipleFields: false,
         defaultValue: "",
         placeholder: "Rule Name",
-        validations: {
-          name: [
-            {
-              name: "required",
-              regexp: /^\s*$/,
-              message: "Rule Name Is Required",
-            },
-          ],
-        },
         formatters: {
           name: (value: string) => value.trim(),
         },

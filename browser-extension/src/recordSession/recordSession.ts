@@ -21,9 +21,7 @@ class RecordSession {
       recordCrossOriginIframes: true,
       blockClass: "inssman-ignore-element",
       emit: (event) => {
-        const timeDiff =
-          this.events[this.events.length - 1]?.timestamp -
-          this.events[0]?.timestamp;
+        const timeDiff = this.events[this.events.length - 1]?.timestamp - this.events[0]?.timestamp;
         if (!this.events.length || timeDiff <= MAX_DURATION) {
           this.events.push(event);
         }
@@ -59,11 +57,7 @@ class RecordSession {
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
-  if (
-    event.origin !== window.origin ||
-    !source?.startsWith?.("inssman:") ||
-    source.startsWith("inssman:recordSession")
-  )
+  if (event.origin !== window.origin || !source?.startsWith?.("inssman:") || source.startsWith("inssman:recordSession"))
     return;
   switch (action) {
     case "startRecording":

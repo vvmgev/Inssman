@@ -17,10 +17,7 @@ const TemplateList = () => {
         return ruleTemplates.map((template) => {
           return (
             <li className="pl-2 mb-2" key={template.id}>
-              <Link
-                to={`/template/${path}`}
-                state={{ ruleMetaData: template, template: true }}
-              >
+              <Link to={`/template/${path}`} state={{ ruleMetaData: template, template: true }}>
                 <div
                   className={`${
                     templateId === template.id ? "text-sky-500" : ""
