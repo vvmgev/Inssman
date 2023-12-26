@@ -16,7 +16,7 @@
         ],
         "jsx": "react-jsx",
         "paths": {
-            "@src/*": ["src/*"],
+            "@/*": ["src/*"],
             "@models/*": ["src/models/*"],
             "@options/*": ["src/options/*"],
             "@popup/*": ["src/popup/*"],

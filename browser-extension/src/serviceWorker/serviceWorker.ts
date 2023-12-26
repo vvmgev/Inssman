@@ -17,14 +17,12 @@ import { throttle } from "@utils/throttle";
 import { storeRuleMetaData } from "./firebase";
 import { RecordSession } from "@models/recordSessionModel";
 import "@services/WebRequestService";
-import "@services/indexDBService";
+import "@services/IndexDBService";
 
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
-
-console.log(1212);
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;

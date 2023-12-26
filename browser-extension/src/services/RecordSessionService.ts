@@ -2,7 +2,7 @@ import BaseService from "@services/BaseService";
 import InjectCodeService from "@services/InjectCodeService";
 import TabService from "@services/TabService";
 import StorageService from "@services/StorageService";
-import indexDBService from "@services/indexDBService";
+import IndexDBService from "@services/IndexDBService";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
@@ -50,11 +50,11 @@ class RecordSessionService extends BaseService {
   async startRecordingByCurrentTab(): Promise<void> {
     this.sessionId = null;
     this.currentTab = await TabService.getCurrentTab();
-    if(this.currentTab) {
+    if (this.currentTab) {
       this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
       this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
       this.url = this.currentTab.url as string;
-      this.injectCodes(this.currentTab.id as number)
+      this.injectCodes(this.currentTab.id as number);
     }
   }
 
@@ -75,30 +75,30 @@ class RecordSessionService extends BaseService {
       const prevSession = await this.getSessionById(this.sessionId);
       session.id = this.sessionId;
       session.events = [...prevSession.events, ...session.events];
-      await indexDBService.put(session);
+      await IndexDBService.put(session);
     } else {
-      this.sessionId = await indexDBService.add(session);
+      this.sessionId = await IndexDBService.add(session);
     }
   }
 
   async getRecordedSessions(): Promise<RecordSession[]> {
-    return indexDBService.getAll();
+    return IndexDBService.getAll();
   }
 
   async getSessionById(id): Promise<RecordSession> {
-    return indexDBService.get(id);
+    return IndexDBService.get(id);
   }
 
   clear(): void {
-    indexDBService.clear();
+    IndexDBService.clear();
   }
 
   removeById(id) {
-    indexDBService.remove(id);
+    IndexDBService.remove(id);
   }
 
   getLastRecordedSession() {
-    return indexDBService.getLastItem();
+    return IndexDBService.getLastItem();
   }
 }
 
