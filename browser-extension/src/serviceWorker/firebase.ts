@@ -16,6 +16,7 @@ export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
 export const errorRef = ref(db, "error");
 export const ruleMetaDataRef = ref(db, "ruleMetaData");
+export const trackingRef = ref(db, "tracking");
 
 const storeData = (ref, data) => {
   if (process.env.NODE_ENV === "development") {
@@ -28,3 +29,4 @@ const storeData = (ref, data) => {
 
 export const storeError = (error) => storeData(errorRef, error);
 export const storeRuleMetaData = (ruleMetaData) => storeData(ruleMetaDataRef, ruleMetaData);
+export const storeTracking = (trackingData) => storeData(trackingRef, trackingData);

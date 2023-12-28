@@ -19,8 +19,8 @@ type Props = {
   listClasses?: string;
   data: any;
   texts?: {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
   };
 };
 
@@ -63,7 +63,7 @@ const List: FC<Props> = ({
           ))}
         </ul>
       ) : (
-        <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
+        <div className="min-h-[350px] max-h-[450px] flex items-center justify-center w-full">
           <div className="w-full text-center">
             <p className="text-2xl">{texts.title}</p>
             <p className="mt-3">{texts.description}</p>

@@ -2,22 +2,16 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import ColorCover from "@options/components/common/colorCover/colorCover";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
-import BackButton from "@options/components/common/backButton/backButton";
 import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
-import ListSVG from "@assets/icons/list.svg";
 import PlaySVG from "@assets/icons/play.svg";
-import SquaresSVG from "@assets/icons/squares.svg";
 import ShareSVG from "@assets/icons/share.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import TrashSVG from "@assets/icons/trash.svg";
-import List, {
-  ListHeader,
-  ListItems,
-} from "@options/components/common/list/list";
+import List, { ListHeader, ListItems } from "@options/components/common/list/list";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
@@ -191,6 +185,7 @@ const SessionList: FC = (): ReactElement => {
   }, []);
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
+  const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session Yet";
 
   return (
     <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
@@ -271,45 +266,42 @@ const SessionList: FC = (): ReactElement => {
         </button> */}
         </div>
       </div>
-      {sessions.length ? (
-        <>
-          {listType === SessionListType.GRID ? (
-            <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
-              <AutoSizer>
-                {({ height, width }) => (
-                  <FixedSizeList
-                    className="List"
-                    height={height}
-                    itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
-                    itemSize={280}
-                    width={width}
-                    itemData={filteredSessions}
-                  >
-                    {({ index, data, style }) => (
-                      <div className="w-[200px]" style={style}>
-                        <div className="flex gap-3">
-                          {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert} />}
-                          {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert} />}
-                          {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert} />}
-                        </div>
-                      </div>
-                    )}
-                  </FixedSizeList>
+      {listType === SessionListType.GRID ? (
+        <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
+          <AutoSizer>
+            {({ height, width }) => (
+              <FixedSizeList
+                className="List"
+                height={height}
+                itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
+                itemSize={280}
+                width={width}
+                itemData={filteredSessions}
+              >
+                {({ index, data, style }) => (
+                  <div className="w-[200px]" style={style}>
+                    <div className="flex gap-3">
+                      {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert} />}
+                      {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert} />}
+                      {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert} />}
+                    </div>
+                  </div>
                 )}
-              </AutoSizer>
-            </div>
-          ) : (
-            <div className="flex flex-row flex-wrap mt-4">
-              <List headers={LIST_HEADERS} items={LIST_ITEMS} data={filteredSessions} />
-            </div>
-          )}
-        </>
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        </div>
       ) : (
-        <div className="min-h-[350px] max-h-[450px] flex items-center justify-center">
-          <div className="w-full text-center">
-            <p className="text-2xl">Seems You Have Not Recorded a Session</p>
-            <p className="mt-3">Please Select 'Record' Section In The Sidebar To Record</p>
-          </div>
+        <div className="flex flex-row flex-wrap mt-4 text-center">
+          <List
+            headers={LIST_HEADERS}
+            items={LIST_ITEMS}
+            data={filteredSessions}
+            texts={{
+              title,
+              description: "",
+            }}
+          />
         </div>
       )}
     </ColorCover>

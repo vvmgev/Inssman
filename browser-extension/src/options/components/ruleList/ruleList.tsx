@@ -162,18 +162,23 @@ const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", p
     ];
   }, []);
 
+  const filteredList = rules.filter((ruleMetaData) => ruleMetaData.name.includes(search)).reverse();
+  const title = rules.length ? `No Rule found for "${search}"` : "Seems You Have Not Created a Rule Yet";
+  const description = rules.length
+    ? ""
+    : page === "options"
+    ? "Please Select One Of Rule In The Sidebar To Create Or Choose a Templates"
+    : 'Please Select One Of Rule In The "Create Rule" Tab To Create';
+
   return (
     <List
       headers={LIST_HEADERS}
       items={LIST_ITEMS}
-      data={rules.filter((ruleMetaData) => ruleMetaData.name.includes(search)).reverse()}
+      data={filteredList}
       listClasses={listClasses}
       texts={{
-        title: "Seems You Have Not Created a Rule Yet",
-        description:
-          page === "options"
-            ? "Please Select One Of Rule In The Sidebar To Create Or Choose a Templates"
-            : 'Please Select One Of Rule In The "Create Rule" Tab To Create',
+        title,
+        description,
       }}
     />
   );

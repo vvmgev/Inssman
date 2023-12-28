@@ -14,15 +14,16 @@ import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
 import { throttle } from "@utils/throttle";
-import { storeRuleMetaData } from "./firebase";
+import { storeRuleMetaData, storeTracking } from "./firebase";
 import { RecordSession } from "@models/recordSessionModel";
 import "@services/WebRequestService";
 import "@services/IndexDBService";
 
-import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 import MessageSender = chrome.runtime.MessageSender;
+import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
+import Rule = chrome.declarativeNetRequest.Rule;
 
 class ServiceWorker extends BaseService {
   throttleUpdateMatchedRulesTimestamp: () => void;
@@ -235,20 +236,29 @@ class ServiceWorker extends BaseService {
   async changeRuleStatusById({ id, checked }: { id: number; checked: boolean }): Promise<void> {
     const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
     const ruleServiceRule = await RuleService.getRuleById(id);
+    const updateRuleOptions: UpdateRuleOptions = { removeRuleIds: [id] };
     try {
-      if (checked) {
-        if (ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-          const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-          // TODO: FIXME:
-          // need investigation
-          // when checked = false
-          // it doesn't remove the rule
-          await RuleService.updateDynamicRules({ addRules: [{ ...rule, id }], removeRuleIds: [id] });
-        }
-      } else {
-        await RuleService.removeById(id);
+      if (checked && ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        updateRuleOptions.addRules = [{ ...rule, id }];
       }
+      // TODO: FIXME:  need investigation
+      // when checked = false
+      // it doesn't remove the rule
+      await RuleService.updateDynamicRules(updateRuleOptions);
       await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
+      if (!checked) {
+        const ruleServiceRuleRemoved = await RuleService.getRuleById(id);
+        storeTracking({
+          action: "ChangeRuleStatusById",
+          data: {
+            checked,
+            ruleMetaData,
+            ruleServiceRule: ruleServiceRule || "undefined",
+            ruleServiceRuleRemoved: ruleServiceRuleRemoved || "undefined",
+          },
+        });
+      }
     } catch (error) {
       handleError(error, {
         action: "ChangeRuleStatusById",
