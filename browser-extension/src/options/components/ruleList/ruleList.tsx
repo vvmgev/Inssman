@@ -4,10 +4,7 @@ import Tooltip from "@options/components/common/tooltip/tooltip";
 import PencilSVG from "@assets/icons/pencil.svg";
 import TrashSVG from "@assets/icons/trash.svg";
 import DocumentCopySVG from "@assets/icons/documentCopy.svg";
-import List, {
-  ListHeader,
-  ListItems,
-} from "@options/components/common/list/list";
+import List, { ListHeader, ListItems } from "@options/components/common/list/list";
 import { FC, ReactElement, useMemo } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { Link } from "react-router-dom";
@@ -99,6 +96,7 @@ const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", p
         field: "name",
         render: function (item) {
           return cutString(item[this.field]);
+          ``;
         },
       },
       {

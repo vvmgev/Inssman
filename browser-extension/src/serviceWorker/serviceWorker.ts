@@ -239,7 +239,11 @@ class ServiceWorker extends BaseService {
       if (checked) {
         if (ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
           const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-          await RuleService.set([{ ...rule, id }]);
+          // TODO: FIXME:
+          // need investigation
+          // when checked = false
+          // it doesn't remove the rule
+          await RuleService.updateDynamicRules({ addRules: [{ ...rule, id }], removeRuleIds: [id] });
         }
       } else {
         await RuleService.removeById(id);
