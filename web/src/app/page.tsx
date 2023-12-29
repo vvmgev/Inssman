@@ -58,7 +58,7 @@ export default function Home() {
             <span className="w-5">
               <img
                 alt="Chrome logo"
-                src="https://github.com/Inssman/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7"
+                src="https://github.com/vvmgev/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7"
               />
             </span>
           </div>
@@ -73,7 +73,7 @@ export default function Home() {
             <span className="w-5">
               <img
                 alt="Microsoft Edge logo"
-                src="https://github.com/Inssman/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3"
+                src="https://github.com/vvmgev/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3"
               />
             </span>
           </div>

@@ -3,9 +3,9 @@ import DocumentSVG from "@assets/icons/document.svg";
 import BugSVG from "@assets/icons/bug.svg";
 import ColorCover from "@options/components/common/colorCover/colorCover";
 import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
+import Tooltip from "@options/components/common/tooltip/tooltip";
 import { OverlayContext } from "@context/overlayContext";
 import { useContext } from "react";
-import Tooltip from "@options/components/common/tooltip/tooltip";
 
 const Header = () => {
   const { showOverlay } = useContext(OverlayContext);
