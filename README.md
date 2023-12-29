@@ -1,26 +1,24 @@
 <h1 align="center">Welcome HTTP Interceptor</h2>
 
-[<img width="1003" alt="Inssman logo" src="https://github.com/Inssman/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
+[<img width="1003" alt="Inssman logo" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
 
 <a href="https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk">
  <span>Install Inssman For Google Chrome</span>
- <img width="20" alt="Chrome logo" src="https://github.com/Inssman/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7" />
+ <img width="20" alt="Chrome logo" src="https://github.com/vvmgev/Inssman/assets/11613729/338e9918-3a5a-45e6-96f5-6b0c1fdd94d7" />
 </a>
 <br />
 <a href="https://microsoftedge.microsoft.com/addons/detail/inssman-modify-http-head/obibnmkbiilpbkhpkoagnkkjlghlndpf">
  <span>Install Inssman For Microsft Edge &nbsp;&nbsp</span>
- <img width="20" alt="Microsoft Edge logo" src="https://github.com/Inssman/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3" />
+ <img width="20" alt="Microsoft Edge logo" src="https://github.com/vvmgev/Inssman/assets/11613729/c15a2d97-a43c-4924-b7f1-6ba7992b9ae3" />
 </a>
 
-# | Introduction ℹ️
 
+# | Introduction ℹ️ 
 ### HTTP Interceptor browser extensions makes your development life easy.
-
 This extension designed for developers. HTTP Interceptor built the top of last API's which gives you control over HTTP responses and requests.
 <br />
 
 By creating a single **Rule** you can.
-
 - **[Redirect Request](#redirect)** to another url
 - **[Block Request](#block)**
 - **[Modify Query Parameters](#query-param)** like add/remove/replace
@@ -29,36 +27,34 @@ By creating a single **Rule** you can.
 - **[Modify Response](#modify-response)** allows return response such as HTML/CSS/JS/JSON file
 
 <a name="documentation"></a>
-
-# | Documentation 📚
-
+# | Documentation 📚 
 <a name="redirect"></a>
 
-### **Redirect Request** 🔀
-
+### **Redirect Request** 🔀 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL** which need to redirect
-4. Insert the **URL** where need to redirect
-5. Press **Create**
+3. Insert the **URL** where need to redirect
+4. Press **Create**
+
 
 [<img width="1003" alt="Screenshot 2023-01-18 at 14 41 37" src="https://user-images.githubusercontent.com/11613729/213155378-5eeefa8e-d389-4da9-8890-2d1930b9d74c.png">](https://youtu.be/5ln4m-Ybgns)
 
 <a name="block"></a>
 
-### **Block Request** 🚫
-
+### **Block Request** 🚫 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
 4. Press **Create**
 
+
 [<img width="1503" alt="Screenshot 2023-01-18 at 14 34 59" src="https://user-images.githubusercontent.com/11613729/213155459-f966a084-bdab-4ca2-96bd-0f27e8f1a326.png">](https://youtu.be/zlh_3kZjYGM)
+
 
 <a name="query-param"></a>
 
 ### **Modify Query Parameters** ❔
-
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
@@ -69,25 +65,25 @@ By creating a single **Rule** you can.
 
 [<img width="1503" alt="Screenshot 2023-01-18 at 14 14 38" src="https://user-images.githubusercontent.com/11613729/213155600-7fd84b43-6e50-4afc-a317-3bf979542087.png">](https://youtu.be/zM-yWfZPIwI)
 
+
 <a name="modify-header"></a>
 
 ### **Modify Header** 🌐
-
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the URL you want to add/remove/append params
 4. Choose **Action Operator**
-5. Choose **Request/Response**
-6. Insert header **Key**
-7. Insert header **Value**
-8. Press **Create**
-
+4. Choose **Request/Response** 
+5. Insert header **Key**
+6. Insert header **Value**
+7. Press **Create**
+ 
 [<img width="1503" alt="Screenshot 2023-01-18 at 14 45 42" src="https://user-images.githubusercontent.com/11613729/213155724-926ca40f-7dd4-4ef5-98fb-06149d4b6d04.png">](https://youtu.be/VPO0sut2IHM)
+
 
 <a name="modify-response"></a>
 
-### **Modify Response** 🗞️
-
+### **Modify Response** 🗞️ 
 1. Insert **Rule** name
 2. Choose **Match Operator** [(see details)](#matcOperator)
 3. Insert the **URL**
@@ -110,15 +106,15 @@ Examples ⬇️
 
 Word &nbsp;- user \
 URL &nbsp;&nbsp; - <span>http://</span>example.com/**user** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp; - user \
 URL &nbsp;&nbsp; - <span>http://</span>example.com/?key=**user** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- user \
 URL &nbsp;&nbsp; - <span>http://</span>**user**.com/ \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- user \
 URL &nbsp;&nbsp; - <span>http://</span>example.com/ \
@@ -132,19 +128,19 @@ Examples ⬇️
 
 Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>http://</span>**example.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>http://</span>**example.com**/ \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>https://</span>**example.com**/ \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>http://</span>**example.com**/ \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>http://</span><span>w</span>ww.example.com/ \
@@ -154,6 +150,7 @@ Word &nbsp;- example.com \
 URL &nbsp;&nbsp; - <span>http://</span>example.com/user \
 Result - No Match ❌
 
+
 <!-- ## Regexp operator -->
 
 <!-- Regexp operator uses the **regular expression** to match the URL
@@ -162,23 +159,23 @@ Examples ⬇️
 
 Word &nbsp;- ^http:\/\/example\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>http://</span>**example.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- ^http(s)?:\/\/example\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>http://</span>**example.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- ^http:\/\/example\\.(abc|def)\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>http://</span>**example.abc.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- ^https:\/\/example\\-1\\.(abc|def)\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>https://</span>**example.abc.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- http(s)?:\/\/example-([1-5])\.com \
 URL &nbsp;&nbsp; - <span>http://</span>**example-1.com** \
-Result - Match ✅
+Result - Match ✅ 
 
 Word &nbsp;- ^http:\/\/example\\.com\\/?$ \
 URL &nbsp;&nbsp; - <span>http://</span>example.net \
@@ -199,19 +196,21 @@ Destination&nbsp; &nbsp; &nbsp; &nbsp; - <span>https://</span>googl.com/\\1/\\2 
 Redirected URL  - <span>https://</span>google.com/example-abc/example-def \
 Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Match ✅  -->
 
+
 ## Wilcard operator
 
-Wilcard operator uses the **asterisk (\*)** to match the URL
+Wilcard operator uses the **asterisk (*)** to match the URL
 
 Examples ⬇️
 
 Word &nbsp;- \*example\* \
 URL &nbsp;&nbsp; - <span>http://</span>**example**.com \
-Result - Match ✅
+Result - Match ✅ 
 
-Word &nbsp;- https://\*example.com \
+Word &nbsp;- https://*example.com \
 URL &nbsp;&nbsp; - <span>https://</span><span>w</span><span>ww.</span>**example.com** \
-Result - Match ✅
+Result - Match ✅ 
+
 
 For **[Redirect Request](#redirectRequest)** there is more powerful options. Each match with asterisk can be replaced in some parts of the destination URL **$[number]**
 
@@ -222,7 +221,7 @@ URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
 Matches&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - $1 = article, $2 = edit, $3 = 12 \
 Destination&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span>https://</span>google.com/$1/$2/$3 \
 Redirected URL - <span>https://</span>google.com/article/edit/12 \
-Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅
+Result&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Match ✅ 
 
 Word&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- \*://\*\.example.com/\* \
 URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - <span>**https://</span><span>w</span><span>ww.**</span>**example.com**/?age=12&gender=male \
