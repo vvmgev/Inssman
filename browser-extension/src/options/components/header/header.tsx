@@ -33,21 +33,21 @@ const Header = () => {
       <ColorCover classes="flex gap-5 p-5 w-[initial] rounded-none">
         <a
           target="_blank"
-          href="https://github.com/vvmgev/Inssman"
+          href="https://github.com/Inssman/Inssman"
           className="flex items-center gap-3 hover:text-sky-500"
         >
           <span className="w-[24px]">{<GithubSVG />}</span>Github
         </a>
         <a
           target="_blank"
-          href="https://github.com/vvmgev/Inssman#documentation"
+          href="https://github.com/Inssman/Inssman#documentation"
           className="flex items-center gap-3 hover:text-sky-500"
         >
           <span className="w-[24px]">{<DocumentSVG />}</span>Docs
         </a>
         <a
           target="_blank"
-          href="https://github.com/vvmgev/Inssman/issues/new"
+          href="https://github.com/Inssman/Inssman/issues/new"
           className="flex items-center gap-3 hover:text-sky-500"
         >
           <span className="w-[24px]">{<BugSVG />}</span>Report a Bug

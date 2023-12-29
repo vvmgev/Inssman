@@ -58,7 +58,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
             <OutlineButton
               onClick={() =>
                 chrome.tabs.create({
-                  url: `https://github.com/vvmgev/Overrider#${pageType}`,
+                  url: `https://github.com/Inssman/Overrider#${pageType}`,
                 })
               }
               trackName="View Example"
