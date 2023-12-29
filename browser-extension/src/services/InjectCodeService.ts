@@ -11,7 +11,6 @@ import {
 } from "@models/formFieldModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { NAMESPACE } from "@options/constant";
-
 import ExecutionWorld = chrome.scripting.ExecutionWorld;
 import InjectionResult = chrome.scripting.InjectionResult;
 
