@@ -1,4 +1,3 @@
-// import CacheService from 'services/CacheService';
 import { StorageItemType, StorageKey } from "@models/storageModel";
 import { IRuleMetaData } from "@models/formFieldModel";
 
@@ -6,10 +5,7 @@ class StorageService {
   private readonly cacheName = "StorageService";
 
   async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
-    // const cache = CacheService.get(this.cacheName, keys as string);
-    // if(cache) return {[keys as string]: cache};
     const data = await chrome.storage.local.get(keys);
-    // for(const key in data) CacheService.set(this.cacheName, key, data[key]);
     return data;
   }
 
@@ -29,12 +25,10 @@ class StorageService {
   }
 
   async set(data: { [key: string]: any }): Promise<void> {
-    // for(const key in data) CacheService.set(this.cacheName, key, data[key]);
     return chrome.storage.local.set(data);
   }
 
   async remove(key: string | string[]): Promise<void> {
-    // CacheService.remove(this.cacheName, key);
     return chrome.storage.local.remove(key);
   }
 
@@ -52,7 +46,7 @@ class StorageService {
     return nextId;
   }
 
-  async updateTimestamp(id: string, timestamp: number = Date.now()): Promise<void> {
+  async updateRuleTimestamp(id: string, timestamp: number = Date.now()): Promise<void> {
     const storageRule = await this.getSingleItem(id);
     if (storageRule) {
       storageRule.lastMatchedTimestamp = timestamp;

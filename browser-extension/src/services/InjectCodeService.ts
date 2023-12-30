@@ -1,6 +1,8 @@
 import StorageService from "@services/StorageService";
 import MatcherService from "@services/MatcherService";
 import BaseService from "@services/BaseService";
+import { ListenerType } from "@services/ListenerService/ListenerService";
+import { NAMESPACE } from "@options/constant";
 import {
   PageType,
   InjectFileTagMap,
@@ -9,8 +11,7 @@ import {
   InjectFileSource,
   IRuleMetaData,
 } from "@models/formFieldModel";
-import { ListenerType } from "@services/ListenerService/ListenerService";
-import { NAMESPACE } from "@options/constant";
+
 import ExecutionWorld = chrome.scripting.ExecutionWorld;
 import InjectionResult = chrome.scripting.InjectionResult;
 
@@ -45,7 +46,7 @@ class InjectCodeService extends BaseService {
               ruleMetaData.tagSelector,
               ruleMetaData.tagSelectorOperator
             );
-            StorageService.updateTimestamp(String(ruleMetaData.id));
+            StorageService.updateRuleTimestamp(String(ruleMetaData.id));
             return;
           }
           if (ruleMetaData.fileSourceType === InjectFileSource.URL) {
@@ -61,7 +62,7 @@ class InjectCodeService extends BaseService {
               InjectFileTagMap[ruleMetaData.editorLang as string]
             );
           }
-          StorageService.updateTimestamp(String(ruleMetaData.id));
+          StorageService.updateRuleTimestamp(String(ruleMetaData.id));
         }
       }
     });
@@ -133,10 +134,7 @@ class InjectCodeService extends BaseService {
           if (shouldRemove) {
             element.remove();
           }
-        } catch (error) {
-          console.log("error");
-          console.log(error);
-        }
+        } catch (error) {}
       },
       args: [url, shouldRemove],
       world: "MAIN",
@@ -226,8 +224,6 @@ class InjectCodeService extends BaseService {
         injectImmediately: true,
       })
       .catch((error) => {
-        console.log("error");
-        console.log(error);
         // should be tracking here
       });
   };
@@ -248,8 +244,6 @@ class InjectCodeService extends BaseService {
         injectImmediately: true,
       })
       .catch((error) => {
-        console.log("error");
-        console.log(error);
         // should be tracking here
       });
   };
