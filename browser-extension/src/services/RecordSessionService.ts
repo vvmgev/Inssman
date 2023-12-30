@@ -2,13 +2,13 @@ import BaseService from "@services/BaseService";
 import InjectCodeService from "@services/InjectCodeService";
 import TabService from "@services/TabService";
 import IndexDBService from "@services/IndexDBService";
+import handleError from "@/serviceWorker/errorHandler";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
+import { PostMessageAction } from "@/models/postMessageActionModel";
 
 import Tab = chrome.tabs.Tab;
-import { PostMessageAction } from "@/models/postMessageActionModel";
-import handleError from "@/serviceWorker/errorHandler";
 
 class RecordSessionService extends BaseService {
   private currentTab: Tab | null = null;
