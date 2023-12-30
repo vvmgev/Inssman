@@ -133,10 +133,7 @@ class InjectCodeService extends BaseService {
           if (shouldRemove) {
             element.remove();
           }
-        } catch (error) {
-          console.log("error");
-          console.log(error);
-        }
+        } catch (error) {}
       },
       args: [url, shouldRemove],
       world: "MAIN",
@@ -226,8 +223,6 @@ class InjectCodeService extends BaseService {
         injectImmediately: true,
       })
       .catch((error) => {
-        console.log("error");
-        console.log(error);
         // should be tracking here
       });
   };
@@ -248,8 +243,6 @@ class InjectCodeService extends BaseService {
         injectImmediately: true,
       })
       .catch((error) => {
-        console.log("error");
-        console.log(error);
         // should be tracking here
       });
   };

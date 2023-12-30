@@ -17,8 +17,6 @@ import "@services/RegisterService";
 
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
-import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
-import Rule = chrome.declarativeNetRequest.Rule;
 
 class ServiceWorker extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
@@ -124,41 +122,6 @@ class ServiceWorker extends BaseService {
 
   async getUserId(): Promise<{ [key: string]: number }> {
     return { [StorageKey.USER_ID]: await StorageService.getUserId() };
-  }
-
-  async changeRuleStatusById({ id, checked }: { id: number; checked: boolean }): Promise<void> {
-    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
-    const ruleServiceRule = await RuleService.getRuleById(id);
-    const updateRuleOptions: UpdateRuleOptions = { removeRuleIds: [id] };
-    try {
-      if (checked && ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-        updateRuleOptions.addRules = [{ ...rule, id }];
-      }
-      // TODO: FIXME:  need investigation
-      // when checked = false
-      // it doesn't remove the rule
-      await RuleService.updateDynamicRules(updateRuleOptions);
-      await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
-      if (!checked) {
-        const ruleServiceRuleRemoved = await RuleService.getRuleById(id);
-        storeTracking({
-          action: "ChangeRuleStatusById",
-          data: {
-            checked,
-            ruleMetaData,
-            ruleServiceRule: ruleServiceRule || "undefined",
-            ruleServiceRuleRemoved: ruleServiceRuleRemoved || "undefined",
-          },
-        });
-      }
-    } catch (error) {
-      handleError(error, {
-        action: "ChangeRuleStatusById",
-        data: { checked, ruleServiceRule, ruleMetaData },
-      });
-      return Promise.reject(error);
-    }
   }
 
   async getExtensionStatus(): Promise<boolean> {

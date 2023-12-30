@@ -3,12 +3,13 @@ import BaseService from "@services/BaseService";
 import BrowserRuleService from "@services/BrowserRuleService";
 import config from "@options/formBuilder/config";
 import handleError from "@/serviceWorker/errorHandler";
-import { IRuleMetaData } from "@models/formFieldModel";
+import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
-import { storeRuleMetaData } from "@/serviceWorker/firebase";
+import { storeRuleMetaData, storeTracking } from "@/serviceWorker/firebase";
 import { StorageKey } from "@models/storageModel";
 
+import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import Rule = chrome.declarativeNetRequest.Rule;
 
 class RuleService extends BaseService {
@@ -29,11 +30,11 @@ class RuleService extends BaseService {
       [PostMessageAction.ExportRules]: this.exportRules,
       [PostMessageAction.ToggleExntesion]: this.toggleRules,
       [PostMessageAction.UpdateRuleTimestamp]: this.updateTimeStamp,
+      [PostMessageAction.ChangeRuleStatusById]: this.changeRuleStatusById,
     };
   }
 
   onMessage = async (request, sender, sendResponse) => {
-    console.log("request.action", request.action, PostMessageAction[request.action]);
     const handler = this.listenersMap[request.action];
     if (handler) {
       try {
@@ -145,6 +146,41 @@ class RuleService extends BaseService {
 
   updateTimeStamp = (data: { ruleMetaData: IRuleMetaData; timestamp: number }): void => {
     StorageService.updateRuleTimestamp(String(data.ruleMetaData.id), data.timestamp);
+  };
+
+  changeRuleStatusById = async ({ id, checked }: { id: number; checked: boolean }): Promise<void> => {
+    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
+    const ruleServiceRule = await BrowserRuleService.getRuleById(id);
+    const updateRuleOptions: UpdateRuleOptions = { removeRuleIds: [id] };
+    try {
+      if (checked && ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
+        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
+        updateRuleOptions.addRules = [{ ...rule, id }];
+      }
+      // TODO: FIXME:  need investigation
+      // when checked = false
+      // it doesn't remove the rule
+      await BrowserRuleService.updateDynamicRules(updateRuleOptions);
+      await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
+      if (!checked) {
+        const ruleServiceRuleRemoved = await BrowserRuleService.getRuleById(id);
+        storeTracking({
+          action: "ChangeRuleStatusById",
+          data: {
+            checked,
+            ruleMetaData,
+            ruleServiceRule: ruleServiceRule || "undefined",
+            ruleServiceRuleRemoved: ruleServiceRuleRemoved || "undefined",
+          },
+        });
+      }
+    } catch (error) {
+      handleError(error, {
+        action: "ChangeRuleStatusById",
+        data: { checked, ruleServiceRule, ruleMetaData },
+      });
+      return Promise.reject(error);
+    }
   };
 }
 
