@@ -17,7 +17,10 @@ class RuleService extends BaseService {
 
   constructor() {
     super();
-    this.addListener(ListenerType.ON_MESSAGE, this.onMessage);
+    this.addListener(ListenerType.ON_MESSAGE, this.onMessage).addListener(
+      ListenerType.ON_MESSAGE_EXTERNAL,
+      this.onMessage
+    );
     this.listenersMap = {
       [PostMessageAction.GetStorageRules]: this.getStorageRules,
       [PostMessageAction.GetRuleById]: this.getRuleById,

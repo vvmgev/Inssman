@@ -4,7 +4,6 @@ import BSService from "@services/BrowserSupportService";
 import InjectCodeService from "@services/InjectCodeService";
 import BaseService from "@services/BaseService";
 import MatcherService from "@services/MatcherService";
-import config from "@options/formBuilder/config";
 import handleError from "./errorHandler";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -12,7 +11,6 @@ import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
 import { throttle } from "@utils/throttle";
-import { storeTracking } from "./firebase";
 import "@services/RegisterService";
 
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
@@ -36,7 +34,6 @@ class ServiceWorker extends BaseService {
   async registerListener(): Promise<void> {
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
       .addListener(ListenerType.ON_MESSAGE, this.onMessage)
-      .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
       .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   }
 
