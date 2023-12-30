@@ -24,9 +24,11 @@ class RuleService extends BaseService {
     super();
     const delay = (GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000) / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
     this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
+
     this.addListener(ListenerType.ON_MESSAGE, this.onMessage)
-      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab)
-      .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage);
+      .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage)
+      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+
     this.listenersMap = {
       [PostMessageAction.GetStorageRules]: this.getStorageRules,
       [PostMessageAction.GetRuleById]: this.getRuleById,

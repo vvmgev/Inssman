@@ -12,21 +12,19 @@ import "@services/RegisterService";
 
 class ServiceWorker extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
-  throttleUpdateMatchedRulesTimestamp: () => void;
+
   constructor() {
     super();
-    this.registerListener();
+    chrome.runtime.setUninstallURL(UNINSTALL_URL);
+
+    this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
+      .addListener(ListenerType.ON_MESSAGE, this.onMessage)
+      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+
     this.listenersMap = {
       [PostMessageAction.GetUserId]: this.getUserId,
       [PostMessageAction.GetExtensionStatus]: this.getExtensionStatus,
     };
-    chrome.runtime.setUninstallURL(UNINSTALL_URL);
-  }
-
-  async registerListener(): Promise<void> {
-    this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
-      .addListener(ListenerType.ON_MESSAGE, this.onMessage)
-      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
   }
 
   onMessage = async (request, sender, sendResponse) => {
