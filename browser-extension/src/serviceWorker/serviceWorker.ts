@@ -1,20 +1,14 @@
-import RuleService from "@/services/BrowserRuleService";
 import StorageService from "@services/StorageService";
 import BSService from "@services/BrowserSupportService";
 import InjectCodeService from "@services/InjectCodeService";
 import BaseService from "@services/BaseService";
-import MatcherService from "@services/MatcherService";
 import handleError from "./errorHandler";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
-import { throttle } from "@utils/throttle";
 import "@services/RegisterService";
-
-import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
-import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 
 class ServiceWorker extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
@@ -22,13 +16,11 @@ class ServiceWorker extends BaseService {
   constructor() {
     super();
     this.registerListener();
-    const delay = (GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000) / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
-    this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
-    chrome.runtime.setUninstallURL(UNINSTALL_URL);
     this.listenersMap = {
       [PostMessageAction.GetUserId]: this.getUserId,
       [PostMessageAction.GetExtensionStatus]: this.getExtensionStatus,
     };
+    chrome.runtime.setUninstallURL(UNINSTALL_URL);
   }
 
   async registerListener(): Promise<void> {
@@ -77,33 +69,6 @@ class ServiceWorker extends BaseService {
 
   onUpdatedTab = (tabId, changeInfo, tab): void => {
     this.injectContentScript(tabId, changeInfo, tab);
-    this.getMatchedRules(tab);
-  };
-
-  getMatchedRules = async (tab) => {
-    if (tab.status === "complete") {
-      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{ key: "enabled", value: true }]);
-      const isUrlsMatch = enabledRules.some((rule) => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
-      const hasRedirectRule = enabledRules.some(
-        (rule: IRuleMetaData) =>
-          // On redirect url doesn't match
-          (rule.pageType === PageType.REDIRECT && rule.destination) ||
-          // MODIFY_RESPONSE uses REDIRECT rule
-          rule.pageType === PageType.MODIFY_RESPONSE
-      );
-      if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
-        this.throttleUpdateMatchedRulesTimestamp();
-      }
-    }
-  };
-
-  updateMatchedRulesTimestamp = async (): Promise<void> => {
-    try {
-      const matchedRules = await RuleService.getMatchedRules();
-      matchedRules.rulesMatchedInfo.forEach(({ rule, timeStamp }) => {
-        StorageService.updateRuleTimestamp(String(rule.ruleId), timeStamp);
-      });
-    } catch (error) {}
   };
 
   injectContentScript = async (tabId, _, tab) => {

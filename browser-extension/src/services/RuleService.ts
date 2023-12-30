@@ -1,6 +1,7 @@
 import StorageService from "@services/StorageService";
 import BaseService from "@services/BaseService";
 import BrowserRuleService from "@services/BrowserRuleService";
+import MatcherService from "@services/MatcherService";
 import config from "@options/formBuilder/config";
 import handleError from "@/serviceWorker/errorHandler";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
@@ -8,19 +9,24 @@ import { PostMessageAction } from "@models/postMessageActionModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { storeRuleMetaData, storeTracking } from "@/serviceWorker/firebase";
 import { StorageKey } from "@models/storageModel";
+import { throttle } from "@utils/throttle";
 
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import Rule = chrome.declarativeNetRequest.Rule;
+import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
 
 class RuleService extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
+  private throttleUpdateMatchedRulesTimestamp: () => void;
 
   constructor() {
     super();
-    this.addListener(ListenerType.ON_MESSAGE, this.onMessage).addListener(
-      ListenerType.ON_MESSAGE_EXTERNAL,
-      this.onMessage
-    );
+    const delay = (GETMATCHEDRULES_QUOTA_INTERVAL * 60 * 1000) / MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
+    this.throttleUpdateMatchedRulesTimestamp = throttle(this.updateMatchedRulesTimestamp, delay);
+    this.addListener(ListenerType.ON_MESSAGE, this.onMessage)
+      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab)
+      .addListener(ListenerType.ON_MESSAGE_EXTERNAL, this.onMessage);
     this.listenersMap = {
       [PostMessageAction.GetStorageRules]: this.getStorageRules,
       [PostMessageAction.GetRuleById]: this.getRuleById,
@@ -36,6 +42,10 @@ class RuleService extends BaseService {
       [PostMessageAction.ChangeRuleStatusById]: this.changeRuleStatusById,
     };
   }
+
+  onUpdatedTab = (tabId, changeInfo, tab): void => {
+    this.getMatchedRules(tab);
+  };
 
   onMessage = async (request, sender, sendResponse) => {
     const handler = this.listenersMap[request.action];
@@ -147,8 +157,34 @@ class RuleService extends BaseService {
     }
   };
 
-  updateTimeStamp = (data: { ruleMetaData: IRuleMetaData; timestamp: number }): void => {
-    StorageService.updateRuleTimestamp(String(data.ruleMetaData.id), data.timestamp);
+  getMatchedRules = async (tab) => {
+    if (tab.status === "complete") {
+      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{ key: "enabled", value: true }]);
+      const isUrlsMatch = enabledRules.some((rule) => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
+      const hasRedirectRule = enabledRules.some(
+        (rule: IRuleMetaData) =>
+          // On redirect url doesn't match
+          (rule.pageType === PageType.REDIRECT && rule.destination) ||
+          // MODIFY_RESPONSE uses REDIRECT rule
+          rule.pageType === PageType.MODIFY_RESPONSE
+      );
+      if (enabledRules.length && (isUrlsMatch || hasRedirectRule)) {
+        this.throttleUpdateMatchedRulesTimestamp();
+      }
+    }
+  };
+
+  updateMatchedRulesTimestamp = async (): Promise<void> => {
+    try {
+      const matchedRules = await BrowserRuleService.getMatchedRules();
+      matchedRules.rulesMatchedInfo.forEach(({ rule, timeStamp }) => {
+        this.updateTimeStamp({ id: rule.ruleId, timestamp: timeStamp });
+      });
+    } catch (error) {}
+  };
+
+  updateTimeStamp = (data: { id: number; timestamp: number }): void => {
+    StorageService.updateRuleTimestamp(String(data.id), data.timestamp);
   };
 
   changeRuleStatusById = async ({ id, checked }: { id: number; checked: boolean }): Promise<void> => {
