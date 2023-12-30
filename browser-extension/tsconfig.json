@@ -11,6 +11,7 @@
         "noEmitOnError": true,
         "noImplicitAny": false,
         "moduleResolution": "node",
+        "strictPropertyInitialization": false,
         "typeRoots": [
             "node_modules/@types"
         ],

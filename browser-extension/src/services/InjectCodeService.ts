@@ -45,7 +45,7 @@ class InjectCodeService extends BaseService {
               ruleMetaData.tagSelector,
               ruleMetaData.tagSelectorOperator
             );
-            StorageService.updateTimestamp(String(ruleMetaData.id));
+            StorageService.updateRuleTimestamp(String(ruleMetaData.id));
             return;
           }
           if (ruleMetaData.fileSourceType === InjectFileSource.URL) {
@@ -61,7 +61,7 @@ class InjectCodeService extends BaseService {
               InjectFileTagMap[ruleMetaData.editorLang as string]
             );
           }
-          StorageService.updateTimestamp(String(ruleMetaData.id));
+          StorageService.updateRuleTimestamp(String(ruleMetaData.id));
         }
       }
     });
