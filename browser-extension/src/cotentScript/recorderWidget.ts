@@ -38,6 +38,7 @@ class RecordSessionWidget extends HTMLElement {
         background: rgba(15, 23, 42, 1);
         border-radius: 20px;
         padding: 3px;
+        z-index: 999999999;
       }
       .stop-content {
         background: #FF0000;

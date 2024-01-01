@@ -3,6 +3,7 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
 import TrashSVG from "@assets/icons/trash.svg";
+import { EventType, IncrementalSource } from "rrweb";
 import { FC, ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation } from "react-router-dom";
@@ -64,6 +65,33 @@ const Session: FC = (): ReactElement => {
     }
   };
 
+  const isEventConsole = (event) => {
+    if (event.type === EventType.IncrementalSnapshot) {
+      return event.data.source === IncrementalSource.Log;
+    }
+    if (event.type === EventType.Plugin) {
+      return event.data.plugin === "rrweb/console@1";
+    }
+  };
+
+  const consoleLogs = useMemo(() => {
+    return session?.events
+      ?.map((event) => {
+        let logData: any = null;
+
+        if (isEventConsole(event)) {
+          if (event.type === EventType.IncrementalSnapshot) {
+            logData = event.data;
+          }
+          if (event.type === EventType.Plugin) {
+            logData = event.data.payload;
+          }
+          return logData;
+        }
+      })
+      .filter((logData) => !!logData);
+  }, [session?.events]);
+
   return (
     <ColorCover classes="mx-[5%] p-5 flex flex-col gap-5">
       {session && (
@@ -81,7 +109,7 @@ const Session: FC = (): ReactElement => {
             </OutlineButton>
           </div>
           <div className="flex gap-5">
-            <ColorCover classes="rounded flex gap-2 max-w-[300px]">
+            <ColorCover classes="rounded flex gap-2 max-w-[300px] whitespace-nowrap	">
               <span className="text-slate-400">URL: </span>
               <span>{session.url}</span>
             </ColorCover>

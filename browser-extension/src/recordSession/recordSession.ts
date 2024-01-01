@@ -1,4 +1,4 @@
-import { record } from "rrweb";
+import { record, getRecordConsolePlugin } from "rrweb";
 
 const MAX_DURATION = 5 * 60 * 1000;
 let recordSession;
@@ -20,7 +20,11 @@ class RecordSession {
       recordAfter: "DOMContentLoaded",
       recordCrossOriginIframes: true,
       blockClass: "inssman-ignore-element",
+      plugins: [getRecordConsolePlugin()],
       emit: (event) => {
+        const defaultLog = console.log["__rrweb_original__"] ? console.log["__rrweb_original__"] : console.log;
+        defaultLog(event);
+
         const timeDiff = this.events[this.events.length - 1]?.timestamp - this.events[0]?.timestamp;
         if (!this.events.length || timeDiff <= MAX_DURATION) {
           this.events.push(event);
