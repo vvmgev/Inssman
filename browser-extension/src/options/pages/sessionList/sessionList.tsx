@@ -111,7 +111,7 @@ const SessionList: FC = (): ReactElement => {
           return (
             <div className="flex gap-2">
               <img
-                src={`http://${new URL(item.url).hostname}/favicon.ico`}
+                src={`https://www.google.com/s2/favicons?domain=${item.url}`}
                 onLoad={(event: any) => event.target.classList?.toggle("invisible")}
                 alt=""
                 className="invisible w-5 h-5"
