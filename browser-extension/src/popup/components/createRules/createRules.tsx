@@ -1,5 +1,5 @@
 import { FC, Fragment, ReactElement } from "react";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import { paths } from "@options/components/app/paths";
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter";
 
@@ -15,23 +15,23 @@ const CreateRules: FC = (): ReactElement => {
   };
 
   return (
-    <ColorCover classes="p-5 rounded-none">
+    <Section classes="p-5 rounded-none">
       <div className="flex flex-row flex-wrap">
         {paths.map(({ icon, text, path }, index) => (
           <Fragment key={index}>
             {index % 3 === 0 ? <div className="w-full"></div> : null}
-            <ColorCover classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer">
+            <Section classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer">
               <div onClick={() => onClick(path)}>
                 <div className="flex flex-col items-center gap-3 align-center hover:text-sky-500">
                   <div className="w-[24px]">{icon}</div>
                   <div>{text}</div>
                 </div>
               </div>
-            </ColorCover>
+            </Section>
           </Fragment>
         ))}
       </div>
-    </ColorCover>
+    </Section>
   );
 };
 

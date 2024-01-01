@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 import CrossSVG from "@assets/icons/cross.svg";
 import DoubleSquareSVG from "@assets/icons/doubleSquare.svg";
@@ -68,7 +68,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
 
   return (
     <div className={`${clientName === WebRequestClients.WINDOW ? "h-[95%]" : "h-[80%]"} mx-[5%] flex flex-col gap-2`}>
-      <ColorCover classes={`h-[50%] p-5`}>
+      <Section classes={`h-[50%] p-5`}>
         <div className="flex justify-between mb-3 text-sm">
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex items-center justify-end gap-5 ">
@@ -130,8 +130,8 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
               </li>
             ))}
         </ul>
-      </ColorCover>
-      <ColorCover classes={`h-[50%]`}>
+      </Section>
+      <Section classes={`h-[50%]`}>
         {activeReuquestId && (
           <>
             {requestList[activeReuquestId]?.requestHeaders && (
@@ -174,7 +174,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
             )}
           </>
         )}
-      </ColorCover>
+      </Section>
     </div>
   );
 };

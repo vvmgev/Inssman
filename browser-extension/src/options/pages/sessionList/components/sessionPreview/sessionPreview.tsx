@@ -3,7 +3,7 @@ import PlayCircleSVG from "@assets/icons/playCircle.svg";
 import TrashSVG from "@assets/icons/trash.svg";
 import ShareSVG from "@assets/icons/share.svg";
 import PlaySVG from "@assets/icons/play.svg";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
@@ -39,7 +39,7 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
 
   return (
     <div>
-      <ColorCover classes="flex flex-col gap-3 rounded-xl">
+      <Section classes="flex flex-col gap-3 rounded-xl">
         <div className="flex items-center justify-between">
           <div className="text-ellipsis gap-4 max-w-[150px] whitespace-nowrap	overflow-hidden">
             <Tooltip content={data.url}>
@@ -85,7 +85,7 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
             />
           </Link>
         </div>
-      </ColorCover>
+      </Section>
     </div>
   );
 };

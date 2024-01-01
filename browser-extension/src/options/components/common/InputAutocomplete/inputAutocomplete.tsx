@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Popup from "reactjs-popup";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 
 const InputAutocomplete = ({ inputProps, list, id }: any) => {
@@ -30,7 +30,7 @@ const InputAutocomplete = ({ inputProps, list, id }: any) => {
           boxShadow: "none",
         }}
       >
-        <ColorCover classes="rounded-2xl p-0 bg-opacity-70">
+        <Section classes="rounded-2xl p-0 bg-opacity-70">
           <ul className="max-h-[200px] overflow-y-auto">
             {list.map(
               (item, index) =>
@@ -45,7 +45,7 @@ const InputAutocomplete = ({ inputProps, list, id }: any) => {
                 )
             )}
           </ul>
-        </ColorCover>
+        </Section>
       </Popup>
     </div>
   );

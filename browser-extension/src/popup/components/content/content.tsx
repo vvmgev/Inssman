@@ -1,4 +1,4 @@
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Switcher from "@options/components/common/switcher/switcher";
 import CreateRules from "../createRules/createRules";
 import List, { ListHeader, ListItems } from "@options/components/common/list/list";
@@ -95,7 +95,7 @@ const Content = () => {
   }, []);
 
   return (
-    <ColorCover classes="border-l-0 border-r-0 rounded-none p-0">
+    <Section classes="border-l-0 border-r-0 rounded-none p-0">
       <div className="h-full p-4">
         <Tab active={tab} onChangeTab={onChangeTab} />
       </div>
@@ -115,7 +115,7 @@ const Content = () => {
           />
         </div>
       )}
-    </ColorCover>
+    </Section>
   );
 };
 

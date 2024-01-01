@@ -1,5 +1,5 @@
 import AutoSizer from "react-virtualized-auto-sizer";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
 import Popup from "reactjs-popup";
@@ -188,7 +188,7 @@ const SessionList: FC = (): ReactElement => {
   const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session Yet";
 
   return (
-    <ColorCover classes="mx-[5%] p-0 pb-5 min-h-[650px]">
+    <Section classes="mx-[5%] p-0 pb-5 min-h-[650px]">
       <div className="flex justify-between p-5">
         <span className="flex flex-row items-center gap-2">
           <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
@@ -213,7 +213,7 @@ const SessionList: FC = (): ReactElement => {
           >
             {/* @ts-ignore */}
             {(close: any) => (
-              <ColorCover classes="bg-opacity-90 py-15">
+              <Section classes="bg-opacity-90 py-15">
                 <div className="flex pb-5 border-b border-slate-700">
                   <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                   <div className="flex justify-end flex-1">
@@ -238,7 +238,7 @@ const SessionList: FC = (): ReactElement => {
                     Yes
                   </OutlineButton>
                 </div>
-              </ColorCover>
+              </Section>
             )}
           </Popup>
           <div className="mr-4 text-sm">
@@ -304,7 +304,7 @@ const SessionList: FC = (): ReactElement => {
           />
         </div>
       )}
-    </ColorCover>
+    </Section>
   );
 };
 

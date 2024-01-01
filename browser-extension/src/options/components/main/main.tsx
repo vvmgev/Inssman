@@ -3,7 +3,7 @@ import Popup from "reactjs-popup";
 import Input from "@options/components/common/input/input";
 import BackButton from "@options/components/common/backButton/backButton";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import RuleList from "../ruleList/ruleList";
 import CrossSVG from "@assets/icons/cross.svg";
 import SearchSVG from "@assets/icons/search.svg";
@@ -64,7 +64,7 @@ export default () => {
       >
         {/* @ts-ignore */}
         {(close: any) => (
-          <ColorCover classes="bg-opacity-90 py-15">
+          <Section classes="bg-opacity-90 py-15">
             <div className="flex pb-5 border-b border-slate-700">
               <div className="flex-1 text-2xl text-slate-200">Import Failed</div>
               <div className="flex justify-end flex-1">
@@ -92,7 +92,7 @@ export default () => {
                 Close
               </OutlineButton>
             </div>
-          </ColorCover>
+          </Section>
         )}
       </Popup>
       <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
@@ -137,7 +137,7 @@ export default () => {
             >
               {/* @ts-ignore */}
               {(close: any) => (
-                <ColorCover classes="bg-opacity-90 py-15">
+                <Section classes="bg-opacity-90 py-15">
                   <div className="flex pb-5 border-b border-slate-700">
                     <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                     <div className="flex justify-end flex-1">
@@ -162,7 +162,7 @@ export default () => {
                       Yes
                     </OutlineButton>
                   </div>
-                </ColorCover>
+                </Section>
               )}
             </Popup>
             <div className="text-sm">

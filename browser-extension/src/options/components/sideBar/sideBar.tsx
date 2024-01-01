@@ -1,5 +1,5 @@
 import Logo from "@assets/icons/logo.svg";
-import ColorCover from "../common/colorCover/colorCover";
+import Section from "../common/section/section";
 import TemplateList from "./templateList";
 import FormList from "./components/formList/formList";
 import Record from "./components/record/record";
@@ -16,7 +16,7 @@ const SideBar = () => {
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
-    <ColorCover classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${full ? "" : ""}`}>
+    <Section classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${full ? "" : ""}`}>
       <Link className="hover:cursor-pointer" to="/">
         <div className="py-2 pl-2 border-b border-slate-700">
           <Logo />
@@ -44,7 +44,7 @@ const SideBar = () => {
           {full && <span>Collapse</span>}
         </div>
       </div> */}
-    </ColorCover>
+    </Section>
   );
 };
 

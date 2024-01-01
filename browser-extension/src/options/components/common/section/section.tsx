@@ -5,7 +5,7 @@ type Props = PropsWithChildren<{
   classes?: string;
 }>;
 
-const ColorCover = ({ children, classes = "" }: Props) => {
+const Section = ({ children, classes = "" }: Props) => {
   return (
     <div
       className={twMerge(
@@ -19,4 +19,4 @@ const ColorCover = ({ children, classes = "" }: Props) => {
   );
 };
 
-export default ColorCover;
+export default Section;

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { FormMode, IRule, IRuleMetaData } from "@models/formFieldModel";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Form from "@options/components/common/form/form";
 import FormBuilder from "@options/formBuilder/formBuilder";
 import config from "@options/formBuilder/config";
@@ -27,11 +27,11 @@ const Forms = ({ children, ...props }: Props) => {
   };
 
   return (
-    <ColorCover classes="mx-[5%] p-5">
+    <Section classes="mx-[5%] p-5">
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={error} pageType={pageType}>
         <FormBuilder ruleMetaData={ruleMetaData} onChange={onChange} error={error} mode={mode} pageType={pageType} />
       </Form>
-    </ColorCover>
+    </Section>
   );
 };
 

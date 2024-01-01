@@ -1,7 +1,7 @@
 import GithubSVG from "@assets/icons/github.svg";
 import DocumentSVG from "@assets/icons/document.svg";
 import BugSVG from "@assets/icons/bug.svg";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
 import { OverlayContext } from "@context/overlayContext";
 import { useContext } from "react";
@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <div className="flex justify-end max-h-[10%]">
-      <ColorCover
+      <Section
         classes={`overflow-visible flex gap-5 box-border items-center px-5 w-[initial] rounded-tl-none rounded-tr-none rounded-br-none ${
           !showOverlay ? "z-20" : ""
         }`}
@@ -29,8 +29,8 @@ const Header = () => {
         >
           <ExtensionToggle />
         </Tooltip>
-      </ColorCover>
-      <ColorCover classes="flex gap-5 p-5 w-[initial] rounded-none">
+      </Section>
+      <Section classes="flex gap-5 p-5 w-[initial] rounded-none">
         <a
           target="_blank"
           href="https://github.com/vvmgev/Inssman"
@@ -52,7 +52,7 @@ const Header = () => {
         >
           <span className="w-[24px]">{<BugSVG />}</span>Report a Bug
         </a>
-      </ColorCover>
+      </Section>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
-import ColorCover from "@options/components/common/colorCover/colorCover";
+import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 import Button from "@options/components/common/button/button";
 import BackButton from "@options/components/common/backButton/backButton";
@@ -36,7 +36,7 @@ const Record: FC = (): ReactElement => {
   }, []);
 
   return (
-    <ColorCover classes="flex justify-between mx-[5%] p-5">
+    <Section classes="flex justify-between mx-[5%] p-5">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-3">
@@ -62,7 +62,7 @@ const Record: FC = (): ReactElement => {
         </div>
       </div>
       {session && (
-        <ColorCover classes="ml-5 flex flex-col gap-5 rounded">
+        <Section classes="ml-5 flex flex-col gap-5 rounded">
           <div className="flex justify-between">
             <span className="text-xl">Last Recorded Session</span>
             <Link to={`session/${session.id}`}>
@@ -74,9 +74,9 @@ const Record: FC = (): ReactElement => {
             <span> {session.url}</span>
           </span>
           <SessionPlayer session={session} playerOptions={{ autoPlay: false }} />
-        </ColorCover>
+        </Section>
       )}
-    </ColorCover>
+    </Section>
   );
 };
 
