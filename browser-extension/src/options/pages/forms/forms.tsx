@@ -1,9 +1,9 @@
-import { PropsWithChildren } from "react";
-import { FormMode, IRule, IRuleMetaData } from "@models/formFieldModel";
 import Section from "@options/components/common/section/section";
 import Form from "@options/components/common/form/form";
 import FormBuilder from "@options/formBuilder/formBuilder";
 import config from "@options/formBuilder/config";
+import { FormMode, IRule, IRuleMetaData } from "@models/formFieldModel";
+import { PropsWithChildren } from "react";
 import { FormError } from "@options/HOC/formHOC";
 
 type Props = PropsWithChildren<{

@@ -92,10 +92,10 @@ const FormHOC = () => {
       ...errors,
       ...error,
     });
-    setRuleMetaData({
+    setRuleMetaData((ruleMetaData) => ({
       ...ruleMetaData,
       [name]: value,
-    });
+    }));
   };
 
   const onDelete = (): void => {
