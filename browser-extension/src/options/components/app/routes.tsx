@@ -1,15 +1,13 @@
-import { Route, Routes } from "react-router-dom";
 import HTTPLogger from "@options/pages/httpLogger/httpLogger";
 import Record from "@options/pages/record/record";
 import SessionList from "@options/pages/sessionList/sessionList";
 import Session from "@options/pages/session/session";
-import FormHOC from "@options/HOC/formHOC";
-import withParams from "@options/HOC/withParams";
+import Form from "@options/HOC/formHOC";
 import Main from "@options/components/main/main";
 import { WebRequestClients } from "@models/WebRequestModel";
+import { Route, Routes } from "react-router-dom";
 
 const RuleRoutes = () => {
-  const Form = withParams(FormHOC());
   return (
     <Routes>
       <Route path="/" element={<Main />} />
