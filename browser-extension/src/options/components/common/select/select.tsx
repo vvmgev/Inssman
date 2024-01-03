@@ -1,8 +1,6 @@
-import { useEffect, useRef } from "react";
-import SlimSelect from "slim-select";
-import { generateUniqueID } from "@utils/generateUniqueID";
+import RCSelect, { Option } from "rc-select";
+import "rc-select/assets/index.css";
 import "./select.css";
-import "../../../../../node_modules/slim-select/dist/slimselect.css";
 
 type Props = {
   value: string | string[];
@@ -12,68 +10,63 @@ type Props = {
   error?: any;
   classes?: string;
   placeholder?: string;
-  multiple?: boolean;
+  mode?: string;
+  showSearch?: boolean;
 };
 
-const Select = ({ value, classes = "", name, options, onChange, error, placeholder, multiple = false }: Props) => {
-  const selectRef = useRef<any>();
-  const idRef = useRef<string>();
-
-  useEffect(() => {
-    idRef.current = `select-${generateUniqueID()}`;
-    selectRef.current.id = idRef.current;
-    let selectSettings = {};
-    if (multiple) {
-      selectSettings = {
-        allowDeselect: true,
-        closeOnSelect: false,
-        maxValuesShown: 3,
-        maxValuesMessage: "{number} values selected",
-      };
-    }
-    new SlimSelect({
-      select: `#${idRef.current}`,
-      settings: {
-        showSearch: false,
-        placeholderText: placeholder,
-        ...selectSettings,
-      },
-      events: {
-        afterChange: (data) => {
-          const selectValue = multiple ? data.map(({ value }) => value) : data[0].value;
-          onChange({
-            target: {
-              name,
-              value: selectValue,
-            },
-          });
-        },
+const Select = ({
+  value,
+  name,
+  options,
+  onChange,
+  error,
+  placeholder,
+  mode,
+  classes = "",
+  showSearch = false,
+  ...rest
+}: Props) => {
+  const changeHandler = (value) => {
+    onChange({
+      target: {
+        name,
+        value,
       },
     });
-  }, []);
+  };
+  const config: any = {};
+  if (mode) {
+    config.mode = mode;
+  }
 
   return (
-    <div className={`inline-block w-full ${classes}`}>
-      <select
-        className={`w-full capitalize py-3 rounded focus:outline-none active:outline-none border-none focus:shadow-none
-            text-slate-200 bg-slate-700/70 ${error ? "border border-red-500" : "focus:border-none"}`}
-        id={idRef.current}
-        name={name}
-        multiple={multiple}
-        ref={selectRef}
-        onChange={() => {}}
+    <div className={`inline-block w-full py-2 min-w-[100px] ${classes}`}>
+      <RCSelect
+        {...config}
+        {...rest}
+        showSearch={showSearch}
+        className={`w-full capitalize pl-1 py-2 rounded focus:outline-none active:outline-none outline-none border-none focus:shadow-none bg-slate-700/70
+        ${error ? "border border-red-500" : "focus:border-none"}
+        ${mode ? "select-tags" : ""}`}
+        dropdownClassName="bg-slate-700/70 my-1 text-slate-200 border-none"
+        placeholder={placeholder}
         value={value}
+        onChange={changeHandler}
       >
-        <option data-placeholder="true"></option>
         {options.map((item, id) => {
           return (
-            <option className="!text-slate-200 my-1" key={id} value={item.value}>
+            <Option
+              className="pl-1 capitalize cursor-pointer bg-slate-700/70 hover:bg-slate-500"
+              key={id}
+              value={item.value}
+            >
               {item.label}
-            </option>
+            </Option>
           );
         })}
-      </select>
+      </RCSelect>
     </div>
   );
 };
+
 export default Select;

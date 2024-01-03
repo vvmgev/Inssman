@@ -213,6 +213,7 @@ const FormHOC = () => {
         name: urlSearchParams.get("name") || (defaultValues.name as string),
       });
     }
+
     if (mode === FormMode.UPDATE) {
       chrome.runtime.sendMessage(
         {
@@ -221,7 +222,6 @@ const FormHOC = () => {
         },
         ({ ruleMetaData }) => setRuleMetaData(ruleMetaData)
       );
-      return;
     }
   }, []);
 

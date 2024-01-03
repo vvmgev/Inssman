@@ -141,7 +141,7 @@ const SourceFields = ({
               options={requestMethodOptions}
               name="requestMethods"
               error={error?.requestMethods}
-              multiple={true}
+              mode="multiple"
               placeholder="Request Method"
               {...requestMethodsProps}
             />
@@ -160,7 +160,7 @@ const SourceFields = ({
               options={resourceTypeOptions}
               name="resourceTypes"
               error={error?.resourceTypes}
-              multiple={true}
+              mode="multiple"
               placeholder="Resource Types"
               {...resourceTypesProps}
             />

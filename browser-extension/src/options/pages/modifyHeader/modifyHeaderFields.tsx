@@ -1,10 +1,8 @@
 import { HeaderModificationType } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
-import InputAutocomplete from "@options/components/common/InputAutocomplete/inputAutocomplete";
 import CrossSVG from "@assets/icons/cross.svg";
 import HTTPHeaders from "./HTTPHeaders";
-import { generateUniqueID } from "@utils/generateUniqueID";
 import { useMemo } from "react";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
@@ -86,7 +84,6 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                 onChange={(event) => onChangeHandler(event, index)}
                 classes="flex-[1]"
                 error={error?.operation}
-                key={generateUniqueID()}
               />
               <Select
                 options={headerModificationTypeOptions}
@@ -95,20 +92,17 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                 onChange={(event) => onChangeHandler(event, index)}
                 classes="flex-[1]"
                 error={error?.type}
-                key={generateUniqueID()}
               />
               <div className="flex-[2]">
-                <InputAutocomplete
-                  inputProps={{
-                    name: "header",
-                    placeholder: "Key",
-                    value: header.header,
-                    onChange: (event) => onChangeHandler(event, index),
-                    classes: "flex-[2]",
-                    error: headerErrors[index]?.header,
-                  }}
-                  id={index}
-                  list={HTTPHeaders[header.type]}
+                <Select
+                  showSearch={true}
+                  options={HTTPHeaders[header.type].map((item) => ({ value: item, lable: item }))}
+                  name="header"
+                  value={header.header}
+                  onChange={(event) => onChangeHandler(event, index)}
+                  classes="flex-[2]"
+                  error={headerErrors[index]?.header}
+                  placeholder="Key"
                 />
               </div>
               <Input

@@ -1,3 +1,14 @@
 .ss-placeholder {
     color: rgb(226, 232, 240) !important;
 }
+.rc-select-selector {
+  border: none !important;
+}
+
+.select-tags .rc-select-selection-item {
+  background: rgb(2, 132, 199) !important;
+}
+.rc-select-selection-search-input {
+  background: transparent !important;
+}
+
