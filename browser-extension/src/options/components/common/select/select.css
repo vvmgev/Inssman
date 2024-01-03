@@ -5,10 +5,9 @@
   border: none !important;
 }
 
-.select-tags .rc-select-selection-item {
+.select-tags .rc-select-selection-item, .rc-select-item-option-selected {
   background: rgb(2, 132, 199) !important;
 }
 .rc-select-selection-search-input {
   background: transparent !important;
 }
-

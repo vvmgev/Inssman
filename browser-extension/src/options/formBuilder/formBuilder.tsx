@@ -1,6 +1,3 @@
-import { Fragment, useMemo, PropsWithChildren, FC } from "react";
-import config from "./config";
-import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from "@models/formFieldModel";
 import SourceFields from "@options/components/common/source/sourceFields";
 import Destination from "@options/components/common/destination/destination";
 import QueryParamFields from "@options/components/common/queryParamFields/queryParamFields";
@@ -10,11 +7,14 @@ import Editor from "@options/components/common/editor/editor";
 import InjectFileSources from "@options/components/common/InjectFileSources/InjectFileSources";
 import Input from "@options/components/common/input/input";
 import FormContextProvider from "@context/formContext";
+import config from "./config";
+import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from "@models/formFieldModel";
+import { Fragment, useMemo, PropsWithChildren, FC } from "react";
 import { FormError } from "../HOC/formHOC";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
 type Props = PropsWithChildren<{
-  // Fix the type
+  // FIXME: the type
   ruleMetaData: any;
   onChange: Function;
   error: FormError;

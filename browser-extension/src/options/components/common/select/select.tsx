@@ -48,11 +48,12 @@ const Select = ({
         value={value}
         maxTagCount={3}
         onChange={changeHandler}
+        removeIcon={<span className="ml-2 cursor-pointer bold">X</span>}
       >
         {options?.map((item, id) => {
           return (
             <Option
-              className="pl-1 capitalize cursor-pointer bg-slate-700/70 hover:bg-slate-500"
+              className="pl-1 capitalize cursor-pointer bg-slate-700/70 hover:bg-sky-500"
               key={id}
               value={item.value}
             >
