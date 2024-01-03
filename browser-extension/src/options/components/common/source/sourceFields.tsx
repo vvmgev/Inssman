@@ -10,7 +10,7 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 type Props = PropsWithChildren<{
   source: string;
-  onChange: Function;
+  onChange: any;
   matchType: MatchType;
   error: { [key: string]: string };
   requestMethods: RequestMethod[];

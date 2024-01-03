@@ -1,17 +1,11 @@
-import RCSelect, { Option } from "rc-select";
+import RCSelect, { Option, SelectProps } from "rc-select";
 import "rc-select/assets/index.css";
 import "./select.css";
 
 type Props = {
-  value: string | string[];
   name: string;
-  options: any;
-  onChange: any;
   error?: any;
   classes?: string;
-  placeholder?: string;
-  mode?: string;
-  showSearch?: boolean;
 };
 
 const Select = ({
@@ -25,8 +19,9 @@ const Select = ({
   classes = "",
   showSearch = false,
   ...rest
-}: Props) => {
+}: SelectProps & Props) => {
   const changeHandler = (value) => {
+    // @ts-ignore
     onChange({
       target: {
         name,
@@ -34,7 +29,7 @@ const Select = ({
       },
     });
   };
-  const config: any = {};
+  const config: Pick<SelectProps, "mode"> = {};
   if (mode) {
     config.mode = mode;
   }
@@ -51,9 +46,10 @@ const Select = ({
         dropdownClassName="bg-slate-700/70 my-1 text-slate-200 border-none"
         placeholder={placeholder}
         value={value}
+        maxTagCount={3}
         onChange={changeHandler}
       >
-        {options.map((item, id) => {
+        {options?.map((item, id) => {
           return (
             <Option
               className="pl-1 capitalize cursor-pointer bg-slate-700/70 hover:bg-slate-500"

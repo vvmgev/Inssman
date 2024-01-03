@@ -1,7 +1,7 @@
-import { QueryParamAction } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
 import CrossSVG from "@assets/icons/cross.svg";
+import { QueryParamAction } from "@models/formFieldModel";
 import { useMemo } from "react";
 
 const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
