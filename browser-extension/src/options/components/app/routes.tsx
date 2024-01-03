@@ -7,7 +7,7 @@ import Main from "@options/components/main/main";
 import { WebRequestClients } from "@models/WebRequestModel";
 import { Route, Routes } from "react-router-dom";
 
-const RuleRoutes = () => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
@@ -48,4 +48,4 @@ const RuleRoutes = () => {
   );
 };
 
-export default RuleRoutes;
+export default AppRoutes;

@@ -1,3 +1,5 @@
+import { replaceAsteriskToPlus, addProtocol, makeExactMatch, replaceAsterisk, replaceVariable } from "@utils/regExp";
+import { encode } from "@utils/encode";
 import {
   EditorLanguage,
   FilterType,
@@ -11,14 +13,6 @@ import {
   PageType,
   QueryParamAction,
 } from "@models/formFieldModel";
-import {
-  replaceAsteriskToPlus,
-  addProtocol,
-  makeExactMatch,
-  replaceAsterisk,
-  replaceVariable,
-} from "@utils/regExp";
-import { encode } from "@utils/encode";
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;

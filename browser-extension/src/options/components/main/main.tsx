@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect } from "react";
 import Popup from "reactjs-popup";
 import Input from "@options/components/common/input/input";
-import BackButton from "@options/components/common/backButton/backButton";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Section from "@options/components/common/section/section";
 import RuleList from "../ruleList/ruleList";
@@ -11,11 +9,12 @@ import ArrowDownLongSVG from "@assets/icons/arrowDownLong.svg";
 import ArrowUpLongSVG from "@assets/icons/arrowUpLong.svg";
 import TrashSVG from "@assets/icons/trash.svg";
 import ListSVG from "@assets/icons/list.svg";
+import { useState, useRef, useEffect } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
+import { IRuleMetaData } from "@models/formFieldModel";
 import { downloadFile } from "@utils/downloadFile";
 import { validateJSON } from "@utils/validateJSON";
 import { readFile } from "@utils/readFile";
-import { IRuleMetaData } from "@models/formFieldModel";
 import "reactjs-popup/dist/index.css";
 
 export default () => {
