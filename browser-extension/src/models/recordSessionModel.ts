@@ -4,4 +4,5 @@ export type RecordSession = {
   events: any[];
   name: string;
   date: string;
+  docID?: string;
 };

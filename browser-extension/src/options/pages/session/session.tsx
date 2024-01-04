@@ -1,9 +1,13 @@
-import Section from "@options/components/common/section/section";
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
+import Section from "@options/components/common/section/section";
+import Input from "@/options/components/common/input/input";
+import Toast from "@/options/components/common/toast/toast";
+import ClipboardSVG from "@assets/icons/clipboard.svg";
 import TrashSVG from "@assets/icons/trash.svg";
 import ShareSVG from "@assets/icons/share.svg";
+import Copy from "copy-to-clipboard";
 import { EventType, IncrementalSource } from "rrweb";
 import { FC, ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -12,15 +16,26 @@ import { RecordSession } from "@models/recordSessionModel";
 import { SideBarContext } from "@context/sideBarContext";
 import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
+import { APP_URL } from "@/options/constant";
+import { toast } from "react-toastify";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const [session, setSession] = useState<RecordSession>();
+  const [isShared, setIsShared] = useState<boolean>(!!session?.docID);
+  const [docID, setDocID] = useState<string>(session?.docID || "");
   const { setFull } = useContext(SideBarContext);
   const { id } = useParams();
   const sessionMemo = useMemo(() => session, [session]);
   const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
+
+  // FIXME:
+  // investigate why updating session breaks player
+  useEffect(() => {
+    setIsShared(!!session?.docID);
+    setDocID(session?.docID || "");
+  }, [session?.docID]);
 
   useEffect(() => {
     setFull(false);
@@ -45,13 +60,24 @@ const Session: FC = (): ReactElement => {
   }, []);
 
   const handleShare = () => {
+    if (isShared) return;
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
         data: { session },
       },
-      (id) => {
-        console.log("shared", id);
+      (docID) => {
+        const sharedSession = { ...session, docID } as RecordSession;
+        chrome.runtime.sendMessage(
+          {
+            action: PostMessageAction.UpdateRecordedSession,
+            data: sharedSession,
+          },
+          () => {
+            setIsShared(true);
+            setDocID(docID);
+          }
+        );
       }
     );
   };
@@ -64,6 +90,15 @@ const Session: FC = (): ReactElement => {
       },
       () => navigate(-1)
     );
+  };
+
+  const generateShareUrl = (): string => {
+    return `${APP_URL}/record/shared/session/${docID}`;
+  };
+
+  const handleCopyToClipboard = () => {
+    Copy(generateShareUrl());
+    toast(<Toast text="URL Copied!" />);
   };
 
   const getDuration = (session) => {
@@ -105,6 +140,10 @@ const Session: FC = (): ReactElement => {
       .filter((logData) => !!logData);
   }, [session?.events]);
 
+  console.log("session", session);
+  console.log("isShared", isShared);
+  console.log("docID", docID);
+
   return (
     <Section classes="mx-[5%] p-5 flex flex-col gap-5">
       {session && (
@@ -121,9 +160,25 @@ const Session: FC = (): ReactElement => {
               >
                 Delete
               </OutlineButton>
-              <OutlineButton trackName="Share Recorded Session in view mode" onClick={handleShare} icon={<ShareSVG />}>
-                Share
+              <OutlineButton
+                disabled={isShared}
+                trackName="Share Recorded Session in view mode"
+                onClick={handleShare}
+                icon={<ShareSVG />}
+              >
+                Share{isShared ? "d" : null}
               </OutlineButton>
+              {isShared && (
+                <Input
+                  readOnly
+                  value={generateShareUrl()}
+                  suffix={
+                    <span onClick={handleCopyToClipboard} className="w-[24px] cursor-pointer hover:text-sky-500">
+                      <ClipboardSVG />
+                    </span>
+                  }
+                />
+              )}
             </div>
           </div>
           <div className="flex gap-5">

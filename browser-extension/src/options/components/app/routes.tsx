@@ -42,7 +42,8 @@ const AppRoutes = () => {
       <Route path="/record">
         <Route path="" element={<Record key={37} />} />
         <Route path="session" element={<SessionList key={38} />} />
-        <Route path="session/:id" element={<Session key={39} />} />
+        <Route path="shared/session/:id" element={<Session key={39} />} />
+        <Route path="session/:id" element={<Session key={40} />} />
       </Route>
     </Routes>
   );

@@ -24,6 +24,7 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.StartRecordingByUrl]: this.startRecordingByUrl,
       [PostMessageAction.StartRecordingByCurrentTab]: this.startRecordingByCurrentTab,
       [PostMessageAction.SaveRecording]: this.saveRecording,
+      [PostMessageAction.UpdateRecordedSession]: this.updateRecordedSession,
       [PostMessageAction.StopRecording]: this.stopRecording,
       [PostMessageAction.GetRecordedSessions]: this.getRecordedSessions,
       [PostMessageAction.GetRecordedSessionById]: this.getSessionById,
@@ -31,7 +32,6 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.DeleteRecordedSessionById]: this.removeById,
       [PostMessageAction.DeleteRecordedSessions]: this.clear,
       [PostMessageAction.ShareRecordedSession]: this.shareRecordedSession,
-      [PostMessageAction.UpdateRecordedSession]: this.updateRecordedSession,
     };
   }
 
@@ -124,6 +124,10 @@ class RecordSessionService extends BaseService {
     }
   };
 
+  updateRecordedSession = async (data: any): Promise<void> => {
+    return IndexDBService.put(data);
+  };
+
   getRecordedSessions = async (): Promise<RecordSession[]> => {
     return IndexDBService.getAll();
   };
@@ -147,8 +151,6 @@ class RecordSessionService extends BaseService {
   shareRecordedSession = async ({ session }) => {
     return storeRecordedSession(session);
   };
-
-  updateRecordedSession = async () => {};
 }
 
 export default new RecordSessionService();

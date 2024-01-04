@@ -36,6 +36,7 @@
     "@types/chrome": "^0.0.181",
     "babel-loader": "^8.2.5",
     "concurrently": "^7.1.0",
+    "copy-to-clipboard": "^3.3.3",
     "copy-webpack-plugin": "^10.2.4",
     "deepcopy": "^2.1.0",
     "file-loader": "^6.2.0",
