@@ -18,6 +18,7 @@ type Props = {
   items: ListItems[];
   listClasses?: string;
   data: any;
+  onRowClick?: <T>(data: T) => void;
   texts?: {
     title?: string;
     description?: string;
@@ -25,6 +26,7 @@ type Props = {
 };
 
 const List: FC<Props> = ({
+  onRowClick = () => {},
   headers,
   items,
   data,
@@ -49,6 +51,7 @@ const List: FC<Props> = ({
         <ul className={twMerge(`w-full overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
           {data.map((row) => (
             <li
+              onClick={() => onRowClick(row)}
               key={row.id}
               className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40"
             >
