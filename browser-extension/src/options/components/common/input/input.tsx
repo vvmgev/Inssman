@@ -1,27 +1,28 @@
+import RCInput from "rc-input";
 import { forwardRef } from "react";
 
-const Input = forwardRef(({ onChange, classes, error, starts, ends, disabled, hidden, ...props }: any, ref) => {
+const Input = forwardRef(({ onChange, classes, error, prefix, suffix, disabled, hidden, ...props }: any, ref) => {
   return (
-    <div className={`inline-block w-full ${classes || ""}`}>
+    <div className={`inline-block w-full relative ${classes || ""}`}>
       <div className="flex items-stretch">
-        {starts && (
+        {prefix && (
           <div
             className={`pl-3 rounded-tl rounded-bl bg-slate-700/50 flex justify-center items-center
           ${error ? "border border-red-500 border-r-0" : ""}
         `}
           >
-            {starts}
+            {prefix}
           </div>
         )}
-        <input
+        <RCInput
           className={`drop-shadow-xl shadow-inner appearance-none bg-slate-700/50
-                      rounded ${starts ? "rounded-tl-none rounded-bl-none" : ""} ${
-            starts ? "rounded-tr-none rounded-br-none" : ""
+                      rounded ${prefix ? "rounded-tl-none rounded-bl-none" : ""} ${
+            prefix ? "rounded-tr-none rounded-br-none" : ""
           }
                       w-full p-3 leading-tight focus:outline-none focus:shadow-outline
                       ${error ? "border border-red-500" : ""}
-                      ${error && starts ? "border-l-0" : ""}
-                      ${error && ends ? "border-l-0" : ""}
+                      ${error && prefix ? "border-l-0" : ""}
+                      ${error && suffix ? "border-l-0" : ""}
                       ${disabled ? "cursor-not-allowed" : ""}
                       `}
           hidden={hidden}
@@ -31,16 +32,17 @@ const Input = forwardRef(({ onChange, classes, error, starts, ends, disabled, hi
           ref={ref}
           {...props}
         />
-        {ends && (
+        {suffix && (
           <div
             className={`pr-3 rounded-tr rounded-br bg-slate-700/50 flex justify-center items-center
           ${error ? "border border-red-500 border-r-0" : ""}
         `}
           >
-            {ends}
+            {suffix}
           </div>
         )}
       </div>
+      <div className="absolute text-xs text-red-500 b-0 left-1">{error}</div>
     </div>
   );
 });

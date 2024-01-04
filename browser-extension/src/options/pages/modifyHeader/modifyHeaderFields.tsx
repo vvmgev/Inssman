@@ -103,6 +103,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                   classes="flex-[2]"
                   error={headerErrors[index]?.header}
                   placeholder="Key"
+                  mode="combobox"
                 />
               </div>
               <Input

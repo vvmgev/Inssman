@@ -401,7 +401,7 @@ const config: Config = {
               {
                 name: "required",
                 regexp: /^\s*$/,
-                message: "Header Name Is Required",
+                message: "Header Key Is Required",
               },
               {
                 name: "specialSymbols",

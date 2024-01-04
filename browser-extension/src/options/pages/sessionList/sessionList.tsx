@@ -246,12 +246,12 @@ const SessionList: FC = (): ReactElement => {
               placeholder="Search By Session Name"
               onChange={onChangeSearch}
               value={search}
-              starts={
+              prefix={
                 <span className="w-[24px]">
                   <SearchSVG />
                 </span>
               }
-              ends={
+              suffix={
                 <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
                   <CrossSVG />
                 </span>

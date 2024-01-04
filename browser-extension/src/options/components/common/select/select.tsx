@@ -35,12 +35,12 @@ const Select = ({
   }
 
   return (
-    <div className={`inline-block w-full py-2 min-w-[100px] ${classes}`}>
+    <div className={`inline-block w-full py-2 min-w-[100px] relative ${classes}`}>
       <RCSelect
         {...config}
         {...rest}
-        showSearch={showSearch}
-        className={`w-full capitalize pl-1 py-2 rounded focus:outline-none active:outline-none outline-none border-none focus:shadow-none bg-slate-700/70
+        showSearch={true}
+        className={`w-full capitalize pl-1 py-2 rounded focus:outline-none active:outline-none outline-none focus:shadow-none bg-slate-700/70
         ${error ? "border border-red-500" : "focus:border-none"}
         ${mode ? "select-tags" : ""}`}
         dropdownClassName="bg-slate-700/70 my-1 text-slate-200 border-none"
@@ -62,6 +62,7 @@ const Select = ({
           );
         })}
       </RCSelect>
+      <div className="absolute text-xs text-red-500 left-1 b-0">{error}</div>
     </div>
   );
 };
