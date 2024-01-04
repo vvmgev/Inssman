@@ -62,6 +62,8 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
           </div>
         </div>
       </div>
+      {/* @ts-ignore */}
+      <div className="text-red-500 text-md">{error.general}</div>
       <form onSubmit={onSubmitHandler}>
         {children}
         <input type="submit" className="hidden" />

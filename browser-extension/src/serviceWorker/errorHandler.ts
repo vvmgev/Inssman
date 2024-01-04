@@ -59,7 +59,7 @@ const handleError = (error: any, data) => {
   storeError({ message, data, type: "unhandled" });
   return {
     fieldName: "general",
-    message: "Unhandled error = " + message,
+    message: "Something went wrong. Our team is already aware of the issue.",
   };
 };
 

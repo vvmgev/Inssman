@@ -68,6 +68,13 @@ class RuleService extends BaseService {
           });
           return;
         }
+        sendResponse({
+          error: true,
+          info: handleError(error, {
+            action: PostMessageAction[request.action],
+            data: { ...(request.data || {}), version },
+          }),
+        });
       }
     }
   };
