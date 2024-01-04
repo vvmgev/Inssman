@@ -13,11 +13,17 @@ export type ListItems = {
   classes?: string;
 };
 
+type Item<T> = T;
+
 type Props = {
   headers: ListHeader[];
   items: ListItems[];
   listClasses?: string;
-  data: any;
+  rowClasses?: string;
+  headerClasses?: string;
+  activeRow?: Item<any> | null;
+  data: Item<any>[];
+  onRowClick?: <T>(data: T) => void;
   texts?: {
     title?: string;
     description?: string;
@@ -25,12 +31,16 @@ type Props = {
 };
 
 const List: FC<Props> = ({
+  onRowClick = () => {},
   headers,
   items,
   data,
   listClasses = "",
+  rowClasses = "",
+  headerClasses = "",
+  activeRow,
   texts = {
-    title: "Seems You Have Not Item",
+    title: "Seems You Have No Item",
     description: "",
   },
 }) => {
@@ -39,7 +49,7 @@ const List: FC<Props> = ({
       <div className="flex items-center justify-between w-full px-6 py-3 border-b border-slate-700 bg-slate-700 bg-opacity-40">
         {headers.map((item) => {
           return (
-            <div key={item.title} className={`flex-1 ${item.classes || ""}`}>
+            <div key={item.title} className={twMerge(`flex-1 ${item.classes || ""}`, headerClasses)}>
               {item.render()}
             </div>
           );
@@ -49,8 +59,13 @@ const List: FC<Props> = ({
         <ul className={twMerge(`w-full overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
           {data.map((row) => (
             <li
+              onClick={() => onRowClick(row)}
               key={row.id}
-              className="py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40"
+              className={twMerge(
+                "py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40",
+                rowClasses,
+                activeRow?.id === row.id ? "text-sky-500" : ""
+              )}
             >
               {items.map((item) => {
                 return (
