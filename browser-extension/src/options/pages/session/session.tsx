@@ -3,6 +3,7 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
 import TrashSVG from "@assets/icons/trash.svg";
+import ShareSVG from "@assets/icons/share.svg";
 import { EventType, IncrementalSource } from "rrweb";
 import { FC, ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -42,6 +43,18 @@ const Session: FC = (): ReactElement => {
       }
     );
   }, []);
+
+  const handleShare = () => {
+    chrome.runtime.sendMessage(
+      {
+        action: PostMessageAction.ShareRecordedSession,
+        data: { session },
+      },
+      (id) => {
+        console.log("shared", id);
+      }
+    );
+  };
 
   const handleDelete = () => {
     chrome.runtime.sendMessage(
@@ -99,14 +112,19 @@ const Session: FC = (): ReactElement => {
           <div className="flex justify-between">
             <BackButton trackName="session" url="/record/session" text="Sessions" />
             <div className="text-xl capitalize">{session?.name}</div>
-            <OutlineButton
-              trackName="Delete Recorded Session in view mode"
-              classes="hover:border-red-400 hover:text-red-400"
-              onClick={handleDelete}
-              icon={<TrashSVG />}
-            >
-              Delete
-            </OutlineButton>
+            <div className="flex gap-2">
+              <OutlineButton
+                trackName="Delete Recorded Session in view mode"
+                classes="hover:border-red-400 hover:text-red-400"
+                onClick={handleDelete}
+                icon={<TrashSVG />}
+              >
+                Delete
+              </OutlineButton>
+              <OutlineButton trackName="Share Recorded Session in view mode" onClick={handleShare} icon={<ShareSVG />}>
+                Share
+              </OutlineButton>
+            </div>
           </div>
           <div className="flex gap-5">
             <Section classes="rounded flex gap-2 max-w-[300px] whitespace-nowrap	">

@@ -9,6 +9,7 @@ import { RecordSession } from "@models/recordSessionModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 
 import Tab = chrome.tabs.Tab;
+import { storeRecordedSession } from "@/serviceWorker/firebase";
 
 class RecordSessionService extends BaseService {
   private currentTab: Tab | null = null;
@@ -29,6 +30,8 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.GetLastRecordedSession]: this.getLastRecordedSession,
       [PostMessageAction.DeleteRecordedSessionById]: this.removeById,
       [PostMessageAction.DeleteRecordedSessions]: this.clear,
+      [PostMessageAction.ShareRecordedSession]: this.shareRecordedSession,
+      [PostMessageAction.UpdateRecordedSession]: this.updateRecordedSession,
     };
   }
 
@@ -140,6 +143,12 @@ class RecordSessionService extends BaseService {
   getLastRecordedSession = () => {
     return IndexDBService.getLastItem();
   };
+
+  shareRecordedSession = async ({ session }) => {
+    return storeRecordedSession(session);
+  };
+
+  updateRecordedSession = async () => {};
 }
 
 export default new RecordSessionService();
