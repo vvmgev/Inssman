@@ -9,9 +9,7 @@ import { StorageItemType } from "@models/storageModel";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export type FormError = {
-  [key: string]: { message: string } | null;
-};
+export type FormError = Record<string, string | null>;
 
 const FormHOC = () => {
   const location = useLocation();

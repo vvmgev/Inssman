@@ -2,20 +2,20 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 import Button from "@options/components/common/button/button";
-import BackButton from "@options/components/common/backButton/backButton";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
+import { InputRef } from "rc-input";
 import { addProtocol } from "@utils/regExp";
 import "rrweb-player/dist/style.css";
 
 const Record: FC = (): ReactElement => {
-  const searchRef = useRef<HTMLInputElement>();
+  const searchRef = useRef<InputRef>(null);
   const [session, setSession] = useState<RecordSession>();
   const startRecording = () => {
-    const url = addProtocol(searchRef.current?.value || "");
+    const url = addProtocol(searchRef.current?.input?.value || "");
     chrome.runtime.sendMessage({
       action: PostMessageAction.StartRecordingByUrl,
       data: { url },
