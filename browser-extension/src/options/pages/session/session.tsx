@@ -25,11 +25,11 @@ const Session: FC = (): ReactElement => {
   const [session, setSession] = useState<RecordSession>();
   const [isSessionShared, setIsSessionShared] = useState<boolean>(!!session?.docID);
   const [docID, setDocID] = useState<string>(session?.docID || "");
-  const { setFull } = useContext(SideBarContext);
   const isSharedUrl = location.pathname.includes("shared");
-  const { id } = useParams();
   const sessionMemo = useMemo(() => session, [session]);
   const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
+  const { setFull } = useContext(SideBarContext);
+  const { id } = useParams();
 
   // FIXME:
   // investigate why updating session breaks player
@@ -84,6 +84,7 @@ const Session: FC = (): ReactElement => {
           () => {
             setIsSessionShared(true);
             setDocID(docID);
+            toast(<Toast text="Session Shared!" />);
           }
         );
       }
@@ -101,7 +102,7 @@ const Session: FC = (): ReactElement => {
   };
 
   const generateShareUrl = (): string => {
-    return `${APP_URL}/record/shared/session/${docID}`;
+    return `${APP_URL}/app/record/shared/session/${docID}`;
   };
 
   const handleCopyToClipboard = () => {

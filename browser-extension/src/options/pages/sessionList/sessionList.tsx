@@ -66,8 +66,12 @@ const SessionList: FC = (): ReactElement => {
   };
 
   const handleCopyToClipboard = (docID) => {
-    Copy(`${APP_URL}/record/shared/session/${docID}`);
+    Copy(`${APP_URL}/app/record/shared/session/${docID}`);
     toast(<Toast text="URL Copied!" />);
+  };
+
+  const generateShareUrl = (docID): string => {
+    return `${APP_URL}/app/record/shared/session/${docID}`;
   };
 
   const handleShare = (session) => {
@@ -90,7 +94,7 @@ const SessionList: FC = (): ReactElement => {
           },
           () => {
             getSessions();
-            toast(<Toast text="Session Shared" />);
+            toast(<Toast text="Session Shared!" />);
           }
         );
       }
@@ -213,6 +217,7 @@ const SessionList: FC = (): ReactElement => {
               handleCopyToClipboard,
               handleShare,
               handleDelete,
+              generateShareUrl,
             }}
             data={filteredSessions}
             texts={{

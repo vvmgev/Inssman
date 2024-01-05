@@ -109,7 +109,7 @@ export const LIST_ITEMS: ListItems[] = [
               item?.docID ? (
                 <Input
                   readOnly
-                  value={"https://inssman.com/record/shared/session/ZVxdJLzoXzMjEjjLYgtf"}
+                  value={handlers.generateShareUrl(item.docID)}
                   suffix={
                     <span
                       onClick={() => handlers?.handleCopyToClipboard(item.docID)}
