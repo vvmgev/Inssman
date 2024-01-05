@@ -52,7 +52,9 @@ const Record: FC = (): ReactElement => {
         </div>
         <div className="mt-auto">
           <span className="font-bold">Note: </span>
-          <span className="text-slate-400">All Recorded Sessions Are Stored On Your Device</span>
+          <span className="text-slate-400">
+            All Recorded Sessions Are Stored On Your Device, Except Shared Sessions
+          </span>
           <form className="flex gap-5 pt-5">
             <Input ref={searchRef} classes="w-2/3" placeholder="Enter URL e.g https://google.com" />
             <Button onClick={startRecording} trackName="Start Recording">

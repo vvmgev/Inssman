@@ -39,7 +39,7 @@ const Select = ({
       <RCSelect
         {...config}
         {...rest}
-        showSearch={true}
+        showSearch={showSearch}
         className={`w-full capitalize pl-1 py-2 rounded focus:outline-none active:outline-none outline-none focus:shadow-none bg-slate-700/70
         ${error ? "border border-red-500" : "focus:border-none"}
         ${mode ? "select-tags" : ""}`}
