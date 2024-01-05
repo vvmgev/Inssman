@@ -24,9 +24,10 @@ export const storeRecordedSession = async (session) => {
   try {
     session.events = JSON.stringify(session.events);
     const doc = await addDoc(collection(firestoreDB, "recordedSession"), session);
-    return doc.id;
+    return { docID: doc.id };
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.log("Error adding document: ", e);
+    return { error: true };
   }
 };
 
@@ -37,6 +38,7 @@ export const getRecordedSessionByID = async (id: string) => {
     return docSnap.exists() ? docSnap.data() : null;
   } catch (error) {
     console.log("Error getting", error);
+    return { error: true };
   }
 };
 

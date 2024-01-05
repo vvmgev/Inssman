@@ -112,7 +112,7 @@ export const LIST_ITEMS: ListItems[] = [
                   value={"https://inssman.com/record/shared/session/ZVxdJLzoXzMjEjjLYgtf"}
                   suffix={
                     <span
-                      onClick={() => handlers?.copy?.(item.docID)}
+                      onClick={() => handlers?.handleCopyToClipboard(item.docID)}
                       className="w-[24px] cursor-pointer hover:text-sky-500"
                     >
                       <ClipboardSVG />
@@ -125,13 +125,13 @@ export const LIST_ITEMS: ListItems[] = [
             }
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
-              <span onClick={() => handlers?.share?.(item)} className="w-[24px] inline-block">
+              <span onClick={() => handlers?.handleShare(item)} className="w-[24px] inline-block">
                 <ShareSVG />
               </span>
             </div>
           </Tooltip>
           <Tooltip content="Delete Session">
-            <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.delete?.(item)}>
+            <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
               <span className="w-[24px] inline-block">
                 <TrashSVG />
               </span>

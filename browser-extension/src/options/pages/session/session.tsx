@@ -66,8 +66,12 @@ const Session: FC = (): ReactElement => {
         action: PostMessageAction.ShareRecordedSession,
         data: { session },
       },
-      (docID) => {
-        const sharedSession = { ...session, docID } as RecordSession;
+      (data) => {
+        if (data.error) {
+          toast(<Toast error text="Somthing Went Wrong" />);
+          return;
+        }
+        const sharedSession = { ...session, docID: data.docID } as RecordSession;
         chrome.runtime.sendMessage(
           {
             action: PostMessageAction.UpdateRecordedSession,

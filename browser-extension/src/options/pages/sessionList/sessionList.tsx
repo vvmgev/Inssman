@@ -77,8 +77,12 @@ const SessionList: FC = (): ReactElement => {
         action: PostMessageAction.ShareRecordedSession,
         data: { session },
       },
-      (docID) => {
-        const sharedSession = { ...session, docID } as RecordSession;
+      (data) => {
+        if (data.error) {
+          toast(<Toast error text="Somthing Went Wrong" />);
+          return;
+        }
+        const sharedSession = { ...session, docID: data.docID } as RecordSession;
         chrome.runtime.sendMessage(
           {
             action: PostMessageAction.UpdateRecordedSession,
@@ -206,9 +210,9 @@ const SessionList: FC = (): ReactElement => {
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
             handlers={{
-              copy: handleCopyToClipboard,
-              share: handleShare,
-              delete: handleDelete,
+              handleCopyToClipboard,
+              handleShare,
+              handleDelete,
             }}
             data={filteredSessions}
             texts={{
