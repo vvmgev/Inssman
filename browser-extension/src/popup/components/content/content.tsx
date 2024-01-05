@@ -1,12 +1,12 @@
 import Section from "@options/components/common/section/section";
-import Switcher from "@options/components/common/switcher/switcher";
 import CreateRules from "../createRules/createRules";
-import List, { ListHeader, ListItems } from "@options/components/common/list/list";
+import List from "@options/components/common/list/list";
 import Tab, { Tabs } from "@popup/components/tab/tab";
 import { PostMessageAction } from "@models/postMessageActionModel";
-import { IRuleMetaData, IconsMap, PageName } from "@models/formFieldModel";
+import { IRuleMetaData } from "@models/formFieldModel";
 import { cutString } from "@utils/cutString";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 
 const Content = () => {
   const [tab, setTab] = useState<Tabs>(Tabs.RuleList);
@@ -29,71 +29,6 @@ const Content = () => {
 
   useEffect(() => getRules(), []);
 
-  const LIST_HEADERS: ListHeader[] = useMemo(() => {
-    return [
-      {
-        title: "Name",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Type",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Source",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Status",
-        classes: "flex justify-end",
-        render: function () {
-          return this.title;
-        },
-      },
-    ];
-  }, []);
-
-  const LIST_ITEMS: ListItems[] = useMemo(() => {
-    return [
-      {
-        field: "name",
-        render: function (item) {
-          return cutString(item[this.field]);
-        },
-      },
-      {
-        field: "pageType",
-        render: function (item) {
-          return (
-            <>
-              <span className="w-[18px]">{IconsMap[item[this.field]]}</span>
-              <div>{PageName[item[this.field]]}</div>
-            </>
-          );
-        },
-      },
-      {
-        field: "source",
-        render: function (item) {
-          return cutString(item[this.field]);
-        },
-      },
-      {
-        field: "enabled",
-        classes: "justify-end",
-        render: function (item) {
-          return <Switcher checked={item[this.field]} onChange={(event) => onChangeRuleStatus(event, item.id)} />;
-        },
-      },
-    ];
-  }, []);
-
   return (
     <Section classes="border-l-0 border-r-0 rounded-none p-0">
       <div className="h-full p-4">
@@ -107,6 +42,10 @@ const Content = () => {
             listClasses="min-h-[initial] max-h-[initial] h-[300px]"
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
+            handlers={{
+              cutString,
+              onChangeRuleStatus,
+            }}
             data={rules}
             texts={{
               title: "Seems You Have Not Created a Rule Yet",

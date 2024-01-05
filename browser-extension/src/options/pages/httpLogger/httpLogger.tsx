@@ -1,5 +1,3 @@
-import { useEffect, useState, useRef, useMemo } from "react";
-import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
 import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 import CrossSVG from "@assets/icons/cross.svg";
@@ -7,7 +5,10 @@ import DoubleSquareSVG from "@assets/icons/doubleSquare.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
-import List, { ListHeader, ListItems } from "@/options/components/common/list/list";
+import List from "@/options/components/common/list/list";
+import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
+import { useEffect, useState, useRef } from "react";
+import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 
 const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   const portRef = useRef<any>();
@@ -71,102 +72,6 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     setActiveRequest(item);
   };
 
-  const LIST_HEADERS: ListHeader[] = useMemo(() => {
-    return [
-      {
-        title: "ID",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Status Code",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Method",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Type",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "IP",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "From Cache",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "URL",
-        classes: "flex justify-end",
-        render: function () {
-          return this.title;
-        },
-      },
-    ];
-  }, []);
-
-  const LIST_ITEMS: ListItems[] = useMemo(() => {
-    return [
-      {
-        field: "requestId",
-        render: function (item) {
-          return item.id;
-        },
-      },
-      {
-        field: "statusCode",
-        render: function (item) {
-          return item[this.field] || "unknown";
-        },
-      },
-      {
-        field: "method",
-        render: function (item) {
-          return item[this.field] || "unknown";
-        },
-      },
-      {
-        field: "type",
-        render: function (item) {
-          return item[this.field] || "unknown";
-        },
-      },
-      {
-        field: "ip",
-        render: function (item) {
-          return item[this.field] || "unknown";
-        },
-      },
-      {
-        field: "fromCache",
-        render: function (item) {
-          return item[this.field] || "unknown";
-        },
-      },
-      {
-        field: "url",
-        classes: "gap-5 justify-end",
-        render: function (item) {
-          return <div className="w-32 overflow-hidden text-ellipsis whitespace-nowrap">{item[this.field]}</div>;
-        },
-      },
-    ];
-  }, []);
-
   const filteredList = Object.entries(requestList)
     .map(([id, request]) => {
       return {
@@ -180,7 +85,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
   return (
     <div className={`${clientName === WebRequestClients.WINDOW ? "h-[95%]" : "h-[80%]"} mx-[5%] flex flex-col gap-2`}>
       <Section classes={`h-[50%] p-0`}>
-        <div className="flex justify-between mb-3 text-sm p-5">
+        <div className="flex justify-between p-5 mb-3 text-sm">
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
