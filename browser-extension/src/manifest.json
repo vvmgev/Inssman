@@ -23,7 +23,7 @@
       "run_at": "document_start"
     },
     {
-      "matches": ["*://*.inssman.com/app"],
+      "matches": ["*://*.inssman.com/app/*"],
       "js": ["iframeContentScript/iframeContentScript.js"],
       "run_at": "document_start",
       "world": "MAIN"
@@ -31,6 +31,13 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["cotentScript/cotentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["http://localhost:3000/app/*", "http://localhost:3000/app"],
+      "js": ["iframeContentScript/iframeContentScript.js"],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"

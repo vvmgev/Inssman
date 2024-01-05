@@ -17,7 +17,7 @@ const createIframe = (src: string) => {
 window.postMessage({
   source: "inssman:iframe",
   action: "generateUrl",
-  data: { filePath: "options/options.html" },
+  data: { filePath: `options/options.html#${window.location.pathname.replace("/app", "")}` },
 });
 
 window.addEventListener("message", (event) => {

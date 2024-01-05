@@ -23,9 +23,10 @@ const Session: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const [session, setSession] = useState<RecordSession>();
-  const [isShared, setIsShared] = useState<boolean>(!!session?.docID);
+  const [isSessionShared, setIsSessionShared] = useState<boolean>(!!session?.docID);
   const [docID, setDocID] = useState<string>(session?.docID || "");
   const { setFull } = useContext(SideBarContext);
+  const isSharedUrl = location.pathname.includes("shared");
   const { id } = useParams();
   const sessionMemo = useMemo(() => session, [session]);
   const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
@@ -33,7 +34,7 @@ const Session: FC = (): ReactElement => {
   // FIXME:
   // investigate why updating session breaks player
   useEffect(() => {
-    setIsShared(!!session?.docID);
+    setIsSessionShared(!!session?.docID);
     setDocID(session?.docID || "");
   }, [session?.docID]);
 
@@ -48,10 +49,13 @@ const Session: FC = (): ReactElement => {
   useEffect(() => {
     chrome.runtime.sendMessage(
       {
-        action: PostMessageAction.GetRecordedSessionById,
+        action: isSharedUrl ? PostMessageAction.GetSharedRecordedSession : PostMessageAction.GetRecordedSessionById,
         data: { id },
       },
       (session) => {
+        if (isSharedUrl) {
+          session.events = JSON.parse(session.events);
+        }
         if (session.events?.length > 1) {
           setSession(session);
         }
@@ -60,7 +64,7 @@ const Session: FC = (): ReactElement => {
   }, []);
 
   const handleShare = () => {
-    if (isShared) return;
+    if (isSessionShared) return;
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
@@ -78,7 +82,7 @@ const Session: FC = (): ReactElement => {
             data: sharedSession,
           },
           () => {
-            setIsShared(true);
+            setIsSessionShared(true);
             setDocID(docID);
           }
         );
@@ -161,14 +165,14 @@ const Session: FC = (): ReactElement => {
                 Delete
               </OutlineButton>
               <OutlineButton
-                disabled={isShared}
+                disabled={isSessionShared}
                 trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
                 icon={<ShareSVG />}
               >
-                Share{isShared ? "d" : null}
+                Share{isSessionShared ? "d" : null}
               </OutlineButton>
-              {isShared && (
+              {isSessionShared && (
                 <Input
                   readOnly
                   value={generateShareUrl()}
