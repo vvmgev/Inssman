@@ -140,10 +140,6 @@ const Session: FC = (): ReactElement => {
       .filter((logData) => !!logData);
   }, [session?.events]);
 
-  console.log("session", session);
-  console.log("isShared", isShared);
-  console.log("docID", docID);
-
   return (
     <Section classes="mx-[5%] p-5 flex flex-col gap-5">
       {session && (

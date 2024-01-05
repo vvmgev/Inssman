@@ -4,13 +4,16 @@ import OutlineButton from "@options/components/common/outlineButton/outlineButto
 import Input from "@options/components/common/input/input";
 import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
+import Tooltip from "@options/components/common/tooltip/tooltip";
+import Toast from "@/options/components/common/toast/toast";
+import Copy from "copy-to-clipboard";
+import TrashSVG from "@assets/icons/trash.svg";
 import PlaySVG from "@assets/icons/play.svg";
 import ShareSVG from "@assets/icons/share.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
-import Tooltip from "@options/components/common/tooltip/tooltip";
-import TrashSVG from "@assets/icons/trash.svg";
+import ClipboardSVG from "@assets/icons/clipboard.svg";
 import List, { ListHeader, ListItems } from "@options/components/common/list/list";
 import { FC, ReactElement, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -19,6 +22,8 @@ import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
 import { timeDifference } from "@utils/timeDifference";
 import { cutString } from "@utils/cutString";
+import { toast } from "react-toastify";
+import { APP_URL } from "@/options/constant";
 
 enum SessionListType {
   GRID = "grid",
@@ -64,6 +69,34 @@ const SessionList: FC = (): ReactElement => {
   const handleListType = (listType: SessionListType): void => {
     window.localStorage.setItem("sessionListType", listType);
     setListType(listType);
+  };
+
+  const handleCopyToClipboard = (docID) => {
+    Copy(`${APP_URL}/record/shared/session/${docID}`);
+    toast(<Toast text="URL Copied!" />);
+  };
+
+  const handleShare = (session) => {
+    if (session?.docID) return;
+    chrome.runtime.sendMessage(
+      {
+        action: PostMessageAction.ShareRecordedSession,
+        data: { session },
+      },
+      (docID) => {
+        const sharedSession = { ...session, docID } as RecordSession;
+        chrome.runtime.sendMessage(
+          {
+            action: PostMessageAction.UpdateRecordedSession,
+            data: sharedSession,
+          },
+          () => {
+            getSessions();
+            toast(<Toast text="Session Shared" />);
+          }
+        );
+      }
+    );
   };
 
   const LIST_HEADERS: ListHeader[] = useMemo(() => {
@@ -163,9 +196,29 @@ const SessionList: FC = (): ReactElement => {
                   </div>
                 </Link>
               </Tooltip>
-              <Tooltip content="Share (cooming soon)">
-                <div className="cursor-pointer hover:text-sky-500">
-                  <span className="w-[24px] inline-block">
+              <Tooltip
+                overlayInnerStyle={item?.docID ? { padding: 0 } : {}}
+                content={
+                  item?.docID ? (
+                    <Input
+                      readOnly
+                      value={"https://inssman.com/record/shared/session/ZVxdJLzoXzMjEjjLYgtf"}
+                      suffix={
+                        <span
+                          onClick={() => handleCopyToClipboard(item.docID)}
+                          className="w-[24px] cursor-pointer hover:text-sky-500"
+                        >
+                          <ClipboardSVG />
+                        </span>
+                      }
+                    />
+                  ) : (
+                    "Share"
+                  )
+                }
+              >
+                <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
+                  <span onClick={() => handleShare(item)} className="w-[24px] inline-block">
                     <ShareSVG />
                   </span>
                 </div>
