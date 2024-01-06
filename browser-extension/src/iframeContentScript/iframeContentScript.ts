@@ -1,3 +1,4 @@
+import { NAMESPACE } from "@/options/constant";
 import { PostMessageAction } from "@models/postMessageActionModel";
 
 const createIframe = (src: string) => {
@@ -13,6 +14,9 @@ const createIframe = (src: string) => {
   iframe.frameBorder = "0";
   return iframe;
 };
+
+window[NAMESPACE] = window[NAMESPACE] || {};
+window[NAMESPACE].isExtensionInstalled = true;
 
 window.postMessage({
   source: "inssman:iframe",
