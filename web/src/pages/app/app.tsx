@@ -6,6 +6,7 @@ import { isSharedRecordedSessionPath } from "../../utils/isSharedRecordedSession
 import dammySession from "../../session";
 import SideBar from "../../components/sidebar/sidebar";
 import SharedRecordedSession from "../../components/sharedRecordedSession/sharedRecordedSession";
+import InstallExtension from "../../components/installExtension/installExtension";
 
 export default function App() {
   const params = useParams<any>();
@@ -33,12 +34,12 @@ export default function App() {
     >
       {isExtensionInstalled ? (
         <Loading />
-      ) : isSharedRecordedSession ? (
+      ) : (
         <div className="flex w-full h-full gap-2">
           <SideBar />
-          <SharedRecordedSession session={session} />
+          {isSharedRecordedSession ? <SharedRecordedSession session={session} /> : <InstallExtension />}
         </div>
-      ) : null}
+      )}
     </main>
   );
 }

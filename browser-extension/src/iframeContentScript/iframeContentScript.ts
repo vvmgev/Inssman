@@ -16,13 +16,13 @@ const createIframe = (src: string) => {
 };
 
 window[NAMESPACE] = window[NAMESPACE] || {};
-window[NAMESPACE].isExtensionInstalled = true;
+// window[NAMESPACE].isExtensionInstalled = true;
 
-window.postMessage({
-  source: "inssman:iframe",
-  action: "generateUrl",
-  data: { filePath: `options/options.html#${window.location.pathname.replace("/app", "")}` },
-});
+// window.postMessage({
+//   source: "inssman:iframe",
+//   action: "generateUrl",
+//   data: { filePath: `options/options.html#${window.location.pathname.replace("/app", "")}` },
+// });
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
