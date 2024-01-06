@@ -1,3 +1,7 @@
 import dynamic from "next/dynamic";
 const App = dynamic(() => import("../app"), { ssr: false });
-export default () => <App />;
+const Slug = () => <App />;
+
+Slug.displayName = "Slug";
+
+export default Slug;
