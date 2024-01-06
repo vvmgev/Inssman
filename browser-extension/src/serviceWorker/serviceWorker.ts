@@ -24,6 +24,7 @@ class ServiceWorker extends BaseService {
     this.listenersMap = {
       [PostMessageAction.GetUserId]: this.getUserId,
       [PostMessageAction.GetExtensionStatus]: this.getExtensionStatus,
+      [PostMessageAction.URLChanged]: this.URLChanged,
     };
   }
 
@@ -31,7 +32,7 @@ class ServiceWorker extends BaseService {
     const handler = this.listenersMap[request.action];
     if (handler) {
       try {
-        sendResponse(await handler(request.data));
+        sendResponse(await handler(request.data, sender));
       } catch (error: any) {
         const { version } = chrome.runtime.getManifest();
         sendResponse({
@@ -87,6 +88,13 @@ class ServiceWorker extends BaseService {
   async getExtensionStatus(): Promise<boolean> {
     const status: boolean = await StorageService.getSingleItem(StorageKey.EXTENSION_STATUS);
     return typeof status === "undefined" ? !status : status;
+  }
+
+  async URLChanged({ pathname }: { pathname: string }, sender): Promise<void> {
+    InjectCodeService.injectInternalScriptToDocument(
+      sender.tab.id,
+      `window.postMessage({source: 'inssman:setup', action: 'URLChanged', data: {'pathname': '${pathname}'}})`
+    );
   }
 }
 

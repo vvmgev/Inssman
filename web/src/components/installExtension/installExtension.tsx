@@ -17,7 +17,7 @@ const InstallExtension = () => {
           <div className="text-gray-400">
             To unlock the full potential of Inssman, harness all its provided features.
             <br />
-            All features are free and there isn't any limitation to create a rule.
+            All features are free and there is not any limitation to create a rule.
             <br />
           </div>
         </div>

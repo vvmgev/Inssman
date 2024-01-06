@@ -31,4 +31,5 @@ export enum PostMessageAction {
   ShareRecordedSession,
   GetSharedRecordedSession,
   UpdateRecordedSession,
+  URLChanged,
 }
