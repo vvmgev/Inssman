@@ -32,7 +32,7 @@ const getDuration = (session: any) => {
 };
 const SharedRecordedSession: FC<any> = ({ session }) => {
   return (
-    <Section classes="flex flex-col gap-4 h-[98%]">
+    <Section classes="flex-1 flex flex-col gap-14 h-full rounded-none">
       <div className="flex gap-5">
         <Section classes="rounded flex gap-2 max-w-[300px] whitespace-nowrap	">
           <span className="text-slate-400">URL: </span>
@@ -47,8 +47,8 @@ const SharedRecordedSession: FC<any> = ({ session }) => {
           <span>{getDuration(session)}</span>
         </Section>
       </div>
-      <div className="m-auto w-1/2">
-        <SessionPlayer playerOptions={{ width: 700, height: 500 }} session={session} />
+      <div className="flex justify-center">
+        <SessionPlayer playerOptions={{ width: 900, height: 700 }} session={session} />
       </div>
     </Section>
   );

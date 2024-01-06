@@ -131,8 +131,6 @@ const Session: FC = (): ReactElement => {
     }
   };
 
-  console.log(session);
-
   const consoleLogs = useMemo(() => {
     return session?.events
       ?.map((event) => {
