@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./app.css";
 import Loading from "./components/loading/loading";
-import SharedRecordedSession from "./components/sharedRecordedSession/SharedRecordedSession";
 import { useParams, usePathname } from "next/navigation";
 import { isSharedRecordedSessionPath } from "./utils/isSharedRecordedSessionPath";
 import dammySession from "./session";
 import SideBar from "./components/sidebar/sidebar";
+import SharedRecordedSession from "./components/sharedRecordedSession/sharedRecordedSession";
 
 export default function App() {
   const params = useParams<any>();
