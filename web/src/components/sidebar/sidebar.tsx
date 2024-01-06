@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Logo from "../../../../assets/icons/logo.svg";
-import ListSVG from "../../../../assets/icons/list.svg";
-import StarSVG from "../../../../assets/icons/star.svg";
-import VideoCameraSVG from "../../../../assets/icons/videoCamera.svg";
-import SquaresSVG from "../../../../assets/icons/squares.svg";
+import Logo from "../../assets/icons/logo.svg";
+import ListSVG from "../../assets/icons/list.svg";
+import StarSVG from "../../assets/icons/star.svg";
+import VideoCameraSVG from "../../assets/icons/videoCamera.svg";
+import SquaresSVG from "../../assets/icons/squares.svg";
 import Link from "next/link";
 import Section from "../section/section";
 import { paths, popularPaths, templates } from "./paths";

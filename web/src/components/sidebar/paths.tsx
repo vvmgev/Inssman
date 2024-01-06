@@ -1,11 +1,11 @@
-import CodeSVG from "../../../../assets/icons/code.svg";
-import RedirectSVG from "../../../../assets/icons/redirect.svg";
-import BlockSVG from "../../../../assets/icons/block.svg";
-import QuestionSVG from "../../../../assets/icons/question.svg";
-import PencilSquareSVG from "../../../../assets/icons/pencilSquare.svg";
-import ListBulletSVG from "../../../../assets/icons/listBullet.svg";
-import PaperClipSVG from "../../../../assets/icons/paperClip.svg";
-import WrenchSVG from "../../../../assets/icons/wrench.svg";
+import CodeSVG from "../../assets/icons/code.svg";
+import RedirectSVG from "../../assets/icons/redirect.svg";
+import BlockSVG from "../../assets/icons/block.svg";
+import QuestionSVG from "../../assets/icons/question.svg";
+import PencilSquareSVG from "../../assets/icons/pencilSquare.svg";
+import ListBulletSVG from "../../assets/icons/listBullet.svg";
+import PaperClipSVG from "../../assets/icons/paperClip.svg";
+import WrenchSVG from "../../assets/icons/wrench.svg";
 
 export enum PageType {
   REDIRECT = "redirect",
