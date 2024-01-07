@@ -13,7 +13,7 @@ const SideBar = () => {
   const featureShowRecord = false;
   return (
     <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
-      <Link className="hover:cursor-pointer" href="/install">
+      <Link className="hover:cursor-pointer" href="/app">
         <div className="py-2 pl-2 border-b border-slate-700">
           <Image src={Logo} alt="logo" />
         </div>
@@ -21,7 +21,7 @@ const SideBar = () => {
       <div className="py-2 border-b border-slate-700">
         <ul>
           <li className="pl-2 mb-2">
-            <Link href="/app/install">
+            <Link href="/app">
               <div className="flex items-center gap-2 hover:text-sky-500">
                 <span className="min-w-[24px]">{<Image className="dark:invert" src={ListSVG} alt="list" />}</span>
                 <span className="whitespace-nowrap">All Rules</span>
@@ -33,7 +33,7 @@ const SideBar = () => {
           </li>
           {paths.map(({ icon, text, path }, index) => (
             <li className="pl-2 mb-2" key={index}>
-              <Link href="/app/install">
+              <Link href="/app">
                 <div className="flex items-center gap-2 hover:text-sky-500">
                   <span className="min-w-[24px] text-white">
                     <Image className="dark:invert" src={icon} alt="icon" />
@@ -57,7 +57,7 @@ const SideBar = () => {
       <div className="py-2 border-b border-slate-700">
         <div>
           <div className="pl-2 mb-2 text-slate-400 whitespace-nowrap">Record Session</div>
-          <Link href="/app/install">
+          <Link href="/app">
             <div className="flex items-center gap-2 pl-2 mb-2 hover:text-sky-500">
               <span className="min-w-[24px]">
                 <Image className="dark:invert" src={VideoCameraSVG} alt="video camera" />
@@ -65,7 +65,7 @@ const SideBar = () => {
               <span className="whitespace-nowrap">Record</span>
             </div>
           </Link>
-          <Link href="/app/install">
+          <Link href="/app">
             <div className="flex items-center gap-2 pl-2 mb-2 hover:text-sky-500">
               <span className="min-w-[24px]">
                 <Image className="dark:invert" src={SquaresSVG} alt="square" />
@@ -86,7 +86,7 @@ const SideBar = () => {
             return ruleTemplates.map((template: any) => {
               return (
                 <li className="pl-2 mb-2" key={template.id}>
-                  <Link href="/app/install">
+                  <Link href="/app">
                     <div className="flex items-center gap-2 hover:text-sky-500">
                       <span className="min-w-[24px]">
                         <Image className="dark:invert" src={icon} alt="video camera" />

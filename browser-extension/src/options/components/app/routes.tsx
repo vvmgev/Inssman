@@ -5,6 +5,7 @@ import SessionList from "@options/pages/sessionList/sessionList";
 import Session from "@options/pages/session/session";
 import Form from "@options/HOC/formHOC";
 import Main from "@options/components/main/main";
+import NotFound from "@options/components/notFound/notFound";
 import { WebRequestClients } from "@models/WebRequestModel";
 import { Route, Routes } from "react-router-dom";
 
@@ -47,6 +48,7 @@ const AppRoutes = () => {
           <Route path="shared/session/:id" element={<Session key={39} />} />
           <Route path="session/:id" element={<Session key={40} />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

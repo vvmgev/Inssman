@@ -25,7 +25,6 @@ window.postMessage({
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
-  console.log("action", action);
   if (event.origin !== window.origin || !source?.startsWith?.("inssman:") || source.startsWith("inssman:iframe"))
     return;
 

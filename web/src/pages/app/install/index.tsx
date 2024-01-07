@@ -1,5 +1,5 @@
-import SideBar from "../../components/sidebar/sidebar";
-import InstallExtension from "../../components/installExtension/installExtension";
+import SideBar from "../../../components/sidebar/sidebar";
+import InstallExtension from "../../../components/installExtension/installExtension";
 import "./install.css";
 
 export default function Install() {

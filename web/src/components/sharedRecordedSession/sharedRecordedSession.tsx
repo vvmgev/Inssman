@@ -48,7 +48,7 @@ const SharedRecordedSession: FC<any> = ({ session }) => {
         </Section>
       </div>
       <div className="flex justify-center">
-        <SessionPlayer playerOptions={{ width: 900, height: 700 }} session={session} />
+        <SessionPlayer playerOptions={{ width: 800, height: 600 }} session={session} />
       </div>
     </Section>
   );
