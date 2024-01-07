@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
+import Tooltip from "@/options/components/common/tooltip/tooltip";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
@@ -178,9 +179,16 @@ const Session: FC = (): ReactElement => {
                   readOnly
                   value={generateShareUrl()}
                   suffix={
-                    <span onClick={handleCopyToClipboard} className="w-[24px] cursor-pointer hover:text-sky-500">
-                      <ClipboardSVG />
-                    </span>
+                    <Tooltip content="Copy">
+                      <div className="cursor-pointer hover:text-sky-500">
+                        <span
+                          onClick={handleCopyToClipboard}
+                          className="w-[24px] inline-block cursor-pointer hover:text-sky-500"
+                        >
+                          <ClipboardSVG />
+                        </span>
+                      </div>
+                    </Tooltip>
                   }
                 />
               )}

@@ -33,7 +33,6 @@ window.addEventListener("message", (event) => {
   }
 
   if (action === "URLChanged") {
-    console.log("data", data);
     history.pushState({}, "", `/app${data.pathname}`);
   }
 });

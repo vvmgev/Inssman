@@ -115,7 +115,13 @@ export const LIST_ITEMS: ListItems[] = [
                       onClick={() => handlers?.handleCopyToClipboard(item.docID)}
                       className="w-[24px] cursor-pointer hover:text-sky-500"
                     >
-                      <ClipboardSVG />
+                      <Tooltip content="Copy">
+                        <div className="cursor-pointer hover:text-sky-500">
+                          <span onClick={() => handlers?.handleShare(item)} className="w-[24px] inline-block">
+                            <ClipboardSVG />
+                          </span>
+                        </div>
+                      </Tooltip>
                     </span>
                   }
                 />
