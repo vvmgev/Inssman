@@ -89,11 +89,11 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
-              <OutlineButton trackName="Open In Window" onClick={handleOpenWindow} icon={<DoubleSquareSVG />}>
+              <OutlineButton trackName="Open In Window" onClick={handleOpenWindow} prefix={<DoubleSquareSVG />}>
                 Open In Window
               </OutlineButton>
             )}
-            <OutlineButton trackName="Clear Logs" onClick={handleClearLogs} icon={<CrossSVG />}>
+            <OutlineButton trackName="Clear Logs" onClick={handleClearLogs} prefix={<CrossSVG />}>
               Clear Logs
             </OutlineButton>
             <div className="w-[250px]">

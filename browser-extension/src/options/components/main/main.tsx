@@ -109,12 +109,12 @@ export default () => {
                 className="hidden"
                 accept="application/JSON"
               />
-              <OutlineButton onClick={onHandleImport} trackName="Import rules" icon={<ArrowDownLongSVG />}>
+              <OutlineButton onClick={onHandleImport} trackName="Import rules" prefix={<ArrowDownLongSVG />}>
                 Import
               </OutlineButton>
             </div>
             <div>
-              <OutlineButton onClick={onHandleExportRules} trackName="Export rules" icon={<ArrowUpLongSVG />}>
+              <OutlineButton onClick={onHandleExportRules} trackName="Export rules" prefix={<ArrowUpLongSVG />}>
                 Export
               </OutlineButton>
             </div>
@@ -125,7 +125,7 @@ export default () => {
                 <OutlineButton
                   classes="hover:text-red-400 hover:border-red-400"
                   trackName="Delete All Rules Popup"
-                  icon={<TrashSVG />}
+                  prefix={<TrashSVG />}
                 >
                   Delete All Rules
                 </OutlineButton>
@@ -153,7 +153,7 @@ export default () => {
                       No
                     </OutlineButton>
                     <OutlineButton
-                      icon={<TrashSVG />}
+                      prefix={<TrashSVG />}
                       classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
                       trackName="Delete All Rules - YES"
                       onClick={() => onHandleDeleteRules(close)}

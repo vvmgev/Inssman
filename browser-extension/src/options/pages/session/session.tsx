@@ -4,25 +4,30 @@ import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
 import Input from "@/options/components/common/input/input";
 import Toast from "@/options/components/common/toast/toast";
+import Tooltip from "@/options/components/common/tooltip/tooltip";
+import Button from "@/options/components/common/button/button";
 import ClipboardSVG from "@assets/icons/clipboard.svg";
 import TrashSVG from "@assets/icons/trash.svg";
 import ShareSVG from "@assets/icons/share.svg";
+import LoaderSVG from "@assets/icons/loader.svg";
 import Copy from "copy-to-clipboard";
 import { EventType, IncrementalSource } from "rrweb";
-import { FC, ReactElement, useContext, useEffect, useMemo, useState } from "react";
+import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import { RecordSession } from "@models/recordSessionModel";
 import { SideBarContext } from "@context/sideBarContext";
 import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
-import Tooltip from "@/options/components/common/tooltip/tooltip";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
+  const [isSharing, setIsSharing] = useState<boolean>(false);
   const [session, setSession] = useState<RecordSession>();
   const [isSessionShared, setIsSessionShared] = useState<boolean>(!!session?.docID);
   const [docID, setDocID] = useState<string>(session?.docID || "");
@@ -35,30 +40,25 @@ const Session: FC = (): ReactElement => {
   // FIXME:
   // investigate why updating session breaks player
   useEffect(() => {
-    setIsSessionShared(!!session?.docID);
-    setDocID(session?.docID || "");
+    setIsSessionShared(!!session?.docID || isSessionShared);
+    setDocID(session?.docID || docID);
   }, [session?.docID]);
 
   useEffect(() => {
-    setFull(false);
-
-    return () => {
-      setFull(true);
-    };
-  }, [location]);
-
-  useEffect(() => {
+    setLoading(true);
     chrome.runtime.sendMessage(
       {
         action: isSharedUrl ? PostMessageAction.GetSharedRecordedSession : PostMessageAction.GetRecordedSessionById,
         data: { id },
       },
-      (session) => {
-        if (isSharedUrl) {
-          session.events = JSON.parse(session.events);
+      (response) => {
+        setLoading(false);
+        if (response.error) {
+          setError(response.message);
+          return;
         }
-        if (session.events?.length > 1) {
-          setSession(session);
+        if (response.events?.length > 1) {
+          setSession(response);
         }
       }
     );
@@ -66,6 +66,7 @@ const Session: FC = (): ReactElement => {
 
   const handleShare = () => {
     if (isSessionShared) return;
+    setIsSharing(true);
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
@@ -83,8 +84,9 @@ const Session: FC = (): ReactElement => {
             data: sharedSession,
           },
           () => {
+            setIsSharing(false);
             setIsSessionShared(true);
-            setDocID(docID);
+            setDocID(data.docID);
             toast(<Toast text="Session Shared!" />);
           }
         );
@@ -98,7 +100,7 @@ const Session: FC = (): ReactElement => {
         action: PostMessageAction.DeleteRecordedSessionById,
         data: { id: session?.id },
       },
-      () => navigate(-1)
+      () => navigate("/record/session")
     );
   };
 
@@ -151,7 +153,34 @@ const Session: FC = (): ReactElement => {
   }, [session?.events]);
 
   return (
-    <Section classes="mx-[5%] p-5 flex flex-col gap-5">
+    <Section classes="mx-[5%] p-5 flex flex-col gap-5 min-h-[300px]">
+      {loading && (
+        <div className="flex items-center justify-center w-full h-full p-20">
+          <div className="w-32 h-32 h">
+            <LoaderSVG />
+          </div>
+        </div>
+      )}
+      {error && (
+        <div>
+          {error === "notFound" && (
+            <div>
+              <p className="text-lg">The Session You're Looking For Does Not Exist. </p>
+              <p className="leading-7 text-slate-400">Please Ensure That You Have Entered The Correct URL.</p>
+              <p className="leading-7 text-slate-400">Or Contact The Session Owner For Assistance.</p>
+              <Link to="/">
+                <Button classes="py-0 px-1" trackName="404">
+                  Go Main Page
+                </Button>
+              </Link>
+              <div className="flex justify-center w-full">
+                <span className="px-2 tracking-widest text-white rounded bg-sky-600 text-9xl">404</span>
+              </div>
+            </div>
+          )}
+          <div>{error}</div>
+        </div>
+      )}
       {session && (
         <>
           <div className="flex justify-between">
@@ -162,7 +191,7 @@ const Session: FC = (): ReactElement => {
                 trackName="Delete Recorded Session in view mode"
                 classes="hover:border-red-400 hover:text-red-400"
                 onClick={handleDelete}
-                icon={<TrashSVG />}
+                prefix={<TrashSVG />}
               >
                 Delete
               </OutlineButton>
@@ -170,7 +199,8 @@ const Session: FC = (): ReactElement => {
                 disabled={isSessionShared}
                 trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
-                icon={<ShareSVG />}
+                prefix={<ShareSVG />}
+                suffix={isSharing ? <LoaderSVG /> : null}
               >
                 Share{isSessionShared ? "d" : null}
               </OutlineButton>
@@ -217,4 +247,4 @@ const Session: FC = (): ReactElement => {
   );
 };
 
-export default Session;
+export default memo(Session);

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
 
 const firebaseConfig = {
@@ -15,30 +15,52 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
-export const firestoreDB = getFirestore(app);
 export const errorRef = ref(db, "error");
 export const ruleMetaDataRef = ref(db, "ruleMetaData");
 export const trackingRef = ref(db, "tracking");
+// Firestore
+export const firestoreDB = getFirestore(app);
+const recordedSessionsCollectionRef = collection(firestoreDB, "recordedSessions");
 
 export const storeRecordedSession = async (session) => {
+  const { events, ...data } = session;
   try {
-    session.events = JSON.stringify(session.events);
-    const doc = await addDoc(collection(firestoreDB, "recordedSession"), session);
-    return { docID: doc.id };
-  } catch (e) {
-    console.log("Error adding document: ", e);
-    return { error: true };
+    const newSessionRef = await addDoc(recordedSessionsCollectionRef, { data });
+    const eventsCollectionRef = collection(newSessionRef, "events");
+    events.forEach(async (event) => {
+      await addDoc(eventsCollectionRef, { event: JSON.stringify(event) });
+    });
+    return { docID: newSessionRef.id };
+  } catch (error) {
+    return { error: true, message: error };
   }
 };
 
 export const getRecordedSessionByID = async (id: string) => {
   try {
-    const docRef = doc(firestoreDB, "recordedSession", id);
-    const docSnap = await getDoc(docRef);
-    return docSnap.exists() ? docSnap.data() : null;
-  } catch (error) {
-    console.log("Error getting", error);
-    return { error: true };
+    const sessionRef = doc(recordedSessionsCollectionRef, id);
+    const sessionSnapshot = await getDoc(sessionRef);
+
+    if (sessionSnapshot.exists()) {
+      const { data } = sessionSnapshot.data();
+
+      const eventsCollectionRef = collection(sessionRef, "events");
+      const eventsSnapshot = await getDocs(eventsCollectionRef);
+      const events: any = [];
+
+      eventsSnapshot.forEach((eventDoc) => {
+        events.push(JSON.parse(eventDoc.data().event));
+      });
+
+      return {
+        ...data,
+        events,
+      };
+    } else {
+      throw new Error("notFound");
+    }
+  } catch (error: any) {
+    return { error: true, message: error.message };
   }
 };
 

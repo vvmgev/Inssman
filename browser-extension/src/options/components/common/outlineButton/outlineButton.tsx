@@ -6,12 +6,13 @@ type Props = PropsWithChildren<{
   onClick?: Function;
   classes?: string;
   trackName: string;
-  icon?: ReactNode;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
   disabled?: boolean;
 }>;
 
 const OutlineButton = forwardRef(
-  ({ classes = "", onClick = () => {}, children, icon, trackName, ...rest }: Props, ref: any) => {
+  ({ classes = "", onClick = () => {}, children, prefix, suffix, trackName, ...rest }: Props, ref: any) => {
     const handler = (event) => {
       if (onClick) {
         event.preventDefault();
@@ -32,8 +33,9 @@ const OutlineButton = forwardRef(
         {...rest}
       >
         <span className="flex items-center justify-center gap-2">
-          {icon && <span className="w-[20px] inline-block">{icon}</span>}
+          {prefix && <span className="w-[20px] inline-block">{prefix}</span>}
           <span>{children}</span>
+          {suffix && <span className="w-[20px] inline-block">{suffix}</span>}
         </span>
       </button>
     );

@@ -42,7 +42,7 @@ const Content = () => {
             listClasses="min-h-[initial] max-h-[initial] h-[300px]"
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
-            handlers={{
+            options={{
               cutString,
               onChangeRuleStatus,
             }}

@@ -3,6 +3,7 @@ import Tooltip from "@options/components/common/tooltip/tooltip";
 import PlaySVG from "@assets/icons/play.svg";
 import ShareSVG from "@assets/icons/share.svg";
 import TrashSVG from "@assets/icons/trash.svg";
+import LoaderSVG from "@assets/icons/loader.svg";
 import ClipboardSVG from "@assets/icons/clipboard.svg";
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { Link } from "react-router-dom";
@@ -132,7 +133,7 @@ export const LIST_ITEMS: ListItems[] = [
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
               <span onClick={() => handlers?.handleShare(item)} className="w-[24px] inline-block">
-                <ShareSVG />
+                {handlers.isSharing ? <LoaderSVG /> : <ShareSVG />}
               </span>
             </div>
           </Tooltip>

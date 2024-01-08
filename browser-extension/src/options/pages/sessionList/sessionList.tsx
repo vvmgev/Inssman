@@ -27,6 +27,7 @@ const sessionListType = (window.localStorage.getItem("sessionListType") as Sessi
 
 const SessionList: FC = (): ReactElement => {
   const [listType, setListType] = useState<SessionListType>(sessionListType);
+  const [isSharing, setIsSharing] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
   const onHandleClearSearch = () => setSearch("");
@@ -76,6 +77,7 @@ const SessionList: FC = (): ReactElement => {
 
   const handleShare = (session) => {
     if (session?.docID) return;
+    setIsSharing(true);
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
@@ -93,6 +95,7 @@ const SessionList: FC = (): ReactElement => {
             data: sharedSession,
           },
           () => {
+            setIsSharing(false);
             getSessions();
             toast(<Toast text="Session Shared!" />);
           }
@@ -119,7 +122,7 @@ const SessionList: FC = (): ReactElement => {
               <OutlineButton
                 classes="text-sm hover:text-red-400 hover:border-red-400"
                 trackName="Delete All Session"
-                icon={<TrashSVG />}
+                prefix={<TrashSVG />}
               >
                 Delete All Sessions
               </OutlineButton>
@@ -147,7 +150,7 @@ const SessionList: FC = (): ReactElement => {
                     No
                   </OutlineButton>
                   <OutlineButton
-                    icon={<TrashSVG />}
+                    prefix={<TrashSVG />}
                     classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
                     trackName="Delete All Rules - YES"
                     onClick={() => handleDeleteSessions(close)}
@@ -213,11 +216,12 @@ const SessionList: FC = (): ReactElement => {
           <List
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
-            handlers={{
+            options={{
               handleCopyToClipboard,
               handleShare,
               handleDelete,
               generateShareUrl,
+              isSharing,
             }}
             data={filteredSessions}
             texts={{

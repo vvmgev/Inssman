@@ -52,7 +52,7 @@ const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", p
       items={LIST_ITEMS}
       data={filteredList}
       listClasses={listClasses}
-      handlers={{
+      options={{
         handleDelete,
         onChangeRuleStatus,
         generateLastMatchedTime,

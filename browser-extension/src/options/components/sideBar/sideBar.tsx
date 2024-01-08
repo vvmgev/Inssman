@@ -16,7 +16,7 @@ const SideBar = () => {
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   return (
-    <Section classes={`rounded-none h-full p-0 flex flex-col overflow-hidden ${full ? "" : ""}`}>
+    <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
       <Link className="hover:cursor-pointer" to="/">
         <div className="py-2 pl-2 border-b border-slate-700">
           <Logo />
