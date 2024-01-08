@@ -35,7 +35,7 @@ export default function App() {
     };
 
     getSession();
-  }, [pathname]);
+  }, [pathname, isSharedRecordedSession, slug]);
 
   return (
     <main

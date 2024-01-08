@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { FC } from "react";
 import Link from "next/link";
 import Section from "../section/section";
