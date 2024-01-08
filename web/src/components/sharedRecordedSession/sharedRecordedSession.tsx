@@ -1,6 +1,8 @@
 import { FC } from "react";
+import Link from "next/link";
 import Section from "../section/section";
 import SessionPlayer from "../sessionPlayer/sessionPlayer";
+import Loading from "../../components/loading/loading";
 
 const timeDifference = (timestamp: number, startTimestamp?: number) => {
   const elapsedMilliseconds = (startTimestamp || Date.now()) - timestamp;
@@ -30,7 +32,7 @@ const getDuration = (session: any) => {
     return "";
   }
 };
-const SharedRecordedSession: FC<any> = ({ session }) => {
+const SharedRecordedSession: FC<any> = ({ session, error }) => {
   return (
     <Section classes="flex-1 flex flex-col gap-14 h-full rounded-none">
       <div className="flex gap-5">
@@ -47,8 +49,30 @@ const SharedRecordedSession: FC<any> = ({ session }) => {
           <span>{getDuration(session)}</span>
         </Section>
       </div>
+      {error && (
+        <div>
+          {error === "notFound" && (
+            <div>
+              <p className="text-lg">The Session You're Looking For Does Not Exist. </p>
+              <p className="leading-7 text-slate-400">Please Ensure That You Have Entered The Correct URL.</p>
+              <p className="leading-7 text-slate-400">Or Contact The Session Owner For Assistance.</p>
+              <Link href="/app" className="p-1 rounded bg-sky-600 hover:bg-sky-400">
+                Go Main Page
+              </Link>
+              <div className="flex justify-center w-full">
+                <span className="px-2 tracking-widest text-white rounded bg-sky-600 text-9xl">404</span>
+              </div>
+            </div>
+          )}
+          {error !== "notFound" && <div>{error}</div>}
+        </div>
+      )}
       <div className="flex justify-center">
-        <SessionPlayer playerOptions={{ width: 800, height: 600 }} session={session} />
+        {!!session ? (
+          <SessionPlayer playerOptions={{ width: 800, height: 600 }} session={session} />
+        ) : (
+          !error && <Loading />
+        )}
       </div>
     </Section>
   );

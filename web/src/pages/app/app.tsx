@@ -5,10 +5,11 @@ import { isSharedRecordedSessionPath } from "../../utils/isSharedRecordedSession
 import SideBar from "../../components/sidebar/sidebar";
 import SharedRecordedSession from "../../components/sharedRecordedSession/sharedRecordedSession";
 import InstallExtension from "../../components/installExtension/installExtension";
-import dammySession from "../../session";
+import { getRecordedSessionByID } from "../../config/firebase";
 import "./app.css";
 
 export default function App() {
+  const [error, setError] = useState<string>();
   const params = useParams<any>();
   const pathname = usePathname() || "";
   const slug = params?.slug;
@@ -19,13 +20,22 @@ export default function App() {
 
   useEffect(() => {
     const getSession = async () => {
+      console.log("isSharedRecordedSession", pathname, isSharedRecordedSession);
       if (isSharedRecordedSession) {
-        const id = slug[slug.length - 1];
-        setSession(dammySession);
+        try {
+          const id = slug[slug.length - 1];
+          const session = await getRecordedSessionByID(id);
+          if (session.events?.length > 1) {
+            setSession(session);
+          }
+        } catch (error: any) {
+          setError(error.message);
+        }
       }
     };
+
     getSession();
-  }, []);
+  }, [pathname]);
 
   return (
     <main
@@ -37,7 +47,7 @@ export default function App() {
       ) : (
         <div className="flex w-full h-full gap-2">
           <SideBar />
-          {isSharedRecordedSession ? <SharedRecordedSession session={session} /> : <InstallExtension />}
+          {isSharedRecordedSession ? <SharedRecordedSession session={session} error={error} /> : <InstallExtension />}
         </div>
       )}
     </main>
