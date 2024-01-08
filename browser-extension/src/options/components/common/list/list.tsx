@@ -23,6 +23,7 @@ type Props = {
   headerClasses?: string;
   activeRow?: Item<any> | null;
   data: Item<any>[];
+  options?: Record<string, unknown>;
   onRowClick?: <T>(data: T) => void;
   texts?: {
     title?: string;
@@ -35,6 +36,7 @@ const List: FC<Props> = ({
   headers,
   items,
   data,
+  options,
   listClasses = "",
   rowClasses = "",
   headerClasses = "",
@@ -70,7 +72,7 @@ const List: FC<Props> = ({
               {items.map((item) => {
                 return (
                   <div key={item.field} className={`flex flex-1 ${item.classes || ""}`}>
-                    {item.render(row)}
+                    {item.render(row, options)}
                   </div>
                 );
               })}

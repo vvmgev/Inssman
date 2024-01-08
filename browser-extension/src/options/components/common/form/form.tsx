@@ -50,7 +50,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
               trackName="Delete rule edit mode"
               classes="hover:border-red-400 hover:text-red-400"
               onClick={onDelete}
-              icon={<TrashSVG />}
+              prefix={<TrashSVG />}
             >
               Delete
             </OutlineButton>

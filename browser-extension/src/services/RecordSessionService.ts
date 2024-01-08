@@ -7,6 +7,7 @@ import { ListenerType } from "@services/ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
+import { getRecordedSessionByID, storeRecordedSession } from "@/serviceWorker/firebase";
 
 import Tab = chrome.tabs.Tab;
 
@@ -23,12 +24,15 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.StartRecordingByUrl]: this.startRecordingByUrl,
       [PostMessageAction.StartRecordingByCurrentTab]: this.startRecordingByCurrentTab,
       [PostMessageAction.SaveRecording]: this.saveRecording,
+      [PostMessageAction.UpdateRecordedSession]: this.updateRecordedSession,
       [PostMessageAction.StopRecording]: this.stopRecording,
       [PostMessageAction.GetRecordedSessions]: this.getRecordedSessions,
       [PostMessageAction.GetRecordedSessionById]: this.getSessionById,
       [PostMessageAction.GetLastRecordedSession]: this.getLastRecordedSession,
       [PostMessageAction.DeleteRecordedSessionById]: this.removeById,
       [PostMessageAction.DeleteRecordedSessions]: this.clear,
+      [PostMessageAction.ShareRecordedSession]: this.shareRecordedSession,
+      [PostMessageAction.GetSharedRecordedSession]: this.getSharedRecordedSession,
     };
   }
 
@@ -121,6 +125,10 @@ class RecordSessionService extends BaseService {
     }
   };
 
+  updateRecordedSession = async (data: any): Promise<void> => {
+    return IndexDBService.put(data);
+  };
+
   getRecordedSessions = async (): Promise<RecordSession[]> => {
     return IndexDBService.getAll();
   };
@@ -139,6 +147,14 @@ class RecordSessionService extends BaseService {
 
   getLastRecordedSession = () => {
     return IndexDBService.getLastItem();
+  };
+
+  shareRecordedSession = async ({ session }) => {
+    return storeRecordedSession(session);
+  };
+
+  getSharedRecordedSession = async ({ id }) => {
+    return getRecordedSessionByID(id);
   };
 }
 

@@ -4,21 +4,20 @@ import OutlineButton from "@options/components/common/outlineButton/outlineButto
 import Input from "@options/components/common/input/input";
 import Popup from "reactjs-popup";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
-import PlaySVG from "@assets/icons/play.svg";
-import ShareSVG from "@assets/icons/share.svg";
+import Toast from "@/options/components/common/toast/toast";
+import Copy from "copy-to-clipboard";
+import TrashSVG from "@assets/icons/trash.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
-import Tooltip from "@options/components/common/tooltip/tooltip";
-import TrashSVG from "@assets/icons/trash.svg";
-import List, { ListHeader, ListItems } from "@options/components/common/list/list";
-import { FC, ReactElement, useEffect, useMemo, useState } from "react";
+import List from "@options/components/common/list/list";
+import { FC, ReactElement, useEffect, useState } from "react";
+import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
-import { Link } from "react-router-dom";
 import { FixedSizeList } from "react-window";
-import { timeDifference } from "@utils/timeDifference";
-import { cutString } from "@utils/cutString";
+import { toast } from "react-toastify";
+import { APP_URL } from "@/options/constant";
 
 enum SessionListType {
   GRID = "grid",
@@ -28,6 +27,7 @@ const sessionListType = (window.localStorage.getItem("sessionListType") as Sessi
 
 const SessionList: FC = (): ReactElement => {
   const [listType, setListType] = useState<SessionListType>(sessionListType);
+  const [isSharing, setIsSharing] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
   const onHandleClearSearch = () => setSearch("");
@@ -66,123 +66,43 @@ const SessionList: FC = (): ReactElement => {
     setListType(listType);
   };
 
-  const LIST_HEADERS: ListHeader[] = useMemo(() => {
-    return [
-      {
-        title: "Name",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "URL",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Date",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Duration",
-        classes: "flex justify-end",
-        render: function () {
-          return this.title;
-        },
-      },
-      {
-        title: "Actions",
-        classes: "flex justify-end",
-        render: function () {
-          return this.title;
-        },
-      },
-    ];
-  }, []);
+  const handleCopyToClipboard = (docID) => {
+    Copy(`${APP_URL}/app/record/shared/session/${docID}`);
+    toast(<Toast text="URL Copied!" />);
+  };
 
-  const LIST_ITEMS: ListItems[] = useMemo(() => {
-    return [
+  const generateShareUrl = (docID): string => {
+    return `${APP_URL}/app/record/shared/session/${docID}`;
+  };
+
+  const handleShare = (session) => {
+    if (session?.docID) return;
+    setIsSharing(true);
+    chrome.runtime.sendMessage(
       {
-        field: "name",
-        render: function (item) {
-          return (
-            <div className="flex gap-2">
-              <img
-                src={`https://www.google.com/s2/favicons?domain=${item.url}`}
-                onLoad={(event: any) => event.target.classList?.toggle("invisible")}
-                alt=""
-                className="invisible w-5 h-5"
-              />
-              <span className="capitalize">{item[this.field]}</span>
-            </div>
-          );
-        },
+        action: PostMessageAction.ShareRecordedSession,
+        data: { session },
       },
-      {
-        field: "url",
-        render: function (item) {
-          return cutString(item[this.field]);
-        },
-      },
-      {
-        field: "date",
-        render: function (item) {
-          return item[this.field];
-        },
-      },
-      {
-        field: "duration",
-        classes: "flex justify-end",
-        render: function (item) {
-          try {
-            const { minutes, seconds } = timeDifference(
-              item.events[0].timestamp,
-              item.events[item.events.length - 1].timestamp
-            );
-            return `${minutes > 0 ? `${minutes}m` : ""} ${seconds}s `;
-          } catch (error) {
-            return "";
+      (data) => {
+        if (data.error) {
+          toast(<Toast error text="Somthing Went Wrong" />);
+          return;
+        }
+        const sharedSession = { ...session, docID: data.docID } as RecordSession;
+        chrome.runtime.sendMessage(
+          {
+            action: PostMessageAction.UpdateRecordedSession,
+            data: sharedSession,
+          },
+          () => {
+            setIsSharing(false);
+            getSessions();
+            toast(<Toast text="Session Shared!" />);
           }
-        },
-      },
-      {
-        field: "actions",
-        classes: "flex justify-end",
-        render: function (item) {
-          return (
-            <div className="flex gap-5">
-              <Tooltip content="Play">
-                <Link to={String(item.id)}>
-                  <div className="cursor-pointer hover:text-sky-500">
-                    <span className="w-[24px] inline-block">
-                      <PlaySVG />
-                    </span>
-                  </div>
-                </Link>
-              </Tooltip>
-              <Tooltip content="Share (cooming soon)">
-                <div className="cursor-pointer hover:text-sky-500">
-                  <span className="w-[24px] inline-block">
-                    <ShareSVG />
-                  </span>
-                </div>
-              </Tooltip>
-              <Tooltip content="Delete Session">
-                <div className="cursor-pointer hover:text-red-400" onClick={() => handleDelete(item)}>
-                  <span className="w-[24px] inline-block">
-                    <TrashSVG />
-                  </span>
-                </div>
-              </Tooltip>
-            </div>
-          );
-        },
-      },
-    ];
-  }, []);
+        );
+      }
+    );
+  };
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
   const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session Yet";
@@ -202,7 +122,7 @@ const SessionList: FC = (): ReactElement => {
               <OutlineButton
                 classes="text-sm hover:text-red-400 hover:border-red-400"
                 trackName="Delete All Session"
-                icon={<TrashSVG />}
+                prefix={<TrashSVG />}
               >
                 Delete All Sessions
               </OutlineButton>
@@ -230,7 +150,7 @@ const SessionList: FC = (): ReactElement => {
                     No
                   </OutlineButton>
                   <OutlineButton
-                    icon={<TrashSVG />}
+                    prefix={<TrashSVG />}
                     classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
                     trackName="Delete All Rules - YES"
                     onClick={() => handleDeleteSessions(close)}
@@ -296,6 +216,13 @@ const SessionList: FC = (): ReactElement => {
           <List
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
+            options={{
+              handleCopyToClipboard,
+              handleShare,
+              handleDelete,
+              generateShareUrl,
+              isSharing,
+            }}
             data={filteredSessions}
             texts={{
               title,

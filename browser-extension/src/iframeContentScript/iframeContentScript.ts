@@ -1,4 +1,4 @@
-import { PostMessageAction } from "@models/postMessageActionModel";
+import { NAMESPACE } from "@/options/constant";
 
 const createIframe = (src: string) => {
   const iframe = document.createElement("iframe");
@@ -14,10 +14,13 @@ const createIframe = (src: string) => {
   return iframe;
 };
 
+window[NAMESPACE] = window[NAMESPACE] || {};
+window[NAMESPACE].isExtensionInstalled = true;
+
 window.postMessage({
   source: "inssman:iframe",
   action: "generateUrl",
-  data: { filePath: "options/options.html" },
+  data: { filePath: `options/options.html#${window.location.pathname.replace("/app", "")}` },
 });
 
 window.addEventListener("message", (event) => {
@@ -27,5 +30,9 @@ window.addEventListener("message", (event) => {
 
   if (action === "generateUrl") {
     document.body.appendChild(createIframe(data.url));
+  }
+
+  if (action === "URLChanged") {
+    history.pushState({}, "", `/app${data.pathname}`);
   }
 });

@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
 
 const firebaseConfig = {
@@ -17,6 +18,51 @@ export const db = getDatabase(app);
 export const errorRef = ref(db, "error");
 export const ruleMetaDataRef = ref(db, "ruleMetaData");
 export const trackingRef = ref(db, "tracking");
+// Firestore
+export const firestoreDB = getFirestore(app);
+const recordedSessionsCollectionRef = collection(firestoreDB, "recordedSessions");
+
+export const storeRecordedSession = async (session) => {
+  const { events, ...data } = session;
+  try {
+    const newSessionRef = await addDoc(recordedSessionsCollectionRef, { data });
+    const eventsCollectionRef = collection(newSessionRef, "events");
+    events.forEach(async (event) => {
+      await addDoc(eventsCollectionRef, { event: JSON.stringify(event) });
+    });
+    return { docID: newSessionRef.id };
+  } catch (error) {
+    return { error: true, message: error };
+  }
+};
+
+export const getRecordedSessionByID = async (id: string) => {
+  try {
+    const sessionRef = doc(recordedSessionsCollectionRef, id);
+    const sessionSnapshot = await getDoc(sessionRef);
+
+    if (sessionSnapshot.exists()) {
+      const { data } = sessionSnapshot.data();
+
+      const eventsCollectionRef = collection(sessionRef, "events");
+      const eventsSnapshot = await getDocs(eventsCollectionRef);
+      const events: any = [];
+
+      eventsSnapshot.forEach((eventDoc) => {
+        events.push(JSON.parse(eventDoc.data().event));
+      });
+
+      return {
+        ...data,
+        events,
+      };
+    } else {
+      throw new Error("notFound");
+    }
+  } catch (error: any) {
+    return { error: true, message: error.message };
+  }
+};
 
 const storeData = (ref, data) => {
   if (process.env.NODE_ENV === "development") {

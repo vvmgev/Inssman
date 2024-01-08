@@ -15,7 +15,7 @@ const BackButton: FC<Props> = ({ trackName, url, text }) => {
     <OutlineButton
       trackName={`Back ${trackName}`}
       onClick={() => navigate((url || -1) as string)}
-      icon={<ArrowLeftSVG />}
+      prefix={<ArrowLeftSVG />}
     >
       {text || "Back"}
     </OutlineButton>

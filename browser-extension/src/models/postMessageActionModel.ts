@@ -28,4 +28,8 @@ export enum PostMessageAction {
   GetLastRecordedSession,
   DeleteRecordedSessionById,
   DeleteRecordedSessions,
+  ShareRecordedSession,
+  GetSharedRecordedSession,
+  UpdateRecordedSession,
+  URLChanged,
 }
