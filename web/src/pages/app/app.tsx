@@ -23,7 +23,7 @@ export default function App() {
       if (isSharedRecordedSession) {
         try {
           const id = slug[slug.length - 1];
-          const session = await getRecordedSessionByID(id);
+          const session: any = await getRecordedSessionByID(id);
           if (session.events?.length > 1) {
             setSession(session);
           }

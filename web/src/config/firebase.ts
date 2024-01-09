@@ -1,11 +1,9 @@
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore";
-import { getBlob, getStorage, ref as refStorage, uploadBytes, connectStorageEmulator } from "firebase/storage";
+import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
 import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
-import XMLHttpRequest from "xhr-shim";
-global["XMLHttpRequest"] = XMLHttpRequest;
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxGHh-YxvgknA78UWRK8QuFWvTuu-B-hU",
@@ -27,10 +25,6 @@ export const trackingRef = ref(db, "tracking");
 export const firestoreApp = initializeFirestore(app, { experimentalForceLongPolling: true });
 export const firestoreDB = getFirestore();
 const recordedSessionsCollectionRef = collection(firestoreDB, "recordedSessions");
-
-if (location.host === "localhost:3000") {
-  connectStorageEmulator(getStorage(app), "localhost", 3000);
-}
 
 export const compressEvents = (events: any): string => {
   return strFromU8(zlibSync(strToU8(JSON.stringify(events))), true);
