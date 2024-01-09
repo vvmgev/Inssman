@@ -22,8 +22,8 @@ class RecordSession {
       blockClass: "inssman-ignore-element",
       plugins: [getRecordConsolePlugin()],
       emit: (event) => {
-        const defaultLog = console.log["__rrweb_original__"] ? console.log["__rrweb_original__"] : console.log;
-        defaultLog(event);
+        // const defaultLog = console.log["__rrweb_original__"] ? console.log["__rrweb_original__"] : console.log;
+        // defaultLog(event);
 
         const timeDiff = this.events[this.events.length - 1]?.timestamp - this.events[0]?.timestamp;
         if (!this.events.length || timeDiff <= MAX_DURATION) {

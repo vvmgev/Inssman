@@ -20,7 +20,6 @@ export default function App() {
 
   useEffect(() => {
     const getSession = async () => {
-      console.log("isSharedRecordedSession", pathname, isSharedRecordedSession);
       if (isSharedRecordedSession) {
         try {
           const id = slug[slug.length - 1];

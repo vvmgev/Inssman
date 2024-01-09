@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
+import { compressEvents } from "@/serviceWorker/firebase";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
@@ -49,7 +50,7 @@ const Session: FC = (): ReactElement => {
     chrome.runtime.sendMessage(
       {
         action: isSharedUrl ? PostMessageAction.GetSharedRecordedSession : PostMessageAction.GetRecordedSessionById,
-        data: { id },
+        data: { id, limit: 100, startAt: 0 },
       },
       (response) => {
         setLoading(false);
