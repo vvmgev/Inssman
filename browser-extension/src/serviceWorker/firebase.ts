@@ -108,7 +108,7 @@ export const getRecordedSessionByID = async (id: string) => {
         events: decompressEvents(events),
       };
     } else {
-      return Promise.reject(new Error("notFound"));
+      throw new Error("notFound");
     }
   } catch (error: any) {
     return { error: true, message: error.message };

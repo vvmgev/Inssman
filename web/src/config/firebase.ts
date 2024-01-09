@@ -96,13 +96,10 @@ export const getRecordedSessionByID = async (id: string) => {
   try {
     const sessionRef = doc(recordedSessionsCollectionRef, id);
     const sessionSnapshot = await getDoc(sessionRef);
-    console.log("sessionSnapshot.exists()", sessionSnapshot.exists());
-    console.log("sessionSnapshot.data()", sessionSnapshot.data());
 
     if (sessionSnapshot.exists()) {
       const data = sessionSnapshot.data();
       const events = await getFile(`sessions/${id}`);
-      console.log("events", events);
 
       return {
         ...data,

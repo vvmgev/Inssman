@@ -26,8 +26,8 @@ const OutlineButton = forwardRef(
         ref={ref}
         className={twMerge(
           "border border-slate-500 py-2 px-4 rounded cursor-pointer text-slate-300 text-center hover:border-sky-400 hover:text-sky-400",
-          rest.disabled ? "text-slate-600 hover:text-slate-600 hover:border-slate-500 cursor-not-allowed" : "",
-          classes
+          classes,
+          rest.disabled ? "text-slate-600 hover:text-slate-600 hover:border-slate-500 cursor-not-allowed" : ""
         )}
         onClick={handler}
         {...rest}

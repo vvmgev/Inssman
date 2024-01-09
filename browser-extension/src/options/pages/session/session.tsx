@@ -21,7 +21,6 @@ import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
-import { compressEvents } from "@/serviceWorker/firebase";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
@@ -50,9 +49,10 @@ const Session: FC = (): ReactElement => {
     chrome.runtime.sendMessage(
       {
         action: isSharedUrl ? PostMessageAction.GetSharedRecordedSession : PostMessageAction.GetRecordedSessionById,
-        data: { id, limit: 100, startAt: 0 },
+        data: { id },
       },
       (response) => {
+        console.log("response", response);
         setLoading(false);
         if (response.error) {
           setError(response.message);
@@ -96,6 +96,7 @@ const Session: FC = (): ReactElement => {
   };
 
   const handleDelete = () => {
+    if (isSharedUrl) return;
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRecordedSessionById,
@@ -106,7 +107,7 @@ const Session: FC = (): ReactElement => {
   };
 
   const generateShareUrl = (): string => {
-    return `${APP_URL}/app/record/shared/session/${docID}`;
+    return `${APP_URL}/app/record/shared/session/${docID || id}`;
   };
 
   const handleCopyToClipboard = () => {
@@ -179,7 +180,7 @@ const Session: FC = (): ReactElement => {
               </div>
             </div>
           )}
-          <div>{error}</div>
+          {error !== "notFound" && <div>{error}</div>}
         </div>
       )}
       {session && (
@@ -193,11 +194,12 @@ const Session: FC = (): ReactElement => {
                 classes="hover:border-red-400 hover:text-red-400"
                 onClick={handleDelete}
                 prefix={<TrashSVG />}
+                disabled={isSharedUrl}
               >
                 Delete
               </OutlineButton>
               <OutlineButton
-                disabled={isSessionShared}
+                disabled={isSessionShared || isSharedUrl}
                 trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
                 prefix={<ShareSVG />}
@@ -205,7 +207,7 @@ const Session: FC = (): ReactElement => {
               >
                 Share{isSessionShared ? "d" : null}
               </OutlineButton>
-              {isSessionShared && (
+              {(isSessionShared || isSharedUrl) && (
                 <Input
                   readOnly
                   value={generateShareUrl()}
