@@ -1,8 +1,7 @@
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore";
 import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
-import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDoc, initializeFirestore } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
 import XMLHttpRequest from "xhr-shim";
 global["XMLHttpRequest"] = XMLHttpRequest;
@@ -23,6 +22,7 @@ export const db = getDatabase(app);
 export const errorRef = ref(db, "error");
 export const ruleMetaDataRef = ref(db, "ruleMetaData");
 export const trackingRef = ref(db, "tracking");
+export const sessionErrorRef = ref(db, "sessionError");
 // Firestore
 export const firestoreApp = initializeFirestore(app, { experimentalForceLongPolling: true });
 export const firestoreDB = getFirestore();
@@ -36,19 +36,16 @@ export const decompressEvents = (compressedEvents: string) => {
   return JSON.parse(strFromU8(unzlibSync(strToU8(compressedEvents, true))));
 };
 
-export const uploadFile = async (file: File, filePath: string): Promise<string | null> => {
+export const uploadFile = async (file: File, filePath: string): Promise<any> => {
   const storage = getStorage(app);
   const storageRef = refStorage(storage, filePath);
-
-  const path = await uploadBytes(storageRef, file)
-    .then((snapshot) => {
-      return snapshot.ref.fullPath;
-    })
-    .catch((err) => {
-      return null;
-    });
-
-  return path;
+  try {
+    const uploadResult = await uploadBytes(storageRef, file);
+    return uploadResult.ref.fullPath;
+  } catch (error) {
+    storeSessionError(JSON.stringify(error));
+    return error;
+  }
 };
 
 export const createFile = async (name: string, type: string, data: string, filePath: string) => {
@@ -62,35 +59,28 @@ export const createFile = async (name: string, type: string, data: string, fileP
 };
 
 export const getFile = async (filePath: string) => {
-  const storage = getStorage(app);
-  const storageRef = refStorage(storage, filePath);
-
-  const blob = await getBlob(storageRef)
-    .then((blob) => {
-      return blob;
-    })
-    .catch((err) => {
-      return null;
-    });
-
-  const data = new Blob([blob as Blob]).text();
-  return data;
+  try {
+    const storage = getStorage(app);
+    const storageRef = refStorage(storage, filePath);
+    const blob = await getBlob(storageRef);
+    const data = new Blob([blob]).text();
+    return data;
+  } catch (error) {
+    storeSessionError(JSON.stringify(error));
+    return Promise.reject(new Error("notFound"));
+  }
 };
 
 export const storeRecordedSession = async (session: any) => {
   const { events, ...data } = session;
   try {
-    const sessionRef = await addDoc(recordedSessionsCollectionRef, data);
-    const createFileResult = await createFile(
-      sessionRef.id,
-      "application/octet-stream",
-      compressEvents(events),
-      `sessions/${sessionRef.id}`
-    );
+    const { id } = await addDoc(recordedSessionsCollectionRef, data);
+    const createFileResult = await createFile(id, "application/octet-stream", compressEvents(events), `sessions/${id}`);
     console.log("createFileResult", createFileResult);
-    return { docID: sessionRef.id };
+    return { docID: id };
   } catch (error) {
-    return { error: true, message: error };
+    storeSessionError(JSON.stringify(error));
+    return Promise.reject(error);
   }
 };
 
@@ -111,6 +101,7 @@ export const getRecordedSessionByID = async (id: string) => {
       throw new Error("notFound");
     }
   } catch (error: any) {
+    storeSessionError(JSON.stringify(error));
     return { error: true, message: error.message };
   }
 };
@@ -119,11 +110,13 @@ const storeData = (ref: any, data: any) => {
   if (process.env.NODE_ENV === "development") {
     return;
   }
+
   try {
-    push(ref, data);
+    push(ref, { a: 12 });
   } catch (error) {}
 };
 
 export const storeError = (error: any) => storeData(errorRef, error);
 export const storeRuleMetaData = (ruleMetaData: any) => storeData(ruleMetaDataRef, ruleMetaData);
 export const storeTracking = (trackingData: any) => storeData(trackingRef, trackingData);
+export const storeSessionError = (sessionError: any) => storeData(sessionErrorRef, sessionError);

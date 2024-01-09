@@ -17,7 +17,7 @@ const errors = {
   [complexRegexFilter]: "The source field has more characters than allowed",
 };
 
-const handleError = (error: any, data) => {
+const handleError = (error: any, data = {}) => {
   const message = error.message;
   let errorData;
   if (message.includes(actionError)) {
