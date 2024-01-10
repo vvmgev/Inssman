@@ -1,4 +1,6 @@
+import OutlineButton from "@/options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
+import Dialog from "@/options/components/dialog/dialog";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import PlaySVG from "@assets/icons/play.svg";
 import ShareSVG from "@assets/icons/share.svg";
@@ -92,9 +94,40 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "actions",
     classes: "flex justify-end",
-    render: function (item, handlers) {
+    render: function (item, options) {
       return (
         <div className="flex gap-5">
+          <Dialog
+            title="Confirm Deletion"
+            visible={options.dialogName === "deleteSession"}
+            onClose={() => options.setDialogName("")}
+            footer={
+              <div className="flex justify-end gap-3">
+                <OutlineButton
+                  trackName="Delete Session - NO"
+                  classes="min-w-[100px]"
+                  onClick={() => options.setDialogName("")}
+                >
+                  No
+                </OutlineButton>
+                <OutlineButton
+                  prefix={<TrashSVG />}
+                  classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+                  trackName="Delete Session - YES"
+                  onClick={() => {
+                    options.setDialogName("");
+                    options.handleDelete(item);
+                  }}
+                >
+                  Yes
+                </OutlineButton>
+              </div>
+            }
+          >
+            <div className="my-10 text-2xl text-center text-slate-200 back">
+              Are You Sure Want To Delete Recorded Sessions?
+            </div>
+          </Dialog>
           <Tooltip content="Play">
             <Link to={String(item.id)}>
               <div className="cursor-pointer hover:text-sky-500">
@@ -110,15 +143,15 @@ export const LIST_ITEMS: ListItems[] = [
               item?.docID ? (
                 <Input
                   readOnly
-                  value={handlers.generateShareUrl(item.docID)}
+                  value={options.generateShareUrl(item.docID)}
                   suffix={
                     <span
-                      onClick={() => handlers?.handleCopyToClipboard(item.docID)}
+                      onClick={() => options?.handleCopyToClipboard(item.docID)}
                       className="w-[24px] cursor-pointer hover:text-sky-500"
                     >
                       <Tooltip content="Copy">
                         <div className="cursor-pointer hover:text-sky-500">
-                          <span onClick={() => handlers?.handleShare(item)} className="w-[24px] inline-block">
+                          <span onClick={() => options?.handleShare(item)} className="w-[24px] inline-block">
                             <ClipboardSVG />
                           </span>
                         </div>
@@ -132,13 +165,13 @@ export const LIST_ITEMS: ListItems[] = [
             }
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
-              <span onClick={() => handlers?.handleShare(item)} className="w-[24px] inline-block">
-                {handlers.isSharing ? <LoaderSVG /> : <ShareSVG />}
+              <span onClick={() => options?.handleShare(item)} className="w-[24px] inline-block">
+                {item.id === options.sharingItemId ? <LoaderSVG /> : <ShareSVG />}
               </span>
             </div>
           </Tooltip>
           <Tooltip content="Delete Session">
-            <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
+            <div className="cursor-pointer hover:text-red-400" onClick={() => options.setDialogName("deleteSession")}>
               <span className="w-[24px] inline-block">
                 <TrashSVG />
               </span>

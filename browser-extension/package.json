@@ -48,6 +48,7 @@
     "mixpanel-browser": "^2.47.0",
     "monaco-editor": "^0.34.1",
     "postcss-preset-env": "^7.5.0",
+    "rc-dialog": "^9.3.4",
     "rc-input": "^1.4.3",
     "rc-select": "^14.11.0",
     "rc-tooltip": "^6.1.2",

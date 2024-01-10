@@ -1,7 +1,7 @@
-import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
-import { initializeApp } from "firebase/app";
-import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
 import { getFirestore, collection, addDoc, doc, getDoc, initializeFirestore } from "firebase/firestore";
+import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
+import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
+import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 import XMLHttpRequest from "xhr-shim";
 global["XMLHttpRequest"] = XMLHttpRequest;

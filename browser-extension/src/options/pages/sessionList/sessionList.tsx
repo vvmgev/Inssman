@@ -18,6 +18,7 @@ import { RecordSession } from "@models/recordSessionModel";
 import { FixedSizeList } from "react-window";
 import { toast } from "react-toastify";
 import { APP_URL } from "@/options/constant";
+import Dialog from "@/options/components/dialog/dialog";
 
 enum SessionListType {
   GRID = "grid",
@@ -27,8 +28,9 @@ const sessionListType = (window.localStorage.getItem("sessionListType") as Sessi
 
 const SessionList: FC = (): ReactElement => {
   const [listType, setListType] = useState<SessionListType>(sessionListType);
-  const [isSharing, setIsSharing] = useState<boolean>(false);
+  const [sharingItemId, setSharingItemId] = useState<number | null>();
   const [search, setSearch] = useState<string>("");
+  const [dialogName, setDialogName] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
@@ -77,7 +79,7 @@ const SessionList: FC = (): ReactElement => {
 
   const handleShare = (session) => {
     if (session?.docID) return;
-    setIsSharing(true);
+    setSharingItemId(session.id);
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
@@ -95,7 +97,7 @@ const SessionList: FC = (): ReactElement => {
             data: sharedSession,
           },
           () => {
-            setIsSharing(false);
+            setSharingItemId(null);
             getSessions();
             toast(<Toast text="Session Shared!" />);
           }
@@ -105,62 +107,52 @@ const SessionList: FC = (): ReactElement => {
   };
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
-  const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session Yet";
+  const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session";
 
   return (
     <Section classes="mx-[5%] p-0 pb-5 min-h-[650px]">
+      <Dialog
+        title="Confirm Deletion"
+        visible={dialogName === "deleteAll"}
+        onClose={() => setDialogName("")}
+        footer={
+          <div className="flex justify-end gap-3">
+            <OutlineButton
+              trackName="Delete All Sessions - NO"
+              classes="min-w-[100px]"
+              onClick={() => setDialogName("")}
+            >
+              No
+            </OutlineButton>
+            <OutlineButton
+              prefix={<TrashSVG />}
+              classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+              trackName="Delete All Sessions - YES"
+              onClick={() => handleDeleteSessions(setDialogName)}
+            >
+              Yes
+            </OutlineButton>
+          </div>
+        }
+      >
+        <div className="my-10 text-2xl text-center text-slate-200 back">
+          Are You Sure Want To Delete All Recorded Sessions?
+        </div>
+      </Dialog>
       <div className="flex justify-between p-5">
         <span className="flex flex-row items-center gap-2">
           <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
           <span>Recorded Sessions</span>
         </span>
         <div className="flex gap-3">
-          <Popup
-            closeOnDocumentClick={true}
-            contentStyle={{ background: "transparent", border: "none" }}
-            trigger={
-              <OutlineButton
-                classes="text-sm hover:text-red-400 hover:border-red-400"
-                trackName="Delete All Session"
-                prefix={<TrashSVG />}
-              >
-                Delete All Sessions
-              </OutlineButton>
-            }
-            modal
-            position="right center"
-            overlayStyle={{ backdropFilter: "blur(1.5px)" }}
+          <OutlineButton
+            classes="text-sm hover:text-red-400 hover:border-red-400"
+            trackName="Delete All Session"
+            prefix={<TrashSVG />}
+            onClick={() => setDialogName("deleteAll")}
           >
-            {/* @ts-ignore */}
-            {(close: any) => (
-              <Section classes="bg-opacity-90 py-15">
-                <div className="flex pb-5 border-b border-slate-700">
-                  <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
-                  <div className="flex justify-end flex-1">
-                    <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
-                      <CrossSVG />
-                    </span>
-                  </div>
-                </div>
-                <div className="my-10 text-2xl text-center text-slate-200">
-                  Are You Sure Want To Delete All Recorded Sessions?
-                </div>
-                <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
-                  <OutlineButton trackName="Delete All Rules - NO" classes="min-w-[100px]" onClick={close}>
-                    No
-                  </OutlineButton>
-                  <OutlineButton
-                    prefix={<TrashSVG />}
-                    classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
-                    trackName="Delete All Rules - YES"
-                    onClick={() => handleDeleteSessions(close)}
-                  >
-                    Yes
-                  </OutlineButton>
-                </div>
-              </Section>
-            )}
-          </Popup>
+            Delete All Sessions
+          </OutlineButton>
           <div className="mr-4 text-sm">
             <Input
               placeholder="Search By Session Name"
@@ -221,7 +213,9 @@ const SessionList: FC = (): ReactElement => {
               handleShare,
               handleDelete,
               generateShareUrl,
-              isSharing,
+              setDialogName,
+              dialogName,
+              sharingItemId,
             }}
             data={filteredSessions}
             texts={{
