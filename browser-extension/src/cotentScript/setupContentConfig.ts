@@ -55,3 +55,9 @@ window.addEventListener("message", (event) => {
 });
 
 setupConfig();
+console.log(chrome);
+// setTimeout(() => {
+//   chrome.tabs.captureVisibleTab({ format: "jpeg", quality: 100 }, function (dataUrl) {
+//     console.log("dataUrl: " + dataUrl);
+//   });
+// }, 4000);

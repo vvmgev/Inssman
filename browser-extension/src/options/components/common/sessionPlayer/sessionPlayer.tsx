@@ -1,6 +1,7 @@
 import Replayer, { RRwebPlayerOptions } from "rrweb-player";
 import { RecordSession } from "@models/recordSessionModel";
 import { FC, useEffect, useRef, forwardRef, memo } from "react";
+import { htmlToImage } from "@utils/htmlToImage";
 import "./sessionPlayer.css";
 
 type Props = {
@@ -37,7 +38,18 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
     };
   }, [session, videoRef.current]);
 
-  return <div ref={videoTagRef}></div>;
+  useEffect(() => {
+    if (!session || !videoRef.current) return;
+
+    setTimeout(() => {
+      const element: any = document?.getElementById?.("root");
+      if (element) {
+        htmlToImage(element).then(console.log).catch(console.log);
+      }
+    }, 3000);
+  }, [session, videoRef.current]);
+
+  return <div id="asa" ref={videoTagRef}></div>;
 });
 
 export default memo(SessionPlayer);
