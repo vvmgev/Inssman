@@ -32,6 +32,7 @@ const SessionList: FC = (): ReactElement => {
   const [search, setSearch] = useState<string>("");
   const [dialogName, setDialogName] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
+  const [activeSession, setActiveSession] = useState<RecordSession>();
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
   const getSessions = (): void =>
@@ -46,11 +47,11 @@ const SessionList: FC = (): ReactElement => {
     getSessions();
   }, []);
 
-  const handleDelete = (session) => {
+  const handleDelete = () => {
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRecordedSessionById,
-        data: { id: session.id },
+        data: { id: (activeSession as RecordSession).id },
       },
       getSessions
     );
@@ -213,6 +214,7 @@ const SessionList: FC = (): ReactElement => {
               handleShare,
               handleDelete,
               generateShareUrl,
+              setActiveItem: setActiveSession,
               setDialogName,
               dialogName,
               sharingItemId,

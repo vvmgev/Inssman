@@ -21,11 +21,13 @@ import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
+import Dialog from "@/options/components/dialog/dialog";
 
 const Session: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
+  const [dialogVisible, setDialogVisible] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [isSharing, setIsSharing] = useState<boolean>(false);
   const [session, setSession] = useState<RecordSession>();
@@ -156,6 +158,37 @@ const Session: FC = (): ReactElement => {
 
   return (
     <Section classes="mx-[5%] p-5 flex flex-col gap-5 min-h-[300px]">
+      <Dialog
+        title="Confirm Deletion"
+        visible={dialogVisible}
+        onClose={() => setDialogVisible(false)}
+        footer={
+          <div className="flex justify-end gap-3">
+            <OutlineButton
+              trackName="Delete Session - NO"
+              classes="min-w-[100px]"
+              onClick={() => setDialogVisible(false)}
+            >
+              No
+            </OutlineButton>
+            <OutlineButton
+              prefix={<TrashSVG />}
+              classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+              trackName="Delete Session - YES"
+              onClick={() => {
+                handleDelete();
+                setDialogVisible(false);
+              }}
+            >
+              Yes
+            </OutlineButton>
+          </div>
+        }
+      >
+        <div className="my-10 text-2xl text-center text-slate-200 back">
+          Are You Sure Want To Delete Recorded Sessions?
+        </div>
+      </Dialog>
       {loading && (
         <div className="flex items-center justify-center w-full h-full p-20">
           <div className="w-32 h-32 h">
@@ -192,7 +225,7 @@ const Session: FC = (): ReactElement => {
               <OutlineButton
                 trackName="Delete Recorded Session in view mode"
                 classes="hover:border-red-400 hover:text-red-400"
-                onClick={handleDelete}
+                onClick={() => setDialogVisible(true)}
                 prefix={<TrashSVG />}
                 disabled={isSharedUrl}
               >

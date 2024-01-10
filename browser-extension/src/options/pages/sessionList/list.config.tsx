@@ -95,18 +95,25 @@ export const LIST_ITEMS: ListItems[] = [
     field: "actions",
     classes: "flex justify-end",
     render: function (item, options) {
+      const self = item;
       return (
         <div className="flex gap-5">
           <Dialog
             title="Confirm Deletion"
             visible={options.dialogName === "deleteSession"}
-            onClose={() => options.setDialogName("")}
+            onClose={() => {
+              options.setActiveItem(null);
+              options.setDialogName("");
+            }}
             footer={
               <div className="flex justify-end gap-3">
                 <OutlineButton
                   trackName="Delete Session - NO"
                   classes="min-w-[100px]"
-                  onClick={() => options.setDialogName("")}
+                  onClick={() => {
+                    options.setActiveItem(null);
+                    options.setDialogName("");
+                  }}
                 >
                   No
                 </OutlineButton>
@@ -116,6 +123,7 @@ export const LIST_ITEMS: ListItems[] = [
                   trackName="Delete Session - YES"
                   onClick={() => {
                     options.setDialogName("");
+                    options.setActiveItem(null);
                     options.handleDelete(item);
                   }}
                 >
@@ -151,7 +159,7 @@ export const LIST_ITEMS: ListItems[] = [
                     >
                       <Tooltip content="Copy">
                         <div className="cursor-pointer hover:text-sky-500">
-                          <span onClick={() => options?.handleShare(item)} className="w-[24px] inline-block">
+                          <span className="w-[24px] inline-block">
                             <ClipboardSVG />
                           </span>
                         </div>
@@ -165,13 +173,19 @@ export const LIST_ITEMS: ListItems[] = [
             }
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
-              <span onClick={() => options?.handleShare(item)} className="w-[24px] inline-block">
+              <span onClick={() => options?.handleShare(self)} className="w-[24px] inline-block">
                 {item.id === options.sharingItemId ? <LoaderSVG /> : <ShareSVG />}
               </span>
             </div>
           </Tooltip>
           <Tooltip content="Delete Session">
-            <div className="cursor-pointer hover:text-red-400" onClick={() => options.setDialogName("deleteSession")}>
+            <div
+              className="cursor-pointer hover:text-red-400"
+              onClick={() => {
+                options.setDialogName("deleteSession");
+                options.setActiveItem(item);
+              }}
+            >
               <span className="w-[24px] inline-block">
                 <TrashSVG />
               </span>
