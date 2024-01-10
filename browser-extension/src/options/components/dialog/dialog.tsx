@@ -8,14 +8,18 @@ type Props = PropsWithChildren<{
 }> &
   DialogProps;
 
-const Dialog: FC<Props> = ({ children, classes, ...props }) => {
+const Dialog: FC<Props> = ({ children, classes, title, ...props }) => {
   return (
     <RCDialog
+      title={<span className="text-slate-200 text-2xl">{title}</span>}
       classNames={{
         wrapper: `flex items-center backdrop-blur-[3px] ${classes?.wrapper || ""}`,
-        header: `bg-slate-800 text-slate-200 text-2xl border-slate-700 ${classes?.header || ""}`,
-        body: `bg-slate-800 text-slate-200 text-2xl ${classes?.body || ""}`,
-        footer: `bg-slate-800 text-slate-200 border-slate-700 ${classes?.footer || ""}`,
+        body: `${classes?.body || ""}`,
+        footer: `border-slate-700 ${classes?.footer || ""}`,
+        header: `bg-transparent border-slate-700 text-2xl text-slate-200 ${classes?.header || ""}`,
+        content: `bg-slate-800 bg-opacity-90 text-slate-200 text-2xl border-slate-700 shadow-sm shadow-slate-500 rounded-3xl ${
+          classes?.header || ""
+        }`,
         mask: `bg-transparent ${classes?.mask || ""}`,
       }}
       {...props}

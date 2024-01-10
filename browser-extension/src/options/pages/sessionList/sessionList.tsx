@@ -9,6 +9,8 @@ import Copy from "copy-to-clipboard";
 import TrashSVG from "@assets/icons/trash.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
+// import SquaresSVG from "@assets/icons/squares.svg";
+// import ListSVG from "@assets/icons/list.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import List from "@options/components/common/list/list";
 import { FC, ReactElement, useEffect, useState } from "react";
@@ -111,7 +113,7 @@ const SessionList: FC = (): ReactElement => {
   const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session";
 
   return (
-    <Section classes="mx-[5%] p-0 pb-5 min-h-[650px]">
+    <Section classes="mx-[5%] p-0">
       <Dialog
         title="Confirm Deletion"
         visible={dialogName === "deleteAll"}
@@ -171,40 +173,55 @@ const SessionList: FC = (): ReactElement => {
               }
             />
           </div>
-          {/* <button onClick={() => handleListType(SessionListType.GRID)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.GRID ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
-          <span className="w-[24px]"><SquaresSVG /></span>
-        </button>
-        <button onClick={() => handleListType(SessionListType.LIST)} className={`flex items-center rounded px-4 py-2 ${listType === SessionListType.LIST ? 'bg-blue-600' : 'hover:bg-blue-500'}`}>
-          <span className="w-[24px]"><ListSVG /></span>
-        </button> */}
+          {/* <button
+            onClick={() => handleListType(SessionListType.GRID)}
+            className={`flex items-center rounded px-4 py-2 ${
+              listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
+            }`}
+          >
+            <span className="w-[24px]">
+              <SquaresSVG />
+            </span>
+          </button>
+          <button
+            onClick={() => handleListType(SessionListType.LIST)}
+            className={`flex items-center rounded px-4 py-2 ${
+              listType === SessionListType.LIST ? "bg-blue-600" : "hover:bg-blue-500"
+            }`}
+          >
+            <span className="w-[24px]">
+              <ListSVG />
+            </span>
+          </button> */}
         </div>
       </div>
       {listType === SessionListType.GRID ? (
-        <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
-          {/* <AutoSizer>
-            {({ height, width }) => (
-              <FixedSizeList
-                className="List"
-                height={height}
-                itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
-                itemSize={280}
-                width={width}
-                itemData={filteredSessions}
-              >
-                {({ index, data, style }) => (
-                  <div className="w-[200px]" style={style}>
-                    <div className="flex gap-3">
-                      {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert} />}
-                      {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert} />}
-                      {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert} />}
-                    </div>
-                  </div>
-                )}
-              </FixedSizeList>
-            )}
-          </AutoSizer> */}
-        </div>
+        <></>
       ) : (
+        // <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
+        //   <AutoSizer>
+        //     {({ height, width }) => (
+        //       <FixedSizeList
+        //         className="List"
+        //         height={height}
+        //         itemCount={sessions.length >= 3 ? Math.ceil(sessions.length / 3) : 1}
+        //         itemSize={280}
+        //         width={width}
+        //         itemData={filteredSessions}
+        //       >
+        //         {({ index, data, style }) => (
+        //           <div className="w-[200px]" style={style}>
+        //             <div className="flex gap-3">
+        //               {data[index * 3] && <SessionPreview data={data[index * 3]} onDelete={alert} />}
+        //               {data[index * 3 + 1] && <SessionPreview data={data[index * 3 + 1]} onDelete={alert} />}
+        //               {data[index * 3 + 2] && <SessionPreview data={data[index * 3 + 2]} onDelete={alert} />}
+        //             </div>
+        //           </div>
+        //         )}
+        //       </FixedSizeList>
+        //     )}
+        //   </AutoSizer>
+        // </div>
         <div className="flex flex-row flex-wrap mt-4 text-center">
           <List
             headers={LIST_HEADERS}

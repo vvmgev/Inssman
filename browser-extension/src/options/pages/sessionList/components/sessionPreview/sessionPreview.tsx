@@ -16,8 +16,9 @@ type Props = {
 };
 
 const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
-  const videoRef = useRef<rrwebPlayer>();
+  const [isHovered, setHovered] = useState(false);
   const [session, setSession] = useState<RecordSession>();
+  const videoRef = useRef<rrwebPlayer>();
 
   const handleMouseEnter = () => {
     videoRef.current?.play();
@@ -73,16 +74,29 @@ const Session: FC<Props> = ({ data, onDelete }): ReactElement => {
           </div>
         </div>
         <div className="relative group" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <span className="bg-black bg-opacity-70 rounded-full group-hover:visible invisible w-[80px] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <PlayCircleSVG />
-          </span>
-          <Link to={String(session?.id)}>
-            <SessionPlayer
-              session={session}
-              playerOptions={{ width: 250, height: 200, showController: false }}
-              /* @ts-ignore */
-              ref={videoRef}
-            />
+          <Link to={String(session?.id)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+            {isHovered ? (
+              <>
+                <span className="bg-black bg-opacity-70 rounded-full group-hover:visible invisible w-[80px] z-10 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                  <PlayCircleSVG />
+                </span>
+                <SessionPlayer
+                  session={session}
+                  playerOptions={{ width: 250, height: 200, showController: false }}
+                  /* @ts-ignore */
+                  ref={videoRef}
+                />
+              </>
+            ) : (
+              <div className="flex gap-2 w-[250px] h-[200px] items-center justify-center">
+                <img
+                  src={`https://www.google.com/s2/favicons?domain=${session?.url}`}
+                  onLoad={(event: any) => event.target.classList?.toggle("invisible")}
+                  alt=""
+                  className="invisible w-5 h-5"
+                />
+              </div>
+            )}
           </Link>
         </div>
       </Section>
