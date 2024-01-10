@@ -54,7 +54,6 @@ const Session: FC = (): ReactElement => {
         data: { id },
       },
       (response) => {
-        console.log("response", response);
         setLoading(false);
         if (response.error) {
           setError(response.message);
@@ -102,7 +101,7 @@ const Session: FC = (): ReactElement => {
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRecordedSessionById,
-        data: { id: session?.id },
+        data: { session: { ...session, docID } },
       },
       () => navigate("/record/session")
     );

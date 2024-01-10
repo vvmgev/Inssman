@@ -1,6 +1,6 @@
-import { getFirestore, collection, addDoc, doc, getDoc, initializeFirestore } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, initializeFirestore } from "firebase/firestore";
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
-import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
+import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, push } from "firebase/database";
 import XMLHttpRequest from "xhr-shim";
@@ -106,13 +106,25 @@ export const getRecordedSessionByID = async (id: string) => {
   }
 };
 
+export const removeRecordedSession = async (id) => {
+  try {
+    const recordedSessionMetaDataRef = doc(recordedSessionsCollectionRef, id);
+    deleteDoc(recordedSessionMetaDataRef);
+    const storage = getStorage(app);
+    const recordedSessionRef = refStorage(storage, `sessions/${id}`);
+    deleteObject(recordedSessionRef);
+  } catch (error) {
+    storeSessionError(JSON.stringify(error));
+  }
+};
+
 const storeData = (ref: any, data: any) => {
   if (process.env.NODE_ENV === "development") {
     return;
   }
 
   try {
-    push(ref, { a: 12 });
+    push(ref, data);
   } catch (error) {}
 };
 

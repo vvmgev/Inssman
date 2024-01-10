@@ -1,9 +1,9 @@
-import AutoSizer from "react-virtualized-auto-sizer";
+// import AutoSizer from "react-virtualized-auto-sizer";
 import Section from "@options/components/common/section/section";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
-import Popup from "reactjs-popup";
-import SessionPreview from "./components/sessionPreview/sessionPreview";
+import Dialog from "@/options/components/dialog/dialog";
+// import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
 import TrashSVG from "@assets/icons/trash.svg";
@@ -15,10 +15,9 @@ import { FC, ReactElement, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
-import { FixedSizeList } from "react-window";
+// import { FixedSizeList } from "react-window";
 import { toast } from "react-toastify";
 import { APP_URL } from "@/options/constant";
-import Dialog from "@/options/components/dialog/dialog";
 
 enum SessionListType {
   GRID = "grid",
@@ -51,7 +50,7 @@ const SessionList: FC = (): ReactElement => {
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRecordedSessionById,
-        data: { id: (activeSession as RecordSession).id },
+        data: { session: activeSession },
       },
       getSessions
     );
@@ -79,7 +78,7 @@ const SessionList: FC = (): ReactElement => {
   };
 
   const handleShare = (session) => {
-    if (session?.docID) return;
+    if (session?.docID || sharingItemId) return;
     setSharingItemId(session.id);
     chrome.runtime.sendMessage(
       {
@@ -88,6 +87,7 @@ const SessionList: FC = (): ReactElement => {
       },
       (data) => {
         if (data.error) {
+          setSharingItemId(null);
           toast(<Toast error text="Somthing Went Wrong" />);
           return;
         }
@@ -181,7 +181,7 @@ const SessionList: FC = (): ReactElement => {
       </div>
       {listType === SessionListType.GRID ? (
         <div className="flex flex-row flex-wrap justify-between w-full h-full gap-2 mx-5 mt-4">
-          <AutoSizer>
+          {/* <AutoSizer>
             {({ height, width }) => (
               <FixedSizeList
                 className="List"
@@ -202,7 +202,7 @@ const SessionList: FC = (): ReactElement => {
                 )}
               </FixedSizeList>
             )}
-          </AutoSizer>
+          </AutoSizer> */}
         </div>
       ) : (
         <div className="flex flex-row flex-wrap mt-4 text-center">

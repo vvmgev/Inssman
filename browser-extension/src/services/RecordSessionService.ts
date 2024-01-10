@@ -7,7 +7,7 @@ import { ListenerType } from "@services/ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
-import { getRecordedSessionByID, storeRecordedSession } from "@/serviceWorker/firebase";
+import { getRecordedSessionByID, removeRecordedSession, storeRecordedSession } from "@/serviceWorker/firebase";
 
 import Tab = chrome.tabs.Tab;
 
@@ -137,12 +137,21 @@ class RecordSessionService extends BaseService {
     return IndexDBService.get(id);
   };
 
-  clear = (): void => {
+  clear = async (): Promise<void> => {
+    const sessions = await IndexDBService.getAll();
+    sessions.forEach(({ docID }) => this.removeSharedSession(docID));
     IndexDBService.clear();
   };
 
-  removeById = ({ id }: { id: number }) => {
-    IndexDBService.remove(id);
+  removeSharedSession = (id: string): void => {
+    removeRecordedSession(id);
+  };
+
+  removeById = ({ session }: { session: RecordSession }) => {
+    IndexDBService.remove(session.id);
+    if (session.docID) {
+      this.removeSharedSession(session.docID);
+    }
   };
 
   getLastRecordedSession = () => {
