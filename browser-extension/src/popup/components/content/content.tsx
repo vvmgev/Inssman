@@ -30,7 +30,7 @@ const Content = () => {
   useEffect(() => getRules(), []);
 
   return (
-    <Section classes="border-l-0 border-r-0 rounded-none p-0">
+    <Section classes="border-l-0 border-r-0 rounded-none p-0 max-h-[430px]">
       <div className="h-full p-4">
         <Tab active={tab} onChangeTab={onChangeTab} />
       </div>

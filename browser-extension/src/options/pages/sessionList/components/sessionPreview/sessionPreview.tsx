@@ -41,6 +41,14 @@ const Session: FC<Props> = ({
     }
   }, [data]);
 
+  const handleMouseEnter = () => {
+    videoRef.current?.play();
+  };
+
+  const handleMouseLeave = () => {
+    videoRef.current?.pause();
+  };
+
   return (
     <div>
       <Dialog
@@ -120,7 +128,7 @@ const Session: FC<Props> = ({
             </Tooltip>
           </div>
         </div>
-        <div className="relative group">
+        <div className="relative group" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
           <Link to={String(session?.id)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
             <div className="flex justify-center items-center">
               {isHovered ? (
