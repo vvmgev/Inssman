@@ -45,7 +45,7 @@ window.addEventListener("message", (event) => {
   if (action === "saveRecordedSession") {
     chrome.runtime.sendMessage({
       action: PostMessageAction.SaveRecording,
-      data: { events: data.events },
+      data,
     });
   }
 
@@ -55,9 +55,3 @@ window.addEventListener("message", (event) => {
 });
 
 setupConfig();
-console.log(chrome);
-// setTimeout(() => {
-//   chrome.tabs.captureVisibleTab({ format: "jpeg", quality: 100 }, function (dataUrl) {
-//     console.log("dataUrl: " + dataUrl);
-//   });
-// }, 4000);

@@ -108,12 +108,13 @@ class RecordSessionService extends BaseService {
     }
   };
 
-  saveRecording = async ({ events }: { events: any }): Promise<void> => {
+  saveRecording = async ({ events, preview }: { events: any; preview: string }): Promise<void> => {
     const session: any = {
       events,
       url: this.url,
       date: new Date().toLocaleString(),
       name: extractDomain(this.url),
+      preview,
     };
     if (this.sessionId) {
       const prevSession = await this.getSessionById({ id: this.sessionId });

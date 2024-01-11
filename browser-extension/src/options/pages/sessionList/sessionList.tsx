@@ -2,7 +2,7 @@ import Section from "@options/components/common/section/section";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
 import Dialog from "@/options/components/dialog/dialog";
-import SessionPreview from "./components/sessionPreview/sessionPreview";
+// import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
 import TrashSVG from "@assets/icons/trash.svg";
@@ -31,7 +31,7 @@ const SessionList: FC = (): ReactElement => {
   const [search, setSearch] = useState<string>("");
   const [dialogName, setDialogName] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
-  const [activeSession, setActiveSession] = useState<RecordSession>();
+  const [activeSession, setActiveSession] = useState<RecordSession | null>();
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
   const getSessions = (): void =>
@@ -173,7 +173,7 @@ const SessionList: FC = (): ReactElement => {
           </div>
           {/* <button
             onClick={() => handleListType(SessionListType.GRID)}
-            className={`flex items-center rounded px-4 py-2 ${
+            className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
@@ -183,7 +183,7 @@ const SessionList: FC = (): ReactElement => {
           </button>
           <button
             onClick={() => handleListType(SessionListType.LIST)}
-            className={`flex items-center rounded px-4 py-2 ${
+            className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.LIST ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
@@ -194,14 +194,31 @@ const SessionList: FC = (): ReactElement => {
         </div>
       </div>
       {listType === SessionListType.GRID ? (
-        <div className="flex flex-wrap w-full h-full gap-2 gap gap mx-5 mt-4 m-">
-          {filteredSessions.map((session) => (
-            <div className="w-[calc(33%-1.5rem)] box-border p-1">
-              <SessionPreview data={session} onDelete={alert} />
-            </div>
-          ))}
-        </div>
+        <></>
       ) : (
+        // <div className="flex flex-wrap w-full h-full gap-2 mt-4 px-3">
+        //   {filteredSessions.length ? (
+        //     <>
+        //       {filteredSessions.map((session) => (
+        //         <div className="" key={session.id}>
+        //           <SessionPreview
+        //             setActiveItem={setActiveSession}
+        //             setDialogName={setDialogName}
+        //             data={session}
+        //             dialogName={dialogName}
+        //             isSharing={sharingItemId === session.id}
+        //             onDelete={handleDelete}
+        //             onShare={handleShare}
+        //           />
+        //         </div>
+        //       ))}
+        //     </>
+        //   ) : (
+        //     <div className="flex justify-center items-center w-full h-full text-2xl min-h-[400px]">
+        //       <span>{title}</span>
+        //     </div>
+        //   )}
+        // </div>
         <div className="flex flex-row flex-wrap mt-4 text-center">
           <List
             headers={LIST_HEADERS}

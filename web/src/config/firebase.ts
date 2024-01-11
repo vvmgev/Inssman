@@ -85,7 +85,6 @@ export const storeRecordedSession = async (session: any) => {
       compressEvents(events),
       `sessions/${sessionRef.id}`
     );
-    console.log("createFileResult", createFileResult);
     return { docID: sessionRef.id };
   } catch (error) {
     return { error: true, message: error };

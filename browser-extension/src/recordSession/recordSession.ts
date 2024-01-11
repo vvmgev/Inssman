@@ -1,10 +1,12 @@
 import { record, getRecordConsolePlugin } from "rrweb";
+import { htmlToImage } from "@/utils/htmlToImage";
 
 const MAX_DURATION = 5 * 60 * 1000;
 let recordSession;
 let isRecording = false;
 
 class RecordSession {
+  preview;
   stopRecording;
   events: any[] = [];
 
@@ -14,13 +16,19 @@ class RecordSession {
     });
   }
 
+  takeScreenshot() {
+    htmlToImage(document.body).then((preview) => {
+      this.preview = preview;
+    });
+  }
+
   start() {
     this.stopRecording = record({
       // @ts-ignore
       recordAfter: "DOMContentLoaded",
       recordCrossOriginIframes: true,
       blockClass: "inssman-ignore-element",
-      plugins: [getRecordConsolePlugin()],
+      // plugins: [getRecordConsolePlugin()],
       emit: (event) => {
         // const defaultLog = console.log["__rrweb_original__"] ? console.log["__rrweb_original__"] : console.log;
         // defaultLog(event);
@@ -45,7 +53,7 @@ class RecordSession {
     window.postMessage({
       source: "inssman:recordSession",
       action: "saveRecordedSession",
-      data: { events: copyEvents },
+      data: { events: copyEvents, preview: this.preview },
     });
   }
 
@@ -69,6 +77,7 @@ window.addEventListener("message", (event) => {
       recordSession = new RecordSession();
       isRecording = true;
       recordSession.start();
+      recordSession.takeScreenshot();
       break;
     case "stopRecording":
       isRecording = false;

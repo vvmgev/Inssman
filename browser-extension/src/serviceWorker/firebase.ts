@@ -76,7 +76,6 @@ export const storeRecordedSession = async (session: any) => {
   try {
     const { id } = await addDoc(recordedSessionsCollectionRef, data);
     const createFileResult = await createFile(id, "application/octet-stream", compressEvents(events), `sessions/${id}`);
-    console.log("createFileResult", createFileResult);
     return { docID: id };
   } catch (error) {
     storeSessionError(JSON.stringify(error));
