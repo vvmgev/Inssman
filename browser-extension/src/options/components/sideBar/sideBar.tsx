@@ -28,65 +28,61 @@ const SideBar = () => {
           <Logo />
         </div>
       </Link>
-      <div className="py-2 border-b border-slate-700">
-        <SidebarSection>
-          <SidebarItem title="All Rules" icon={<ListSVG />} url="/" />
-        </SidebarSection>
-        <SidebarSection title="Create Rule">
-          {paths.map(({ icon, text, path }, index) => {
-            const url = `/create/${path}`;
-            return (
-              <SidebarItem
-                key={index}
-                title={
-                  <div className="flex items-center gap-1">
-                    {text}
-                    {popularPaths.includes(path) && (
-                      <Tooltip content="Popular">
-                        <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
-                      </Tooltip>
-                    )}
-                  </div>
-                }
-                icon={icon}
-                url={url}
-                active={location.pathname === url}
-              />
-            );
-          })}
-        </SidebarSection>
-      </div>
-      <div className="border-b border-slate-700">
-        <AnimationElement>
-          <SidebarSection
-            title={
-              <div className="flex">
-                <div className="text-slate-400 whitespace-nowrap">Record Session</div>
-                {featureShowRecord ? (
-                  <sup className="inline-block text-xs text-red-500 bottom-4 whitespace-nowrap">&nbsp;Beta</sup>
-                ) : (
-                  <sup className="inline-block text-xs bottom-4 text-sky-500 whitespace-nowrap">&nbsp;Coming Soon</sup>
-                )}
-              </div>
-            }
-          >
+      <SidebarSection classes="border-none mt-2">
+        <SidebarItem title="All Rules" icon={<ListSVG />} url="/" />
+      </SidebarSection>
+      <SidebarSection title="Create Rule">
+        {paths.map(({ icon, text, path }, index) => {
+          const url = `/create/${path}`;
+          return (
             <SidebarItem
-              title="Record"
-              icon={<VideoCameraSVG />}
-              url={featureShowRecord ? "/record" : "#"}
-              active={location.pathname === "/record"}
+              key={index}
+              title={
+                <div className="flex items-center gap-1">
+                  {text}
+                  {popularPaths.includes(path) && (
+                    <Tooltip content="Popular">
+                      <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
+                    </Tooltip>
+                  )}
+                </div>
+              }
+              icon={icon}
+              url={url}
+              active={location.pathname === url}
             />
-            <SidebarItem
-              title="Recorded Sessions"
-              icon={<SquaresSVG />}
-              url={featureShowRecord ? "/record/session" : "#"}
-              active={location.pathname === "/record/session"}
-            />
-          </SidebarSection>
-        </AnimationElement>
-      </div>
+          );
+        })}
+      </SidebarSection>
+      <AnimationElement>
+        <SidebarSection
+          title={
+            <div className="flex">
+              <div className="text-slate-400 whitespace-nowrap">Record Session</div>
+              {featureShowRecord ? (
+                <sup className="inline-block text-xs text-red-500 bottom-4 whitespace-nowrap">&nbsp;Beta</sup>
+              ) : (
+                <sup className="inline-block text-xs bottom-4 text-sky-500 whitespace-nowrap">&nbsp;Coming Soon</sup>
+              )}
+            </div>
+          }
+        >
+          <SidebarItem
+            title="Record"
+            icon={<VideoCameraSVG />}
+            url={featureShowRecord ? "/record" : "#"}
+            active={location.pathname === "/record"}
+          />
+          <SidebarItem
+            title="Recorded Sessions"
+            icon={<SquaresSVG />}
+            url={featureShowRecord ? "/record/session" : "#"}
+            active={location.pathname === "/record/session"}
+          />
+        </SidebarSection>
+      </AnimationElement>
       <div className="py-2 border-none">
-        <SidebarSection title="Templates">
+        <SidebarSection title="Templates" classes="border-none">
           {paths.map(({ icon, path }) => {
             const ruleTemplates = templates[path] || [];
             const url = `/template/${path}`;
