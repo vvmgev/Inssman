@@ -2,8 +2,8 @@ import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
 import { getDocs, initializeFirestore, deleteDoc } from "firebase/firestore";
 import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
-import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
+import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAxGHh-YxvgknA78UWRK8QuFWvTuu-B-hU",
