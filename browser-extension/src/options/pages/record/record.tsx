@@ -51,9 +51,14 @@ const Record: FC = (): ReactElement => {
           <p>for optimal performance and user experience.</p>
         </div>
         <div className="mt-auto">
-          <span className="font-bold">Note: </span>
-          <span className="text-slate-400">
-            All Recorded Sessions Are Stored On Your Device, Except Shared Sessions
+          <span className="flex flex-row gap-1 text-xs mt-50 text-slate-400">
+            <span className="w-10 font-bold text-slate-200">Note: </span>
+            <span className="flex flex-col">
+              <span>All Recorded Sessions Are Stored On Your Device.</span>
+              <span>Except Shared Sessions.</span>
+              <span>After 30 Days, All Shared Sessions Will Be Automatically Removed.</span>
+              <span>But They Will Still Be Retained On Your Device And Possibility To Share Again.</span>
+            </span>
           </span>
           <form className="flex gap-5 pt-5">
             <Input ref={searchRef} classes="w-2/3" placeholder="Enter URL e.g https://google.com" />
