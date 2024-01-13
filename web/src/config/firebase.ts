@@ -1,7 +1,7 @@
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
-import { initializeFirestore } from "firebase/firestore";
-import { getBlob, getStorage, ref as refStorage, uploadBytes } from "firebase/storage";
+import { getDocs, initializeFirestore, deleteDoc } from "firebase/firestore";
+import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
 import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
 import { getDatabase, ref, push } from "firebase/database";
 
@@ -89,6 +89,21 @@ export const storeRecordedSession = async (session: any) => {
   } catch (error) {
     return { error: true, message: error };
   }
+};
+
+export const getRecordedSessions = async () => {
+  const querySnapshot = await getDocs(collection(firestoreDB, "recordedSessions"));
+  return querySnapshot.docs.map((doc) => ({ ...doc.data(), docID: doc.id }));
+};
+
+export const removeRecordedSession = async (id: string) => {
+  deleteDoc(doc(recordedSessionsCollectionRef, id));
+};
+
+export const removeRecordedSessionFile = async (id: string) => {
+  const storage = getStorage(app);
+  const recordedSessionRef = refStorage(storage, `sessions/${id}`);
+  deleteObject(recordedSessionRef);
 };
 
 export const getRecordedSessionByID = async (id: string) => {
