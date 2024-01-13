@@ -9,4 +9,5 @@ export type RecordSession = {
   // when user upgrade to 1.0.54
   preview?: string;
   docID?: string;
+  ttl?: number;
 };

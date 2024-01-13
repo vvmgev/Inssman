@@ -1,4 +1,16 @@
-import { getFirestore, collection, addDoc, doc, getDoc, deleteDoc, initializeFirestore } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  deleteDoc,
+  initializeFirestore,
+  where,
+  query,
+  getDocs,
+  documentId,
+} from "firebase/firestore";
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
 import { initializeApp } from "firebase/app";
@@ -80,6 +92,16 @@ export const storeRecordedSession = async (session: any) => {
   } catch (error) {
     storeSessionError(JSON.stringify(error));
     return Promise.reject(error);
+  }
+};
+
+export const getRecordedSessionByDocIDs = async (ids: string[]) => {
+  try {
+    const q = query(recordedSessionsCollectionRef, where(documentId(), "in", ids));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => doc.data()) || [];
+  } catch (error: any) {
+    storeSessionError(JSON.stringify(error));
   }
 };
 

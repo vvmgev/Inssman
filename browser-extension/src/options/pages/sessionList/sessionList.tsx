@@ -8,16 +8,17 @@ import Copy from "copy-to-clipboard";
 import TrashSVG from "@assets/icons/trash.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
-import SquaresSVG from "@assets/icons/squares.svg";
-import ListSVG from "@assets/icons/list.svg";
+// import SquaresSVG from "@assets/icons/squares.svg";
+// import ListSVG from "@assets/icons/list.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import List from "@options/components/common/list/list";
-import { FC, ReactElement, useEffect, useState } from "react";
+import { FC, ReactElement, memo, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
 import { toast } from "react-toastify";
 import { APP_URL } from "@/options/constant";
+import IndexDBService from "@/services/IndexDBService";
 
 enum SessionListType {
   GRID = "grid",
@@ -80,10 +81,11 @@ const SessionList: FC = (): ReactElement => {
   const handleShare = (session) => {
     if (session?.docID || sharingItemId) return;
     setSharingItemId(session.id);
+    session.ttl = Number(new Date());
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,
-        data: { session },
+        data: { session: { ...session } },
       },
       (data) => {
         if (data.error) {
@@ -109,6 +111,36 @@ const SessionList: FC = (): ReactElement => {
 
   const filteredSessions = sessions.filter((session) => session.name.includes(search)).reverse();
   const title = sessions.length ? `No Session found for "${search}"` : "Seems You Have Not Recorded a Session";
+
+  useEffect(() => {
+    const syncSessions = async () => {
+      const sharedSessions = sessions.filter(({ docID }) => !!docID);
+      if (sharedSessions.length) {
+        chrome.runtime.sendMessage(
+          {
+            action: PostMessageAction.GetSharedRecordedSessionByDocIDs,
+            data: { ids: sharedSessions.map(({ docID }) => docID) },
+          },
+          async (data = []) => {
+            let updateSessionList = false;
+            for (const sharedSession of sharedSessions) {
+              const session = data.find(({ id }) => id === sharedSession.id);
+              if (!session) {
+                updateSessionList = true;
+                delete sharedSession.docID;
+                await IndexDBService.put(sharedSession);
+              }
+            }
+            if (updateSessionList) {
+              getSessions();
+            }
+          }
+        );
+      }
+    };
+
+    syncSessions();
+  }, [sessions]);
 
   return (
     <Section classes="mx-[5%] p-0">
@@ -196,7 +228,7 @@ const SessionList: FC = (): ReactElement => {
       {listType === SessionListType.GRID ? (
         <></>
       ) : (
-        // <div className="flex flex-wrap w-full h-full gap-2 mt-4 px-3">
+        // <div className="flex flex-wrap w-full h-full gap-2 px-3 mt-4">
         //   {filteredSessions.length ? (
         //     <>
         //       {filteredSessions.map((session) => (
@@ -245,4 +277,4 @@ const SessionList: FC = (): ReactElement => {
   );
 };
 
-export default SessionList;
+export default memo(SessionList);

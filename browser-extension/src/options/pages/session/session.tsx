@@ -69,6 +69,7 @@ const Session: FC = (): ReactElement => {
   const handleShare = () => {
     if (isSessionShared) return;
     setIsSharing(true);
+    (session as RecordSession).ttl = Number(new Date());
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.ShareRecordedSession,

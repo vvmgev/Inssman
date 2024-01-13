@@ -7,7 +7,12 @@ import { ListenerType } from "@services/ListenerService/ListenerService";
 import { extractDomain } from "@utils/extractDomain";
 import { RecordSession } from "@models/recordSessionModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
-import { getRecordedSessionByID, removeRecordedSession, storeRecordedSession } from "@/serviceWorker/firebase";
+import {
+  getRecordedSessionByID,
+  getRecordedSessionByDocIDs,
+  removeRecordedSession,
+  storeRecordedSession,
+} from "@/serviceWorker/firebase";
 
 import Tab = chrome.tabs.Tab;
 
@@ -33,6 +38,7 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.DeleteRecordedSessions]: this.clear,
       [PostMessageAction.ShareRecordedSession]: this.shareRecordedSession,
       [PostMessageAction.GetSharedRecordedSession]: this.getSharedRecordedSession,
+      [PostMessageAction.GetSharedRecordedSessionByDocIDs]: this.getSharedRecordedSessionByDocIDs,
     };
   }
 
@@ -165,6 +171,10 @@ class RecordSessionService extends BaseService {
 
   getSharedRecordedSession = async ({ id }) => {
     return getRecordedSessionByID(id);
+  };
+
+  getSharedRecordedSessionByDocIDs = async ({ ids }: { ids: string[] }) => {
+    return await getRecordedSessionByDocIDs(ids);
   };
 }
 
