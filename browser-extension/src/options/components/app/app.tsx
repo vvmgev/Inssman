@@ -2,10 +2,10 @@ import FeatureToggleProvider from "@context/featureToggleContext";
 import Background from "@options/components/common/background/background";
 import Header from "../header/header";
 import Footer from "../footer/footer";
-import SideBar from "../sideBar/sideBar";
+import Sidebar from "../sidebar/sidebar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
-import SideBarContextProvider, { SideBarContext } from "@context/sideBarContext";
+import SidebarContextProvider, { SidebarContext } from "@/context/sidebarContext";
 import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
 import { ToastContainer } from "react-toastify";
 import { useContext } from "react";
@@ -15,11 +15,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
-  const { full, setFull } = useContext(SideBarContext);
+  const { full, setFull } = useContext(SidebarContext);
 
   return (
     <div className="flex flex-row w-screen h-screen overflow-hidden">
-      <SideBar />
+      <Sidebar />
       <div className="flex flex-col w-full gap-10">
         <Header />
         <BrowserSupport>
@@ -51,9 +51,9 @@ const Wrapper = () => {
         <HashRouter>
           <FeatureToggleProvider>
             <OverlayContextProvider source="options">
-              <SideBarContextProvider>
+              <SidebarContextProvider>
                 <App />
-              </SideBarContextProvider>
+              </SidebarContextProvider>
             </OverlayContextProvider>
           </FeatureToggleProvider>
         </HashRouter>

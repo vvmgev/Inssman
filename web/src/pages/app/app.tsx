@@ -2,7 +2,7 @@ import Loading from "../../components/loading/loading";
 import { useEffect, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { isSharedRecordedSessionPath } from "../../utils/isSharedRecordedSessionPath";
-import SideBar from "../../components/sidebar/sidebar";
+import Sidebar from "../../components/sidebar/sidebar";
 import SharedRecordedSession from "../../components/sharedRecordedSession/sharedRecordedSession";
 import InstallExtension from "../../components/installExtension/installExtension";
 import { getRecordedSessionByID } from "../../config/firebase";
@@ -45,7 +45,7 @@ export default function App() {
         <Loading />
       ) : (
         <div className="flex w-full h-full gap-2">
-          <SideBar />
+          <Sidebar />
           {isSharedRecordedSession ? <SharedRecordedSession session={session} error={error} /> : <InstallExtension />}
         </div>
       )}

@@ -16,7 +16,7 @@ import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { RecordSession } from "@models/recordSessionModel";
-import { SideBarContext } from "@context/sideBarContext";
+import { SidebarContext } from "@/context/sidebarContext";
 import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
@@ -36,7 +36,7 @@ const Session: FC = (): ReactElement => {
   const isSharedUrl = location.pathname.includes("shared");
   const sessionMemo = useMemo(() => session, [session]);
   const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
-  const { setFull } = useContext(SideBarContext);
+  const { setFull } = useContext(SidebarContext);
   const { id } = useParams();
 
   // FIXME:

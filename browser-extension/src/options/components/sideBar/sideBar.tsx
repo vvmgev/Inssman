@@ -10,13 +10,13 @@ import ListSVG from "@assets/icons/list.svg";
 import StarSVG from "@assets/icons/star.svg";
 import { Link, useLocation } from "react-router-dom";
 import { Fragment, useContext } from "react";
-import { SideBarContext } from "@context/sideBarContext";
+import { SidebarContext } from "@/context/sidebarContext";
 import { FeatureToggleContext } from "@context/featureToggleContext";
 import { paths, popularPaths } from "../app/paths";
 import { templates } from "../app/templates";
 
-const SideBar = () => {
-  const { full, setFull } = useContext(SideBarContext);
+const Sidebar = () => {
+  const { full, setFull } = useContext(SidebarContext);
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   const location = useLocation();
@@ -103,4 +103,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

@@ -3,12 +3,12 @@ import ListSVG from "@assets/icons/list.svg";
 import StarSVG from "@assets/icons/star.svg";
 import { paths, popularPaths } from "../app/paths";
 import Tooltip from "@options/components/common/tooltip/tooltip";
-import { SideBarContext } from "@context/sideBarContext";
+import { SidebarContext } from "@/context/sidebarContext";
 import { useContext } from "react";
 
 const FormList = () => {
   const location = useLocation();
-  const { full } = useContext(SideBarContext);
+  const { full } = useContext(SidebarContext);
   return (
     <ul>
       <li className="pl-2 mb-2">

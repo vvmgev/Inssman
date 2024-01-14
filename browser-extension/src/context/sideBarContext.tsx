@@ -1,18 +1,18 @@
 import { FC, PropsWithChildren, createContext, useState } from "react";
 
-type SideBarContextValue = {
+type SidebarContextValue = {
   full: boolean;
   setFull: (checked: boolean) => void;
 };
 
-export const SideBarContext = createContext({} as SideBarContextValue);
+export const SidebarContext = createContext({} as SidebarContextValue);
 
 type Props = PropsWithChildren<{}>;
 
-const SideBarContextProvider: FC<Props> = ({ children }) => {
+const SidebarContextProvider: FC<Props> = ({ children }) => {
   const [full, setFull] = useState<boolean>(true);
 
-  return <SideBarContext.Provider value={{ full, setFull }}>{children}</SideBarContext.Provider>;
+  return <SidebarContext.Provider value={{ full, setFull }}>{children}</SidebarContext.Provider>;
 };
 
-export default SideBarContextProvider;
+export default SidebarContextProvider;

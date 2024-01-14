@@ -1,4 +1,4 @@
-import SideBar from "../../../components/sidebar/sidebar";
+import Sidebar from "../../../components/sidebar/sidebar";
 import InstallExtension from "../../../components/installExtension/installExtension";
 import "./install.css";
 
@@ -9,7 +9,7 @@ export default function Install() {
     text-gray-300 text-sm relative p-1"
     >
       <div className="flex w-full h-full gap-2">
-        <SideBar />
+        <Sidebar />
         <InstallExtension />
       </div>
     </main>

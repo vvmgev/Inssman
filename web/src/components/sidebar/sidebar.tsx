@@ -9,8 +9,7 @@ import Section from "../section/section";
 import { paths, popularPaths, templates } from "./paths";
 import Tooltip from "../tooltip/tooltip";
 
-const SideBar = () => {
-  const featureShowRecord = false;
+const Sidebar = () => {
   return (
     <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
       <Link className="hover:cursor-pointer" href="/app">
@@ -104,4 +103,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;
