@@ -5,7 +5,7 @@ import Footer from "../footer/footer";
 import Sidebar from "../sidebar/sidebar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
-import SidebarContextProvider, { SidebarContext } from "@/context/sidebarContext";
+import SidebarContextProvider, { SidebarContext } from "@context/sidebarContext";
 import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
 import { ToastContainer } from "react-toastify";
 import { useContext } from "react";

@@ -16,7 +16,7 @@ import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { RecordSession } from "@models/recordSessionModel";
-import { SidebarContext } from "@/context/sidebarContext";
+import { SidebarContext } from "@context/sidebarContext";
 import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
