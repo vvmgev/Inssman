@@ -23,7 +23,7 @@ import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
 import Dialog from "@/options/components/dialog/dialog";
 
-const Session: FC = (): ReactElement => {
+const sessionDetails: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -101,7 +101,7 @@ const Session: FC = (): ReactElement => {
     if (isSharedUrl) return;
     chrome.runtime.sendMessage(
       {
-        action: PostMessageAction.DeleteRecordedSessionById,
+        action: PostMessageAction.DeleteRecordedSession,
         data: { session: { ...session, docID } },
       },
       () => navigate("/record/session")
@@ -283,4 +283,4 @@ const Session: FC = (): ReactElement => {
   );
 };
 
-export default memo(Session);
+export default memo(sessionDetails);

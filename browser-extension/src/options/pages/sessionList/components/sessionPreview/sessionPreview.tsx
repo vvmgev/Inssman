@@ -19,7 +19,7 @@ type Props = {
   onDelete: () => void;
   onShare: (data: RecordSession) => void;
   setDialogName: (name: string) => void;
-  setActiveItem: (session: RecordSession | null) => void;
+  selectSession: (session: RecordSession | null) => void;
 };
 
 const Session: FC<Props> = ({
@@ -28,7 +28,7 @@ const Session: FC<Props> = ({
   onShare,
   isSharing,
   dialogName,
-  setActiveItem,
+  selectSession,
   setDialogName,
 }): ReactElement => {
   const [isHovered, setHovered] = useState(false);
@@ -49,13 +49,22 @@ const Session: FC<Props> = ({
     videoRef.current?.pause();
   };
 
+  useEffect(() => {
+    if (isHovered) {
+      videoRef.current?.play?.();
+    } else {
+      videoRef.current?.pause?.();
+    }
+  }),
+    [isHovered];
+
   return (
-    <div>
+    <>
       <Dialog
         title="Confirm Deletion"
         visible={dialogName === "previewDelete"}
         onClose={() => {
-          setActiveItem(null);
+          selectSession(null);
           setDialogName("");
         }}
         footer={
@@ -64,7 +73,7 @@ const Session: FC<Props> = ({
               trackName="Delete Session - NO"
               classes="min-w-[100px]"
               onClick={() => {
-                setActiveItem(null);
+                selectSession(null);
                 setDialogName("");
               }}
             >
@@ -117,7 +126,7 @@ const Session: FC<Props> = ({
               <div
                 className="cursor-pointer hover:text-red-400"
                 onClick={() => {
-                  setActiveItem(data);
+                  selectSession(data);
                   setDialogName("previewDelete");
                 }}
               >
@@ -128,9 +137,9 @@ const Session: FC<Props> = ({
             </Tooltip>
           </div>
         </div>
-        <div className="relative group" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-          <Link to={String(session?.id)} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-            <div className="flex justify-center items-center">
+        <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+          <Link to={String(session?.id)}>
+            <div className="flex justify-center items-center w-[230px] h-[200px] my-0 mx-auto">
               {isHovered ? (
                 <SessionPlayer
                   session={session}
@@ -139,20 +148,15 @@ const Session: FC<Props> = ({
                   ref={videoRef}
                 />
               ) : (
-                <div className="flex gap-2 w-[230px] h-[200px] items-center justify-center overflow-hidden">
-                  <img
-                    src={session?.preview}
-                    onLoad={(event: any) => event.target.classList?.toggle("invisible")}
-                    alt=""
-                    className="invisible"
-                  />
+                <div className="flex gap-2 items-center justify-center overflow-hidden">
+                  <img src={session?.preview} alt={session?.name} />
                 </div>
               )}
             </div>
           </Link>
         </div>
       </Section>
-    </div>
+    </>
   );
 };
 

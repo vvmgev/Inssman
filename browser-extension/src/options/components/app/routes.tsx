@@ -2,7 +2,7 @@ import RouteListener from "@options/components/routeListener/routeListener";
 import HTTPLogger from "@options/pages/httpLogger/httpLogger";
 import Record from "@options/pages/record/record";
 import SessionList from "@options/pages/sessionList/sessionList";
-import Session from "@options/pages/session/session";
+import SessionDetails from "@/options/pages/sessionDetails/sessionDetails";
 import Form from "@options/HOC/formHOC";
 import Main from "@options/components/main/main";
 import NotFound from "@options/components/notFound/notFound";
@@ -45,8 +45,8 @@ const AppRoutes = () => {
         <Route path="/record">
           <Route path="" element={<Record key={37} />} />
           <Route path="session" element={<SessionList key={38} />} />
-          <Route path="shared/session/:id" element={<Session key={39} />} />
-          <Route path="session/:id" element={<Session key={40} />} />
+          <Route path="shared/session/:id" element={<SessionDetails key={39} />} />
+          <Route path="session/:id" element={<SessionDetails key={40} />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

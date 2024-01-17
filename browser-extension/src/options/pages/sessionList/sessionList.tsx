@@ -2,14 +2,14 @@ import Section from "@options/components/common/section/section";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import Input from "@options/components/common/input/input";
 import Dialog from "@/options/components/dialog/dialog";
-// import SessionPreview from "./components/sessionPreview/sessionPreview";
+import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
 import TrashSVG from "@assets/icons/trash.svg";
 import SearchSVG from "@assets/icons/search.svg";
 import CrossSVG from "@assets/icons/cross.svg";
-// import SquaresSVG from "@assets/icons/squares.svg";
-// import ListSVG from "@assets/icons/list.svg";
+import SquaresSVG from "@assets/icons/squares.svg";
+import ListSVG from "@assets/icons/list.svg";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import List from "@options/components/common/list/list";
 import { FC, ReactElement, memo, useEffect, useState } from "react";
@@ -32,7 +32,7 @@ const SessionList: FC = (): ReactElement => {
   const [search, setSearch] = useState<string>("");
   const [dialogName, setDialogName] = useState<string>("");
   const [sessions, setSessions] = useState<RecordSession[]>([]);
-  const [activeSession, setActiveSession] = useState<RecordSession | null>();
+  const [selectedSession, setSelectedSession] = useState<RecordSession | null>();
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
   const getSessions = (): void =>
@@ -50,8 +50,8 @@ const SessionList: FC = (): ReactElement => {
   const handleDelete = () => {
     chrome.runtime.sendMessage(
       {
-        action: PostMessageAction.DeleteRecordedSessionById,
-        data: { session: activeSession },
+        action: PostMessageAction.DeleteRecordedSession,
+        data: { session: selectedSession },
       },
       getSessions
     );
@@ -143,7 +143,7 @@ const SessionList: FC = (): ReactElement => {
   }, [sessions]);
 
   return (
-    <Section classes="mx-[5%] p-0">
+    <Section classes="mx-[5%] p-0 min-h-[500px]">
       <Dialog
         title="Confirm Deletion"
         visible={dialogName === "deleteAll"}
@@ -203,7 +203,7 @@ const SessionList: FC = (): ReactElement => {
               }
             />
           </div>
-          {/* <button
+          <button
             onClick={() => handleListType(SessionListType.GRID)}
             className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
@@ -222,35 +222,33 @@ const SessionList: FC = (): ReactElement => {
             <span className="w-[24px]">
               <ListSVG />
             </span>
-          </button> */}
+          </button>
         </div>
       </div>
       {listType === SessionListType.GRID ? (
-        <></>
+        <div className="flex flex-wrap gap-2 px-3 mt-4">
+          {filteredSessions.length ? (
+            <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(230px,1fr))]">
+              {filteredSessions.map((session) => (
+                <SessionPreview
+                  key={session.id}
+                  selectSession={setSelectedSession}
+                  setDialogName={setDialogName}
+                  data={session}
+                  dialogName={dialogName}
+                  isSharing={sharingItemId === session.id}
+                  onDelete={handleDelete}
+                  onShare={handleShare}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center w-full h-full text-2xl min-h-[400px]">
+              <span>{title}</span>
+            </div>
+          )}
+        </div>
       ) : (
-        // <div className="flex flex-wrap w-full h-full gap-2 px-3 mt-4">
-        //   {filteredSessions.length ? (
-        //     <>
-        //       {filteredSessions.map((session) => (
-        //         <div className="" key={session.id}>
-        //           <SessionPreview
-        //             setActiveItem={setActiveSession}
-        //             setDialogName={setDialogName}
-        //             data={session}
-        //             dialogName={dialogName}
-        //             isSharing={sharingItemId === session.id}
-        //             onDelete={handleDelete}
-        //             onShare={handleShare}
-        //           />
-        //         </div>
-        //       ))}
-        //     </>
-        //   ) : (
-        //     <div className="flex justify-center items-center w-full h-full text-2xl min-h-[400px]">
-        //       <span>{title}</span>
-        //     </div>
-        //   )}
-        // </div>
         <div className="flex flex-row flex-wrap mt-4 text-center">
           <List
             headers={LIST_HEADERS}
@@ -260,7 +258,7 @@ const SessionList: FC = (): ReactElement => {
               handleShare,
               handleDelete,
               generateShareUrl,
-              setActiveItem: setActiveSession,
+              selectSession: setSelectedSession,
               setDialogName,
               dialogName,
               sharingItemId,

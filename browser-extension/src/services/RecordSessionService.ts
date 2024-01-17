@@ -34,7 +34,7 @@ class RecordSessionService extends BaseService {
       [PostMessageAction.GetRecordedSessions]: this.getRecordedSessions,
       [PostMessageAction.GetRecordedSessionById]: this.getSessionById,
       [PostMessageAction.GetLastRecordedSession]: this.getLastRecordedSession,
-      [PostMessageAction.DeleteRecordedSessionById]: this.removeById,
+      [PostMessageAction.DeleteRecordedSession]: this.removeById,
       [PostMessageAction.DeleteRecordedSessions]: this.clear,
       [PostMessageAction.ShareRecordedSession]: this.shareRecordedSession,
       [PostMessageAction.GetSharedRecordedSession]: this.getSharedRecordedSession,

@@ -1,5 +1,5 @@
-import { FC, Fragment, ReactElement } from "react";
 import Section from "@options/components/common/section/section";
+import { FC, Fragment, ReactElement } from "react";
 import { paths } from "@options/components/app/paths";
 import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter";
 

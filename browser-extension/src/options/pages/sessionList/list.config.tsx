@@ -102,7 +102,7 @@ export const LIST_ITEMS: ListItems[] = [
             title="Confirm Deletion"
             visible={options.dialogName === "deleteSession"}
             onClose={() => {
-              options.setActiveItem(null);
+              options.selectSession(null);
               options.setDialogName("");
             }}
             footer={
@@ -111,7 +111,7 @@ export const LIST_ITEMS: ListItems[] = [
                   trackName="Delete Session - NO"
                   classes="min-w-[100px]"
                   onClick={() => {
-                    options.setActiveItem(null);
+                    options.selectSession(null);
                     options.setDialogName("");
                   }}
                 >
@@ -123,7 +123,7 @@ export const LIST_ITEMS: ListItems[] = [
                   trackName="Delete Session - YES"
                   onClick={() => {
                     options.setDialogName("");
-                    options.setActiveItem(null);
+                    options.selectSession(null);
                     options.handleDelete(item);
                   }}
                 >
@@ -183,7 +183,7 @@ export const LIST_ITEMS: ListItems[] = [
               className="cursor-pointer hover:text-red-400"
               onClick={() => {
                 options.setDialogName("deleteSession");
-                options.setActiveItem(item);
+                options.selectSession(item);
               }}
             >
               <span className="w-[24px] inline-block">
