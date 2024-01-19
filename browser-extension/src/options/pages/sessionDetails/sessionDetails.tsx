@@ -1,4 +1,5 @@
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
+import Dialog from "@/options/components/dialog/dialog";
 import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
@@ -21,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
-import Dialog from "@/options/components/dialog/dialog";
 
 const sessionDetails: FC = (): ReactElement => {
   const location = useLocation();

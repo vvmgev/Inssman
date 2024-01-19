@@ -1,7 +1,9 @@
 import TrackService from "@services/TrackService";
 import Toast from "@options/components/common/toast/toast";
-import Forms from "@pages/forms/forms";
-import config from "../formBuilder/config";
+import Form from "@options/components/common/form/form";
+import FormBuilder from "@options/formBuilder/formBuilder";
+import Section from "@options/components/common/section/section";
+import config from "@options/formBuilder/config";
 import { FormMode, IForm, IRule, IRuleMetaData, PageName } from "@models/formFieldModel";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -11,7 +13,7 @@ import { toast } from "react-toastify";
 
 export type FormError = Record<string, string | null>;
 
-const FormHOC = () => {
+const RuleForm = () => {
   const location = useLocation();
   const params = useParams();
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const FormHOC = () => {
     return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
   };
   const pageType = getPageType(mode);
-  const fields = config[pageType].fields;
+  const { fields, generateRule } = config[pageType];
 
   const inValid = (value, regexp) => regexp.test(value);
 
@@ -233,18 +235,18 @@ const FormHOC = () => {
     return null;
   }
 
+  const onSubmit = () => {
+    const form: IRule = generateRule(ruleMetaData);
+    onSave(form);
+  };
+
   return (
-    <Forms
-      ruleMetaData={ruleMetaData}
-      onChange={onChange}
-      error={errors}
-      onDelete={onDelete}
-      onSave={onSave}
-      mode={mode}
-      pageType={getPageType(mode)}
-      template={location.state?.template}
-    />
+    <Section classes="mx-[5%] p-5">
+      <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={errors} pageType={pageType}>
+        <FormBuilder ruleMetaData={ruleMetaData} onChange={onChange} error={errors} mode={mode} pageType={pageType} />
+      </Form>
+    </Section>
   );
 };
 
-export default FormHOC;
+export default RuleForm;

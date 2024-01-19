@@ -4,13 +4,12 @@ import OutlineButton from "@options/components/common/outlineButton/outlineButto
 import TrashSVG from "@assets/icons/trash.svg";
 import PencilSVG from "@assets/icons/pencil.svg";
 import { PageName, IconsMap } from "@models/formFieldModel";
-import { FormError } from "@options/HOC/formHOC";
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<{
   onSubmit: Function;
   onDelete: Function;
-  error: FormError;
+  error: Record<string, string | null>;
   pageType: string;
   mode: string;
 }>;

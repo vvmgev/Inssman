@@ -10,14 +10,13 @@ import FormContextProvider from "@context/formContext";
 import config from "./config";
 import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from "@models/formFieldModel";
 import { Fragment, useMemo, PropsWithChildren, FC } from "react";
-import { FormError } from "../HOC/formHOC";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
 type Props = PropsWithChildren<{
   // FIXME: the type
   ruleMetaData: any;
   onChange: Function;
-  error: FormError;
+  error: Record<string, string | null>;
   mode: FormMode;
   pageType: string;
 }>;
