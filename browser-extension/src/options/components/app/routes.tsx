@@ -22,7 +22,7 @@ const AppRoutes = () => {
           <Route path="modify-response" element={<RuleForm key={4} />} />
           <Route path="modify-request-body" element={<RuleForm key={5} />} />
           <Route path="inject-file" element={<RuleForm key={6} />} />
-          <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} key={14} />} />
+          <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} />} />
         </Route>
         <Route path="/edit">
           <Route path="redirect/:id" element={<RuleForm key={7} />} />
@@ -43,10 +43,10 @@ const AppRoutes = () => {
           <Route path="inject-file" element={<RuleForm key={36} />} />
         </Route>
         <Route path="/record">
-          <Route path="" element={<Record key={37} />} />
-          <Route path="session" element={<SessionList key={38} />} />
-          <Route path="shared/session/:id" element={<SessionDetails key={39} />} />
-          <Route path="session/:id" element={<SessionDetails key={40} />} />
+          <Route path="" element={<Record />} />
+          <Route path="session" element={<SessionList />} />
+          <Route path="shared/session/:id" element={<SessionDetails />} />
+          <Route path="session/:id" element={<SessionDetails />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
