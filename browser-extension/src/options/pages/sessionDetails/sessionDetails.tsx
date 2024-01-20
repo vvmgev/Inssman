@@ -240,13 +240,9 @@ const sessionDetails: FC = (): ReactElement => {
                 <Input
                   readOnly
                   value={generateShareUrl()}
-                  suffix={
+                  endIcon={
                     <Tooltip content="Copy">
-                      <div className="cursor-pointer hover:text-sky-500">
-                        <span onClick={handleCopyToClipboard} className="hover:text-sky-500">
-                          <Icon name="clipboard" />
-                        </span>
-                      </div>
+                      <Icon name="clipboard" className="cursor-pointer hover:text-sky-500" />
                     </Tooltip>
                   }
                 />

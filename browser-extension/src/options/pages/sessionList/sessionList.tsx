@@ -189,8 +189,8 @@ const SessionList: FC = (): ReactElement => {
               placeholder="Search By Session Name"
               onChange={onChangeSearch}
               value={search}
-              prefix={<Icon name="search" />}
-              suffix={<Icon name="cross" onClick={onHandleClearSearch} className="hover:text-red-400" />}
+              startIcon={<Icon name="search" />}
+              endIcon={<Icon name="cross" onClick={onHandleClearSearch} className="hover:text-red-400" />}
             />
           </div>
           <button

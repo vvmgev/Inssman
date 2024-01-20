@@ -148,12 +148,10 @@ export const LIST_ITEMS: ListItems[] = [
                 <Input
                   readOnly
                   value={options.generateShareUrl(item.docID)}
-                  suffix={
-                    <span onClick={() => options?.handleCopyToClipboard(item.docID)}>
-                      <Tooltip content="Copy">
-                        <Icon name="clipboard" />
-                      </Tooltip>
-                    </span>
+                  endIcon={
+                    <Tooltip content="Copy">
+                      <Icon name="clipboard" onClick={() => options?.handleCopyToClipboard(item.docID)} />
+                    </Tooltip>
                   }
                 />
               ) : (

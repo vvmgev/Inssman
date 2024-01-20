@@ -181,8 +181,8 @@ export default () => {
                 placeholder="Search By Rule Name"
                 onChange={onChangeSearch}
                 value={search}
-                prefix={<Icon name="search" />}
-                suffix={
+                startIcon={<Icon name="search" />}
+                endIcon={
                   <Icon name="cross" onClick={onHandleClearSearch} className="cursor-pointer hover:text-red-400" />
                 }
               />
