@@ -14,7 +14,7 @@ const SidebarItem: FC<Props> = ({ url, title, icon, locationState, active = fals
     <li className="pl-2 mb-2">
       <Link to={url} state={locationState}>
         <div className={`${active ? "text-sky-500" : ""} flex items-center hover:text-sky-500 gap-2`}>
-          <span className="min-w-[24px]">{icon}</span>
+          {icon}
           <span>{title}</span>
         </div>
       </Link>

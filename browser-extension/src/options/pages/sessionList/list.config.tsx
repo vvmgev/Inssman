@@ -137,9 +137,7 @@ export const LIST_ITEMS: ListItems[] = [
           <Tooltip content="Play">
             <Link to={String(item.id)}>
               <div className="cursor-pointer hover:text-sky-500">
-                <span className="w-[24px] inline-block">
-                  <Icon name="play" />
-                </span>
+                <Icon name="play" />
               </div>
             </Link>
           </Tooltip>
@@ -151,16 +149,9 @@ export const LIST_ITEMS: ListItems[] = [
                   readOnly
                   value={options.generateShareUrl(item.docID)}
                   suffix={
-                    <span
-                      onClick={() => options?.handleCopyToClipboard(item.docID)}
-                      className="w-[24px] cursor-pointer hover:text-sky-500"
-                    >
+                    <span onClick={() => options?.handleCopyToClipboard(item.docID)}>
                       <Tooltip content="Copy">
-                        <div className="cursor-pointer hover:text-sky-500">
-                          <span className="w-[24px] inline-block">
-                            <Icon name="clipboard" />
-                          </span>
-                        </div>
+                        <Icon name="clipboard" />
                       </Tooltip>
                     </span>
                   }
@@ -171,7 +162,7 @@ export const LIST_ITEMS: ListItems[] = [
             }
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
-              <span onClick={() => options?.handleShare(self)} className="w-[24px] inline-block">
+              <span onClick={() => options?.handleShare(self)}>
                 <Icon name={item.id === options.sharingItemId ? "loader" : "share"} />
               </span>
             </div>

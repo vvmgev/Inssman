@@ -56,9 +56,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
               classes="flex-[3]"
             />
             <div className="cursor-pointer" onClick={(event) => onRemove(event, index)}>
-              <span className="w-[24px] inline-block">
-                <Icon name="cross" />
-              </span>
+              <Icon name="cross" />
             </div>
           </div>
         );

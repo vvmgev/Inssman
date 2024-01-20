@@ -109,13 +109,9 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                 placeholder="Search By URL"
                 onChange={onChangeSearch}
                 value={search}
-                prefix={
-                  <span className="w-[24px]">
-                    <Icon name="search" />
-                  </span>
-                }
+                prefix={<Icon name="search" />}
                 suffix={
-                  <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
+                  <span onClick={onHandleClearSearch} className="hover:text-red-400">
                     <Icon name="cross" />
                   </span>
                 }

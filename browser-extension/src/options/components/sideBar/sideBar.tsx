@@ -38,7 +38,7 @@ const Sidebar = () => {
                   {text}
                   {popularPaths.includes(path) && (
                     <Tooltip content="Popular">
-                      <span className="w-[24px] inline-block text-yellow-400">{<Icon name="star" />}</span>
+                      <Icon name="star" className="text-yellow-400" />
                     </Tooltip>
                   )}
                 </div>

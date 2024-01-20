@@ -34,21 +34,23 @@ const Header = () => {
           href="https://github.com/vvmgev/Inssman"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<Icon name="github" />}</span>Github
+          {<Icon name="github" />}Github
         </a>
         <a
           target="_blank"
           href="https://github.com/vvmgev/Inssman#documentation"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<Icon name="document" />}</span>Docs
+          <Icon name="document" />
+          Docs
         </a>
         <a
           target="_blank"
           href="https://github.com/vvmgev/Inssman/issues/new"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<Icon name="bug" />}</span>Report a Bug
+          <Icon name="bug" />
+          Report a Bug
         </a>
       </Section>
     </div>

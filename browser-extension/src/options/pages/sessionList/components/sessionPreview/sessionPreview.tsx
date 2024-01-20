@@ -107,9 +107,7 @@ const Session: FC<Props> = ({
             <Tooltip content="Play">
               <Link to={String(session?.id)}>
                 <div className="cursor-pointer hover:text-sky-500">
-                  <span className="w-[24px] inline-block">
-                    <Icon name="play" />
-                  </span>
+                  <Icon name="play" />
                 </div>
               </Link>
             </Tooltip>
@@ -118,9 +116,7 @@ const Session: FC<Props> = ({
                 className={`cursor-pointer hover:text-sky-500 ${data?.docID ? "text-sky-500" : "hover:text-sky-500"}`}
                 onClick={() => onShare(data)}
               >
-                <span className="w-[24px] inline-block">
-                  <Icon name={isSharing ? "loader" : "share"} />
-                </span>
+                <Icon name={isSharing ? "loader" : "share"} />
               </div>
             </Tooltip>
             <Tooltip content="Delete Recoreded Session">
@@ -131,9 +127,7 @@ const Session: FC<Props> = ({
                   setDialogName("previewDelete");
                 }}
               >
-                <span className="w-[24px] inline-block">
-                  <Icon name="trash" />
-                </span>
+                <Icon name="trash" />
               </div>
             </Tooltip>
           </div>

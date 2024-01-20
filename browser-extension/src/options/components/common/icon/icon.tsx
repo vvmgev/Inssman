@@ -7,7 +7,7 @@ type Props = { name: Icons.IconName; className?: string } & ComponentProps<"span
 const Icon: FC<Props> = ({ name, className = "" }) => {
   const SelectedIcon = Icons[name];
   return (
-    <span className={twMerge("w-[24px] inline-block", className)}>
+    <span className={twMerge("w-[24px] inline-block cursor-pointer", className)}>
       <SelectedIcon />
     </span>
   );

@@ -92,7 +92,7 @@ export default () => {
       <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
         <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
           <span className="flex flex-row items-center gap-2 text-lg">
-            <span className="w-[24px]">{<Icon name="list" />}</span>
+            <Icon name="list" />
             <span>All Rules</span>
           </span>
           <div className="flex items-center gap-2 text-sm">
@@ -181,15 +181,9 @@ export default () => {
                 placeholder="Search By Rule Name"
                 onChange={onChangeSearch}
                 value={search}
-                prefix={
-                  <span className="w-[24px]">
-                    <Icon name="search" />
-                  </span>
-                }
+                prefix={<Icon name="search" />}
                 suffix={
-                  <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
-                    <Icon name="cross" />
-                  </span>
+                  <Icon name="cross" onClick={onHandleClearSearch} className="cursor-pointer hover:text-red-400" />
                 }
               />
             </div>

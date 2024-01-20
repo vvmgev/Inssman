@@ -51,9 +51,9 @@ const Button: FC<Props> = ({
       {...rest}
     >
       <span className="flex items-center justify-center gap-2">
-        {startIcon && <span className="w-[20px] inline-block">{startIcon}</span>}
+        {startIcon}
         {children}
-        {endIcon && <span className="w-[20px] inline-block">{endIcon}</span>}
+        {endIcon}
       </span>
     </button>
   );

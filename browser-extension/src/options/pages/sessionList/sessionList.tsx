@@ -171,7 +171,7 @@ const SessionList: FC = (): ReactElement => {
       </Dialog>
       <div className="flex justify-between p-5">
         <span className="flex flex-row items-center gap-2">
-          <span className="w-[24px] inline-block">{<Icon name="videoCamera" />}</span>
+          <Icon name="videoCamera" />
           <span>Recorded Sessions</span>
         </span>
         <div className="flex gap-3">
@@ -189,16 +189,8 @@ const SessionList: FC = (): ReactElement => {
               placeholder="Search By Session Name"
               onChange={onChangeSearch}
               value={search}
-              prefix={
-                <span className="w-[24px]">
-                  <Icon name="search" />
-                </span>
-              }
-              suffix={
-                <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
-                  <Icon name="cross" />
-                </span>
-              }
+              prefix={<Icon name="search" />}
+              suffix={<Icon name="cross" onClick={onHandleClearSearch} className="hover:text-red-400" />}
             />
           </div>
           <button
@@ -207,9 +199,7 @@ const SessionList: FC = (): ReactElement => {
               listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
-            <span className="w-[24px]">
-              <Icon name="squares" />
-            </span>
+            <Icon name="squares" />
           </button>
           <button
             onClick={() => handleListType(SessionListType.LIST)}
@@ -217,9 +207,7 @@ const SessionList: FC = (): ReactElement => {
               listType === SessionListType.LIST ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
-            <span className="w-[24px]">
-              <Icon name="list" />
-            </span>
+            <Icon name="list" />
           </button>
         </div>
       </div>

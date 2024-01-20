@@ -116,9 +116,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
                 classes="flex-[2]"
               />
               <div className="cursor-pointer" onClick={(e) => onRemoveHeader(e, index)}>
-                <span className="w-[24px] inline-block">
-                  <Icon name="cross" />
-                </span>
+                <Icon name="cross" />
               </div>
             </div>
           </div>

@@ -94,23 +94,17 @@ export const LIST_ITEMS: ListItems[] = [
         <>
           <Tooltip content="Duplicate Rule">
             <div className="cursor-pointer hover:text-sky-500" onClick={() => handlers?.duplicateRule(item.id)}>
-              <span className="w-[24px] inline-block">
-                <Icon name="documentCopy" />
-              </span>
+              <Icon name="documentCopy" />
             </div>
           </Tooltip>
           <Tooltip content="Edit Rule">
             <Link className="cursor-pointer hover:text-sky-500" to={`/edit/${item.pageType}/${item.id}`}>
-              <span className="w-[24px] inline-block">
-                <Icon name="pencil" />
-              </span>
+              <Icon name="pencil" />
             </Link>
           </Tooltip>
           <Tooltip content="Delete Rule">
             <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
-              <span className="w-[24px] inline-block">
-                <Icon name="trash" />
-              </span>
+              <Icon name="trash" />
             </div>
           </Tooltip>
         </>
