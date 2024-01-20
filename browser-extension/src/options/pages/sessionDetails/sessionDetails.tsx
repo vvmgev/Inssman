@@ -219,6 +219,7 @@ const sessionDetails: FC = (): ReactElement => {
             <div className="text-xl capitalize">{session?.name}</div>
             <div className="flex gap-2">
               <Button
+                variant="outline"
                 trackName="Delete Recorded Session in view mode"
                 className="hover:border-red-400 hover:text-red-400"
                 onClick={() => setDialogVisible(true)}
@@ -228,6 +229,7 @@ const sessionDetails: FC = (): ReactElement => {
                 Delete
               </Button>
               <Button
+                variant="outline"
                 disabled={isSessionShared || isSharedUrl}
                 trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
@@ -242,7 +244,9 @@ const sessionDetails: FC = (): ReactElement => {
                   value={generateShareUrl()}
                   endIcon={
                     <Tooltip content="Copy">
-                      <Icon name="clipboard" className="cursor-pointer hover:text-sky-500" />
+                      <div onClick={handleCopyToClipboard}>
+                        <Icon name="clipboard" />
+                      </div>
                     </Tooltip>
                   }
                 />

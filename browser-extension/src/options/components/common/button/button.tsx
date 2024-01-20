@@ -19,7 +19,7 @@ const styles: Styles = {
   secondary: "",
   outline: "border border-slate-500 text-slate-300 hover:border-sky-400 hover:text-sky-400",
   icon: "p-0",
-  disabled: "",
+  disabled: "text-slate-600 hover:text-slate-600 hover:border-slate-500 cursor-not-allowed",
 };
 
 const Button: FC<Props> = ({

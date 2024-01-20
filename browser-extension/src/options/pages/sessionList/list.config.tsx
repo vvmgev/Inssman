@@ -150,7 +150,9 @@ export const LIST_ITEMS: ListItems[] = [
                   value={options.generateShareUrl(item.docID)}
                   endIcon={
                     <Tooltip content="Copy">
-                      <Icon name="clipboard" onClick={() => options?.handleCopyToClipboard(item.docID)} />
+                      <div onClick={() => options?.handleCopyToClipboard(item.docID)}>
+                        <Icon name="clipboard" />
+                      </div>
                     </Tooltip>
                   }
                 />
