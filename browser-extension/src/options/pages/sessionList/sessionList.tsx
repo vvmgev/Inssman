@@ -170,7 +170,7 @@ const SessionList: FC = (): ReactElement => {
         </div>
       </Dialog>
       <div className="flex justify-between p-5">
-        <span className="flex flex-row items-center gap-2">
+        <span className="flex flex-row items-center gap-2 text-lg">
           <Icon name="videoCamera" />
           <span>Recorded Sessions</span>
         </span>
@@ -193,22 +193,26 @@ const SessionList: FC = (): ReactElement => {
               endIcon={<Icon name="cross" onClick={onHandleClearSearch} className="hover:text-red-400" />}
             />
           </div>
-          <button
+          <Button
+            variant="icon"
+            trackName="grid"
             onClick={() => handleListType(SessionListType.GRID)}
             className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
             <Icon name="squares" />
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="icon"
+            trackName="list"
             onClick={() => handleListType(SessionListType.LIST)}
             className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.LIST ? "bg-blue-600" : "hover:bg-blue-500"
             }`}
           >
             <Icon name="list" />
-          </button>
+          </Button>
         </div>
       </div>
       {listType === SessionListType.GRID ? (

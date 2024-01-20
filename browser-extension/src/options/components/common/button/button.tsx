@@ -3,6 +3,7 @@ import { ReactNode, PropsWithChildren, FC, ComponentProps, ReactElement } from "
 import { twMerge } from "tailwind-merge";
 
 type Variant = "primary" | "secondary" | "icon" | "outline";
+type Styles = Record<Variant | "disabled", string>;
 
 type Props = PropsWithChildren<{
   trackName: string;
@@ -12,13 +13,13 @@ type Props = PropsWithChildren<{
   className?: string;
 }> &
   ComponentProps<"button">;
-HTMLButtonElement;
-const styles = {
+
+const styles: Styles = {
   primary: "bg-sky-600 hover:bg-sky-400 text-gray-100",
   secondary: "",
-  icon: "p-0",
   outline: "border border-slate-500 text-slate-300 hover:border-sky-400 hover:text-sky-400",
-  disabled: "text-slate-600 hover:text-slate-600 hover:border-slate-500 cursor-not-allowed",
+  icon: "p-0",
+  disabled: "",
 };
 
 const Button: FC<Props> = ({
@@ -43,7 +44,7 @@ const Button: FC<Props> = ({
       onClick={handler}
       disabled={disabled}
       className={twMerge(
-        "py-2 px-4 inline-flex items-center rounded outline-0",
+        "py-2 px-4 inline-flex items-center rounded outline-0 text-sm",
         styles[variant || "primary"],
         disabled ? styles.disabled : "",
         className

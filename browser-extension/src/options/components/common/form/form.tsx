@@ -23,7 +23,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
       <div className="flex justify-between mb-3">
         <BackButton trackName={pageType} url="/" text="Rules" />
         <span className="flex flex-col items-center">
-          <span>{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
+          <span className="text-md">{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
           <span className="flex items-center gap-1 text-xs text-slate-400">
             <span className="w-4">{IconsMap[pageType]}</span>
             {PageName[pageType]}

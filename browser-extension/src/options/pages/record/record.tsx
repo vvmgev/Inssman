@@ -39,7 +39,7 @@ const Record: FC = (): ReactElement => {
     <Section classes="flex justify-between mx-[5%] p-5 min-h-[500px]">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 text-lg">
             <Icon name="videoCamera" />
             <span>Record Session & Replay</span>
           </div>
