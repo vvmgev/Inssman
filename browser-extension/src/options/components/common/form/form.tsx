@@ -45,6 +45,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
           </div>
           {mode === "update" && (
             <Button
+              variant="outline"
               trackName="Delete rule edit mode"
               className="hover:border-red-400 hover:text-red-400"
               onClick={onDelete}
