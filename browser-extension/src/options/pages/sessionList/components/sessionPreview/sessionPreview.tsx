@@ -1,16 +1,13 @@
 import rrwebPlayer from "rrweb-player";
-import TrashSVG from "@assets/icons/trash.svg";
-import ShareSVG from "@assets/icons/share.svg";
-import PlaySVG from "@assets/icons/play.svg";
-import LoaderSVG from "@assets/icons/loader.svg";
+import Icon from "@options/components/common/icon/icon";
 import Section from "@options/components/common/section/section";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
+import Dialog from "@/options/components/dialog/dialog";
+import Button from "@/options/components/common/button/button";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import { RecordSession } from "@models/recordSessionModel";
 import { Link } from "react-router-dom";
-import Dialog from "@/options/components/dialog/dialog";
-import OutlineButton from "@/options/components/common/outlineButton/outlineButton";
 
 type Props = {
   data: RecordSession;
@@ -69,19 +66,21 @@ const Session: FC<Props> = ({
         }}
         footer={
           <div className="flex justify-end gap-3">
-            <OutlineButton
+            <Button
+              variant="outline"
               trackName="Delete Session - NO"
-              classes="min-w-[100px]"
+              className="min-w-[100px]"
               onClick={() => {
                 selectSession(null);
                 setDialogName("");
               }}
             >
               No
-            </OutlineButton>
-            <OutlineButton
-              prefix={<TrashSVG />}
-              classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+            </Button>
+            <Button
+              variant="outline"
+              startIcon={<Icon name="trash" />}
+              className="min-w-[100px] hover:text-red-400 hover:border-red-400"
               trackName="Delete Session - YES"
               onClick={() => {
                 setDialogName("");
@@ -89,7 +88,7 @@ const Session: FC<Props> = ({
               }}
             >
               Yes
-            </OutlineButton>
+            </Button>
           </div>
         }
       >
@@ -109,7 +108,7 @@ const Session: FC<Props> = ({
               <Link to={String(session?.id)}>
                 <div className="cursor-pointer hover:text-sky-500">
                   <span className="w-[24px] inline-block">
-                    <PlaySVG />
+                    <Icon name="play" />
                   </span>
                 </div>
               </Link>
@@ -119,7 +118,9 @@ const Session: FC<Props> = ({
                 className={`cursor-pointer hover:text-sky-500 ${data?.docID ? "text-sky-500" : "hover:text-sky-500"}`}
                 onClick={() => onShare(data)}
               >
-                <span className="w-[24px] inline-block">{isSharing ? <LoaderSVG /> : <ShareSVG />}</span>
+                <span className="w-[24px] inline-block">
+                  <Icon name={isSharing ? "loader" : "share"} />
+                </span>
               </div>
             </Tooltip>
             <Tooltip content="Delete Recoreded Session">
@@ -131,7 +132,7 @@ const Session: FC<Props> = ({
                 }}
               >
                 <span className="w-[24px] inline-block">
-                  <TrashSVG />
+                  <Icon name="trash" />
                 </span>
               </div>
             </Tooltip>
@@ -148,7 +149,7 @@ const Session: FC<Props> = ({
                   ref={videoRef}
                 />
               ) : (
-                <div className="flex gap-2 items-center justify-center overflow-hidden">
+                <div className="flex items-center justify-center gap-2 overflow-hidden">
                   <img src={session?.preview} alt={session?.name} />
                 </div>
               )}

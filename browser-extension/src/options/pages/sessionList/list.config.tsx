@@ -1,12 +1,8 @@
-import OutlineButton from "@/options/components/common/outlineButton/outlineButton";
+import Button from "@/options/components/common/button/button";
 import Input from "@options/components/common/input/input";
 import Dialog from "@/options/components/dialog/dialog";
 import Tooltip from "@options/components/common/tooltip/tooltip";
-import PlaySVG from "@assets/icons/play.svg";
-import ShareSVG from "@assets/icons/share.svg";
-import TrashSVG from "@assets/icons/trash.svg";
-import LoaderSVG from "@assets/icons/loader.svg";
-import ClipboardSVG from "@assets/icons/clipboard.svg";
+import Icon from "@options/components/common/icon/icon";
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { Link } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
@@ -107,19 +103,21 @@ export const LIST_ITEMS: ListItems[] = [
             }}
             footer={
               <div className="flex justify-end gap-3">
-                <OutlineButton
+                <Button
+                  variant="outline"
                   trackName="Delete Session - NO"
-                  classes="min-w-[100px]"
+                  className="min-w-[100px]"
                   onClick={() => {
                     options.selectSession(null);
                     options.setDialogName("");
                   }}
                 >
                   No
-                </OutlineButton>
-                <OutlineButton
-                  prefix={<TrashSVG />}
-                  classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+                </Button>
+                <Button
+                  variant="outline"
+                  startIcon={<Icon name="trash" />}
+                  className="min-w-[100px] hover:text-red-400 hover:border-red-400"
                   trackName="Delete Session - YES"
                   onClick={() => {
                     options.setDialogName("");
@@ -128,7 +126,7 @@ export const LIST_ITEMS: ListItems[] = [
                   }}
                 >
                   Yes
-                </OutlineButton>
+                </Button>
               </div>
             }
           >
@@ -140,7 +138,7 @@ export const LIST_ITEMS: ListItems[] = [
             <Link to={String(item.id)}>
               <div className="cursor-pointer hover:text-sky-500">
                 <span className="w-[24px] inline-block">
-                  <PlaySVG />
+                  <Icon name="play" />
                 </span>
               </div>
             </Link>
@@ -160,7 +158,7 @@ export const LIST_ITEMS: ListItems[] = [
                       <Tooltip content="Copy">
                         <div className="cursor-pointer hover:text-sky-500">
                           <span className="w-[24px] inline-block">
-                            <ClipboardSVG />
+                            <Icon name="clipboard" />
                           </span>
                         </div>
                       </Tooltip>
@@ -174,22 +172,22 @@ export const LIST_ITEMS: ListItems[] = [
           >
             <div className={`cursor-pointer ${item?.docID ? "text-sky-500" : "hover:text-sky-500"}`}>
               <span onClick={() => options?.handleShare(self)} className="w-[24px] inline-block">
-                {item.id === options.sharingItemId ? <LoaderSVG /> : <ShareSVG />}
+                <Icon name={item.id === options.sharingItemId ? "loader" : "share"} />
               </span>
             </div>
           </Tooltip>
           <Tooltip content="Delete Session">
-            <div
-              className="cursor-pointer hover:text-red-400"
+            <Button
+              variant="icon"
+              trackName="delete session"
+              className="hover:text-red-400"
               onClick={() => {
                 options.setDialogName("deleteSession");
                 options.selectSession(item);
               }}
             >
-              <span className="w-[24px] inline-block">
-                <TrashSVG />
-              </span>
-            </div>
+              <Icon name="trash" />
+            </Button>
           </Tooltip>
         </div>
       );

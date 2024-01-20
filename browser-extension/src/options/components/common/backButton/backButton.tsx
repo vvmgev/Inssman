@@ -1,5 +1,5 @@
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
-import ArrowLeftSVG from "@assets/icons/arrowLeft.svg";
+import Button from "@options/components/common/button/button";
+import Icon from "@options/components/common/icon/icon";
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 
@@ -12,13 +12,14 @@ const BackButton: FC<Props> = ({ trackName, url, text }) => {
   const navigate = useNavigate();
 
   return (
-    <OutlineButton
+    <Button
+      variant="outline"
       trackName={`Back ${trackName}`}
       onClick={() => navigate((url || -1) as string)}
-      prefix={<ArrowLeftSVG />}
+      startIcon={<Icon name="arrowLeft" />}
     >
       {text || "Back"}
-    </OutlineButton>
+    </Button>
   );
 };
 

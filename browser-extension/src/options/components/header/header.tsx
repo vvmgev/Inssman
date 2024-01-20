@@ -1,6 +1,4 @@
-import GithubSVG from "@assets/icons/github.svg";
-import DocumentSVG from "@assets/icons/document.svg";
-import BugSVG from "@assets/icons/bug.svg";
+import Icon from "@options/components/common/icon/icon";
 import Section from "@options/components/common/section/section";
 import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
 import { OverlayContext } from "@context/overlayContext";
@@ -36,21 +34,21 @@ const Header = () => {
           href="https://github.com/vvmgev/Inssman"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<GithubSVG />}</span>Github
+          <span className="w-[24px]">{<Icon name="github" />}</span>Github
         </a>
         <a
           target="_blank"
           href="https://github.com/vvmgev/Inssman#documentation"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<DocumentSVG />}</span>Docs
+          <span className="w-[24px]">{<Icon name="document" />}</span>Docs
         </a>
         <a
           target="_blank"
           href="https://github.com/vvmgev/Inssman/issues/new"
           className="flex items-center gap-3 hover:text-sky-500"
         >
-          <span className="w-[24px]">{<BugSVG />}</span>Report a Bug
+          <span className="w-[24px]">{<Icon name="bug" />}</span>Report a Bug
         </a>
       </Section>
     </div>

@@ -1,16 +1,12 @@
 import Section from "@options/components/common/section/section";
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import Button from "@options/components/common/button/button";
 import Input from "@options/components/common/input/input";
 import Dialog from "@/options/components/dialog/dialog";
+import IndexDBService from "@/services/IndexDBService";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
-import TrashSVG from "@assets/icons/trash.svg";
-import SearchSVG from "@assets/icons/search.svg";
-import CrossSVG from "@assets/icons/cross.svg";
-import SquaresSVG from "@assets/icons/squares.svg";
-import ListSVG from "@assets/icons/list.svg";
-import VideoCameraSVG from "@assets/icons/videoCamera.svg";
+import Icon from "@options/components/common/icon/icon";
 import List from "@options/components/common/list/list";
 import { FC, ReactElement, memo, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
@@ -18,7 +14,6 @@ import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
 import { toast } from "react-toastify";
 import { APP_URL } from "@/options/constant";
-import IndexDBService from "@/services/IndexDBService";
 
 enum SessionListType {
   GRID = "grid",
@@ -150,21 +145,23 @@ const SessionList: FC = (): ReactElement => {
         onClose={() => setDialogName("")}
         footer={
           <div className="flex justify-end gap-3">
-            <OutlineButton
+            <Button
+              variant="outline"
               trackName="Delete All Sessions - NO"
-              classes="min-w-[100px]"
+              className="min-w-[100px]"
               onClick={() => setDialogName("")}
             >
               No
-            </OutlineButton>
-            <OutlineButton
-              prefix={<TrashSVG />}
-              classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+            </Button>
+            <Button
+              variant="outline"
+              startIcon={<Icon name="trash" />}
+              className="min-w-[100px] hover:text-red-400 hover:border-red-400"
               trackName="Delete All Sessions - YES"
               onClick={() => handleDeleteSessions(setDialogName)}
             >
               Yes
-            </OutlineButton>
+            </Button>
           </div>
         }
       >
@@ -174,18 +171,19 @@ const SessionList: FC = (): ReactElement => {
       </Dialog>
       <div className="flex justify-between p-5">
         <span className="flex flex-row items-center gap-2">
-          <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
+          <span className="w-[24px] inline-block">{<Icon name="videoCamera" />}</span>
           <span>Recorded Sessions</span>
         </span>
         <div className="flex gap-3">
-          <OutlineButton
-            classes="text-sm hover:text-red-400 hover:border-red-400"
+          <Button
+            variant="outline"
+            className="text-sm hover:text-red-400 hover:border-red-400"
             trackName="Delete All Session"
-            prefix={<TrashSVG />}
+            startIcon={<Icon name="trash" />}
             onClick={() => setDialogName("deleteAll")}
           >
             Delete All Sessions
-          </OutlineButton>
+          </Button>
           <div className="mr-4 text-sm">
             <Input
               placeholder="Search By Session Name"
@@ -193,12 +191,12 @@ const SessionList: FC = (): ReactElement => {
               value={search}
               prefix={
                 <span className="w-[24px]">
-                  <SearchSVG />
+                  <Icon name="search" />
                 </span>
               }
               suffix={
                 <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
-                  <CrossSVG />
+                  <Icon name="cross" />
                 </span>
               }
             />
@@ -210,7 +208,7 @@ const SessionList: FC = (): ReactElement => {
             }`}
           >
             <span className="w-[24px]">
-              <SquaresSVG />
+              <Icon name="squares" />
             </span>
           </button>
           <button
@@ -220,7 +218,7 @@ const SessionList: FC = (): ReactElement => {
             }`}
           >
             <span className="w-[24px]">
-              <ListSVG />
+              <Icon name="list" />
             </span>
           </button>
         </div>

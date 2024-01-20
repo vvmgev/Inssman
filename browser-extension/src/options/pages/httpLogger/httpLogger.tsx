@@ -1,9 +1,7 @@
 import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
-import CrossSVG from "@assets/icons/cross.svg";
-import DoubleSquareSVG from "@assets/icons/doubleSquare.svg";
-import SearchSVG from "@assets/icons/search.svg";
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import Icon from "@options/components/common/icon/icon";
+import Button from "@options/components/common/button/button";
 import BackButton from "@options/components/common/backButton/backButton";
 import List from "@/options/components/common/list/list";
 import { WebRequestListenerType, WebRequestClients } from "@models/WebRequestModel";
@@ -89,13 +87,23 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
-              <OutlineButton trackName="Open In Window" onClick={handleOpenWindow} prefix={<DoubleSquareSVG />}>
+              <Button
+                variant="outline"
+                trackName="Open In Window"
+                onClick={handleOpenWindow}
+                startIcon={<Icon name="doubleSquare" />}
+              >
                 Open In Window
-              </OutlineButton>
+              </Button>
             )}
-            <OutlineButton trackName="Clear Logs" onClick={handleClearLogs} prefix={<CrossSVG />}>
+            <Button
+              variant="outline"
+              trackName="Clear Logs"
+              onClick={handleClearLogs}
+              startIcon={<Icon name="cross" />}
+            >
               Clear Logs
-            </OutlineButton>
+            </Button>
             <div className="w-[250px]">
               <Input
                 placeholder="Search By URL"
@@ -103,12 +111,12 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
                 value={search}
                 prefix={
                   <span className="w-[24px]">
-                    <SearchSVG />
+                    <Icon name="search" />
                   </span>
                 }
                 suffix={
                   <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
-                    <CrossSVG />
+                    <Icon name="cross" />
                   </span>
                 }
               />

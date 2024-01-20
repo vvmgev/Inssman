@@ -1,6 +1,6 @@
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
-import CrossSVG from "@assets/icons/cross.svg";
+import Icon from "@options/components/common/icon/icon";
 import { QueryParamAction } from "@models/formFieldModel";
 import { useMemo } from "react";
 
@@ -57,7 +57,7 @@ const QueryParamFields = ({ queryParams, onChangeParam, onRemove, error }) => {
             />
             <div className="cursor-pointer" onClick={(event) => onRemove(event, index)}>
               <span className="w-[24px] inline-block">
-                <CrossSVG />
+                <Icon name="cross" />
               </span>
             </div>
           </div>

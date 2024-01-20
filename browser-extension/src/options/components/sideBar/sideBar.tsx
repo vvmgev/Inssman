@@ -1,11 +1,7 @@
-import Logo from "@assets/icons/logo.svg";
 import Section from "../common/section/section";
 import Tooltip from "@components/common/tooltip/tooltip";
 import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
-import VideoCameraSVG from "@assets/icons/videoCamera.svg";
-import SquaresSVG from "@assets/icons/squares.svg";
-import ListSVG from "@assets/icons/list.svg";
-import StarSVG from "@assets/icons/star.svg";
+import Icon from "@options/components/common/icon/icon";
 import SidebarSection from "./components/sidebarSection/sidebarSection";
 import SidebarItem from "./components/sidebarItem/sidebarItem";
 import { Link, useLocation } from "react-router-dom";
@@ -25,11 +21,11 @@ const Sidebar = () => {
     <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
       <Link className="hover:cursor-pointer" to="/">
         <div className="py-2 pl-2 border-b border-slate-700">
-          <Logo />
+          <Icon name="logo" />
         </div>
       </Link>
       <SidebarSection classes="border-none mt-2">
-        <SidebarItem title="All Rules" icon={<ListSVG />} url="/" />
+        <SidebarItem title="All Rules" icon={<Icon name="list" />} url="/" />
       </SidebarSection>
       <SidebarSection title="Create Rule">
         {paths.map(({ icon, text, path }, index) => {
@@ -42,7 +38,7 @@ const Sidebar = () => {
                   {text}
                   {popularPaths.includes(path) && (
                     <Tooltip content="Popular">
-                      <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
+                      <span className="w-[24px] inline-block text-yellow-400">{<Icon name="star" />}</span>
                     </Tooltip>
                   )}
                 </div>
@@ -69,13 +65,13 @@ const Sidebar = () => {
         >
           <SidebarItem
             title="Record"
-            icon={<VideoCameraSVG />}
+            icon={<Icon name="videoCamera" />}
             url={featureShowRecord ? "/record" : "#"}
             active={location.pathname === "/record"}
           />
           <SidebarItem
             title="Recorded Sessions"
-            icon={<SquaresSVG />}
+            icon={<Icon name="squares" />}
             url={featureShowRecord ? "/record/session" : "#"}
             active={location.pathname === "/record/session"}
           />

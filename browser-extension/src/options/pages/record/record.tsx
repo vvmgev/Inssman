@@ -2,7 +2,7 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
 import Button from "@options/components/common/button/button";
-import VideoCameraSVG from "@assets/icons/videoCamera.svg";
+import Icon from "@options/components/common/icon/icon";
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
@@ -40,7 +40,7 @@ const Record: FC = (): ReactElement => {
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-[24px] inline-block">{<VideoCameraSVG />}</span>
+            <span className="w-[24px] inline-block">{<Icon name="videoCamera" />}</span>
             <span>Record Session & Replay</span>
           </div>
         </div>
@@ -72,9 +72,9 @@ const Record: FC = (): ReactElement => {
         <Section classes="ml-5 flex flex-col gap-5 rounded">
           <div className="flex justify-between">
             <span className="text-xl">Last Recorded Session</span>
-            <Link to={`session/${session.id}`}>
-              <Button trackName="Open Last Recorder Session">Open</Button>
-            </Link>
+            <Button type="button" trackName="Open Last Recorder Session">
+              <Link to={`session/${session.id}`}>Open</Link>
+            </Button>
           </div>
           <span className="flex gap-2 leading-7">
             <span className="font-bold text-slate-300">URL:</span>

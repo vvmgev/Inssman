@@ -3,8 +3,7 @@ import { MatchType } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
 import Tooltip from "@options/components/common/tooltip/tooltip";
-import InfoSVG from "@assets/icons/info.svg";
-import AdjustmentVerticalSVG from "@assets/icons/adjustmentVertical.svg";
+import Icon from "@options/components/common/icon/icon";
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
@@ -117,7 +116,7 @@ const SourceFields = ({
         {showRequestMethods && showResourceTypes && (
           <div className="ml-1" onClick={toggleFields}>
             <span className={`w-[35px] cursor-pointer inline-block ${showFields && "text-sky-500"} hover:text-sky-500`}>
-              <AdjustmentVerticalSVG />
+              <Icon name="adjustmentVertical" />
             </span>
           </div>
         )}
@@ -147,7 +146,7 @@ const SourceFields = ({
             />
             <Tooltip content="To Apply All Request Methods Leave Empty">
               <span className="w-[35px] cursor-pointer inline-block">
-                <InfoSVG />
+                <Icon name="info" />
               </span>
             </Tooltip>
           </div>
@@ -166,7 +165,7 @@ const SourceFields = ({
             />
             <Tooltip content="To Apply All Resource Types Leave Empty">
               <span className="w-[35px] cursor-pointer inline-block">
-                <InfoSVG />
+                <Icon name="info" />
               </span>
             </Tooltip>
           </div>

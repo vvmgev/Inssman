@@ -1,10 +1,9 @@
-import { Link, useLocation } from "react-router-dom";
-import ListSVG from "@assets/icons/list.svg";
-import StarSVG from "@assets/icons/star.svg";
-import { paths, popularPaths } from "../app/paths";
+import Icon from "@options/components/common/icon/icon";
 import Tooltip from "@options/components/common/tooltip/tooltip";
+import { Link, useLocation } from "react-router-dom";
 import { SidebarContext } from "@/context/sidebarContext";
 import { useContext } from "react";
+import { paths, popularPaths } from "../app/paths";
 
 const FormList = () => {
   const location = useLocation();
@@ -16,7 +15,7 @@ const FormList = () => {
           <div
             className={`${location.pathname === "/" ? "text-sky-500" : ""} flex items-center hover:text-sky-500 gap-2`}
           >
-            <span className="w-[24px]">{<ListSVG />}</span>
+            <span className="w-[24px]">{<Icon name="list" />}</span>
             {full && <span>All Rules</span>}
           </div>
         </Link>
@@ -38,7 +37,7 @@ const FormList = () => {
                   <span>{text}</span>
                   {popularPaths.includes(path) && (
                     <Tooltip content="Popular">
-                      <span className="w-[24px] inline-block text-yellow-400">{<StarSVG />}</span>
+                      <span className="w-[24px] inline-block text-yellow-400">{<Icon name="star" />}</span>
                     </Tooltip>
                   )}
                 </>

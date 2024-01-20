@@ -21,14 +21,12 @@ const NotFound: FC = (): ReactElement => {
           <p>
             Or Navigate To{" "}
             <Link to="/">
-              <Button classes="py-0 px-1" trackName="404">
-                Main Page
-              </Button>
+              <Button trackName="404">Main Page</Button>
             </Link>
           </p>
         </div>
         <div className="flex justify-center w-full">
-          <span className="text-white bg-sky-600 text-9xl rounded px-2 tracking-widest">404</span>
+          <span className="px-2 tracking-widest text-white rounded bg-sky-600 text-9xl">404</span>
         </div>
       </div>
     </Section>

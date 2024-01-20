@@ -1,53 +1,46 @@
-import CodeSVG from "@assets/icons/code.svg";
-import RedirectSVG from "@assets/icons/redirect.svg";
-import BlockSVG from "@assets/icons/block.svg";
-import QuestionSVG from "@assets/icons/question.svg";
-import PencilSquareSVG from "@assets/icons/pencilSquare.svg";
-import ListBulletSVG from "@assets/icons/listBullet.svg";
-import PaperClipSVG from "@assets/icons/paperClip.svg";
-import WrenchSVG from "@assets/icons/wrench.svg";
+import Icon from "@options/components/common/icon/icon";
 import { PageType } from "@models/formFieldModel";
 
 export const paths = [
   {
     path: PageType.REDIRECT,
     text: "Redirect Request",
-    icon: <RedirectSVG />,
+    icon: <Icon name="redirect" />,
   },
   {
     path: PageType.BLOCK,
     text: "Block Request",
-    icon: <BlockSVG />,
+    icon: <Icon name="block" />,
   },
   {
     path: PageType.QUERY_PARAM,
     text: "Query Param",
-    icon: <QuestionSVG />,
+    icon: <Icon name="question" />,
   },
   {
     path: PageType.MODIFY_HEADER,
     text: "Modify Header",
-    icon: <CodeSVG />,
+    icon: <Icon name="code" />,
   },
   {
     path: PageType.MODIFY_RESPONSE,
     text: "Modify Response",
-    icon: <PencilSquareSVG />,
+    icon: <Icon name="pencilSquare" />,
   },
   {
     path: PageType.INJECT_FILE,
     text: "Inject File",
-    icon: <WrenchSVG />,
+    icon: <Icon name="wrench" />,
   },
   {
     path: PageType.MODIFY_REQUEST_BODY,
     text: "Modify Request Body",
-    icon: <PaperClipSVG />,
+    icon: <Icon name="paperClip" />,
   },
   {
     path: PageType.HTTP_LOGGER,
     text: "HTTP Logger",
-    icon: <ListBulletSVG />,
+    icon: <Icon name="listBullet" />,
   },
 ];
 

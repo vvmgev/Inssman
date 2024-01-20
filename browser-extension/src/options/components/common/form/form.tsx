@@ -1,14 +1,12 @@
 import Button from "@options/components/common/button/button";
 import BackButton from "@options/components/common/backButton/backButton";
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
-import TrashSVG from "@assets/icons/trash.svg";
-import PencilSVG from "@assets/icons/pencil.svg";
+import Icon from "@options/components/common/icon/icon";
 import { PageName, IconsMap } from "@models/formFieldModel";
 import { PropsWithChildren } from "react";
 
 type Props = PropsWithChildren<{
-  onSubmit: Function;
-  onDelete: Function;
+  onSubmit: any;
+  onDelete: any;
   error: Record<string, string | null>;
   pageType: string;
   mode: string;
@@ -33,7 +31,8 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
         </span>
         <div className="flex gap-5">
           <div className="flex justify-end">
-            <OutlineButton
+            <Button
+              variant="outline"
               onClick={() =>
                 chrome.tabs.create({
                   url: `https://github.com/vvmgev/Overrider#${pageType}`,
@@ -42,20 +41,24 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
               trackName="View Example"
             >
               View Example
-            </OutlineButton>
+            </Button>
           </div>
           {mode === "update" && (
-            <OutlineButton
+            <Button
               trackName="Delete rule edit mode"
-              classes="hover:border-red-400 hover:text-red-400"
+              className="hover:border-red-400 hover:text-red-400"
               onClick={onDelete}
-              prefix={<TrashSVG />}
+              startIcon={<Icon name="trash" />}
             >
               Delete
-            </OutlineButton>
+            </Button>
           )}
           <div>
-            <Button icon={<PencilSVG />} trackName={`${PageName[pageType]} Rule Create Event`} onClick={onSubmit}>
+            <Button
+              startIcon={<Icon name="pencil" />}
+              trackName={`${PageName[pageType]} Rule Create Event`}
+              onClick={onSubmit}
+            >
               {mode === "create" ? "Create" : "Edit"}
             </Button>
           </div>

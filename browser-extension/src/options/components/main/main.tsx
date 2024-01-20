@@ -1,14 +1,9 @@
 import Popup from "reactjs-popup";
 import Input from "@options/components/common/input/input";
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
+import Button from "@options/components/common/button/button";
 import Section from "@options/components/common/section/section";
 import RuleList from "../ruleList/ruleList";
-import CrossSVG from "@assets/icons/cross.svg";
-import SearchSVG from "@assets/icons/search.svg";
-import ArrowDownLongSVG from "@assets/icons/arrowDownLong.svg";
-import ArrowUpLongSVG from "@assets/icons/arrowUpLong.svg";
-import TrashSVG from "@assets/icons/trash.svg";
-import ListSVG from "@assets/icons/list.svg";
+import Icon from "@options/components/common/icon/icon";
 import { useState, useRef, useEffect } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData } from "@models/formFieldModel";
@@ -68,7 +63,7 @@ export default () => {
               <div className="flex-1 text-2xl text-slate-200">Import Failed</div>
               <div className="flex justify-end flex-1">
                 <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
-                  <CrossSVG />
+                  <Icon name="cross" />
                 </span>
               </div>
             </div>
@@ -87,9 +82,9 @@ export default () => {
               </a>
             </div>
             <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
-              <OutlineButton trackName="invalid JSON Close" classes="min-w-[100px]" onClick={close}>
+              <Button variant="outline" trackName="invalid JSON Close" className="min-w-[100px]" onClick={close}>
                 Close
-              </OutlineButton>
+              </Button>
             </div>
           </Section>
         )}
@@ -97,7 +92,7 @@ export default () => {
       <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
         <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
           <span className="flex flex-row items-center gap-2 text-lg">
-            <span className="w-[24px]">{<ListSVG />}</span>
+            <span className="w-[24px]">{<Icon name="list" />}</span>
             <span>All Rules</span>
           </span>
           <div className="flex items-center gap-2 text-sm">
@@ -109,26 +104,37 @@ export default () => {
                 className="hidden"
                 accept="application/JSON"
               />
-              <OutlineButton onClick={onHandleImport} trackName="Import rules" prefix={<ArrowDownLongSVG />}>
+              <Button
+                variant="outline"
+                onClick={onHandleImport}
+                trackName="Import rules"
+                startIcon={<Icon name="arrowDownLong" />}
+              >
                 Import
-              </OutlineButton>
+              </Button>
             </div>
             <div>
-              <OutlineButton onClick={onHandleExportRules} trackName="Export rules" prefix={<ArrowUpLongSVG />}>
+              <Button
+                variant="outline"
+                onClick={onHandleExportRules}
+                trackName="Export rules"
+                startIcon={<Icon name="arrowUpLong" />}
+              >
                 Export
-              </OutlineButton>
+              </Button>
             </div>
             <Popup
               closeOnDocumentClick={true}
               contentStyle={{ background: "transparent", border: "none" }}
               trigger={
-                <OutlineButton
-                  classes="hover:text-red-400 hover:border-red-400"
+                <Button
+                  variant="outline"
+                  className="hover:text-red-400 hover:border-red-400"
                   trackName="Delete All Rules Popup"
-                  prefix={<TrashSVG />}
+                  startIcon={<Icon name="trash" />}
                 >
                   Delete All Rules
-                </OutlineButton>
+                </Button>
               }
               modal
               position="right center"
@@ -141,7 +147,7 @@ export default () => {
                     <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                     <div className="flex justify-end flex-1">
                       <span onClick={close} className="w-[30px] cursor-pointer text-slate-200 hover:text-sky-500">
-                        <CrossSVG />
+                        <Icon name="cross" />
                       </span>
                     </div>
                   </div>
@@ -149,17 +155,23 @@ export default () => {
                     Are you sure want to delete all rules?
                   </div>
                   <div className="flex flex-row items-center justify-center gap-10 text-2xl text-slate-200">
-                    <OutlineButton trackName="Delete All Rules - NO" classes="min-w-[100px]" onClick={close}>
+                    <Button
+                      variant="outline"
+                      trackName="Delete All Rules - NO"
+                      className="min-w-[100px]"
+                      onClick={close}
+                    >
                       No
-                    </OutlineButton>
-                    <OutlineButton
-                      prefix={<TrashSVG />}
-                      classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+                    </Button>
+                    <Button
+                      variant="outline"
+                      startIcon={<Icon name="trash" />}
+                      className="min-w-[100px] hover:text-red-400 hover:border-red-400"
                       trackName="Delete All Rules - YES"
                       onClick={() => onHandleDeleteRules(close)}
                     >
                       Yes
-                    </OutlineButton>
+                    </Button>
                   </div>
                 </Section>
               )}
@@ -171,12 +183,12 @@ export default () => {
                 value={search}
                 prefix={
                   <span className="w-[24px]">
-                    <SearchSVG />
+                    <Icon name="search" />
                   </span>
                 }
                 suffix={
                   <span onClick={onHandleClearSearch} className="w-[24px] hover:text-red-400 cursor-pointer">
-                    <CrossSVG />
+                    <Icon name="cross" />
                   </span>
                 }
               />

@@ -1,16 +1,12 @@
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
 import Dialog from "@/options/components/dialog/dialog";
-import OutlineButton from "@options/components/common/outlineButton/outlineButton";
 import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
 import Input from "@/options/components/common/input/input";
 import Toast from "@/options/components/common/toast/toast";
 import Tooltip from "@/options/components/common/tooltip/tooltip";
 import Button from "@/options/components/common/button/button";
-import ClipboardSVG from "@assets/icons/clipboard.svg";
-import TrashSVG from "@assets/icons/trash.svg";
-import ShareSVG from "@assets/icons/share.svg";
-import LoaderSVG from "@assets/icons/loader.svg";
+import Icon from "@options/components/common/icon/icon";
 import Copy from "copy-to-clipboard";
 import { EventType, IncrementalSource } from "rrweb";
 import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from "react";
@@ -164,16 +160,18 @@ const sessionDetails: FC = (): ReactElement => {
         onClose={() => setDialogVisible(false)}
         footer={
           <div className="flex justify-end gap-3">
-            <OutlineButton
+            <Button
+              variant="outline"
               trackName="Delete Session - NO"
-              classes="min-w-[100px]"
+              className="min-w-[100px]"
               onClick={() => setDialogVisible(false)}
             >
               No
-            </OutlineButton>
-            <OutlineButton
-              prefix={<TrashSVG />}
-              classes="min-w-[100px] hover:text-red-400 hover:border-red-400"
+            </Button>
+            <Button
+              variant="outline"
+              startIcon={<Icon name="trash" />}
+              className="min-w-[100px] hover:text-red-400 hover:border-red-400"
               trackName="Delete Session - YES"
               onClick={() => {
                 handleDelete();
@@ -181,7 +179,7 @@ const sessionDetails: FC = (): ReactElement => {
               }}
             >
               Yes
-            </OutlineButton>
+            </Button>
           </div>
         }
       >
@@ -192,7 +190,7 @@ const sessionDetails: FC = (): ReactElement => {
       {loading && (
         <div className="flex items-center justify-center w-full h-full p-20">
           <div className="w-32 h-32 h">
-            <LoaderSVG />
+            <Icon name="loader" />
           </div>
         </div>
       )}
@@ -204,9 +202,7 @@ const sessionDetails: FC = (): ReactElement => {
               <p className="leading-7 text-slate-400">Please Ensure That You Have Entered The Correct URL.</p>
               <p className="leading-7 text-slate-400">Or Contact The Session Owner For Assistance.</p>
               <Link to="/">
-                <Button classes="py-0 px-1" trackName="404">
-                  Go Main Page
-                </Button>
+                <Button trackName="404">Go Main Page</Button>
               </Link>
               <div className="flex justify-center w-full">
                 <span className="px-2 tracking-widest text-white rounded bg-sky-600 text-9xl">404</span>
@@ -222,24 +218,24 @@ const sessionDetails: FC = (): ReactElement => {
             <BackButton trackName="session" url="/record/session" text="Sessions" />
             <div className="text-xl capitalize">{session?.name}</div>
             <div className="flex gap-2">
-              <OutlineButton
+              <Button
                 trackName="Delete Recorded Session in view mode"
-                classes="hover:border-red-400 hover:text-red-400"
+                className="hover:border-red-400 hover:text-red-400"
                 onClick={() => setDialogVisible(true)}
-                prefix={<TrashSVG />}
+                startIcon={<Icon name="trash" />}
                 disabled={isSharedUrl}
               >
                 Delete
-              </OutlineButton>
-              <OutlineButton
+              </Button>
+              <Button
                 disabled={isSessionShared || isSharedUrl}
                 trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
-                prefix={<ShareSVG />}
-                suffix={isSharing ? <LoaderSVG /> : null}
+                startIcon={<Icon name="share" />}
+                endIcon={isSharing ? <Icon name="loader" /> : null}
               >
                 Share{isSessionShared ? "d" : null}
-              </OutlineButton>
+              </Button>
               {(isSessionShared || isSharedUrl) && (
                 <Input
                   readOnly
@@ -251,7 +247,7 @@ const sessionDetails: FC = (): ReactElement => {
                           onClick={handleCopyToClipboard}
                           className="w-[24px] inline-block cursor-pointer hover:text-sky-500"
                         >
-                          <ClipboardSVG />
+                          <Icon name="clipboard" />
                         </span>
                       </div>
                     </Tooltip>

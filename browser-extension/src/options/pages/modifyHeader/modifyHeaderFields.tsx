@@ -1,7 +1,7 @@
 import { HeaderModificationType } from "@models/formFieldModel";
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
-import CrossSVG from "@assets/icons/cross.svg";
+import Icon from "@options/components/common/icon/icon";
 import HTTPHeaders from "./HTTPHeaders";
 import { useMemo } from "react";
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
@@ -117,7 +117,7 @@ const ModifyHeaderFields = ({ headers, onChangeHeader, onRemoveHeader, error }) 
               />
               <div className="cursor-pointer" onClick={(e) => onRemoveHeader(e, index)}>
                 <span className="w-[24px] inline-block">
-                  <CrossSVG />
+                  <Icon name="cross" />
                 </span>
               </div>
             </div>

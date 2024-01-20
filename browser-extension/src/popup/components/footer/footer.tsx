@@ -23,9 +23,8 @@ const Footer = () => {
               placeholder="Enter URL e.g https://google.com"
             />
             <Button
-              icon={<VideoCameraSVG />}
+              startIcon={<VideoCameraSVG />}
               trackName="Start Recording Popup"
-              classes="whitespace-nowrap"
               onClick={() => {
                 if (url) {
                   chrome.runtime.sendMessage(
