@@ -1,10 +1,13 @@
-import { FC } from "react";
+import { ComponentProps, FC } from "react";
+import { twMerge } from "tailwind-merge";
 import * as Icons from "@assets/icons";
 
-const Icon: FC<{ name: Icons.IconName }> = ({ name }) => {
+type Props = { name: Icons.IconName; className?: string } & ComponentProps<"span">;
+
+const Icon: FC<Props> = ({ name, className = "" }) => {
   const SelectedIcon = Icons[name];
   return (
-    <span className="w-[24px] inline-block">
+    <span className={twMerge("w-[24px] inline-block", className)}>
       <SelectedIcon />
     </span>
   );
