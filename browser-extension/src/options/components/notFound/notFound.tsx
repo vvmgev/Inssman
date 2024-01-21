@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const NotFound: FC = (): ReactElement => {
   return (
-    <Section classes="min-h-[300px]">
+    <Section classes="mx-[5%] p-5 min-h-[300px]">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-3">

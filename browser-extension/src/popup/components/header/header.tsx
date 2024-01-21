@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   return (
-    <Section classes="h-30 py-3 px-2 border-t-0 border-l-0 border-r-0 h-[initial]">
+    <Section classes="h-30 py-3 px-2 border-t-0 border-l-0 border-r-0 h-[initial] rounded-none">
       <div className="flex flex-row items-center justify-between">
         <Logo />
         <div className="flex items-center gap-3">

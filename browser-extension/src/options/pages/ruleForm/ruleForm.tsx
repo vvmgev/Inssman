@@ -241,7 +241,7 @@ const RuleForm = () => {
   };
 
   return (
-    <Section classes="p-5">
+    <Section classes="mx-[5%] p-5">
       <Form onDelete={onDelete} onSubmit={onSubmit} mode={mode} error={errors} pageType={pageType}>
         <FormBuilder ruleMetaData={ruleMetaData} onChange={onChange} error={errors} mode={mode} pageType={pageType} />
       </Form>

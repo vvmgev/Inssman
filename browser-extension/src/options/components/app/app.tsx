@@ -12,7 +12,6 @@ import { useContext } from "react";
 import { HashRouter } from "react-router-dom";
 import "@services/TrackService";
 import "react-toastify/dist/ReactToastify.css";
-import Section from "../common/section/section";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
@@ -21,13 +20,11 @@ const App = () => {
   return (
     <div className="flex flex-row w-screen h-screen overflow-hidden">
       <Sidebar />
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full gap-10">
         <Header />
         <BrowserSupport>
           {!showOverlay && <div className="absolute top-0 bottom-0 left-0 right-0 z-10 bg-black opacity-50"></div>}
-          <Section classes="w-full h-full">
-            <RuleRoutes />
-          </Section>
+          <RuleRoutes />
         </BrowserSupport>
         <Footer />
       </div>

@@ -96,7 +96,7 @@ const Session: FC<Props> = ({
           Are You Sure Want To Delete Recorded Sessions?
         </div>
       </Dialog>
-      <Section classes="flex flex-col gap-3 rounded">
+      <Section classes="flex flex-col gap-3 rounded-xl">
         <div className="flex items-center justify-between">
           <div className="text-ellipsis gap-4 max-w-[150px] whitespace-nowrap	overflow-hidden">
             <Tooltip content={data.url}>

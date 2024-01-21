@@ -36,7 +36,7 @@ const Record: FC = (): ReactElement => {
   }, []);
 
   return (
-    <Section classes="flex justify-between min-h-[500px]">
+    <Section classes="flex justify-between mx-[5%] p-5 min-h-[500px]">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-3 text-lg">
@@ -69,7 +69,7 @@ const Record: FC = (): ReactElement => {
         </div>
       </div>
       {session && (
-        <Section classes="flex flex-col gap-5">
+        <Section classes="ml-5 flex flex-col gap-5 rounded">
           <div className="flex justify-between">
             <span className="text-xl">Last Recorded Session</span>
             <Button type="button" trackName="Open Last Recorder Session">

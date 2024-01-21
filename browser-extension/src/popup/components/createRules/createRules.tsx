@@ -15,7 +15,7 @@ const CreateRules: FC = (): ReactElement => {
   };
 
   return (
-    <Section classes="p-5">
+    <Section classes="p-5 rounded-none">
       <div className="flex flex-row flex-wrap">
         {paths.map(({ icon, text, path }, index) => (
           <Fragment key={index}>
