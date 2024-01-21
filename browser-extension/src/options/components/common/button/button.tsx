@@ -1,5 +1,5 @@
 import TrackService from "@services/TrackService";
-import { ReactNode, PropsWithChildren, FC, ComponentProps, ReactElement } from "react";
+import { ReactNode, PropsWithChildren, FC, ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Variant = "primary" | "secondary" | "icon" | "outline";
@@ -19,7 +19,8 @@ const styles: Styles = {
   secondary: "",
   outline: "border border-slate-500 text-slate-300 hover:border-sky-400 hover:text-sky-400",
   icon: "p-0",
-  disabled: "text-slate-600 hover:text-slate-600 hover:border-slate-500 cursor-not-allowed",
+  disabled:
+    "text-slate-400 hover:text-slate-400 hover:border-slate-500 cursor-not-allowed bg-slate-600 hover:bg-slate-600",
 };
 
 const Button: FC<Props> = ({
