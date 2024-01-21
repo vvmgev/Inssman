@@ -153,7 +153,7 @@ const sessionDetails: FC = (): ReactElement => {
   }, [session?.events]);
 
   return (
-    <Section classes="mx-[5%] p-5 flex flex-col gap-5 min-h-[300px]">
+    <Section classes="flex flex-col gap-5 min-h-[300px]">
       <Dialog
         title="Confirm Deletion"
         visible={dialogVisible}
@@ -254,15 +254,15 @@ const sessionDetails: FC = (): ReactElement => {
             </div>
           </div>
           <div className="flex gap-5">
-            <Section classes="rounded flex gap-2 max-w-[300px] whitespace-nowrap	">
+            <Section classes="flex gap-2 max-w-[300px] whitespace-nowrap	">
               <span className="text-slate-400">URL: </span>
               <span>{session.url}</span>
             </Section>
-            <Section classes="rounded flex gap-2">
+            <Section classes="flex gap-2">
               <span className="text-slate-400">Recorded at: </span>
               <span>{session.date}</span>
             </Section>
-            <Section classes="rounded flex gap-2">
+            <Section classes="flex gap-2">
               <span className="text-slate-400">Duraction: </span>
               <span>{getDuration(session)}</span>
             </Section>

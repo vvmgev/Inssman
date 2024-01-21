@@ -81,7 +81,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     .filter((request) => request.url.includes(search));
 
   return (
-    <div className={`${clientName === WebRequestClients.WINDOW ? "h-[95%]" : "h-[80%]"} mx-[5%] flex flex-col gap-2`}>
+    <div className={`h-full flex flex-col gap-2`}>
       <Section classes={`h-[50%] p-0`}>
         <div className="flex justify-between p-5 mb-3 text-sm">
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}

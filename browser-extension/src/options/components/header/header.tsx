@@ -9,9 +9,9 @@ const Header = () => {
   const { showOverlay } = useContext(OverlayContext);
 
   return (
-    <div className="flex justify-end max-h-[10%]">
-      <Section
-        classes={`overflow-visible flex gap-5 box-border items-center px-5 w-[initial] rounded-tl-none rounded-tr-none rounded-br-none ${
+    <Section classes="flex justify-end">
+      <div
+        className={`overflow-visible flex gap-5 box-border items-center px-5 w-[initial] rounded-none ${
           !showOverlay ? "z-20" : ""
         }`}
       >
@@ -27,33 +27,31 @@ const Header = () => {
         >
           <ExtensionToggle />
         </Tooltip>
-      </Section>
-      <Section classes="flex gap-5 p-5 w-[initial] rounded-none">
-        <a
-          target="_blank"
-          href="https://github.com/vvmgev/Inssman"
-          className="flex items-center gap-3 hover:text-sky-500"
-        >
-          {<Icon name="github" />}Github
-        </a>
-        <a
-          target="_blank"
-          href="https://github.com/vvmgev/Inssman#documentation"
-          className="flex items-center gap-3 hover:text-sky-500"
-        >
-          <Icon name="document" />
-          Docs
-        </a>
-        <a
-          target="_blank"
-          href="https://github.com/vvmgev/Inssman/issues/new"
-          className="flex items-center gap-3 hover:text-sky-500"
-        >
-          <Icon name="bug" />
-          Report a Bug
-        </a>
-      </Section>
-    </div>
+      </div>
+      <a
+        target="_blank"
+        href="https://github.com/vvmgev/Inssman"
+        className="flex items-center gap-3 hover:text-sky-500"
+      >
+        {<Icon name="github" />}Github
+      </a>
+      <a
+        target="_blank"
+        href="https://github.com/vvmgev/Inssman#documentation"
+        className="flex items-center gap-3 hover:text-sky-500"
+      >
+        <Icon name="document" />
+        Docs
+      </a>
+      <a
+        target="_blank"
+        href="https://github.com/vvmgev/Inssman/issues/new"
+        className="flex items-center gap-3 hover:text-sky-500"
+      >
+        <Icon name="bug" />
+        Report a Bug
+      </a>
+    </Section>
   );
 };
 export default Header;

@@ -18,7 +18,7 @@ const Sidebar = () => {
   const location = useLocation();
   const templateId = location.state?.ruleMetaData?.id;
   return (
-    <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
+    <Section classes="h-full p-0 flex flex-col overflow-hidden">
       <Link className="hover:cursor-pointer" to="/">
         <div className="py-2 pl-2 border-b border-slate-700">
           <Icon name="logo" />
