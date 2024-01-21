@@ -46,7 +46,7 @@ export default () => {
   useEffect(() => getRules(), []);
 
   return (
-    <div className="min-h-[250px] overflow-hidden mx-[5%]">
+    <div className="min-h-[250px]">
       <Popup
         closeOnDocumentClick={true}
         contentStyle={{ background: "transparent", border: "none" }}
@@ -89,8 +89,8 @@ export default () => {
           </Section>
         )}
       </Popup>
-      <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
-        <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
+      <div className="w-full border text-slate-200 bg-slate-800 bg-opacity-40 border-slate-700">
+        <div className="flex items-center justify-between w-full px-6 py-5">
           <span className="flex flex-row items-center gap-2 text-lg">
             <Icon name="list" />
             <span>All Rules</span>
@@ -142,7 +142,7 @@ export default () => {
             >
               {/* @ts-ignore */}
               {(close: any) => (
-                <Section classes="bg-opacity-90 py-15">
+                <Section classes="bg-opacity-90 py-15 bg-slate-800 bg-opacity-40 rounded-xl">
                   <div className="flex pb-5 border-b border-slate-700">
                     <div className="flex-1 text-2xl text-slate-200">Confirm Deletion</div>
                     <div className="flex justify-end flex-1">

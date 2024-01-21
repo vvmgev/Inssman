@@ -58,7 +58,7 @@ const List: FC<Props> = ({
         })}
       </div>
       {data.length ? (
-        <ul className={twMerge(`w-full overflow-y-auto min-h-[350px] max-h-[450px]`, listClasses)}>
+        <ul className={twMerge(`w-full overflow-y-auto min-h-[350px]`, listClasses)}>
           {data.map((row) => (
             <li
               onClick={() => onRowClick(row)}
@@ -80,7 +80,7 @@ const List: FC<Props> = ({
           ))}
         </ul>
       ) : (
-        <div className="min-h-[350px] max-h-[450px] flex items-center justify-center w-full">
+        <div className="min-h-[350px] flex items-center justify-center w-full">
           <div className="w-full text-center">
             <p className="text-2xl">{texts.title}</p>
             <p className="mt-3">{texts.description}</p>
