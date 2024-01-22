@@ -25,7 +25,6 @@ export default () => {
   const onHandleDeleteRules = (): void =>
     chrome.runtime.sendMessage({ action: PostMessageAction.DeleteRules }, () => {
       setDialogName("");
-      setDialogName("");
       getRules();
     });
 
