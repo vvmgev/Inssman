@@ -153,7 +153,7 @@ const sessionDetails: FC = (): ReactElement => {
   }, [session?.events]);
 
   return (
-    <Section classes="flex flex-col gap-5 min-h-[300px] p-0 bg-slate-800 bg-opacity-40 border-t-0">
+    <Section classes="flex flex-col gap-5 min-h-[300px] p-0 bg-slate-800 bg-opacity-40 border-t-0 h-full">
       <Dialog
         title="Confirm Deletion"
         visible={dialogVisible}

@@ -104,7 +104,7 @@ export default () => {
       >
         <div className="my-10 text-2xl text-center text-slate-200">Are you sure want to delete all rules?</div>
       </Dialog>
-      <Section classes="w-full border-0 bg-slate-800 bg-opacity-40 border-slate-700 p-0 flex flex-col">
+      <Section classes="w-full h-full border-0 bg-slate-800 bg-opacity-40 border-slate-700 p-0 flex flex-col">
         <Section classes="border-t-0 border-l-0 py-5">
           <div className="max-h-[90%] w-full flex justify-between items-center">
             <span className="flex flex-row items-center gap-2 text-lg">
@@ -162,9 +162,7 @@ export default () => {
             </div>
           </div>
         </Section>
-        <div>
-          <RuleList rules={rules} getRules={getRules} search={search} page="options" />
-        </div>
+        <RuleList rules={rules} getRules={getRules} search={search} page="options" />
       </Section>
     </>
   );

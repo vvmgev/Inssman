@@ -5,14 +5,14 @@ import Footer from "../footer/footer";
 import Sidebar from "../sidebar/sidebar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
+import Section from "../common/section/section";
 import SidebarContextProvider, { SidebarContext } from "@context/sidebarContext";
 import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 import { useContext } from "react";
 import { HashRouter } from "react-router-dom";
 import "@services/TrackService";
 import "react-toastify/dist/ReactToastify.css";
-import Section from "../common/section/section";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
@@ -25,9 +25,9 @@ const App = () => {
         <Header />
         <BrowserSupport>
           {!showOverlay && <div className="absolute top-0 bottom-0 left-0 right-0 z-10 bg-black opacity-50"></div>}
-          {/* <Section classes="w-full h-full"> */}
-          <RuleRoutes />
-          {/* </Section> */}
+          <Section classes="w-full h-full border-0 border-b p-0">
+            <RuleRoutes />
+          </Section>
         </BrowserSupport>
         <Footer />
       </div>
@@ -39,15 +39,19 @@ const Wrapper = () => {
   return (
     <>
       <ToastContainer
-        position="top-center"
+        position="bottom-right"
         autoClose={3000}
-        hideProgressBar={true}
+        hideProgressBar={false}
         closeOnClick={true}
         pauseOnHover={false}
         draggable={false}
         closeButton={false}
         bodyClassName="p-0 shadow-none"
         toastClassName="bg-transparent rounded-none p-0 shadow-none"
+        newestOnTop={true}
+        transition={Bounce}
+        progressClassName="absolute bottom-1 left-2 w-[90%] rounded-xl"
+        progressStyle={{ background: "rgb(100 116 139)" }}
         limit={2}
       />
       <Background>

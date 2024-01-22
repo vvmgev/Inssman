@@ -138,7 +138,7 @@ const SessionList: FC = (): ReactElement => {
   }, [sessions]);
 
   return (
-    <Section classes="p-0 min-h-[500px] bg-slate-800 bg-opacity-40 border-l-0 border-t-0">
+    <Section classes="p-0 min-h-[500px] bg-slate-800 bg-opacity-40 border-l-0 border-t-0 h-full">
       <Dialog
         title="Confirm Deletion"
         visible={dialogName === "deleteAll"}
