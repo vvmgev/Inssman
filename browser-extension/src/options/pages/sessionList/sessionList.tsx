@@ -177,7 +177,7 @@ const SessionList: FC = (): ReactElement => {
         <div className="flex gap-3">
           <Button
             variant="outline"
-            className="text-sm hover:text-red-400 hover:border-red-400"
+            className="hover:text-red-400 hover:border-red-400"
             trackName="Delete All Session"
             startIcon={<Icon name="trash" />}
             onClick={() => setDialogName("deleteAll")}

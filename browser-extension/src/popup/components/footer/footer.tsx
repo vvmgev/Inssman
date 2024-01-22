@@ -38,7 +38,7 @@ const Footer = () => {
                 } else {
                   chrome.runtime.sendMessage(
                     {
-                      action: PostMessageAction.StartRecordingByCurrentTab,
+                      action: PostMessageAction.StartRecordingCurrentTab,
                       data: {},
                     },
                     window.close

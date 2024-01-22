@@ -27,7 +27,7 @@ class RecordSessionService extends BaseService {
     this.addListener(ListenerType.ON_MESSAGE, this.onMessage);
     this.listenersMap = {
       [PostMessageAction.StartRecordingByUrl]: this.startRecordingByUrl,
-      [PostMessageAction.StartRecordingByCurrentTab]: this.startRecordingByCurrentTab,
+      [PostMessageAction.StartRecordingCurrentTab]: this.startRecordingCurrentTab,
       [PostMessageAction.SaveRecording]: this.saveRecording,
       [PostMessageAction.UpdateRecordedSession]: this.updateRecordedSession,
       [PostMessageAction.StopRecording]: this.stopRecording,
@@ -63,11 +63,11 @@ class RecordSessionService extends BaseService {
   injectCodes = (tabId: number) => {
     InjectCodeService.injectInternalScriptToDocument(
       tabId,
-      `window.postMessage({source: 'inssman:setup', action: 'showWidget'})`
+      `window.postMessage({source: 'inssman:serviceWorker', action: 'showWidget'})`
     );
     InjectCodeService.injectInternalScriptToDocument(
       tabId,
-      `window.postMessage({source: 'inssman:setup', action: 'startRecording'})`
+      `window.postMessage({source: 'inssman:serviceWorker', action: 'startRecording'})`
     );
   };
 
@@ -92,7 +92,7 @@ class RecordSessionService extends BaseService {
     this.currentTab = await TabService.createTab(url);
   };
 
-  startRecordingByCurrentTab = async (): Promise<void> => {
+  startRecordingCurrentTab = async (): Promise<void> => {
     this.sessionId = null;
     this.currentTab = await TabService.getCurrentTab();
     if (this.currentTab) {

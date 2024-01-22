@@ -2,8 +2,10 @@ import TrackService from "@services/TrackService";
 import { ReactNode, PropsWithChildren, FC, ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 
+type Size = "small" | "medium" | "large";
 type Variant = "primary" | "secondary" | "icon" | "outline";
-type Styles = Record<Variant | "disabled", string>;
+type ButtonVariant = Record<Variant | "disabled", string>;
+type ButtonSize = Record<Size, string>;
 
 type Props = PropsWithChildren<{
   trackName: string;
@@ -11,16 +13,24 @@ type Props = PropsWithChildren<{
   endIcon?: ReactNode;
   variant?: Variant;
   className?: string;
+  size?: Size;
+  danger?: boolean;
 }> &
   ComponentProps<"button">;
 
-const styles: Styles = {
+const buttonVariants: ButtonVariant = {
   primary: "bg-sky-600 hover:bg-sky-400 text-gray-100",
   secondary: "",
   outline: "border border-slate-500 text-slate-300 hover:border-sky-400 hover:text-sky-400",
   icon: "p-0",
   disabled:
     "text-slate-400 hover:text-slate-400 hover:border-slate-500 cursor-not-allowed bg-slate-600 hover:bg-slate-600",
+};
+
+const buttonSize: ButtonSize = {
+  small: "text-xs px-2 py-1",
+  medium: "text-sm px-2 py-2",
+  large: "text-md px-2 py-3",
 };
 
 const Button: FC<Props> = ({
@@ -31,11 +41,14 @@ const Button: FC<Props> = ({
   startIcon,
   endIcon,
   disabled,
-  variant,
+  variant = "primary",
+  size = "small",
   ...rest
 }: Props) => {
   const handler = (event) => {
-    TrackService.trackEvent(trackName);
+    if (trackName) {
+      TrackService.trackEvent(trackName);
+    }
     if (onClick) {
       onClick(event);
     }
@@ -45,14 +58,15 @@ const Button: FC<Props> = ({
       onClick={handler}
       disabled={disabled}
       className={twMerge(
-        "py-2 px-4 inline-flex items-center rounded outline-0 text-sm",
-        styles[variant || "primary"],
-        disabled ? styles.disabled : "",
+        "rounded outline-0",
+        buttonVariants[variant],
+        buttonSize[size],
+        disabled ? buttonVariants.disabled : "",
         className
       )}
       {...rest}
     >
-      <span className="flex items-center justify-center gap-2">
+      <span className="flex items-center justify-center gap-1">
         {startIcon}
         {children}
         {endIcon}

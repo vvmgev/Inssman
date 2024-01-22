@@ -27,7 +27,7 @@ const Header = () => {
         <Logo />
         <div className="flex items-center gap-3">
           <ExtensionToggle />
-          <Button trackName="Open Application" onClick={onHandleOpen}>
+          <Button trackName="Open Application" onClick={onHandleOpen} size="medium">
             Open Application
           </Button>
         </div>
