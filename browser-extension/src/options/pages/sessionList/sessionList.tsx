@@ -239,7 +239,7 @@ const SessionList: FC = (): ReactElement => {
           )}
         </div>
       ) : (
-        <div className="flex flex-row flex-wrap mt-4 text-center">
+        <div className="flex flex-row flex-wrap text-center">
           <List
             headers={LIST_HEADERS}
             items={LIST_ITEMS}
