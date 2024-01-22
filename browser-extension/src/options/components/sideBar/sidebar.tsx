@@ -18,14 +18,12 @@ const Sidebar = () => {
   const location = useLocation();
   const templateId = location.state?.ruleMetaData?.id;
   return (
-    <Section classes="rounded-none h-full p-0 flex flex-col overflow-hidden">
-      <Link className="hover:cursor-pointer" to="/">
-        <div className="py-2 pl-2 border-b border-slate-700">
-          <Icon name="logo" />
-        </div>
-      </Link>
+    <Section classes="h-full p-0 flex flex-col overflow-hidden">
+      <SidebarSection classes="h-[70px] mt-2">
+        <SidebarItem title={<Icon name="logo" />} icon={<></>} url="/" />
+      </SidebarSection>
       <SidebarSection classes="border-none mt-2">
-        <SidebarItem title="All Rules" icon={<Icon name="list" />} url="/" />
+        <SidebarItem title="All Rules" icon={<Icon name="list" />} url="/" active={location.pathname === "/"} />
       </SidebarSection>
       <SidebarSection title="Create Rule">
         {paths.map(({ icon, text, path }, index) => {

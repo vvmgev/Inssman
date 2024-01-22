@@ -1,19 +1,14 @@
-import { PropsWithChildren } from "react";
+import { ComponentProps, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = PropsWithChildren<{
   classes?: string;
-}>;
+}> &
+  ComponentProps<"div">;
 
-const Section = ({ children, classes = "" }: Props) => {
+const Section = ({ children, className = "", classes = "", ...rest }: Props) => {
   return (
-    <div
-      className={twMerge(
-        `p-2 rounded-3xl bg-slate-800 bg-opacity-40 drop-shadow-xl
-          shadow-inner border border-slate-700 overflow-auto`,
-        classes
-      )}
-    >
+    <div className={twMerge(`p-2 border border-slate-500 overflow-auto`, classes, className)} {...rest}>
       {children}
     </div>
   );
