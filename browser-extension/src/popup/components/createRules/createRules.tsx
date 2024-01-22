@@ -20,7 +20,7 @@ const CreateRules: FC = (): ReactElement => {
         {paths.map(({ icon, text, path }, index) => (
           <Fragment key={index}>
             {index % 3 === 0 ? <div className="w-full"></div> : null}
-            <Section classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer">
+            <Section classes="w-[30%] p-4 m-[1%] hover:bg-opacity-70 cursor-pointer rounded-xl bg-slate-800 bg-opacity-40">
               <div onClick={() => onClick(path)}>
                 <div className="flex flex-col items-center gap-3 align-center hover:text-sky-500">
                   <div className="w-[24px]">{icon}</div>

@@ -1,6 +1,7 @@
 import Input from "@options/components/common/input/input";
 import Button from "@options/components/common/button/button";
 import Dialog from "@options/components/dialog/dialog";
+import Section from "@options/components/common/section/section";
 import RuleList from "../ruleList/ruleList";
 import Icon from "@options/components/common/icon/icon";
 import { useState, useRef, useEffect } from "react";
@@ -44,7 +45,7 @@ export default () => {
   useEffect(() => getRules(), []);
 
   return (
-    <div className="min-h-[250px] overflow-hidden mx-[5%]">
+    <>
       <Dialog
         title="Import Failed"
         visible={dialogName === "importFailed"}
@@ -103,66 +104,68 @@ export default () => {
       >
         <div className="my-10 text-2xl text-center text-slate-200">Are you sure want to delete all rules?</div>
       </Dialog>
-      <div className="w-full border rounded-tr-3xl rounded-bl-xl rounded-br-xl text-slate-200 rounded-tl-3xl bg-slate-800 bg-opacity-40 border-slate-700">
-        <div className="py-5 max-h-[90%] w-full flex justify-between items-center px-6">
-          <span className="flex flex-row items-center gap-2 text-lg">
-            <Icon name="list" />
-            <span>All Rules</span>
-          </span>
-          <div className="flex items-center gap-2 text-sm">
-            <div>
-              <input
-                type="file"
-                onChange={onHandleUploadFile}
-                ref={importRulesRef}
-                className="hidden"
-                accept="application/JSON"
-              />
+      <Section classes="w-full border-0 bg-slate-800 bg-opacity-40 border-slate-700 p-0 flex gap-10 flex-col">
+        <Section classes="border-t-0 py-5">
+          <div className="max-h-[90%] w-full flex justify-between items-center">
+            <span className="flex flex-row items-center gap-2 text-lg">
+              <Icon name="list" />
+              <span>All Rules</span>
+            </span>
+            <div className="flex items-center gap-2 text-sm">
+              <div>
+                <input
+                  type="file"
+                  onChange={onHandleUploadFile}
+                  ref={importRulesRef}
+                  className="hidden"
+                  accept="application/JSON"
+                />
+                <Button
+                  variant="outline"
+                  onClick={onHandleImport}
+                  trackName="Import rules"
+                  startIcon={<Icon name="arrowDownLong" />}
+                >
+                  Import
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant="outline"
+                  onClick={onHandleExportRules}
+                  trackName="Export rules"
+                  startIcon={<Icon name="arrowUpLong" />}
+                >
+                  Export
+                </Button>
+              </div>
               <Button
+                onClick={() => setDialogName("deleteAllRules")}
                 variant="outline"
-                onClick={onHandleImport}
-                trackName="Import rules"
-                startIcon={<Icon name="arrowDownLong" />}
+                className="hover:text-red-400 hover:border-red-400"
+                trackName="Delete All Rules Popup"
+                startIcon={<Icon name="trash" />}
               >
-                Import
+                Delete All Rules
               </Button>
-            </div>
-            <div>
-              <Button
-                variant="outline"
-                onClick={onHandleExportRules}
-                trackName="Export rules"
-                startIcon={<Icon name="arrowUpLong" />}
-              >
-                Export
-              </Button>
-            </div>
-            <Button
-              onClick={() => setDialogName("deleteAllRules")}
-              variant="outline"
-              className="hover:text-red-400 hover:border-red-400"
-              trackName="Delete All Rules Popup"
-              startIcon={<Icon name="trash" />}
-            >
-              Delete All Rules
-            </Button>
-            <div className="text-sm">
-              <Input
-                placeholder="Search By Rule Name"
-                onChange={onChangeSearch}
-                value={search}
-                startIcon={<Icon name="search" />}
-                endIcon={
-                  <Icon name="cross" onClick={onHandleClearSearch} className="cursor-pointer hover:text-red-400" />
-                }
-              />
+              <div className="text-sm">
+                <Input
+                  placeholder="Search By Rule Name"
+                  onChange={onChangeSearch}
+                  value={search}
+                  startIcon={<Icon name="search" />}
+                  endIcon={
+                    <Icon name="cross" onClick={onHandleClearSearch} className="cursor-pointer hover:text-red-400" />
+                  }
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </Section>
         <div>
           <RuleList rules={rules} getRules={getRules} search={search} page="options" />
         </div>
-      </div>
-    </div>
+      </Section>
+    </>
   );
 };

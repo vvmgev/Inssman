@@ -77,7 +77,9 @@ window.addEventListener("message", (event) => {
       recordSession = new RecordSession();
       isRecording = true;
       recordSession.start();
-      recordSession.takeScreenshot();
+      setTimeout(() => {
+        recordSession.takeScreenshot();
+      }, 1500);
       break;
     case "stopRecording":
       isRecording = false;

@@ -25,9 +25,9 @@ const App = () => {
         <Header />
         <BrowserSupport>
           {!showOverlay && <div className="absolute top-0 bottom-0 left-0 right-0 z-10 bg-black opacity-50"></div>}
-          <Section classes="w-full h-full">
-            <RuleRoutes />
-          </Section>
+          {/* <Section classes="w-full h-full"> */}
+          <RuleRoutes />
+          {/* </Section> */}
         </BrowserSupport>
         <Footer />
       </div>

@@ -138,7 +138,7 @@ const SessionList: FC = (): ReactElement => {
   }, [sessions]);
 
   return (
-    <Section classes="p-0 min-h-[500px]">
+    <Section classes="p-0 min-h-[500px] bg-slate-800 bg-opacity-40 border-l-0 border-t-0">
       <Dialog
         title="Confirm Deletion"
         visible={dialogName === "deleteAll"}
@@ -169,7 +169,7 @@ const SessionList: FC = (): ReactElement => {
           Are You Sure Want To Delete All Recorded Sessions?
         </div>
       </Dialog>
-      <div className="flex justify-between p-5">
+      <Section classes="flex justify-between p-5 border-0 border-b border-r">
         <span className="flex flex-row items-center gap-2 text-lg">
           <Icon name="videoCamera" />
           <span>Recorded Sessions</span>
@@ -214,7 +214,7 @@ const SessionList: FC = (): ReactElement => {
             <Icon name="list" />
           </Button>
         </div>
-      </div>
+      </Section>
       {listType === SessionListType.GRID ? (
         <div className="flex flex-wrap gap-2 px-3 mt-4">
           {filteredSessions.length ? (

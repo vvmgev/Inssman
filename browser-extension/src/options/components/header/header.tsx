@@ -9,7 +9,7 @@ const Header = () => {
   const { showOverlay } = useContext(OverlayContext);
 
   return (
-    <Section classes="flex justify-end">
+    <Section classes="flex justify-end py-5 border-l-0">
       <div
         className={`overflow-visible flex gap-5 box-border items-center px-5 w-[initial] rounded-none ${
           !showOverlay ? "z-20" : ""

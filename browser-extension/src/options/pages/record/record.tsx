@@ -36,7 +36,7 @@ const Record: FC = (): ReactElement => {
   }, []);
 
   return (
-    <Section classes="flex justify-between min-h-[500px]">
+    <Section classes="flex justify-between min-h-[500px] bg-slate-800 bg-opacity-40 border-l-0 border-t-0">
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div className="flex items-center gap-3 text-lg">

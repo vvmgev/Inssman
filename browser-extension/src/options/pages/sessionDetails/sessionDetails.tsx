@@ -153,7 +153,7 @@ const sessionDetails: FC = (): ReactElement => {
   }, [session?.events]);
 
   return (
-    <Section classes="flex flex-col gap-5 min-h-[300px]">
+    <Section classes="flex flex-col gap-5 min-h-[300px] p-0 bg-slate-800 bg-opacity-40 border-t-0">
       <Dialog
         title="Confirm Deletion"
         visible={dialogVisible}
@@ -214,7 +214,7 @@ const sessionDetails: FC = (): ReactElement => {
       )}
       {session && (
         <>
-          <div className="flex justify-between">
+          <Section classes="flex justify-between border-l-0 border-t-0 px-2 py-4">
             <BackButton trackName="session" url="/record/session" text="Sessions" />
             <div className="text-xl capitalize">{session?.name}</div>
             <div className="flex gap-2">
@@ -252,8 +252,8 @@ const sessionDetails: FC = (): ReactElement => {
                 />
               )}
             </div>
-          </div>
-          <div className="flex gap-5">
+          </Section>
+          <div className="flex gap-5 pl-2">
             <Section classes="flex gap-2 max-w-[300px] whitespace-nowrap	">
               <span className="text-slate-400">URL: </span>
               <span>{session.url}</span>

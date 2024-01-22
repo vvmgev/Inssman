@@ -1,4 +1,5 @@
 import Button from "@options/components/common/button/button";
+import Section from "@options/components/common/section/section";
 import BackButton from "@options/components/common/backButton/backButton";
 import Icon from "@options/components/common/icon/icon";
 import { PageName, IconsMap } from "@models/formFieldModel";
@@ -20,7 +21,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
 
   return (
     <>
-      <div className="flex justify-between mb-3">
+      <Section classes="flex justify-between px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
         <BackButton trackName={pageType} url="/" text="Rules" />
         <span className="flex flex-col items-center">
           <span className="text-md">{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
@@ -64,13 +65,14 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
             </Button>
           </div>
         </div>
-      </div>
-      {/* @ts-ignore */}
-      <div className="text-red-500 text-md">{error.general}</div>
-      <form onSubmit={onSubmitHandler}>
-        {children}
-        <input type="submit" className="hidden" />
-      </form>
+      </Section>
+      <Section classes="px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
+        <div className="text-red-500 text-md">{error.general}</div>
+        <form onSubmit={onSubmitHandler}>
+          {children}
+          <input type="submit" className="hidden" />
+        </form>
+      </Section>
     </>
   );
 };

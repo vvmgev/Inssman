@@ -1,6 +1,7 @@
 import Button from "@options/components/common/button/button";
 import Section from "@options/components/common/section/section";
 import Input from "@options/components/common/input/input";
+import Icon from "@options/components/common/icon/icon";
 import VideoCameraSVG from "@assets/icons/videoCamera.svg";
 import { useContext, useState } from "react";
 import { FeatureToggleContext } from "@context/featureToggleContext";
@@ -19,11 +20,11 @@ const Footer = () => {
             <Input
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              classes="w-full"
+              classes="max-w-[60%]"
               placeholder="Enter URL e.g https://google.com"
             />
             <Button
-              startIcon={<VideoCameraSVG />}
+              startIcon={<Icon name="videoCamera" />}
               trackName="Start Recording Popup"
               onClick={() => {
                 if (url) {

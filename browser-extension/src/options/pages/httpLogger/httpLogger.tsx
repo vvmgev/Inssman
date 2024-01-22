@@ -81,9 +81,9 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     .filter((request) => request.url.includes(search));
 
   return (
-    <div className={`h-full flex flex-col gap-2`}>
-      <Section classes={`h-[50%] p-0`}>
-        <div className="flex justify-between p-5 mb-3 text-sm">
+    <div className="flex flex-col h-full gap-2 bg-slate-800 bg-opacity-40">
+      <Section classes="h-[50%] p-0 border-0">
+        <Section classes="flex justify-between px-2 py-4 text-sm border-0 border-b border-r">
           {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
           <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
@@ -114,7 +114,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
               />
             </div>
           </div>
-        </div>
+        </Section>
         <List
           headers={LIST_HEADERS}
           items={LIST_ITEMS}
@@ -123,7 +123,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
           activeRow={activeRequest}
         />
       </Section>
-      <Section classes={`h-[50%]`}>
+      <Section classes="h-[50%] border-0 border-t">
         {activeRequest && (
           <>
             {activeRequest.requestHeaders && (

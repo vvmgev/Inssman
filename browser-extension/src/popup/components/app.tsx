@@ -6,7 +6,6 @@ import Footer from "./footer/footer";
 import Header from "./header/header";
 import { useContext } from "react";
 import { HashRouter } from "react-router-dom";
-import Section from "@/options/components/common/section/section";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
