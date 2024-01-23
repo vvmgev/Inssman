@@ -60,20 +60,9 @@ class RecordSessionService extends BaseService {
     }
   };
 
-  injectCodes = (tabId: number) => {
-    InjectCodeService.injectInternalScriptToDocument(
-      tabId,
-      `window.postMessage({source: 'inssman:serviceWorker', action: 'showWidget'})`
-    );
-    InjectCodeService.injectInternalScriptToDocument(
-      tabId,
-      `window.postMessage({source: 'inssman:serviceWorker', action: 'startRecording'})`
-    );
-  };
-
   onUpdateTab = (tabId: number): void => {
     if (tabId === this.currentTab?.id) {
-      this.injectCodes(tabId);
+      InjectCodeService.injectFile(tabId, "startRecording/startRecording.js");
     }
   };
 
@@ -99,7 +88,7 @@ class RecordSessionService extends BaseService {
       this.addListener(ListenerType.ON_UPDATE_TAB, this.onUpdateTab);
       this.addListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
       this.url = this.currentTab.url as string;
-      this.injectCodes(this.currentTab.id as number);
+      InjectCodeService.injectFile(this.currentTab.id, "startRecording/startRecording.js");
     }
   };
 

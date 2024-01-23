@@ -16,6 +16,7 @@ module.exports = {
     recorderWidget: path.resolve(__dirname, "../src/cotentScript", "recorderWidget.ts"),
     setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
     recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),
+    startRecording: path.resolve(__dirname, "../src/startRecording", "startRecording.ts"),
     options: path.resolve(__dirname, "../src/options", "options.tsx"),
     popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
     iframeContentScript: path.resolve(__dirname, "../src/iframeContentScript", "iframeContentScript.ts"),
@@ -35,7 +36,6 @@ module.exports = {
     roots: [path.resolve("./src")],
     extensions: [".ts", ".tsx", ".js", ".jsx", ".svg"],
     alias: {
-
       "@": path.resolve(__dirname, "../src"),
       "@assets": path.resolve(__dirname, "../src/assets"),
       "@popup": path.resolve(__dirname, "../src/popup"),
