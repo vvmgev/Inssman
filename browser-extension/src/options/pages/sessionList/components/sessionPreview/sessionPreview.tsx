@@ -56,8 +56,7 @@ const Session: FC<Props> = ({
     } else {
       videoRef.current?.pause?.();
     }
-  }),
-    [isHovered];
+  }, [isHovered]);
 
   return (
     <>

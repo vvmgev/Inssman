@@ -1,6 +1,6 @@
 import Replayer, { RRwebPlayerOptions } from "rrweb-player";
 import { RecordSession } from "@models/recordSessionModel";
-import { FC, useEffect, useRef, forwardRef, memo } from "react";
+import { FC, useEffect, useRef, forwardRef, memo, useState } from "react";
 import "./sessionPlayer.css";
 
 type Props = {
@@ -8,14 +8,15 @@ type Props = {
   playerOptions?: Partial<RRwebPlayerOptions["props"]>;
 };
 const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, ref: any) => {
-  const videoRef = useRef<Replayer>();
-  const videoTagRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<Replayer>();
+  const playerTagRef = useRef<HTMLDivElement>(null);
+  const [validVideo, setValidVideo] = useState<boolean>(true);
 
   useEffect(() => {
     let player;
-    if (!videoRef.current && session) {
-      videoRef.current = new Replayer({
-        target: videoTagRef.current as HTMLDivElement,
+    if (!playerRef.current && playerTagRef.current && session && session.events?.length >= 2) {
+      playerRef.current = new Replayer({
+        target: playerTagRef.current as HTMLDivElement,
         props: {
           events: session.events,
           width: 450,
@@ -26,18 +27,21 @@ const SessionPlayer: FC<Props> = forwardRef(({ session, playerOptions = {} }, re
           ...playerOptions,
         },
       });
-      player = videoRef.current;
+      player = playerRef.current;
       if (ref) {
-        ref.current = videoRef.current;
+        ref.current = playerRef.current;
       }
     }
+    setValidVideo(!!(session && session.events?.length >= 2));
 
     return () => {
       player?.$destroy?.();
     };
-  }, [session, videoRef.current]);
+  }, [session, playerRef.current, playerTagRef.current, validVideo]);
 
-  return <div id="asa" ref={videoTagRef}></div>;
+  return (
+    <>{validVideo ? <div ref={playerTagRef}></div> : <span>Recorded Video Is Damaged Please Record Again</span>}</>
+  );
 });
 
 export default memo(SessionPlayer);
