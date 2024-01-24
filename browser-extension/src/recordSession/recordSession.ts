@@ -1,4 +1,4 @@
-import { record, getRecordConsolePlugin } from "rrweb";
+import { record } from "rrweb";
 import { htmlToImage } from "@/utils/htmlToImage";
 
 const MAX_DURATION = 5 * 60 * 1000;
@@ -28,11 +28,7 @@ class RecordSession {
       recordAfter: "DOMContentLoaded",
       recordCrossOriginIframes: true,
       blockClass: "inssman-ignore-element",
-      // plugins: [getRecordConsolePlugin()],
       emit: (event) => {
-        // const defaultLog = console.log["__rrweb_original__"] ? console.log["__rrweb_original__"] : console.log;
-        // defaultLog(event);
-
         const timeDiff = this.events[this.events.length - 1]?.timestamp - this.events[0]?.timestamp;
         if (!this.events.length || timeDiff <= MAX_DURATION) {
           this.events.push(event);

@@ -55,9 +55,7 @@ const sessionDetails: FC = (): ReactElement => {
           setError(response.message);
           return;
         }
-        if (response.events?.length > 1) {
-          setSession(response);
-        }
+        setSession(response);
       }
     );
   }, []);

@@ -28,9 +28,7 @@ const Record: FC = (): ReactElement => {
         action: PostMessageAction.GetLastRecordedSession,
       },
       (session) => {
-        if (session?.events?.length > 1) {
-          setSession(session);
-        }
+        setSession(session);
       }
     );
   }, []);

@@ -43,9 +43,7 @@ const Session: FC<Props> = ({
         if (response.error) {
           return;
         }
-        if (response.events?.length > 1) {
-          setSession(response);
-        }
+        setSession(response);
       }
     );
   }, [id]);
@@ -103,7 +101,17 @@ const Session: FC<Props> = ({
         <div className="flex items-center justify-between">
           <div className="text-ellipsis gap-4 max-w-[150px] whitespace-nowrap	overflow-hidden">
             <Tooltip content={session.url}>
-              <span>{session.url}</span>
+              <div className="flex">
+                {session.url && (
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${session.url}`}
+                    onLoad={(event: any) => event.target.classList?.toggle("invisible")}
+                    alt=""
+                    className="invisible w-5 h-5"
+                  />
+                )}
+                <span>{session.url}</span>
+              </div>
             </Tooltip>
           </div>
           <div className="flex gap-1">

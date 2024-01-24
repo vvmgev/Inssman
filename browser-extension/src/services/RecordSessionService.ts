@@ -13,6 +13,7 @@ import {
   removeRecordedSession,
   storeRecordedSession,
 } from "@/serviceWorker/firebase";
+import { timeDifference } from "@/utils/timeDifference";
 
 import Tab = chrome.tabs.Tab;
 
@@ -127,7 +128,14 @@ class RecordSessionService extends BaseService {
 
   getRecordedSessions = async (): Promise<RecordSession[]> => {
     const recordedSessions = await IndexDBService.getAll();
-    return recordedSessions.map(({ events, ...session }) => ({ events: [], ...session }));
+    return recordedSessions.map(({ events, ...session }) => {
+      const duration = timeDifference(events[0]?.timestamp || 0, events[events.length - 1]?.timestamp || 0);
+      return {
+        events: [],
+        duration,
+        ...session,
+      };
+    });
   };
 
   getSessionById = async ({ id }: { id: number }): Promise<RecordSession> => {

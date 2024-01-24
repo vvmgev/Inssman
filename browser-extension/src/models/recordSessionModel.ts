@@ -10,4 +10,8 @@ export type RecordSession = {
   preview?: string;
   docID?: string;
   ttl?: number;
+  duration?: {
+    minutes: number;
+    seconds: number;
+  };
 };

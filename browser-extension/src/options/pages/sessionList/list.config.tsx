@@ -76,15 +76,8 @@ export const LIST_ITEMS: ListItems[] = [
     field: "duration",
     classes: "flex justify-end",
     render: function (item) {
-      try {
-        const { minutes, seconds } = timeDifference(
-          item.events[0].timestamp,
-          item.events[item.events.length - 1].timestamp
-        );
-        return `${minutes > 0 ? `${minutes}m` : ""} ${seconds}s `;
-      } catch (error) {
-        return "";
-      }
+      const { minutes, seconds } = item.duration;
+      return `${minutes > 0 ? `${minutes}m` : ""} ${seconds}s `;
     },
   },
   {
