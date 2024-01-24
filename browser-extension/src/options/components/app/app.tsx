@@ -50,7 +50,7 @@ const Wrapper = () => {
         toastClassName="bg-transparent rounded-none p-0 shadow-none"
         newestOnTop={true}
         transition={Bounce}
-        progressClassName="absolute bottom-1 left-2 w-[90%] rounded-xl"
+        progressClassName="absolute bottom-1"
         progressStyle={{ background: "rgb(100 116 139)" }}
         limit={2}
       />

@@ -126,7 +126,8 @@ class RecordSessionService extends BaseService {
   };
 
   getRecordedSessions = async (): Promise<RecordSession[]> => {
-    return IndexDBService.getAll();
+    const recordedSessions = await IndexDBService.getAll();
+    return recordedSessions.map(({ events, ...session }) => ({ events: [], ...session }));
   };
 
   getSessionById = async ({ id }: { id: number }): Promise<RecordSession> => {

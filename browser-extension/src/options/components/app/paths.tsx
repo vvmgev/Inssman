@@ -44,4 +44,4 @@ export const paths = [
   },
 ];
 
-export const popularPaths = [PageType.MODIFY_HEADER];
+export const popularPaths = [PageType.MODIFY_HEADER, PageType.REDIRECT];

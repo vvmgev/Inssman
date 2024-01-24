@@ -30,13 +30,14 @@ const SessionList: FC = (): ReactElement => {
   const [selectedSession, setSelectedSession] = useState<RecordSession | null>();
   const onHandleClearSearch = () => setSearch("");
   const onChangeSearch = (event) => setSearch(event.target.value);
-  const getSessions = (): void =>
+  const getSessions = (): void => {
     chrome.runtime.sendMessage({ action: PostMessageAction.GetRecordedSessions }, (data) => {
       if (data.error) {
         return;
       }
       setSessions(data);
     });
+  };
 
   useEffect(() => {
     getSessions();
@@ -221,10 +222,10 @@ const SessionList: FC = (): ReactElement => {
             <div className="w-full grid gap-4 grid-cols-[repeat(auto-fill,minmax(230px,1fr))]">
               {filteredSessions.map((session) => (
                 <SessionPreview
+                  id={session.id}
                   key={session.id}
                   selectSession={setSelectedSession}
                   setDialogName={setDialogName}
-                  data={session}
                   dialogName={dialogName}
                   isSharing={sharingItemId === session.id}
                   onDelete={handleDelete}
