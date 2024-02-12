@@ -8,7 +8,7 @@ type ButtonVariant = Record<Variant | "disabled", string>;
 type ButtonSize = Record<Size, string>;
 
 type Props = PropsWithChildren<{
-  trackName: string;
+  trackName?: string;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   variant?: Variant;
@@ -29,8 +29,8 @@ const buttonVariants: ButtonVariant = {
 
 const buttonSize: ButtonSize = {
   small: "text-xs px-2 py-1",
-  medium: "text-sm px-2 py-2",
-  large: "text-md px-2 py-3",
+  medium: "text-sm px-3 py-2",
+  large: "text-md px-4 py-3",
 };
 
 const Button: FC<Props> = ({
