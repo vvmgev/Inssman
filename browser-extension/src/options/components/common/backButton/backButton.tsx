@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 
 type Props = {
-  trackName: string;
+  trackName?: string;
   url?: string;
   text?: string;
 };

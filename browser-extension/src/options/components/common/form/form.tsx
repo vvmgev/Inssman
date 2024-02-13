@@ -22,7 +22,7 @@ const Form = ({ children, onSubmit, onDelete, error, pageType, mode = "create" }
   return (
     <>
       <Section classes="flex justify-between px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
-        <BackButton trackName={pageType} url="/" text="Rules" />
+        <BackButton url="/" text="Rules" />
         <span className="flex flex-col items-center">
           <span className="text-md">{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
           <span className="flex items-center gap-1 text-xs text-slate-400">

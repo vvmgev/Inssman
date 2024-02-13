@@ -84,7 +84,7 @@ const HTTPLogger = ({ clientName, showOpenWindowBtn = true }) => {
     <div className="flex flex-col h-full gap-2 bg-slate-800 bg-opacity-40">
       <Section classes="h-[50%] p-0 border-0">
         <Section classes="flex justify-between px-2 py-4 text-sm border-0 border-b border-r">
-          {showOpenWindowBtn && <BackButton trackName="HTTPLogger" />}
+          {showOpenWindowBtn && <BackButton />}
           <div className="flex items-center justify-end gap-5 ">
             {showOpenWindowBtn && (
               <Button

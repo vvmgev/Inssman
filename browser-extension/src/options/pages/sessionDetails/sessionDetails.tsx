@@ -213,7 +213,7 @@ const sessionDetails: FC = (): ReactElement => {
       {session && (
         <>
           <Section classes="flex justify-between border-l-0 border-t-0 px-2 py-4">
-            <BackButton trackName="session" url="/record/session" text="Sessions" />
+            <BackButton url="/record/session" text="Sessions" />
             <div className="text-xl capitalize">{session?.name}</div>
             <div className="flex gap-2">
               <Button
