@@ -71,7 +71,8 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      return handlers?.cutString(item[this.field]);
+      return "source";
+      // return handlers?.cutString(item[this.field]);
     },
   },
   {
@@ -83,7 +84,7 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "enabled",
     render: function (item, handlers) {
-      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.onChangeRuleStatus(event, item.id)} />;
+      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
   },
   {
@@ -93,7 +94,7 @@ export const LIST_ITEMS: ListItems[] = [
       return (
         <>
           <Tooltip content="Duplicate Rule">
-            <div className="cursor-pointer hover:text-sky-500" onClick={() => handlers?.duplicateRule(item.id)}>
+            <div className="cursor-pointer hover:text-sky-500" onClick={() => handlers?.duplicateRule(item)}>
               <Icon name="documentCopy" />
             </div>
           </Tooltip>

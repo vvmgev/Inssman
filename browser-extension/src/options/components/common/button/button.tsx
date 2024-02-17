@@ -43,6 +43,7 @@ const Button: FC<Props> = ({
   disabled,
   variant = "primary",
   size = "small",
+  type = "button",
   ...rest
 }: Props) => {
   const handler = (event) => {
@@ -57,8 +58,9 @@ const Button: FC<Props> = ({
     <button
       onClick={handler}
       disabled={disabled}
+      type={type}
       className={twMerge(
-        "rounded outline-0",
+        "rounded outline-0 inline-block",
         buttonVariants[variant],
         buttonSize[size],
         disabled ? buttonVariants.disabled : "",

@@ -41,7 +41,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
       case "sourceFields":
         return (
           <div className="flex items-center w-full mt-5">
-            <SourceFields
+            {/* <SourceFields
               matchType={ruleMetaData.matchType || field.defaultValues.matchType}
               requestMethods={ruleMetaData.requestMethods || field.defaultValues.requestMethods}
               resourceTypes={ruleMetaData.resourceTypes || field.defaultValues.resourceTypes}
@@ -50,7 +50,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
               error={error}
               showFields={ruleMetaData.showFields || field.defaultValues.showFields}
               {...field.props}
-            />
+            /> */}
           </div>
         );
       case "destination":

@@ -208,7 +208,7 @@ const RuleForm = () => {
       setRuleMetaData({
         ...ruleMetaData,
         ...defaultValues,
-        source: urlSearchParams.get("source") || (defaultValues.source as string),
+        // source: urlSearchParams.get("source") || (defaultValues.source as string),
         name: urlSearchParams.get("name") || (defaultValues.name as string),
       });
     }

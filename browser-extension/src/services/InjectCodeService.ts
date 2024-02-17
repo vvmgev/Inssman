@@ -38,32 +38,34 @@ class InjectCodeService extends BaseService {
   onChangeNavigation = (transation): void => {
     this.rulesData.forEach((ruleMetaData: IRuleMetaData) => {
       if (ruleMetaData.pageType === PageType.INJECT_FILE) {
-        if (MatcherService.isUrlsMatch(ruleMetaData.source, transation.url, ruleMetaData.matchType)) {
-          if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
-            this.injectHTML(
-              transation.tabId,
-              ruleMetaData.editorValue,
-              ruleMetaData.tagSelector,
-              ruleMetaData.tagSelectorOperator
-            );
-            StorageService.updateRuleTimestamp(String(ruleMetaData.id));
-            return;
-          }
-          if (ruleMetaData.fileSourceType === InjectFileSource.URL) {
-            if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.JAVASCRIPT]) {
-              this.injectExternalScript(transation.tabId, ruleMetaData.fileSource);
-            } else {
-              this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
+        ruleMetaData.conditions.forEach((condition) => {
+          if (MatcherService.isUrlsMatch(condition.source, transation.url, condition.matchType)) {
+            if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.HTML]) {
+              this.injectHTML(
+                transation.tabId,
+                ruleMetaData.editorValue,
+                ruleMetaData.tagSelector,
+                ruleMetaData.tagSelectorOperator
+              );
+              StorageService.updateRuleTimestamp(String(ruleMetaData.id));
+              return;
             }
-          } else {
-            this.injectInternalScript(
-              transation.tabId,
-              ruleMetaData.editorValue,
-              InjectFileTagMap[ruleMetaData.editorLang as string]
-            );
+            if (ruleMetaData.fileSourceType === InjectFileSource.URL) {
+              if (InjectFileTagMap[ruleMetaData.editorLang as string] === InjectFileTagMap[InjectFileType.JAVASCRIPT]) {
+                this.injectExternalScript(transation.tabId, ruleMetaData.fileSource);
+              } else {
+                this.injectExternalStyle(transation.tabId, ruleMetaData.fileSource);
+              }
+            } else {
+              this.injectInternalScript(
+                transation.tabId,
+                ruleMetaData.editorValue,
+                InjectFileTagMap[ruleMetaData.editorLang as string]
+              );
+            }
+            StorageService.updateRuleTimestamp(String(ruleMetaData.id));
           }
-          StorageService.updateRuleTimestamp(String(ruleMetaData.id));
-        }
+        });
       }
     });
   };

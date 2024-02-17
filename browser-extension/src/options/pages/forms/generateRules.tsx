@@ -1,0 +1,40 @@
+import generateRedirectRule from "./redirect/generateRedirectRules";
+import generateBlockRule from "./block/generateBlockRule";
+import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
+import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
+
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
+
+const generateRuleMap = {
+  [PageType.REDIRECT]: generateRedirectRule,
+  [PageType.BLOCK]: generateBlockRule,
+};
+
+const generateMatchType = (matchType, source, pageType): Record<string, string> => {
+  let newSource: string = source;
+
+  if (matchType === MatchType.EQUAL) {
+    newSource = makeExactMatch(source);
+  }
+
+  if (matchType === MatchType.WILDCARD) {
+    newSource = PageType.MODIFY_REQUEST_BODY === pageType ? replaceAsteriskToPlus(source) : replaceAsterisk(source);
+  }
+
+  return {
+    [MatchTypeMap[matchType]]: newSource,
+  };
+};
+
+const generateRules = (fields) => {
+  return generateRuleMap[fields.pageType](fields).map((rule, index) => ({
+    ...rule,
+    id: (fields.connectedRuleIds || [])[index],
+    condition: {
+      ...generateMatchType(fields.conditions[index].matchType, fields.conditions[index].source, PageType.REDIRECT),
+      resourceTypes: Object.values(ResourceType),
+    },
+  }));
+};
+
+export default generateRules;

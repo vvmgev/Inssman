@@ -6,6 +6,8 @@ import SessionDetails from "@/options/pages/sessionDetails/sessionDetails";
 import Main from "@options/components/main/main";
 import NotFound from "@options/components/notFound/notFound";
 import RuleForm from "@options/pages/ruleForm/ruleForm";
+import RedirectForm from "@/options/pages/forms/redirect/redirect";
+import BlockForm from "@/options/pages/forms/block/block";
 import { WebRequestClients } from "@models/WebRequestModel";
 import { Route, Routes } from "react-router-dom";
 
@@ -15,8 +17,8 @@ const AppRoutes = () => {
       <Route element={<RouteListener />}>
         <Route path="/" element={<Main />} />
         <Route path="/create">
-          <Route path="redirect" element={<RuleForm key={0} />} />
-          <Route path="block" element={<RuleForm key={1} />} />
+          <Route path="redirect" element={<RedirectForm key={11111} />} />
+          <Route path="block" element={<BlockForm key={111121} />} />
           <Route path="query-param" element={<RuleForm key={2} />} />
           <Route path="modify-header" element={<RuleForm key={3} />} />
           <Route path="modify-response" element={<RuleForm key={4} />} />
@@ -25,8 +27,9 @@ const AppRoutes = () => {
           <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} />} />
         </Route>
         <Route path="/edit">
-          <Route path="redirect/:id" element={<RuleForm key={7} />} />
-          <Route path="block/:id" element={<RuleForm key={8} />} />
+          {/* <Route path="redirect/:id" element={<RuleForm key={7} />} /> */}
+          <Route path="redirect/:id" element={<RedirectForm key={11112221} />} />
+          <Route path="block/:id" element={<BlockForm key={1111232111} />} />
           <Route path="query-param/:id" element={<RuleForm key={9} />} />
           <Route path="modify-header/:id" element={<RuleForm key={10} />} />
           <Route path="modify-response/:id" element={<RuleForm key={11} />} />

@@ -28,10 +28,12 @@ export type RequestHeader = {
   type: string;
 };
 export type IRuleMetaData = {
+  conditions: {
+    matchType: string;
+    source: string;
+  }[];
   id: number;
   name: string;
-  source: string;
-  matchType: string;
   pageType: string;
   enabled: boolean;
   type: string;
@@ -50,6 +52,7 @@ export type IRuleMetaData = {
   tagSelector?: string;
   tagSelectorOperator?: InjectFileOperator;
   shouldRemoveHeader?: boolean;
+  connectedRuleIds: number[];
 };
 
 export type IForm = {

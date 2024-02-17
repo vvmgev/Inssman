@@ -2,7 +2,7 @@ import StorageService from "@services/StorageService";
 import BaseService from "@services/BaseService";
 import BrowserRuleService from "@services/BrowserRuleService";
 import MatcherService from "@services/MatcherService";
-import config from "@options/formBuilder/config";
+import generateRules from "@/options/pages/forms/generateRules";
 import handleError from "@/serviceWorker/errorHandler";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -36,12 +36,12 @@ class RuleService extends BaseService {
       [PostMessageAction.UpdateRule]: this.updateRule,
       [PostMessageAction.DeleteRules]: this.deleteRules,
       [PostMessageAction.DeleteRule]: this.deleteRule,
-      [PostMessageAction.CopyRuleById]: this.copyRuleById,
+      [PostMessageAction.DuplicateRule]: this.duplicateRule,
       [PostMessageAction.ImportRules]: this.importRules,
       [PostMessageAction.ExportRules]: this.exportRules,
-      [PostMessageAction.ToggleExntesion]: this.toggleRules,
+      [PostMessageAction.ToggleExntesion]: this.toggleExtension,
       [PostMessageAction.UpdateRuleTimestamp]: this.updateTimeStamp,
-      [PostMessageAction.ChangeRuleStatusById]: this.changeRuleStatusById,
+      [PostMessageAction.ToggleRule]: this.toggleRule,
     };
   }
 
@@ -88,29 +88,44 @@ class RuleService extends BaseService {
     return { ruleMetaData: ruleMetaData[id] };
   };
 
-  addRule = async ({ rule, ruleMetaData }: { rule?; ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> => {
+  addRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> => {
     // Tracking temp
     storeRuleMetaData({
       ruleMetaData,
       actionType: PostMessageAction[PostMessageAction.AddRule],
     });
-    const id: number = await StorageService.generateNextId();
-    if (rule && ruleMetaData.enabled) {
-      await BrowserRuleService.set([{ ...rule, id }]);
+    const connectedRuleIds: number[] = [];
+    const rules = generateRules(ruleMetaData);
+    for (const rule of rules) {
+      let id: number = await StorageService.generateNextId();
+      connectedRuleIds.push(id);
+
+      if (ruleMetaData.enabled) {
+        await BrowserRuleService.set([{ ...rule, id }]);
+      }
     }
-    await StorageService.set({ [id]: { ...ruleMetaData, id } });
-    return { ...ruleMetaData, id };
+    await StorageService.set({ [connectedRuleIds[0]]: { ...ruleMetaData, id: connectedRuleIds[0], connectedRuleIds } });
+    return { ...ruleMetaData, id: connectedRuleIds[0], connectedRuleIds };
   };
 
-  updateRule = async ({ rule, ruleMetaData }): Promise<IRuleMetaData> => {
+  updateRule = async ({ ruleMetaData }): Promise<IRuleMetaData> => {
+    const rules = generateRules(ruleMetaData);
     // Tracking temp
     storeRuleMetaData({
       ruleMetaData,
       actionType: PostMessageAction[PostMessageAction.UpdateRule],
     });
 
-    if (rule && ruleMetaData.enabled) {
-      await BrowserRuleService.set([rule], [rule]);
+    if (rules) {
+      const removeRuleIds: number[] = [...ruleMetaData.connectedRuleIds];
+      ruleMetaData.connectedRuleIds = [];
+      for (const rule of rules) {
+        rule.id = rule.id || (await StorageService.generateNextId());
+        ruleMetaData.connectedRuleIds.push(rule.id);
+      }
+      if (ruleMetaData.enabled) {
+        await BrowserRuleService.set(rules, removeRuleIds);
+      }
     }
     await StorageService.set({ [ruleMetaData.id]: ruleMetaData });
     return ruleMetaData;
@@ -121,23 +136,24 @@ class RuleService extends BaseService {
     await StorageService.remove((await StorageService.getRules()).map(({ id }) => String(id)));
   };
 
-  deleteRule = async (data): Promise<void> => {
-    await BrowserRuleService.removeById(data.id);
-    await StorageService.remove(String(data.id));
+  deleteRule = async ({ id, connectedRuleIds }): Promise<void> => {
+    await BrowserRuleService.remove(connectedRuleIds);
+    await StorageService.remove(String(id));
   };
 
-  copyRuleById = async ({ id }: { id: number }): Promise<void> => {
-    const copyOriginalRule = await StorageService.getSingleItem(String(id));
-    copyOriginalRule.name += " copy";
-    copyOriginalRule.lastMatchedTimestamp = null;
-    await this.addRule({ ruleMetaData: copyOriginalRule });
+  duplicateRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<void> => {
+    ruleMetaData.name += " copy";
+    ruleMetaData.lastMatchedTimestamp = null;
+    await this.addRule({ ruleMetaData });
   };
 
   exportRules = async (): Promise<Omit<IRuleMetaData, "id">[]> => {
     const storageRules: IRuleMetaData[] = await StorageService.getRules();
-    return storageRules.map((rule: IRuleMetaData) => {
-      const { id, ...restObject } = rule;
+    return storageRules.map((ruleMetaData: IRuleMetaData) => {
+      const { id, ...restObject } = ruleMetaData;
+      restObject.connectedRuleIds = [];
       restObject.lastMatchedTimestamp = null;
+      restObject.enabled = true;
       return restObject;
     });
   };
@@ -145,22 +161,21 @@ class RuleService extends BaseService {
   importRules = async (ruleMetaDatas: Omit<IRuleMetaData, "id">[]): Promise<void> => {
     for (const ruleMetaData of ruleMetaDatas) {
       try {
-        const rule: Omit<IRuleMetaData, "id"> = ruleMetaData;
         await this.addRule({
-          rule: config[rule.pageType].generateRule(rule),
           ruleMetaData: ruleMetaData as IRuleMetaData,
         });
       } catch (error) {}
     }
   };
 
-  toggleRules = async ({ checked }: { checked: boolean }): Promise<void> => {
+  toggleExtension = async ({ checked }: { checked: boolean }): Promise<void> => {
     if (checked) {
       const ruleMetaDatas: IRuleMetaData[] = await this.getStorageRules();
+      const rules: Rule[] = [];
       for (const ruleMetaData of ruleMetaDatas) {
-        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-        await BrowserRuleService.set([{ ...rule, id: ruleMetaData.id }]);
+        rules.push(...generateRules(ruleMetaData));
       }
+      await BrowserRuleService.set(rules);
     } else {
       await BrowserRuleService.clear();
     }
@@ -169,7 +184,9 @@ class RuleService extends BaseService {
   getMatchedRules = async (tab) => {
     if (tab.status === "complete") {
       const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{ key: "enabled", value: true }]);
-      const isUrlsMatch = enabledRules.some((rule) => MatcherService.isUrlsMatch(rule.source, tab.url, rule.matchType));
+      const isUrlsMatch = enabledRules.some(({ conditions }) =>
+        conditions.some((condition) => MatcherService.isUrlsMatch(condition.source, tab.url, condition.matchType))
+      );
       const hasRedirectRule = enabledRules.some(
         (rule: IRuleMetaData) =>
           // On redirect url doesn't match
@@ -196,36 +213,23 @@ class RuleService extends BaseService {
     StorageService.updateRuleTimestamp(String(data.id), data.timestamp);
   };
 
-  changeRuleStatusById = async ({ id, checked }: { id: number; checked: boolean }): Promise<void> => {
-    const ruleMetaData: IRuleMetaData = await StorageService.getSingleItem(String(id));
-    const ruleServiceRule = await BrowserRuleService.getRuleById(id);
-    const updateRuleOptions: UpdateRuleOptions = { removeRuleIds: [id] };
+  toggleRule = async ({ ruleMetaData, checked }: { ruleMetaData: IRuleMetaData; checked: boolean }): Promise<void> => {
+    const { connectedRuleIds, pageType, id } = ruleMetaData;
+    const browserRules = await BrowserRuleService.getRules(connectedRuleIds);
+    const updateRuleOptions: UpdateRuleOptions = { removeRuleIds: connectedRuleIds };
     try {
-      if (checked && ruleMetaData.pageType !== PageType.MODIFY_REQUEST_BODY) {
-        const rule: Rule = config[ruleMetaData.pageType].generateRule(ruleMetaData);
-        updateRuleOptions.addRules = [{ ...rule, id }];
+      if (checked && pageType !== PageType.MODIFY_REQUEST_BODY) {
+        updateRuleOptions.addRules = generateRules(ruleMetaData);
       }
       // TODO: FIXME:  need investigation
       // when checked = false
       // it doesn't remove the rule
       await BrowserRuleService.updateDynamicRules(updateRuleOptions);
       await StorageService.set({ [id]: { ...ruleMetaData, enabled: checked } });
-      if (!checked) {
-        const ruleServiceRuleRemoved = await BrowserRuleService.getRuleById(id);
-        storeTracking({
-          action: "ChangeRuleStatusById",
-          data: {
-            checked,
-            ruleMetaData,
-            ruleServiceRule: ruleServiceRule || "undefined",
-            ruleServiceRuleRemoved: ruleServiceRuleRemoved || "undefined",
-          },
-        });
-      }
     } catch (error) {
       handleError(error, {
         action: "ChangeRuleStatusById",
-        data: { checked, ruleServiceRule, ruleMetaData },
+        data: { checked, browserRules, ruleMetaData },
       });
       return Promise.reject(error);
     }

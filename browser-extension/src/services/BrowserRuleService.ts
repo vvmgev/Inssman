@@ -4,33 +4,36 @@ import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 import MatchedRulesFilter = chrome.declarativeNetRequest.MatchedRulesFilter;
 
 class BrowserRuleService {
+  constructor() {
+    // this.clear();
+    chrome.declarativeNetRequest.getDynamicRules().then((data) => {
+      console.log("browserRule", data);
+    });
+  }
   get(): Promise<Rule[]> {
     return chrome.declarativeNetRequest.getDynamicRules();
   }
 
-  set(rules: Rule[], removeRules: Rule[] = []): Promise<void> {
+  set(addRules: Rule[], removeRuleIds: number[] = []): Promise<void> {
     return this.updateDynamicRules({
-      addRules: rules,
-      removeRuleIds: removeRules.map((rule) => rule.id),
+      addRules,
+      removeRuleIds,
     });
   }
 
-  remove(rules: Rule[]): Promise<void> {
-    const removeRuleIds: number[] = rules.map((rule) => rule.id);
+  remove(removeRuleIds: number[]): Promise<void> {
     return this.updateDynamicRules({ removeRuleIds });
   }
 
-  removeById(id: number): Promise<void> {
-    return this.updateDynamicRules({ removeRuleIds: [id] });
-  }
-
   async clear(): Promise<void> {
-    await this.remove(await this.get());
+    const rules = await this.get();
+    const removeRuleIds = rules.map(({ id }) => id);
+    await this.remove(removeRuleIds);
   }
 
-  async getRuleById(id: number): Promise<Rule> {
+  async getRules(ids: number[]): Promise<Rule[]> {
     const rules: Rule[] = await this.get();
-    return rules.find((rule) => rule.id === id) as Rule;
+    return rules.filter(({ id }) => ids.includes(id));
   }
 
   updateDynamicRules(updateRuleOptions: UpdateRuleOptions): Promise<void> {
