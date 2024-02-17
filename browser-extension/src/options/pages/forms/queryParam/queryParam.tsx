@@ -83,7 +83,7 @@ const QueryParamForm = () => {
               }}
             />
 
-            {index !== 0 && (
+            {controlledFields.length > 1 && (
               <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>
                 <Icon name="cross" />
               </Button>

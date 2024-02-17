@@ -120,11 +120,11 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
       case "editor":
         return (
           <div className="mt-5">
-            <Editor
+            {/* <Editor
               value={ruleMetaData.editorValue}
               language={ruleMetaData.editorLang || field.defaultValue}
               onChange={(e) => onChange(e, field)}
-            />
+            /> */}
           </div>
         );
       case "injectFileSources":

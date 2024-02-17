@@ -2,6 +2,7 @@ import generateRedirectRule from "./redirect/generateRedirectRules";
 import generateBlockRule from "./block/generateBlockRule";
 import generateQueryParamRule from "./queryParam/generateQueryParamRule";
 import generateModifyHeaderRule from "./modifyHeader/generateModifyHeaderRule";
+import generateModifyResponseRule from "./modifyResponse/generateModifyResponseRules";
 import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
 import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
 
@@ -12,6 +13,7 @@ const generateRuleMap = {
   [PageType.BLOCK]: generateBlockRule,
   [PageType.QUERY_PARAM]: generateQueryParamRule,
   [PageType.MODIFY_HEADER]: generateModifyHeaderRule,
+  [PageType.MODIFY_RESPONSE]: generateModifyResponseRule,
 };
 
 const generateMatchType = (matchType, source, pageType): Record<string, string> => {

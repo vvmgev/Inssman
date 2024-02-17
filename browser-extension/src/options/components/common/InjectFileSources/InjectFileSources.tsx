@@ -103,7 +103,7 @@ const InjectFileSources = ({ onChange, ruleMetaData, error }) => {
           fileSourceType === InjectFileSource.CODE || editorLang === InjectFileType.HTML ? "" : "hidden"
         }`}
       >
-        <Editor value={editorValue} language={editorLang || "javascript"} onChange={onChange} />
+        {/* <Editor value={editorValue} language={editorLang || "javascript"} onChange={onChange} /> */}
       </div>
       {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && (
         <div className="flex items-center w-full mt-5">

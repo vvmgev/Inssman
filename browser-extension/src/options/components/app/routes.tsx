@@ -12,6 +12,7 @@ import { WebRequestClients } from "@models/WebRequestModel";
 import { Route, Routes } from "react-router-dom";
 import QueryParamForm from "@/options/pages/forms/queryParam/queryParam";
 import ModifyHeaderForm from "@/options/pages/forms/modifyHeader/modifyHeader";
+import ModifyResponse from "@/options/pages/forms/modifyResponse/modifyResponse";
 
 const AppRoutes = () => {
   return (
@@ -23,7 +24,7 @@ const AppRoutes = () => {
           <Route path="block" element={<BlockForm key={1} />} />
           <Route path="query-param" element={<QueryParamForm key={2} />} />
           <Route path="modify-header" element={<ModifyHeaderForm key={3} />} />
-          <Route path="modify-response" element={<RuleForm key={4} />} />
+          <Route path="modify-response" element={<ModifyResponse key={4} />} />
           <Route path="modify-request-body" element={<RuleForm key={5} />} />
           <Route path="inject-file" element={<RuleForm key={6} />} />
           <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} />} />
@@ -33,7 +34,7 @@ const AppRoutes = () => {
           <Route path="block/:id" element={<BlockForm key={8} />} />
           <Route path="query-param/:id" element={<QueryParamForm key={9} />} />
           <Route path="modify-header/:id" element={<ModifyHeaderForm key={10} />} />
-          <Route path="modify-response/:id" element={<RuleForm key={11} />} />
+          <Route path="modify-response/:id" element={<ModifyResponse key={11} />} />
           <Route path="modify-request-body/:id" element={<RuleForm key={12} />} />
           <Route path="inject-file/:id" element={<RuleForm key={13} />} />
         </Route>

@@ -106,7 +106,7 @@ const SourceFields = () => {
                 />
               </div>
               <div>
-                {index !== 0 && (
+                {controlledFields.length > 1 && (
                   <Button
                     variant="icon"
                     className="cursor-pointer hover:text-red-400"
