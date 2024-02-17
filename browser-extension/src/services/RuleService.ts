@@ -89,6 +89,7 @@ class RuleService extends BaseService {
   };
 
   addRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> => {
+    // console.log("ruleMetaData", ruleMetaData);
     // Tracking temp
     storeRuleMetaData({
       ruleMetaData,
@@ -96,6 +97,9 @@ class RuleService extends BaseService {
     });
     const connectedRuleIds: number[] = [];
     const rules = generateRules(ruleMetaData);
+    // console.log("rules", rules);
+    // @ts-ignore
+    // return;
     for (const rule of rules) {
       let id: number = await StorageService.generateNextId();
       connectedRuleIds.push(id);

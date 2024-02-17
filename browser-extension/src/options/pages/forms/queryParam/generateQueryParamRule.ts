@@ -5,7 +5,7 @@ import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
 const getQueryParams = (queryParams) => {
   return queryParams
-    .filter((queryParam) => queryParam.key.length && queryParam.action !== QueryParamAction.REMOVE)
+    .filter((queryParam) => queryParam.action !== QueryParamAction.REMOVE)
     .map((queryParam) => ({
       key: queryParam.key,
       value: queryParam.value,
@@ -15,7 +15,7 @@ const getQueryParams = (queryParams) => {
 
 const getRemoveQueryParams = (queryParams) => {
   return queryParams
-    .filter((queryParam) => queryParam.key.length && queryParam.action === QueryParamAction.REMOVE)
+    .filter((queryParam) => queryParam.action === QueryParamAction.REMOVE)
     .map((queryParam) => queryParam.key);
 };
 
@@ -28,17 +28,18 @@ const generateRegexSubstitution = ({ matchType, pageType, destination }): Record
 };
 
 const generateRule = (fields) =>
-  fields.queryParams.map((queryParam) => ({
+  fields.conditions.map(() => ({
     action: {
       type: RuleActionType.REDIRECT,
       redirect: {
         transform: {
           queryTransform: {
-            addOrReplaceParams: getQueryParams(queryParam.queryParams),
-            removeParams: getRemoveQueryParams(queryParam.queryParams),
+            addOrReplaceParams: getQueryParams(fields.queryParams),
+            removeParams: getRemoveQueryParams(fields.queryParams),
           },
         },
-        ...generateRegexSubstitution(queryParam),
+        // FIXME: investigate why use this function
+        // ...generateRegexSubstitution(fields.queryParams),
       },
     },
   }));

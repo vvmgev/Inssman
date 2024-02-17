@@ -1,29 +1,99 @@
+import Input from "@options/components/common/input/input";
+import Select from "@options/components/common/select/select";
+import Icon from "@options/components/common/icon/icon";
 import FormHOC from "@/options/HOC/formHOC";
-import Input from "@/options/components/common/input/input";
-import { Controller, useFormContext } from "react-hook-form";
+import Button from "@/options/components/common/button/button";
+import { useCallback, useEffect } from "react";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
+import { QueryParamAction } from "@models/formFieldModel";
+
+const queryParamActionOptions = Object.entries(QueryParamAction).reduce((previous: any, [value, label]: any) => {
+  previous.push({ value: value.toLowerCase(), label });
+  return previous;
+}, []);
 
 const QueryParamForm = () => {
-  const methods = useFormContext();
+  const { control, watch } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "queryParams",
+  });
+
+  const watchFieldArray = watch("queryParams");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index],
+    };
+  });
+
+  const handleRemove = (index) => {
+    remove(index);
+  };
+  const handleAddCondition = useCallback(() => {
+    append({ key: "", value: "", action: QueryParamAction.ADD });
+  }, []);
+
+  useEffect(() => {
+    handleAddCondition();
+  }, []);
+
   return (
-    <div className="flex items-center mt-3">
-      <div className="min-w-[100px]">Redirect to</div>
-      <div className="w-3/5">
-        <Controller
-          name="destination"
-          control={methods.control}
-          rules={{
-            required: { value: true, message: "Destination Is Required" },
-            validate: {
-              emptySpace: (value) => {
-                return /\b\s+\b/.test(value) ? "Destination Cannot Contain Space" : undefined;
-              },
-            },
-          }}
-          render={({ field, fieldState }) => {
-            return <Input placeholder="e.g youtube.com" error={fieldState.error?.message} {...field} />;
-          }}
-        />
-      </div>
+    <div className="mt-3">
+      {controlledFields.map((item, index) => {
+        return (
+          <div key={item.id} className="flex items-center gap-5">
+            <span className="mr-4">Operator&nbsp;</span>
+            <Controller
+              name={`queryParams.${index}.action`}
+              control={control}
+              render={({ field, fieldState }) => {
+                return (
+                  <Select
+                    classes="flex-[1]"
+                    options={queryParamActionOptions}
+                    error={fieldState.error?.message}
+                    {...field}
+                  />
+                );
+              }}
+            />
+            <Controller
+              name={`queryParams.${index}.key`}
+              control={control}
+              rules={{ required: { value: true, message: "Key Is Required" } }}
+              render={({ field, fieldState }) => {
+                return <Input classes="flex-[3]" placeholder="key" error={fieldState.error?.message} {...field} />;
+              }}
+            />
+            <Controller
+              name={`queryParams.${index}.value`}
+              control={control}
+              render={({ field, fieldState }) => {
+                return (
+                  <Input
+                    disabled={controlledFields[index].action === QueryParamAction.REMOVE}
+                    hidden={controlledFields[index].action === QueryParamAction.REMOVE}
+                    classes="flex-[3]"
+                    placeholder="Value"
+                    error={fieldState.error?.message}
+                    {...field}
+                  />
+                );
+              }}
+            />
+
+            {index !== 0 && (
+              <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>
+                <Icon name="cross" />
+              </Button>
+            )}
+          </div>
+        );
+      })}
+      <Button size="small" variant="outline" onClick={handleAddCondition} type="button">
+        Add Query Param
+      </Button>
     </div>
   );
 };

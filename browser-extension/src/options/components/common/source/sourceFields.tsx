@@ -2,13 +2,18 @@ import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import Icon from "@options/components/common/icon/icon";
-import { useCallback, useMemo, PropsWithChildren, useEffect } from "react";
+import Button from "@options/components/common/button/button";
+import { useCallback, useMemo, useEffect } from "react";
 import { useFieldArray, Controller, useFormContext, useWatch } from "react-hook-form";
 import { MatchType } from "@models/formFieldModel";
 
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
-import Button from "../button/button";
+
+const matchTypeOptions = Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
+  previous.push({ value: value.toLowerCase(), label });
+  return previous;
+}, []);
 
 const SourceFields = () => {
   const { control, watch } = useFormContext();
@@ -27,15 +32,6 @@ const SourceFields = () => {
   useEffect(() => {
     handleAddCondition();
   }, []);
-
-  const matchTypeOptions = useMemo(
-    () =>
-      Object.entries(MatchType).reduce((previous: any, [value, label]: any) => {
-        previous.push({ value: value.toLowerCase(), label });
-        return previous;
-      }, []),
-    []
-  );
 
   const requestMethodOptions = useMemo(
     () =>

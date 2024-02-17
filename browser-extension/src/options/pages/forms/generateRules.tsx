@@ -1,5 +1,7 @@
 import generateRedirectRule from "./redirect/generateRedirectRules";
 import generateBlockRule from "./block/generateBlockRule";
+import generateQueryParamRule from "./queryParam/generateQueryParamRule";
+import generateModifyHeaderRule from "./modifyHeader/generateModifyHeaderRule";
 import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
 import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
 
@@ -8,6 +10,8 @@ import ResourceType = chrome.declarativeNetRequest.ResourceType;
 const generateRuleMap = {
   [PageType.REDIRECT]: generateRedirectRule,
   [PageType.BLOCK]: generateBlockRule,
+  [PageType.QUERY_PARAM]: generateQueryParamRule,
+  [PageType.MODIFY_HEADER]: generateModifyHeaderRule,
 };
 
 const generateMatchType = (matchType, source, pageType): Record<string, string> => {
