@@ -3,12 +3,12 @@ import Select from "@options/components/common/select/select";
 import Icon from "@options/components/common/icon/icon";
 import FormHOC from "@/options/HOC/formHOC";
 import Button from "@/options/components/common/button/button";
+import HTTPHeaders from "./HTTPHeaders";
 import { HeaderModificationType } from "@models/formFieldModel";
 import { useCallback, useEffect } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
-import HTTPHeaders from "./HTTPHeaders";
 
 const modifyHeaderActionOptions = Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
   previous.push({ value: value.toLowerCase(), label });

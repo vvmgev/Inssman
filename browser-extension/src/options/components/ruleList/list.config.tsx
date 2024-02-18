@@ -1,6 +1,7 @@
 import Switcher from "@options/components/common/switcher/switcher";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import Icon from "@options/components/common/icon/icon";
+import Button from "@options/components/common/button/button";
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { IconsMap, PageName } from "@/models/formFieldModel";
 import { Link } from "react-router-dom";
@@ -107,9 +108,13 @@ export const LIST_ITEMS: ListItems[] = [
             </Link>
           </Tooltip>
           <Tooltip content="Delete Rule">
-            <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
+            <Button
+              variant="icon"
+              className="cursor-pointer hover:text-red-400"
+              onClick={() => handlers?.handleDelete(item)}
+            >
               <Icon name="trash" />
-            </div>
+            </Button>
           </Tooltip>
         </>
       );
