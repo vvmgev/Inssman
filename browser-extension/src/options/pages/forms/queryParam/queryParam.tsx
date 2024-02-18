@@ -42,22 +42,25 @@ const QueryParamForm = () => {
     <div className="mt-3">
       {controlledFields.map((item, index) => {
         return (
-          <div key={item.id} className="flex items-center gap-5">
-            <span className="mr-4">Operator&nbsp;</span>
-            <Controller
-              name={`queryParams.${index}.action`}
-              control={control}
-              render={({ field, fieldState }) => {
-                return (
-                  <Select
-                    classes="flex-[1]"
-                    options={queryParamActionOptions}
-                    error={fieldState.error?.message}
-                    {...field}
-                  />
-                );
-              }}
-            />
+          <div key={item.id} className="flex items-center gap-3">
+            <span className="w-24">Operator&nbsp;</span>
+            <div className="w-36">
+              <Controller
+                name={`queryParams.${index}.action`}
+                control={control}
+                render={({ field, fieldState }) => {
+                  return (
+                    <Select
+                      classes="flex-[1]"
+                      options={queryParamActionOptions}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
+                  );
+                }}
+              />
+            </div>
+
             <Controller
               name={`queryParams.${index}.key`}
               control={control}

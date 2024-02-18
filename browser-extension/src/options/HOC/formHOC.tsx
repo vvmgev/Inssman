@@ -3,15 +3,15 @@ import Button from "@options/components/common/button/button";
 import Section from "@options/components/common/section/section";
 import Icon from "@options/components/common/icon/icon";
 import Input from "@options/components/common/input/input";
-import SourceFields from "@options/components/common/source/sourceFields";
+import Sources from "@/options/pages/forms/components/sources/sources";
 import Toast from "@options/components/common/toast/toast";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { FormMode, IconsMap, PageName } from "@/models/formFieldModel";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { StorageItemType } from "@/models/storageModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const getPageType = (mode: FormMode): string => {
   const pathArr = location.href.split("/");
@@ -20,17 +20,20 @@ const getPageType = (mode: FormMode): string => {
 
 const FormHOC = (FormComponent) => {
   return (props) => {
+    const location = useLocation();
     const navigate = useNavigate();
     const params = useParams();
+    const methods = useForm({ mode: "onChange" });
+    const [error, setError] = useState();
     const id = params.id ? Number(params.id) : null;
     const mode = id ? FormMode.UPDATE : FormMode.CREATE;
     const pageType = getPageType(mode);
-    const methods = useForm<any>({
-      mode: "onChange",
-      defaultValues: {
-        name: "",
-      },
-    });
+
+    const setFormValues = (ruleMetaData) => {
+      Object.entries(ruleMetaData).forEach(([key, value]) => {
+        methods.setValue(key, value);
+      });
+    };
 
     const onSubmitHandler = (fields) => {
       fields.pageType = fields.pageType ? fields.pageType : pageType;
@@ -43,13 +46,6 @@ const FormHOC = (FormComponent) => {
         type: StorageItemType.RULE,
         lastMatchedTimestamp: fields.lastMatchedTimestamp || null,
       };
-      // if (form.rule) {
-      // TODO need make it dynamic from UI
-      // form.rule.condition.isUrlFilterCaseSensitive = false;
-      // requestMethods can be undefined when a rule create from "Inject file" or "Modify Request Body" pages
-      // form.rule.condition.requestMethods =
-      //   ruleMetaData.requestMethods?.length > 0 ? ruleMetaData.requestMethods : undefined;
-      // }
 
       chrome.runtime.sendMessage(
         {
@@ -57,10 +53,10 @@ const FormHOC = (FormComponent) => {
           data: { ruleMetaData },
         },
         (ruleMetaData) => {
-          // if (data?.error) {
-          //   setError(data.info.fieldName, data.info.message);
-          //   return;
-          // }
+          if (ruleMetaData.error) {
+            setError(ruleMetaData.info.message);
+            return;
+          }
           if (mode === FormMode.CREATE) {
             navigate(`/edit/${pageType}/${ruleMetaData.id}`);
           } else {
@@ -77,32 +73,22 @@ const FormHOC = (FormComponent) => {
           action: PostMessageAction.GetRuleById,
           data: { id },
         },
-        ({ ruleMetaData }) => {
-          Object.entries(ruleMetaData).forEach(([key, value]) => {
-            methods.setValue(key, value);
-          });
-        }
+        ({ ruleMetaData }) => setFormValues(ruleMetaData)
       );
     };
 
     useEffect(() => {
-      const search = location.search;
-      const urlSearchParams = new URLSearchParams(search);
-      // autofill name and source
-      // if (mode === FormMode.CREATE && !location.state?.template) {
-      //   const defaultValues = getDefaultData();
-      //   setRuleMetaData({
-      //     ...ruleMetaData,
-      //     ...defaultValues,
-      //     source: urlSearchParams.get("source") || (defaultValues.source as string),
-      //     name: urlSearchParams.get("name") || (defaultValues.name as string),
-      //   });
-      // }
-
       if (mode === FormMode.UPDATE) {
         getRuleMetaData();
       }
     }, []);
+
+    useEffect(() => {
+      const { template, ruleMetaData } = location.state || {};
+      if (template) {
+        setFormValues(ruleMetaData);
+      }
+    }, [location.state]);
 
     return (
       <FormProvider {...methods}>
@@ -129,13 +115,11 @@ const FormHOC = (FormComponent) => {
                 View Example
               </Button>
             </div>
-            {/* @ts-ignore */}
             {mode === "update" && (
               <Button
                 variant="outline"
                 trackName="Delete rule edit mode"
                 className="hover:border-red-400 hover:text-red-400"
-                // onClick={onDelete}
                 type="button"
                 onClick={alert}
                 startIcon={<Icon name="trash" />}
@@ -155,7 +139,7 @@ const FormHOC = (FormComponent) => {
           </div>
         </Section>
         <Section classes="px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
-          {/* <div className="text-red-500 text-md">{error.general}</div> */}
+          <div className="text-red-500 text-md">{error}</div>
           <form onSubmit={methods.handleSubmit(onSubmitHandler)}>
             <div className="w-1/4">
               <Controller
@@ -166,7 +150,7 @@ const FormHOC = (FormComponent) => {
                 }}
               />
             </div>
-            <SourceFields />
+            <Sources />
             <FormComponent {...props} />
             <input type="submit" className="hidden" />
           </form>

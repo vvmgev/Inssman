@@ -7,10 +7,14 @@ export const templates = {
       name: "Redirect Bing To Google",
       destination: "https://google.com",
       pageType: "redirect",
-      source: "bing.com",
-      matchType: "contain",
-      resourceTypes: [],
-      requestMethods: [],
+      conditions: [
+        {
+          source: "bing.com",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
     },
   ],
   [PageType.BLOCK]: [
@@ -18,10 +22,14 @@ export const templates = {
       id: 21,
       name: "Block Instagram",
       pageType: "block",
-      source: "instagram.com",
-      matchType: "contain",
-      resourceTypes: [],
-      requestMethods: [],
+      conditions: [
+        {
+          source: "instagram.com",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
     },
   ],
   [PageType.QUERY_PARAM]: [
@@ -29,9 +37,14 @@ export const templates = {
       id: 31,
       name: "Remove UTM Params",
       pageType: "query-param",
-      matchType: "contain",
-      resourceTypes: [],
-      requestMethods: [],
+      conditions: [
+        {
+          source: "",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
       queryParams: [
         {
           action: "remove",
@@ -54,15 +67,19 @@ export const templates = {
           value: "",
         },
       ],
-      source: "",
     },
     {
       id: 32,
       name: "Remove Facebook Click Id",
       pageType: "query-param",
-      matchType: "contain",
-      resourceTypes: [],
-      requestMethods: [],
+      conditions: [
+        {
+          source: "",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
       queryParams: [
         {
           action: "remove",
@@ -70,13 +87,12 @@ export const templates = {
           value: "",
         },
       ],
-      source: "",
     },
   ],
   [PageType.MODIFY_HEADER]: [
     {
       id: 41,
-      headers: [
+      modifyHeaders: [
         {
           header: "Content-Security-Policy",
           operation: "remove",
@@ -84,16 +100,28 @@ export const templates = {
           value: "",
         },
       ],
-      matchType: "contain",
+      conditions: [
+        {
+          source: "",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
       name: "Remove Content-Security-Policy Header",
       pageType: "modify-header",
-      resourceTypes: [],
-      requestMethods: [],
-      source: "",
     },
     {
       id: 42,
-      headers: [
+      conditions: [
+        {
+          source: "",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+        },
+      ],
+      modifyHeaders: [
         {
           header: "Access-Control-Allow-Origin",
           operation: "set",
@@ -119,12 +147,8 @@ export const templates = {
           value: "true",
         },
       ],
-      matchType: "contain",
       name: "Bypass CORS",
       pageType: "modify-header",
-      source: "",
-      resourceTypes: [],
-      requestMethods: [],
     },
   ],
 };

@@ -19,18 +19,14 @@ const ModifyResponseForm = () => {
 
   return (
     <div className="flex flex-col mt-5">
-      <div className="flex items-center">
-        <span className="mr-5">Response Type</span>
-        <div className="w-3/5">
+      <div className="flex items-center gap-3">
+        <div className="w-24">Response</div>
+        <div className="w-36">
           <Controller
             name="editorLang"
             control={methods.control}
             render={({ field, fieldState }) => {
-              return (
-                <div className="w-[150px]">
-                  <Select options={editorLangOptions} error={fieldState.error?.message} {...field} />
-                </div>
-              );
+              return <Select options={editorLangOptions} error={fieldState.error?.message} {...field} />;
             }}
           />
         </div>

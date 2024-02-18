@@ -81,10 +81,10 @@ const SourceFields = () => {
     <div className="mt-3">
       {controlledFields?.map((item: any, index) => {
         return (
-          <div className="flex flex-col w-full" key={item.id}>
+          <div className="flex flex-col w-full gap-1" key={item.id}>
             <div className="flex items-center w-full gap-3">
-              <div className="min-w-[100px]">If Request</div>
-              <div className="min-w-[100px]">
+              <div className="w-24">If Request</div>
+              <div className="w-36">
                 <Controller
                   name={`conditions.${index}.matchType`}
                   control={control}

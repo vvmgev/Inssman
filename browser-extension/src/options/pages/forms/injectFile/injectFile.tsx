@@ -37,9 +37,9 @@ const InjectFile = () => {
 
   return (
     <>
-      <div className="flex items-center w-full mt-5">
-        <span className="mr-5">File Type</span>
-        <div className="w-[150px]">
+      <div className="flex items-center w-full gap-3 mt-5">
+        <span className="w-24">File Type</span>
+        <div className="w-36">
           <Controller
             name="editorLang"
             control={control}
@@ -48,8 +48,8 @@ const InjectFile = () => {
         </div>
         {editorLang !== InjectFileType.HTML && (
           <div className="flex items-center">
-            <span className="ml-5 mr-5">Source Type</span>
-            <div className="w-[150px]">
+            <span className="w-24">Source Type</span>
+            <div className="w-36">
               <Controller
                 name="fileSourceType"
                 control={control}
@@ -60,15 +60,15 @@ const InjectFile = () => {
         )}
         {editorLang === InjectFileType.HTML && (
           <>
-            <span className="ml-5 mr-5">Operator</span>
-            <div className="w-1/7">
+            <span className="w-24">Operator</span>
+            <div className="w-36">
               <Controller
                 name="tagSelectorOperator"
                 control={control}
                 render={({ field }) => <Select options={injectFileOperatorOptions} {...field} />}
               />
             </div>
-            <span className="ml-5 mr-5">Tag Selector</span>
+            <span className="w-24">Tag Selector</span>
             <div className="w-1/3">
               <Controller
                 name="tagSelector"
@@ -98,8 +98,8 @@ const InjectFile = () => {
       </div>
       {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && (
         <div className="flex items-center w-full mt-5">
-          <span className="mr-5">Source URL &nbsp;</span>
-          <div className="w-2/3">
+          <span className="w-24">Source URL &nbsp;</span>
+          <div className="w-36">
             <Controller
               name="fileSource"
               control={control}

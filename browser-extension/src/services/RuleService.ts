@@ -2,7 +2,7 @@ import StorageService from "@services/StorageService";
 import BaseService from "@services/BaseService";
 import BrowserRuleService from "@services/BrowserRuleService";
 import MatcherService from "@services/MatcherService";
-import generateRules from "@/options/pages/forms/generateRules";
+import generateRules from "@/utils/generateRules";
 import handleError from "@/serviceWorker/errorHandler";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";

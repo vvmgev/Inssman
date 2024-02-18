@@ -1,10 +1,10 @@
-import generateRedirectRule from "./redirect/generateRedirectRules";
-import generateBlockRule from "./block/generateBlockRule";
-import generateQueryParamRule from "./queryParam/generateQueryParamRule";
-import generateModifyHeaderRule from "./modifyHeader/generateModifyHeaderRule";
-import generateModifyResponseRule from "./modifyResponse/generateModifyResponseRules";
-import generateInjectFileRule from "./injectFile/generateInjectFileRules";
-import generateModifyRequestBodyRule from "./modifyRequestBody/generateModifyRequestBodyRules";
+import generateRedirectRule from "../options/pages/forms/redirect/generateRedirectRules";
+import generateBlockRule from "../options/pages/forms/block/generateBlockRule";
+import generateQueryParamRule from "../options/pages/forms/queryParam/generateQueryParamRule";
+import generateModifyHeaderRule from "../options/pages/forms/modifyHeader/generateModifyHeaderRule";
+import generateModifyResponseRule from "../options/pages/forms/modifyResponse/generateModifyResponseRules";
+import generateInjectFileRule from "../options/pages/forms/injectFile/generateInjectFileRules";
+import generateModifyRequestBodyRule from "../options/pages/forms/modifyRequestBody/generateModifyRequestBodyRules";
 import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
 import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
 
@@ -44,6 +44,7 @@ const generateRules = (fields) => {
     condition: {
       ...generateMatchType(fields.conditions[index].matchType, fields.conditions[index].source, PageType.REDIRECT),
       resourceTypes: Object.values(ResourceType),
+      isUrlFilterCaseSensitive: false,
     },
   }));
 };
