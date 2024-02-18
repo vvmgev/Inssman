@@ -65,7 +65,7 @@ const ModifyHeaderForm = () => {
       {controlledFields.map((item, index) => {
         return (
           <div key={item.id} className="flex items-center gap-3">
-            <span className="w-24">Operator</span>
+            <div className="w-24">Operator</div>
             <div className="w-36">
               <Controller
                 name={`modifyHeaders.${index}.operation`}
@@ -96,7 +96,7 @@ const ModifyHeaderForm = () => {
                 }}
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-1/4">
               <Controller
                 name={`modifyHeaders.${index}.header`}
                 control={control}
@@ -117,7 +117,7 @@ const ModifyHeaderForm = () => {
                 }}
               />
             </div>
-            <div className="w-1/2">
+            <div className="w-1/4">
               <Controller
                 name={`modifyHeaders.${index}.value`}
                 control={control}

@@ -59,7 +59,7 @@ const Select = forwardRef(
           {options?.map((item, id) => {
             return (
               <Option
-                className="pl-1 capitalize cursor-pointer bg-slate-700/70 hover:bg-sky-500"
+                className="pl-1 text-xs capitalize cursor-pointer bg-slate-700/70 hover:bg-sky-500"
                 key={id}
                 value={item.value}
               >
