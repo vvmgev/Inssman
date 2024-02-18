@@ -6,7 +6,6 @@ import Select from "@options/components/common/select/select";
 import Editor from "@options/components/common/editor/editor";
 import InjectFileSources from "@options/components/common/InjectFileSources/InjectFileSources";
 import Input from "@options/components/common/input/input";
-import FormContextProvider from "@context/formContext";
 import config from "./config";
 import { EditorLanguage, FormMode, HeaderModificationType, QueryParamAction } from "@models/formFieldModel";
 import { Fragment, useMemo, PropsWithChildren, FC } from "react";
@@ -211,15 +210,7 @@ const FormBuilder: FC<Props> = ({ ruleMetaData, onChange, error, pageType }) => 
     );
   };
 
-  return (
-    <>
-      <FormContextProvider pageType={pageType}>
-        {fields.map((field) => (
-          <Fragment key={field.id}>{generateField(field)}</Fragment>
-        ))}
-      </FormContextProvider>
-    </>
-  );
+  return fields.map((field) => <Fragment key={field.id}>{generateField(field)}</Fragment>);
 };
 
 export default FormBuilder;

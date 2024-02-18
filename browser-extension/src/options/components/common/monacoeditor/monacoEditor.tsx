@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, forwardRef } from "react";
 import * as monaco from "monaco-editor";
 
 // @ts-ignore
@@ -20,7 +20,7 @@ self.MonacoEnvironment = {
   },
 };
 
-const MonacoEditor = ({ language, onChangeHandler, value = "" }: any) => {
+const MonacoEditor = forwardRef(({ language, onChangeHandler, value = "" }: any, ref: any) => {
   const divEl = useRef<HTMLDivElement>(null);
   let editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
   const getModel = () => editorRef.current?.getModel() as monaco.editor.ITextModel;
@@ -39,6 +39,7 @@ const MonacoEditor = ({ language, onChangeHandler, value = "" }: any) => {
     });
     getModel().onDidChangeContent(onChange);
     getModel().setValue(value);
+    ref.current = editorRef.current;
   }, []);
 
   useEffect(() => monaco.editor.setModelLanguage(getModel(), language), [language]);
@@ -54,6 +55,6 @@ const MonacoEditor = ({ language, onChangeHandler, value = "" }: any) => {
       <div className="w-full h-[320px]" ref={divEl}></div>
     </>
   );
-};
+});
 
 export default MonacoEditor;

@@ -3,6 +3,8 @@ import generateBlockRule from "./block/generateBlockRule";
 import generateQueryParamRule from "./queryParam/generateQueryParamRule";
 import generateModifyHeaderRule from "./modifyHeader/generateModifyHeaderRule";
 import generateModifyResponseRule from "./modifyResponse/generateModifyResponseRules";
+import generateInjectFileRule from "./injectFile/generateInjectFileRules";
+import generateModifyRequestBodyRule from "./modifyRequestBody/generateModifyRequestBodyRules";
 import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
 import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
 
@@ -14,6 +16,8 @@ const generateRuleMap = {
   [PageType.QUERY_PARAM]: generateQueryParamRule,
   [PageType.MODIFY_HEADER]: generateModifyHeaderRule,
   [PageType.MODIFY_RESPONSE]: generateModifyResponseRule,
+  [PageType.INJECT_FILE]: generateInjectFileRule,
+  [PageType.MODIFY_REQUEST_BODY]: generateModifyRequestBodyRule,
 };
 
 const generateMatchType = (matchType, source, pageType): Record<string, string> => {
@@ -33,7 +37,8 @@ const generateMatchType = (matchType, source, pageType): Record<string, string> 
 };
 
 const generateRules = (fields) => {
-  return generateRuleMap[fields.pageType](fields).map((rule, index) => ({
+  const generatedRule = generateRuleMap[fields.pageType](fields) || [];
+  return generatedRule.map((rule, index) => ({
     ...rule,
     id: (fields.connectedRuleIds || [])[index],
     condition: {

@@ -51,8 +51,11 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      return "source";
-      // return handlers?.cutString(item[this.field]);
+      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
+      if (item.conditions.length > 1) {
+        return `${firstSource} + ${item.conditions.length - 1}`;
+      }
+      return firstSource;
     },
   },
   {

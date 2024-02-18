@@ -4,7 +4,7 @@ import Tooltip from "@options/components/common/tooltip/tooltip";
 import Icon from "@options/components/common/icon/icon";
 import Button from "@options/components/common/button/button";
 import { useCallback, useMemo, useEffect } from "react";
-import { useFieldArray, Controller, useFormContext, useWatch } from "react-hook-form";
+import { useFieldArray, Controller, useFormContext } from "react-hook-form";
 import { MatchType } from "@models/formFieldModel";
 
 import RequestMethod = chrome.declarativeNetRequest.RequestMethod;

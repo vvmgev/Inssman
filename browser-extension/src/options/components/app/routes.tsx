@@ -5,14 +5,15 @@ import SessionList from "@options/pages/sessionList/sessionList";
 import SessionDetails from "@/options/pages/sessionDetails/sessionDetails";
 import Main from "@options/components/main/main";
 import NotFound from "@options/components/notFound/notFound";
-import RuleForm from "@options/pages/ruleForm/ruleForm";
-import RedirectForm from "@/options/pages/forms/redirect/redirect";
-import BlockForm from "@/options/pages/forms/block/block";
-import { WebRequestClients } from "@models/WebRequestModel";
-import { Route, Routes } from "react-router-dom";
-import QueryParamForm from "@/options/pages/forms/queryParam/queryParam";
-import ModifyHeaderForm from "@/options/pages/forms/modifyHeader/modifyHeader";
+import Redirect from "@/options/pages/forms/redirect/redirect";
+import Block from "@/options/pages/forms/block/block";
+import QueryParam from "@/options/pages/forms/queryParam/queryParam";
+import ModifyHeader from "@/options/pages/forms/modifyHeader/modifyHeader";
 import ModifyResponse from "@/options/pages/forms/modifyResponse/modifyResponse";
+import ModifyRequestBody from "@/options/pages/forms/modifyRequestBody/modifyRequestBody";
+import InjectFile from "@/options/pages/forms/injectFile/injectFile";
+import { Route, Routes } from "react-router-dom";
+import { WebRequestClients } from "@models/WebRequestModel";
 
 const AppRoutes = () => {
   return (
@@ -20,32 +21,32 @@ const AppRoutes = () => {
       <Route element={<RouteListener />}>
         <Route path="/" element={<Main />} />
         <Route path="/create">
-          <Route path="redirect" element={<RedirectForm key={0} />} />
-          <Route path="block" element={<BlockForm key={1} />} />
-          <Route path="query-param" element={<QueryParamForm key={2} />} />
-          <Route path="modify-header" element={<ModifyHeaderForm key={3} />} />
+          <Route path="redirect" element={<Redirect key={0} />} />
+          <Route path="block" element={<Block key={1} />} />
+          <Route path="query-param" element={<QueryParam key={2} />} />
+          <Route path="modify-header" element={<ModifyHeader key={3} />} />
           <Route path="modify-response" element={<ModifyResponse key={4} />} />
-          <Route path="modify-request-body" element={<RuleForm key={5} />} />
-          <Route path="inject-file" element={<RuleForm key={6} />} />
+          <Route path="modify-request-body" element={<ModifyRequestBody key={5} />} />
+          <Route path="inject-file" element={<InjectFile key={6} />} />
           <Route path="http-logger" element={<HTTPLogger clientName={WebRequestClients.MAIN} />} />
         </Route>
         <Route path="/edit">
-          <Route path="redirect/:id" element={<RedirectForm key={7} />} />
-          <Route path="block/:id" element={<BlockForm key={8} />} />
-          <Route path="query-param/:id" element={<QueryParamForm key={9} />} />
-          <Route path="modify-header/:id" element={<ModifyHeaderForm key={10} />} />
+          <Route path="redirect/:id" element={<Redirect key={7} />} />
+          <Route path="block/:id" element={<Block key={8} />} />
+          <Route path="query-param/:id" element={<QueryParam key={9} />} />
+          <Route path="modify-header/:id" element={<ModifyHeader key={10} />} />
           <Route path="modify-response/:id" element={<ModifyResponse key={11} />} />
-          <Route path="modify-request-body/:id" element={<RuleForm key={12} />} />
-          <Route path="inject-file/:id" element={<RuleForm key={13} />} />
+          <Route path="inject-file/:id" element={<InjectFile key={12} />} />
+          <Route path="modify-request-body/:id" element={<ModifyRequestBody key={13} />} />
         </Route>
         <Route path="/template">
-          <Route path="redirect" element={<RuleForm key={30} />} />
-          <Route path="block" element={<RuleForm key={31} />} />
-          <Route path="query-param" element={<RuleForm key={32} />} />
-          <Route path="modify-header" element={<RuleForm key={33} />} />
-          <Route path="modify-response" element={<RuleForm key={34} />} />
-          <Route path="modify-request-body" element={<RuleForm key={35} />} />
-          <Route path="inject-file" element={<RuleForm key={36} />} />
+          <Route path="redirect" element={<Redirect key={30} />} />
+          <Route path="block" element={<Block key={31} />} />
+          <Route path="query-param" element={<QueryParam key={32} />} />
+          <Route path="modify-header" element={<ModifyHeader key={33} />} />
+          <Route path="modify-response" element={<ModifyResponse key={34} />} />
+          <Route path="modify-request-body" element={<InjectFile key={35} />} />
+          <Route path="inject-file" element={<ModifyRequestBody key={36} />} />
         </Route>
         <Route path="/record">
           <Route path="" element={<Record />} />

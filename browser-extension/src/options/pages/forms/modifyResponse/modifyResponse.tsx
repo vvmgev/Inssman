@@ -12,7 +12,6 @@ const editorLangOptions = Object.entries(EditorLanguage).reduce((previous: any, 
 
 const ModifyResponseForm = () => {
   const methods = useFormContext();
-  console.log(methods);
 
   useEffect(() => {
     methods.setValue("editorLang", EditorLanguage.JSON);

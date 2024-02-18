@@ -7,7 +7,7 @@ import handleError from "@/serviceWorker/errorHandler";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
-import { storeRuleMetaData, storeTracking } from "@/serviceWorker/firebase";
+import { storeRuleMetaData } from "@/serviceWorker/firebase";
 import { StorageKey } from "@models/storageModel";
 import { throttle } from "@utils/throttle";
 
@@ -15,6 +15,8 @@ import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import Rule = chrome.declarativeNetRequest.Rule;
 import MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL = chrome.declarativeNetRequest.MAX_GETMATCHEDRULES_CALLS_PER_INTERVAL;
 import GETMATCHEDRULES_QUOTA_INTERVAL = chrome.declarativeNetRequest.GETMATCHEDRULES_QUOTA_INTERVAL;
+
+const COPY_PREFIX = " copy";
 
 class RuleService extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
@@ -89,17 +91,14 @@ class RuleService extends BaseService {
   };
 
   addRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> => {
-    // console.log("ruleMetaData", ruleMetaData);
     // Tracking temp
     storeRuleMetaData({
       ruleMetaData,
       actionType: PostMessageAction[PostMessageAction.AddRule],
     });
+
     const connectedRuleIds: number[] = [];
     const rules = generateRules(ruleMetaData);
-    // console.log("rules", rules);
-    // @ts-ignore
-    // return;
     for (const rule of rules) {
       let id: number = await StorageService.generateNextId();
       connectedRuleIds.push(id);
@@ -108,8 +107,9 @@ class RuleService extends BaseService {
         await BrowserRuleService.set([{ ...rule, id }]);
       }
     }
-    await StorageService.set({ [connectedRuleIds[0]]: { ...ruleMetaData, id: connectedRuleIds[0], connectedRuleIds } });
-    return { ...ruleMetaData, id: connectedRuleIds[0], connectedRuleIds };
+    const id = connectedRuleIds[0] ? connectedRuleIds[0] : await StorageService.generateNextId();
+    await StorageService.set({ [id]: { ...ruleMetaData, id, connectedRuleIds } });
+    return { ...ruleMetaData, id, connectedRuleIds };
   };
 
   updateRule = async ({ ruleMetaData }): Promise<IRuleMetaData> => {
@@ -146,7 +146,7 @@ class RuleService extends BaseService {
   };
 
   duplicateRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<void> => {
-    ruleMetaData.name += " copy";
+    ruleMetaData.name += COPY_PREFIX;
     ruleMetaData.lastMatchedTimestamp = null;
     await this.addRule({ ruleMetaData });
   };
