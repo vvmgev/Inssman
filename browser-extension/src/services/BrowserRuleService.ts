@@ -4,12 +4,6 @@ import RulesMatchedDetails = chrome.declarativeNetRequest.RulesMatchedDetails;
 import MatchedRulesFilter = chrome.declarativeNetRequest.MatchedRulesFilter;
 
 class BrowserRuleService {
-  constructor() {
-    // this.clear();
-    chrome.declarativeNetRequest.getDynamicRules().then((data) => {
-      console.log("browserRule", data);
-    });
-  }
   get(): Promise<Rule[]> {
     return chrome.declarativeNetRequest.getDynamicRules();
   }

@@ -2,8 +2,8 @@
 // To new sturctured data to make backward compatibility
 // All logic written in this file is TEMPORARY
 
-import { StorageKey } from "@/models/storageModel";
 import StorageService from "@/services/StorageService";
+import { StorageKey } from "@/models/storageModel";
 
 const storgeDataConverter = async () => {
   StorageService.remove(StorageKey.CONFIG);
@@ -23,10 +23,11 @@ const storgeDataConverter = async () => {
       await StorageService.set({ [ruleMetaData.id as number]: ruleMetaData });
     }
 
-    if ("1.0.55" > "1.0.54") {
+    if (version > "1.0.54") {
       const { resourceTypes, requestMethods, source, matchType, ...rest } = ruleMetaData;
       // if already converted to new data structure
       if (!rest.conditions) {
+        rest.connectedRuleIds = [ruleMetaData.id];
         rest.conditions = [{ source, matchType }];
         await StorageService.set({ [ruleMetaData.id as number]: rest });
       }

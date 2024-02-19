@@ -8,8 +8,8 @@ import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
-import "@services/RegisterService";
 import storgeDataConverter from "./storgeDataConverter";
+import "@services/RegisterService";
 
 class ServiceWorker extends BaseService {
   private listenersMap: Partial<Record<PostMessageAction, any>>;
@@ -48,8 +48,7 @@ class ServiceWorker extends BaseService {
   };
 
   onInstalled = () => {
-    console.log("onInstalled");
-    // storgeDataConverter();
+    storgeDataConverter();
   };
 
   onUpdatedTab = (tabId, changeInfo, tab): void => {
