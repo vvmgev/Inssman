@@ -61,8 +61,8 @@ const Button: FC<Props> = ({
       type={type}
       className={twMerge(
         "rounded outline-0 inline-block",
-        buttonVariants[variant],
         buttonSize[size],
+        buttonVariants[variant],
         disabled ? buttonVariants.disabled : "",
         className
       )}

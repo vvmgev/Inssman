@@ -1,7 +1,6 @@
 import Switcher from "@options/components/common/switcher/switcher";
 import Tooltip from "@options/components/common/tooltip/tooltip";
 import Icon from "@options/components/common/icon/icon";
-import Button from "@options/components/common/button/button";
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { IconsMap, PageName } from "@/models/formFieldModel";
 import { Link } from "react-router-dom";
@@ -93,7 +92,7 @@ export const LIST_ITEMS: ListItems[] = [
   },
   {
     field: "actions",
-    classes: "gap-5 justify-end",
+    classes: "gap-2 justify-end",
     render: function (item, handlers) {
       return (
         <>
@@ -108,13 +107,19 @@ export const LIST_ITEMS: ListItems[] = [
             </Link>
           </Tooltip>
           <Tooltip content="Delete Rule">
-            <Button
-              variant="icon"
-              className="cursor-pointer hover:text-red-400"
-              onClick={() => handlers?.handleDelete(item)}
-            >
+            <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
               <Icon name="trash" />
-            </Button>
+            </div>
+          </Tooltip>
+          {/* add two empty tooltip
+            to have more spac for last tooltip
+            should be fixed by lib
+          */}
+          <Tooltip content="">
+            <div></div>
+          </Tooltip>
+          <Tooltip content="">
+            <div></div>
           </Tooltip>
         </>
       );
