@@ -70,7 +70,7 @@ const SourceFields = () => {
   };
 
   const handleAddCondition = useCallback(() => {
-    append({ matchType: MatchType.CONTAIN, source: "", showResourceTypes: false, showRequestMethods: false });
+    append({ matchType: MatchType.CONTAIN, source: "" });
   }, []);
 
   const handleRemove = (index) => {

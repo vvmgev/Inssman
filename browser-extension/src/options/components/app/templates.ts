@@ -92,7 +92,7 @@ export const templates = {
   [PageType.MODIFY_HEADER]: [
     {
       id: 41,
-      modifyHeaders: [
+      headers: [
         {
           header: "Content-Security-Policy",
           operation: "remove",
@@ -121,7 +121,7 @@ export const templates = {
           requestMethods: [],
         },
       ],
-      modifyHeaders: [
+      headers: [
         {
           header: "Access-Control-Allow-Origin",
           operation: "set",

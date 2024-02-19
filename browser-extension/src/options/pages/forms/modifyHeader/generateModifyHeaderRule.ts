@@ -28,8 +28,8 @@ const getResponseHeaders = (headers) => {
 };
 
 const generateRule = (fields) => {
-  const requestHeaders = getRequestHeaders(fields.modifyHeaders);
-  const responseHeaders = getResponseHeaders(fields.modifyHeaders);
+  const requestHeaders = getRequestHeaders(fields.headers);
+  const responseHeaders = getResponseHeaders(fields.headers);
 
   return fields.conditions.map(() => ({
     action: {

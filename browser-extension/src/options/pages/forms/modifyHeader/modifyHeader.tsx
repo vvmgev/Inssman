@@ -37,10 +37,10 @@ const ModifyHeaderForm = () => {
   const { control, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "modifyHeaders",
+    name: "headers",
   });
 
-  const watchFieldArray = watch("modifyHeaders");
+  const watchFieldArray = watch("headers");
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -68,7 +68,7 @@ const ModifyHeaderForm = () => {
             <div className="w-24">Operator</div>
             <div className="w-36">
               <Controller
-                name={`modifyHeaders.${index}.operation`}
+                name={`headers.${index}.operation`}
                 control={control}
                 render={({ field, fieldState }) => {
                   return (
@@ -87,7 +87,7 @@ const ModifyHeaderForm = () => {
             </div>
             <div className="w-36">
               <Controller
-                name={`modifyHeaders.${index}.type`}
+                name={`headers.${index}.type`}
                 control={control}
                 render={({ field, fieldState }) => {
                   return (
@@ -98,7 +98,7 @@ const ModifyHeaderForm = () => {
             </div>
             <div className="w-1/4">
               <Controller
-                name={`modifyHeaders.${index}.header`}
+                name={`headers.${index}.header`}
                 control={control}
                 render={({ field, fieldState }) => {
                   return (
@@ -119,7 +119,7 @@ const ModifyHeaderForm = () => {
             </div>
             <div className="w-1/4">
               <Controller
-                name={`modifyHeaders.${index}.value`}
+                name={`headers.${index}.value`}
                 control={control}
                 render={({ field, fieldState }) => {
                   return (
