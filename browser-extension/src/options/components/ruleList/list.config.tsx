@@ -71,7 +71,11 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      return handlers?.cutString(item[this.field]);
+      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
+      if (item.conditions.length > 1) {
+        return `${firstSource} + ${item.conditions.length - 1}`;
+      }
+      return firstSource;
     },
   },
   {
@@ -83,17 +87,17 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "enabled",
     render: function (item, handlers) {
-      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.onChangeRuleStatus(event, item.id)} />;
+      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
   },
   {
     field: "actions",
-    classes: "gap-5 justify-end",
+    classes: "gap-2 justify-end",
     render: function (item, handlers) {
       return (
         <>
           <Tooltip content="Duplicate Rule">
-            <div className="cursor-pointer hover:text-sky-500" onClick={() => handlers?.duplicateRule(item.id)}>
+            <div className="cursor-pointer hover:text-sky-500" onClick={() => handlers?.duplicateRule(item)}>
               <Icon name="documentCopy" />
             </div>
           </Tooltip>
@@ -106,6 +110,16 @@ export const LIST_ITEMS: ListItems[] = [
             <div className="cursor-pointer hover:text-red-400" onClick={() => handlers?.handleDelete(item)}>
               <Icon name="trash" />
             </div>
+          </Tooltip>
+          {/* add two empty tooltip
+            to have more spac for last tooltip
+            should be fixed by lib
+          */}
+          <Tooltip content="">
+            <div></div>
+          </Tooltip>
+          <Tooltip content="">
+            <div></div>
           </Tooltip>
         </>
       );

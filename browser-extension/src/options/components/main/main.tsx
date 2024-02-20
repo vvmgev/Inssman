@@ -32,10 +32,13 @@ export default () => {
     readFile(event.target.files[0], (fileContent) => {
       if (validateJSON(fileContent)) {
         const data = JSON.parse(fileContent);
-        chrome.runtime.sendMessage({
-          action: PostMessageAction.ImportRules,
-          data,
-        });
+        chrome.runtime.sendMessage(
+          {
+            action: PostMessageAction.ImportRules,
+            data,
+          },
+          getRules
+        );
       } else {
         setDialogName("importFailed");
       }
@@ -139,15 +142,6 @@ export default () => {
                   Export
                 </Button>
               </div>
-              <Button
-                onClick={() => setDialogName("deleteAllRules")}
-                variant="outline"
-                className="hover:text-red-400 hover:border-red-400"
-                trackName="Delete All Rules Popup"
-                startIcon={<Icon name="trash" />}
-              >
-                Delete All Rules
-              </Button>
               <Button
                 size="small"
                 onClick={() => setDialogName("deleteAllRules")}

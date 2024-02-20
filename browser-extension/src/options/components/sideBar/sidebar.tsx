@@ -4,15 +4,13 @@ import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
 import Icon from "@options/components/common/icon/icon";
 import SidebarSection from "./components/sidebarSection/sidebarSection";
 import SidebarItem from "./components/sidebarItem/sidebarItem";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Fragment, useContext } from "react";
-import { SidebarContext } from "@/context/sidebarContext";
 import { FeatureToggleContext } from "@context/featureToggleContext";
 import { paths, popularPaths } from "../app/paths";
 import { templates } from "../app/templates";
 
 const Sidebar = () => {
-  const { full, setFull } = useContext(SidebarContext);
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   const location = useLocation();

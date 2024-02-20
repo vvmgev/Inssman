@@ -12,14 +12,15 @@ const Content = () => {
   const [tab, setTab] = useState<Tabs>(Tabs.RuleList);
   const [rules, setRules] = useState<IRuleMetaData[]>([]);
   const getRules = (): void => chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, setRules);
-  const onChangeRuleStatus = (event, id): void =>
+  const handleToggleRule = (event, ruleMetaData): void => {
     chrome.runtime.sendMessage(
       {
-        action: PostMessageAction.ChangeRuleStatusById,
-        data: { id, checked: event.target.checked },
+        action: PostMessageAction.ToggleRule,
+        data: { ruleMetaData, checked: event.target.checked },
       },
       () => getRules()
     );
+  };
   const onChangeTab = (tab: Tabs) => setTab(tab);
   useEffect(() => {
     chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, (rules) => {
@@ -44,7 +45,7 @@ const Content = () => {
             items={LIST_ITEMS}
             options={{
               cutString,
-              onChangeRuleStatus,
+              handleToggleRule,
             }}
             data={rules}
             texts={{

@@ -51,14 +51,18 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      return handlers?.cutString(item[this.field]);
+      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
+      if (item.conditions.length > 1) {
+        return `${firstSource} + ${item.conditions.length - 1}`;
+      }
+      return firstSource;
     },
   },
   {
     field: "enabled",
     classes: "justify-end",
     render: function (item, handlers) {
-      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.onChangeRuleStatus(event, item.id)} />;
+      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
   },
 ];

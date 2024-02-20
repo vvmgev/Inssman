@@ -1,6 +1,5 @@
 import { StorageItemType, StorageKey } from "@models/storageModel";
 import { IRuleMetaData } from "@models/formFieldModel";
-
 class StorageService {
   async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
     const data = await chrome.storage.local.get(keys);

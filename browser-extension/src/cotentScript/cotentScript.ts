@@ -25,7 +25,9 @@ import { NAMESPACE } from "@options/constant";
     const getMatchedRuleByUrl = (url) => {
       const absoluteUrl = getAbsoluteUrl(url);
       const matchedRule = window[NAMESPACE].rules.find((rule) =>
-        MatcherService.isUrlsMatch(rule.source, absoluteUrl, rule.matchType)
+        rule.conditions.some((condition) =>
+          MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType)
+        )
       );
       if (matchedRule) updateTimestamp(matchedRule);
       return matchedRule;

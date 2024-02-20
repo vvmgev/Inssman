@@ -8,6 +8,7 @@ import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
+import storgeDataConverter from "./storgeDataConverter";
 import "@services/RegisterService";
 
 class ServiceWorker extends BaseService {
@@ -46,24 +47,8 @@ class ServiceWorker extends BaseService {
     }
   };
 
-  onInstalled = async () => {
-    // temp function
-    StorageService.remove(StorageKey.CONFIG);
-    // Temp function
-    // Add 'resourceTypes' to local storage rules
-    const ruleMetaData = await StorageService.getRules();
-    ruleMetaData.forEach(async (item: IRuleMetaData) => {
-      if (!item.resourceTypes) {
-        item.resourceTypes = [];
-        await StorageService.set({ [item.id as number]: item });
-      }
-      const { version } = chrome.runtime.getManifest();
-      if (version === "1.0.35") {
-        item.lastMatchedTimestamp = item.timestamp as number;
-        delete item.timestamp;
-        await StorageService.set({ [item.id as number]: item });
-      }
-    });
+  onInstalled = () => {
+    storgeDataConverter();
   };
 
   onUpdatedTab = (tabId, changeInfo, tab): void => {
