@@ -9,7 +9,8 @@ const CreateRules: FC = (): ReactElement => {
       const { hostname } = new URL(tab[0].url as string);
       const hostnameArr = hostname.split(".");
       const name = hostnameArr[hostnameArr.length - 2];
-      const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`;
+      // const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`;
+      const url: string = `options/options.html#/create/${path}`;
       chrome.tabs.create({ url: chrome.runtime.getURL(url) });
     });
   };

@@ -8,16 +8,11 @@ type Props = {
   url?: string;
   text?: string;
 };
-const BackButton: FC<Props> = ({ trackName, url, text }) => {
+const BackButton: FC<Props> = ({ url, text }) => {
   const navigate = useNavigate();
 
   return (
-    <Button
-      variant="outline"
-      trackName={`Back ${trackName}`}
-      onClick={() => navigate((url || -1) as string)}
-      startIcon={<Icon name="arrowLeft" />}
-    >
+    <Button variant="outline" onClick={() => navigate((url || -1) as string)} startIcon={<Icon name="arrowLeft" />}>
       {text || "Back"}
     </Button>
   );
