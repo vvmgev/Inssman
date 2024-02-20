@@ -1,5 +1,5 @@
 // This file used to convert old sturctured data (rule or any data) stored in Storage
-// To new sturctured data to make backward compatibility
+// To have backward compatibility
 // All logic written in this file is TEMPORARY
 
 import StorageService from "@/services/StorageService";
