@@ -75,7 +75,7 @@ const ModifyHeaderForm = () => {
       if (!hasEnabledCondition && !errors.customHeadersError) {
         setError("customHeadersError", {
           type: "custom",
-          message: "You need at least enable one header",
+          message: "You Need At Least Enable One Header",
         });
       }
 

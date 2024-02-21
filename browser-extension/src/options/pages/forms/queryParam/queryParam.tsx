@@ -40,7 +40,7 @@ const QueryParamForm = () => {
       if (!hasEnabledQueryParam && !errors.customQueryParamsError) {
         setError("customQueryParamsError", {
           type: "custom",
-          message: "You need at least enable one query param",
+          message: "You Need At Least Enable One Query Param",
         });
       }
 

@@ -43,7 +43,7 @@ const SourceFields = () => {
       if (!hasEnabledCondition && !errors.customConditionsError) {
         setError("customConditionsError", {
           type: "custom",
-          message: "You need at least enable one condition",
+          message: "You Need At Least Enable One Condition.",
         });
       }
 
