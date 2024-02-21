@@ -1,4 +1,3 @@
 export const structuredClone = (object: any) =>
-  (typeof window?.structuredClone === "function" &&
-    window.structuredClone(object)) ||
+  (typeof globalThis?.structuredClone === "function" && globalThis.structuredClone(object)) ||
   JSON.parse(JSON.stringify(object));

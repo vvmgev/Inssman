@@ -3,6 +3,7 @@ import Select from "@options/components/common/select/select";
 import Icon from "@options/components/common/icon/icon";
 import FormHOC from "@/options/HOC/formHOC";
 import Button from "@/options/components/common/button/button";
+import Switcher from "@/options/components/common/switcher/switcher";
 import HTTPHeaders from "./HTTPHeaders";
 import { HeaderModificationType } from "@models/formFieldModel";
 import { useCallback, useEffect } from "react";
@@ -53,7 +54,13 @@ const ModifyHeaderForm = () => {
   };
 
   const handleAddCondition = useCallback(() => {
-    append({ header: "", value: "", operation: HeaderOperation.SET, type: HeaderModificationType.REQUEST });
+    append({
+      header: "",
+      value: "",
+      operation: HeaderOperation.SET,
+      type: HeaderModificationType.REQUEST,
+      enabled: true,
+    });
   }, []);
 
   useEffect(() => {
@@ -63,9 +70,10 @@ const ModifyHeaderForm = () => {
   return (
     <div className="mt-3">
       {controlledFields.map((item, index) => {
+        const disabled = !controlledFields[index].enabled;
         return (
           <div key={item.id} className="flex items-center gap-3">
-            <div className="w-24">Operator</div>
+            <div className={`w-24 ${disabled ? "text-slate-500" : ""}`}>Operator</div>
             <div className="w-36">
               <Controller
                 name={`headers.${index}.operation`}
@@ -78,6 +86,7 @@ const ModifyHeaderForm = () => {
                           ? modifyHeaderActionOptions
                           : modifyHeaderActionOptionsWithoutAppend
                       }
+                      disabled={disabled}
                       error={fieldState.error?.message}
                       {...field}
                     />
@@ -91,7 +100,12 @@ const ModifyHeaderForm = () => {
                 control={control}
                 render={({ field, fieldState }) => {
                   return (
-                    <Select options={headerModificationTypeOptions} error={fieldState.error?.message} {...field} />
+                    <Select
+                      disabled={disabled}
+                      options={headerModificationTypeOptions}
+                      error={fieldState.error?.message}
+                      {...field}
+                    />
                   );
                 }}
               />
@@ -100,10 +114,12 @@ const ModifyHeaderForm = () => {
               <Controller
                 name={`headers.${index}.header`}
                 control={control}
+                rules={{ required: { value: !disabled, message: "Key Is Required" } }}
                 render={({ field, fieldState }) => {
                   return (
                     <Select
                       showSearch={true}
+                      disabled={disabled}
                       options={HTTPHeaders[controlledFields[index].type].map((item) => ({
                         value: item,
                         lable: item,
@@ -125,7 +141,7 @@ const ModifyHeaderForm = () => {
                   return (
                     <Input
                       placeholder="Value"
-                      disabled={controlledFields[index].operation === HeaderOperation.REMOVE}
+                      disabled={controlledFields[index].operation === HeaderOperation.REMOVE || disabled}
                       hidden={controlledFields[index].operation === HeaderOperation.REMOVE}
                       error={fieldState.error?.message}
                       {...field}
@@ -134,6 +150,13 @@ const ModifyHeaderForm = () => {
                 }}
               />
             </div>
+            <Controller
+              name={`headers.${index}.enabled`}
+              control={control}
+              render={({ field }) => {
+                return <Switcher {...field} />;
+              }}
+            />
 
             {controlledFields.length > 1 && (
               <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>

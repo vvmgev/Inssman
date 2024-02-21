@@ -13,7 +13,7 @@ const errors = {
   [sourceError]: "Incorrect value",
   [actionError]:
     'Only standard HTTP request headers that can specify multiple values, you may need to choose "Set" instead "Append"',
-  [emptyHeaders]: 'May you need to specify headers for request or response, press "Add" button',
+  [emptyHeaders]: "May you need to specify headers for request or response or enable",
   [complexRegexFilter]: "The source field has more characters than allowed",
 };
 

@@ -1,5 +1,5 @@
 import RCInput, { InputProps, InputRef } from "rc-input";
-import { ComponentProps, ReactNode, forwardRef } from "react";
+import { ReactNode, forwardRef } from "react";
 
 type Props = {
   error?: string | null;
@@ -34,7 +34,7 @@ const Input = forwardRef(
                       ${error ? "border border-red-500" : ""}
                       ${error && startIcon ? "border-l-0" : ""}
                       ${error && endIcon ? "border-l-0" : ""}
-                      ${disabled ? "cursor-not-allowed" : ""}
+                      ${disabled ? "cursor-not-allowed text-slate-500 placeholder:text-slate-500 bg-slate-700/70" : ""}
                       `}
             hidden={hidden}
             autoComplete="off"

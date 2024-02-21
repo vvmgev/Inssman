@@ -1,12 +1,13 @@
-import generateRedirectRule from "../options/pages/forms/redirect/generateRedirectRules";
-import generateBlockRule from "../options/pages/forms/block/generateBlockRule";
-import generateQueryParamRule from "../options/pages/forms/queryParam/generateQueryParamRule";
-import generateModifyHeaderRule from "../options/pages/forms/modifyHeader/generateModifyHeaderRule";
-import generateModifyResponseRule from "../options/pages/forms/modifyResponse/generateModifyResponseRules";
-import generateInjectFileRule from "../options/pages/forms/injectFile/generateInjectFileRules";
-import generateModifyRequestBodyRule from "../options/pages/forms/modifyRequestBody/generateModifyRequestBodyRules";
+import generateRedirectRule from "@/options/pages/forms/redirect/generateRedirectRules";
+import generateBlockRule from "@/options/pages/forms/block/generateBlockRule";
+import generateQueryParamRule from "@/options/pages/forms/queryParam/generateQueryParamRule";
+import generateModifyHeaderRule from "@/options/pages/forms/modifyHeader/generateModifyHeaderRule";
+import generateModifyResponseRule from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
+import generateInjectFileRule from "@/options/pages/forms/injectFile/generateInjectFileRules";
+import generateModifyRequestBodyRule from "@/options/pages/forms/modifyRequestBody/generateModifyRequestBodyRules";
 import { MatchType, MatchTypeMap, PageType } from "@/models/formFieldModel";
 import { makeExactMatch, replaceAsterisk, replaceAsteriskToPlus } from "@/utils/regExp";
+import { structuredClone } from "@/utils/structuredClone";
 
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
@@ -37,12 +38,20 @@ const generateMatchType = (matchType, source, pageType): Record<string, string> 
 };
 
 const generateRules = (fields) => {
-  const generatedRule = generateRuleMap[fields.pageType](fields) || [];
+  const cloneFields = structuredClone(fields);
+  cloneFields.conditions = cloneFields.conditions.filter(({ enabled }) => enabled);
+  cloneFields.queryParams = cloneFields?.queryParams?.filter(({ enabled }) => enabled);
+  cloneFields.headers = cloneFields?.headers?.filter(({ enabled }) => enabled);
+  const generatedRule = generateRuleMap[cloneFields.pageType](cloneFields) || [];
   return generatedRule.map((rule, index) => ({
     ...rule,
-    id: (fields.connectedRuleIds || [])[index],
+    id: (cloneFields.connectedRuleIds || [])[index],
     condition: {
-      ...generateMatchType(fields.conditions[index].matchType, fields.conditions[index].source, PageType.REDIRECT),
+      ...generateMatchType(
+        cloneFields.conditions[index].matchType,
+        cloneFields.conditions[index].source,
+        PageType.REDIRECT
+      ),
       resourceTypes: Object.values(ResourceType),
       isUrlFilterCaseSensitive: false,
     },

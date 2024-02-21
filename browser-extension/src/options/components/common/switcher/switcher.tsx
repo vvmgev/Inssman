@@ -1,7 +1,9 @@
-const Switcher = ({ onChange, checked }) => {
+import { forwardRef } from "react";
+
+const Switcher = forwardRef(({ onChange, value }: any, ref: any) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer h-[24px]">
-      <input type="checkbox" value="" className="sr-only peer" checked={checked} onChange={onChange} />
+      <input type="checkbox" value="" className="sr-only peer" checked={value} onChange={onChange} ref={ref} />
       <div
         className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full
             peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white
@@ -11,6 +13,6 @@ const Switcher = ({ onChange, checked }) => {
       ></div>
     </label>
   );
-};
+});
 
 export default Switcher;

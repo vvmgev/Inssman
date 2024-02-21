@@ -1,6 +1,7 @@
 import Input from "@options/components/common/input/input";
 import Select from "@options/components/common/select/select";
 import Tooltip from "@options/components/common/tooltip/tooltip";
+import Switcher from "@/options/components/common/switcher/switcher";
 import Icon from "@options/components/common/icon/icon";
 import Button from "@options/components/common/button/button";
 import { useCallback, useMemo, useEffect } from "react";
@@ -70,7 +71,7 @@ const SourceFields = () => {
   };
 
   const handleAddCondition = useCallback(() => {
-    append({ matchType: MatchType.CONTAIN, source: "" });
+    append({ matchType: MatchType.CONTAIN, source: "", enabled: true });
   }, []);
 
   const handleRemove = (index) => {
@@ -80,16 +81,24 @@ const SourceFields = () => {
   return (
     <div className="mt-3">
       {controlledFields?.map((item: any, index) => {
+        const disabled = !controlledFields[index].enabled;
         return (
           <div className="flex flex-col w-full gap-1" key={item.id}>
             <div className="flex items-center w-full gap-3">
-              <div className="w-24">If Request</div>
+              <div className={`w-24 ${disabled ? "text-slate-500" : ""}`}>If Request</div>
               <div className="w-36">
                 <Controller
                   name={`conditions.${index}.matchType`}
                   control={control}
                   render={({ field, fieldState }) => {
-                    return <Select options={matchTypeOptions} error={fieldState.error?.message} {...field} />;
+                    return (
+                      <Select
+                        options={matchTypeOptions}
+                        disabled={disabled}
+                        error={fieldState.error?.message}
+                        {...field}
+                      />
+                    );
                   }}
                 />
               </div>
@@ -100,8 +109,22 @@ const SourceFields = () => {
                   rules={{ required: { value: true, message: "Source Is Required" } }}
                   render={({ field, fieldState }) => {
                     return (
-                      <Input placeholder={placeholders[item.matchType]} error={fieldState.error?.message} {...field} />
+                      <Input
+                        disabled={disabled}
+                        placeholder={placeholders[item.matchType]}
+                        error={fieldState.error?.message}
+                        {...field}
+                      />
                     );
+                  }}
+                />
+              </div>
+              <div>
+                <Controller
+                  name={`conditions.${index}.enabled`}
+                  control={control}
+                  render={({ field }) => {
+                    return <Switcher {...field} />;
                   }}
                 />
               </div>

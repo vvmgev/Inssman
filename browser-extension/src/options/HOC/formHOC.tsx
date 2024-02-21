@@ -4,6 +4,7 @@ import Section from "@options/components/common/section/section";
 import Icon from "@options/components/common/icon/icon";
 import Input from "@options/components/common/input/input";
 import Sources from "@/options/pages/forms/components/sources/sources";
+import TrackService from "@/services/TrackService";
 import Toast from "@options/components/common/toast/toast";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { FormMode, IconsMap, PageName } from "@/models/formFieldModel";
@@ -77,6 +78,20 @@ const FormHOC = (FormComponent) => {
       );
     };
 
+    const handleDelete = () => {
+      const [id, pageType, connectedRuleIds] = methods.getValues(["id", "pageType", "connectedRuleIds"]);
+      TrackService.trackEvent(`${PageName[pageType]} Rule Delete Event`);
+      chrome.runtime.sendMessage(
+        {
+          action: PostMessageAction.DeleteRule,
+          data: { id, connectedRuleIds },
+        },
+        () => {
+          navigate("/");
+        }
+      );
+    };
+
     useEffect(() => {
       if (mode === FormMode.UPDATE) {
         getRuleMetaData();
@@ -121,7 +136,7 @@ const FormHOC = (FormComponent) => {
                 trackName="Delete rule edit mode"
                 className="hover:border-red-400 hover:text-red-400"
                 type="button"
-                onClick={alert}
+                onClick={handleDelete}
                 startIcon={<Icon name="trash" />}
               >
                 Delete
@@ -139,7 +154,7 @@ const FormHOC = (FormComponent) => {
           </div>
         </Section>
         <Section classes="px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
-          <div className="text-red-500 text-md">{error}</div>
+          <div className="mb-2 text-red-500 text-md">{error}</div>
           <form onSubmit={methods.handleSubmit(onSubmitHandler)}>
             <div className="w-1/4">
               <Controller
