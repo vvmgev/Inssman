@@ -29,12 +29,26 @@ const FormHOC = (FormComponent) => {
     const id = params.id ? Number(params.id) : null;
     const mode = id ? FormMode.UPDATE : FormMode.CREATE;
     const pageType = getPageType(mode);
+    const {
+      reset,
+      setValue,
+      getValues,
+      handleSubmit,
+      control,
+      formState: { isSubmitSuccessful, isDirty },
+    } = methods;
 
     const setFormValues = (ruleMetaData) => {
       Object.entries(ruleMetaData).forEach(([key, value]) => {
-        methods.setValue(key, value);
+        setValue(key, value);
       });
     };
+
+    useEffect(() => {
+      if (isSubmitSuccessful && mode === FormMode.UPDATE) {
+        reset({}, { keepValues: true, keepDirty: false, keepDefaultValues: true });
+      }
+    }, [isSubmitSuccessful, reset]);
 
     const onSubmitHandler = (fields) => {
       fields.pageType = fields.pageType ? fields.pageType : pageType;
@@ -74,12 +88,14 @@ const FormHOC = (FormComponent) => {
           action: PostMessageAction.GetRuleById,
           data: { id },
         },
-        ({ ruleMetaData }) => setFormValues(ruleMetaData)
+        ({ ruleMetaData }) => {
+          setFormValues(ruleMetaData);
+        }
       );
     };
 
     const handleDelete = () => {
-      const [id, pageType, connectedRuleIds] = methods.getValues(["id", "pageType", "connectedRuleIds"]);
+      const [id, pageType, connectedRuleIds] = getValues(["id", "pageType", "connectedRuleIds"]);
       TrackService.trackEvent(`${PageName[pageType]} Rule Delete Event`);
       chrome.runtime.sendMessage(
         {
@@ -144,9 +160,14 @@ const FormHOC = (FormComponent) => {
             )}
             <div>
               <Button
-                startIcon={<Icon name="pencil" />}
+                startIcon={
+                  <Icon
+                    name="pencil"
+                    className={`${isDirty || mode === FormMode.CREATE ? "text-gray-800" : "text-gray-100"}`}
+                  />
+                }
                 trackName={`${PageName[pageType]} Rule Create Event`}
-                onClick={methods.handleSubmit(onSubmitHandler)}
+                onClick={handleSubmit(onSubmitHandler)}
               >
                 {mode === "create" ? "Create" : "Edit"}
               </Button>
@@ -155,11 +176,11 @@ const FormHOC = (FormComponent) => {
         </Section>
         <Section classes="px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
           <div className="mb-2 text-red-500 text-md">{error}</div>
-          <form onSubmit={methods.handleSubmit(onSubmitHandler)}>
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="w-1/4">
               <Controller
                 name="name"
-                control={methods.control}
+                control={control}
                 render={({ field, fieldState }) => {
                   return <Input placeholder="Rule Name" {...field} error={fieldState.error?.message} />;
                 }}
