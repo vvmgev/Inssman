@@ -12,7 +12,7 @@ const ExtensionToggle: FC = () => {
   return (
     <Section classes="rounded w-[170px]">
       <div className="flex items-center justify-between">
-        <Switcher onChange={onChange} value={showOverlay} />
+        <Switcher onChange={onChange} checked={showOverlay} />
         <div className="text-sm text-end">Extension {showOverlay ? "On" : "Off"}</div>
       </div>
     </Section>

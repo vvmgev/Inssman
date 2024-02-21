@@ -17,11 +17,18 @@ const matchTypeOptions = Object.entries(MatchType).reduce((previous: any, [value
 }, []);
 
 const SourceFields = () => {
-  const { control, watch } = useFormContext();
+  const {
+    control,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "conditions",
   });
+
   const watchFieldArray = watch("conditions");
   const controlledFields = fields.map((field, index) => {
     return {
@@ -29,6 +36,22 @@ const SourceFields = () => {
       ...watchFieldArray[index],
     };
   });
+
+  useEffect(() => {
+    const hasEnabledCondition = controlledFields.some(({ enabled }) => enabled);
+    if (controlledFields.length) {
+      if (!hasEnabledCondition && !errors.customConditionsError) {
+        setError("customConditionsError", {
+          type: "custom",
+          message: "You need at least enable one condition",
+        });
+      }
+
+      if (hasEnabledCondition && errors?.customConditionsError) {
+        clearErrors("customConditionsError");
+      }
+    }
+  }, [controlledFields]);
 
   useEffect(() => {
     handleAddCondition();
@@ -80,6 +103,9 @@ const SourceFields = () => {
 
   return (
     <div className="mt-3">
+      {errors?.customConditionsError && (
+        <p className="text-red-500">{errors.customConditionsError.message as string}</p>
+      )}
       {controlledFields?.map((item: any, index) => {
         const disabled = !controlledFields[index].enabled;
         return (
@@ -106,7 +132,7 @@ const SourceFields = () => {
                 <Controller
                   name={`conditions.${index}.source`}
                   control={control}
-                  rules={{ required: { value: true, message: "Source Is Required" } }}
+                  rules={{ required: { value: !disabled, message: "Source Is Required" } }}
                   render={({ field, fieldState }) => {
                     return (
                       <Input
@@ -119,15 +145,21 @@ const SourceFields = () => {
                   }}
                 />
               </div>
-              {/* <div>
+              <div>
                 <Controller
                   name={`conditions.${index}.enabled`}
                   control={control}
-                  render={({ field }) => {
-                    return <Switcher {...field} />;
+                  render={({ field: { value, ...field } }) => {
+                    return (
+                      <Switcher
+                        checked={value}
+                        error={errors?.customConditionsError?.message as string | undefined}
+                        {...field}
+                      />
+                    );
                   }}
                 />
-              </div> */}
+              </div>
               <div>
                 {controlledFields.length > 1 && (
                   <Button

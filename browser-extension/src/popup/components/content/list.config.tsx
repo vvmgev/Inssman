@@ -62,7 +62,7 @@ export const LIST_ITEMS: ListItems[] = [
     field: "enabled",
     classes: "justify-end",
     render: function (item, handlers) {
-      return <Switcher value={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
+      return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
   },
 ];

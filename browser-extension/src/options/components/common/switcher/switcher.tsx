@@ -1,15 +1,26 @@
-import { forwardRef } from "react";
+import { ComponentProps, forwardRef } from "react";
 
-const Switcher = forwardRef(({ onChange, value }: any, ref: any) => {
+type Props = {
+  error?: string;
+  checked: boolean;
+} & ComponentProps<"input">;
+
+const Switcher = forwardRef(({ checked, disabled, error, ...rest }: Props, ref: any) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer h-[24px]">
-      <input type="checkbox" value="" className="sr-only peer" checked={value} onChange={onChange} ref={ref} />
+      <input type="checkbox" className="sr-only peer" disabled={disabled} checked={checked} ref={ref} {...rest} />
       <div
-        className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full
-            peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white
-            after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300
-            after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600
-            peer-checked:bg-sky-500"
+        className={`w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full
+        peer dark:bg-gray-700 peer-checked:after:translate-x-full
+        after:content-[''] after:absolute after:top-[2px] after:left-[2px]
+        after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600
+        ${
+          disabled
+            ? "cursor-not-allowed peer-checked:bg-gray-600  peer-checked:after:bg-gray-300 after:bg-gray-300"
+            : "after:bg-white after:border-gray-300 peer-checked:after:border-white peer-checked:bg-sky-500"
+        }
+        ${error ? "border !border-red-500 after:bg-red-500" : ""}
+        `}
       ></div>
     </label>
   );

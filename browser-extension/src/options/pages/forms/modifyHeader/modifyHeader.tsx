@@ -35,7 +35,13 @@ const headerModificationTypeOptions = Object.entries(HeaderModificationType).red
 );
 
 const ModifyHeaderForm = () => {
-  const { control, watch } = useFormContext();
+  const {
+    control,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "headers",
@@ -64,11 +70,28 @@ const ModifyHeaderForm = () => {
   }, []);
 
   useEffect(() => {
+    const hasEnabledCondition = controlledFields.some(({ enabled }) => enabled);
+    if (controlledFields.length) {
+      if (!hasEnabledCondition && !errors.customHeadersError) {
+        setError("customHeadersError", {
+          type: "custom",
+          message: "You need at least enable one header",
+        });
+      }
+
+      if (hasEnabledCondition && errors?.customHeadersError) {
+        clearErrors("customHeadersError");
+      }
+    }
+  }, [controlledFields]);
+
+  useEffect(() => {
     handleAddCondition();
   }, []);
 
   return (
     <div className="mt-3">
+      {errors?.customHeadersError && <p className="text-red-500">{errors.customHeadersError.message as string}</p>}
       {controlledFields.map((item, index) => {
         const disabled = !controlledFields[index].enabled;
         return (
@@ -150,13 +173,19 @@ const ModifyHeaderForm = () => {
                 }}
               />
             </div>
-            {/* <Controller
+            <Controller
               name={`headers.${index}.enabled`}
               control={control}
-              render={({ field }) => {
-                return <Switcher {...field} />;
+              render={({ field: { value, ...field } }) => {
+                return (
+                  <Switcher
+                    checked={value}
+                    error={errors?.customHeadersError?.message as string | undefined}
+                    {...field}
+                  />
+                );
               }}
-            /> */}
+            />
 
             {controlledFields.length > 1 && (
               <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>

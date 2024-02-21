@@ -14,7 +14,13 @@ const queryParamActionOptions = Object.entries(QueryParamAction).reduce((previou
 }, []);
 
 const QueryParamForm = () => {
-  const { control, watch } = useFormContext();
+  const {
+    control,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "queryParams",
@@ -27,6 +33,22 @@ const QueryParamForm = () => {
       ...watchFieldArray[index],
     };
   });
+
+  useEffect(() => {
+    const hasEnabledQueryParam = controlledFields.some(({ enabled }) => enabled);
+    if (controlledFields.length) {
+      if (!hasEnabledQueryParam && !errors.customQueryParamsError) {
+        setError("customQueryParamsError", {
+          type: "custom",
+          message: "You need at least enable one query param",
+        });
+      }
+
+      if (hasEnabledQueryParam && errors?.customQueryParamsError) {
+        clearErrors("customQueryParamsError");
+      }
+    }
+  }, [controlledFields]);
 
   const handleRemove = (index) => {
     remove(index);
@@ -41,6 +63,9 @@ const QueryParamForm = () => {
 
   return (
     <div className="mt-3">
+      {errors?.customQueryParamsError && (
+        <p className="text-red-500">{errors.customQueryParamsError.message as string}</p>
+      )}
       {controlledFields.map((item, index) => {
         const disabled = !controlledFields[index].enabled;
         return (
@@ -67,7 +92,7 @@ const QueryParamForm = () => {
             <Controller
               name={`queryParams.${index}.key`}
               control={control}
-              rules={{ required: { value: true, message: "Key Is Required" } }}
+              rules={{ required: { value: !disabled, message: "Key Is Required" } }}
               render={({ field, fieldState }) => {
                 return (
                   <Input
@@ -96,13 +121,19 @@ const QueryParamForm = () => {
                 );
               }}
             />
-            {/* <Controller
+            <Controller
               name={`queryParams.${index}.enabled`}
               control={control}
-              render={({ field }) => {
-                return <Switcher {...field} />;
+              render={({ field: { value, ...field } }) => {
+                return (
+                  <Switcher
+                    {...field}
+                    checked={value}
+                    error={errors?.customQueryParamsError?.message as string | undefined}
+                  />
+                );
               }}
-            /> */}
+            />
             {controlledFields.length > 1 && (
               <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>
                 <Icon name="cross" />
