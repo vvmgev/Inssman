@@ -96,13 +96,13 @@ const QueryParamForm = () => {
                 );
               }}
             />
-            <Controller
+            {/* <Controller
               name={`queryParams.${index}.enabled`}
               control={control}
               render={({ field }) => {
                 return <Switcher {...field} />;
               }}
-            />
+            /> */}
             {controlledFields.length > 1 && (
               <Button variant="icon" className="cursor-pointer hover:text-red-400" onClick={() => handleRemove(index)}>
                 <Icon name="cross" />

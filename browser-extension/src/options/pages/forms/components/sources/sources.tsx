@@ -119,7 +119,7 @@ const SourceFields = () => {
                   }}
                 />
               </div>
-              <div>
+              {/* <div>
                 <Controller
                   name={`conditions.${index}.enabled`}
                   control={control}
@@ -127,7 +127,7 @@ const SourceFields = () => {
                     return <Switcher {...field} />;
                   }}
                 />
-              </div>
+              </div> */}
               <div>
                 {controlledFields.length > 1 && (
                   <Button
