@@ -36,7 +36,8 @@ export type IconName =
   | "videoCamera"
   | "wrench"
   | "xCircle"
-  | "photo";
+  | "photo"
+  | "bookmark";
 
 export { default as adjustmentVertical } from "./adjustmentVertical.svg";
 export { default as arrowDownLong } from "./arrowDownLong.svg";
@@ -76,3 +77,4 @@ export { default as videoCamera } from "./videoCamera.svg";
 export { default as wrench } from "./wrench.svg";
 export { default as xCircle } from "./xCircle.svg";
 export { default as photo } from "./photo.svg";
+export { default as bookmark } from "./bookmark.svg";

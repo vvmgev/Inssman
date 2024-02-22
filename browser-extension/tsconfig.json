@@ -35,6 +35,6 @@
     ],
     "compileOnSave": true,
     "files": [
-        "src/types/svg.ts",
+        "src/types/svg.d.ts",
     ],
  }

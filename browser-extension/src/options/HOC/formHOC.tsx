@@ -146,7 +146,7 @@ const FormHOC = (FormComponent) => {
                 View Example
               </Button>
             </div>
-            {mode === "update" && (
+            {mode === FormMode.UPDATE && (
               <Button
                 variant="outline"
                 trackName="Delete rule edit mode"
@@ -160,12 +160,7 @@ const FormHOC = (FormComponent) => {
             )}
             <div>
               <Button
-                startIcon={
-                  <Icon
-                    name="pencil"
-                    className={`${isDirty || mode === FormMode.CREATE ? "text-gray-800" : "text-gray-100"}`}
-                  />
-                }
+                startIcon={<Icon name={mode === FormMode.CREATE || isDirty ? "pencil" : "bookmark"} />}
                 trackName={`${PageName[pageType]} Rule Create Event`}
                 onClick={handleSubmit(onSubmitHandler)}
               >
