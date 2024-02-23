@@ -160,7 +160,7 @@ const FormHOC = (FormComponent) => {
             )}
             <div>
               <Button
-                startIcon={<Icon name={mode === FormMode.CREATE || isDirty ? "pencil" : "bookmark"} />}
+                startIcon={<Icon name={mode === FormMode.CREATE || isDirty ? "pencil" : "save"} />}
                 trackName={`${PageName[pageType]} Rule Create Event`}
                 onClick={handleSubmit(onSubmitHandler)}
               >
