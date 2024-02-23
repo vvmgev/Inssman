@@ -13,13 +13,12 @@ import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { RecordSession } from "@models/recordSessionModel";
-import { SidebarContext } from "@context/sidebarContext";
 import { useNavigate } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { APP_URL } from "@/options/constant";
 import { toast } from "react-toastify";
 
-const sessionDetails: FC = (): ReactElement => {
+const SessionDetails: FC = (): ReactElement => {
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +31,6 @@ const sessionDetails: FC = (): ReactElement => {
   const isSharedUrl = location.pathname.includes("shared");
   const sessionMemo = useMemo(() => session, [session]);
   const playerOptions = useMemo(() => ({ width: 800, height: 500 }), []);
-  const { setFull } = useContext(SidebarContext);
   const { id } = useParams();
 
   // FIXME:
@@ -274,4 +272,4 @@ const sessionDetails: FC = (): ReactElement => {
   );
 };
 
-export default memo(sessionDetails);
+export default memo(SessionDetails);

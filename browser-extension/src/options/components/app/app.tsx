@@ -6,7 +6,6 @@ import Sidebar from "../sidebar/sidebar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
 import Section from "../common/section/section";
-import SidebarContextProvider, { SidebarContext } from "@context/sidebarContext";
 import OverlayContextProvider, { OverlayContext } from "@context/overlayContext";
 import { ToastContainer, Bounce } from "react-toastify";
 import { useContext } from "react";
@@ -16,7 +15,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { showOverlay } = useContext(OverlayContext);
-  const { full, setFull } = useContext(SidebarContext);
 
   return (
     <div className="flex flex-row w-screen h-screen overflow-hidden">
@@ -58,9 +56,7 @@ const Wrapper = () => {
         <HashRouter>
           <FeatureToggleProvider>
             <OverlayContextProvider source="options">
-              <SidebarContextProvider>
-                <App />
-              </SidebarContextProvider>
+              <App />
             </OverlayContextProvider>
           </FeatureToggleProvider>
         </HashRouter>
