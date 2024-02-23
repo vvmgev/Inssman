@@ -87,7 +87,7 @@ export const LIST_ITEMS: ListItems[] = [
     field: "url",
     classes: "gap-5 justify-end",
     render: function (item) {
-      return <div className="w-32 overflow-hidden text-ellipsis whitespace-nowrap">{item[this.field]}</div>;
+      return <div className="w-32 truncate">{item[this.field]}</div>;
     },
   },
 ];

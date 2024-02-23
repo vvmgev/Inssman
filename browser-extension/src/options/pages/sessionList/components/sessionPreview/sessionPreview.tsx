@@ -99,7 +99,7 @@ const Session: FC<Props> = ({
       </Dialog>
       <Section classes="flex flex-col gap-3 rounded">
         <div className="flex items-center justify-between">
-          <div className="text-ellipsis gap-4 max-w-[150px] whitespace-nowrap	overflow-hidden">
+          <div className="truncate gap-4 max-w-[150px]">
             <Tooltip content={session.url}>
               <div className="flex">
                 {session.url && (
