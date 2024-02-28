@@ -45,7 +45,10 @@ const Select = forwardRef(
           {...config}
           {...rest}
           showSearch={showSearch}
-          className={`w-full capitalize pl-1 py-2 rounded focus:outline-none active:outline-none outline-none focus:shadow-none bg-slate-700/70
+          className={`
+          w-full capitalize pl-1 py-2 rounded
+          bg-slate-700/70 [&_input]:cursor-pointer
+          focus:outline-none active:outline-none outline-none focus:shadow-none
         ${error ? "border border-red-500" : "focus:border-none"}
         ${mode ? "select-tags" : ""}`}
           dropdownClassName="bg-slate-700/70 my-1 text-slate-200 border-none"

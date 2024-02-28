@@ -16,7 +16,7 @@ const Sidebar = () => {
   const location = useLocation();
   const templateId = location.state?.ruleMetaData?.id;
   return (
-    <Section classes="h-full p-0 flex flex-col overflow-hidden">
+    <Section classes="h-full p-0 flex flex-col overflow-y-auto">
       <SidebarSection classes="h-[70px] mt-2">
         <SidebarItem title={<Icon name="logo" />} icon={<></>} url="/" />
       </SidebarSection>
