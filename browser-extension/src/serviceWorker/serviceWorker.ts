@@ -2,13 +2,14 @@ import StorageService from "@services/StorageService";
 import BSService from "@services/BrowserSupportService";
 import InjectCodeService from "@services/InjectCodeService";
 import BaseService from "@services/BaseService";
+import storgeDataConverter from "./storgeDataConverter";
 import handleError from "./errorHandler";
+import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { StorageKey } from "@models/storageModel";
 import { UNINSTALL_URL, EXCLUDED_URLS } from "@options/constant";
-import storgeDataConverter from "./storgeDataConverter";
 import "@services/RegisterService";
 
 class ServiceWorker extends BaseService {
@@ -58,9 +59,17 @@ class ServiceWorker extends BaseService {
   injectContentScript = async (tabId, _, tab) => {
     const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => tab.url?.startsWith(url));
     const filters = [
-      { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
-      { key: "enabled", value: true },
+      [
+        { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
+        { key: "enabled", value: true },
+      ],
+      [
+        { key: "pageType", value: PageType.MODIFY_RESPONSE },
+        { key: "responseMode", value: ResponseMode.DYNAMIC },
+        { key: "enabled", value: true },
+      ],
     ];
+
     const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
     if (!BSService.isSupportScripting() || isUrlExluded || !rules.length) return;
     InjectCodeService.injectContentScript(tabId, rules);

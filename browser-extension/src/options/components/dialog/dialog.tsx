@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 const Dialog: FC<Props> = ({ children, classes, title, ...props }) => {
   return (
     <RCDialog
-      title={<span className="text-slate-200 text-2xl">{title}</span>}
+      title={<span className="text-2xl text-slate-200">{title}</span>}
       classNames={{
         wrapper: `flex items-center backdrop-blur-[3px] ${classes?.wrapper || ""}`,
         body: `${classes?.body || ""}`,

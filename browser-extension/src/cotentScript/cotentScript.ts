@@ -1,21 +1,25 @@
 // @ts-nocheck
 import MatcherService from "@services/MatcherService";
-import { IRuleMetaData } from "@models/formFieldModel";
+import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { NAMESPACE } from "@options/constant";
+import { validateJSON } from "@/utils/validateJSON";
 
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
   window[NAMESPACE].rules = window[NAMESPACE].rules || [];
   window[NAMESPACE].queueRequests = [];
-  window[NAMESPACE].gotRules = false;
+  window[NAMESPACE].isExecuted = window[NAMESPACE].isExecuted || false;
   window[NAMESPACE].start = () => {
-    if (window[NAMESPACE].gotRules) return;
-    window[NAMESPACE].gotRules = true;
     startIntercept();
   };
+  if (!window[NAMESPACE].isExecuted) {
+    window[NAMESPACE].isExecuted = true;
+    window[NAMESPACE].start();
+  }
+  const ExecuteCode = Function;
 
-  const startIntercept = () => {
+  function startIntercept() {
     const getAbsoluteUrl = (url: string): string => {
       const dummyLink = document.createElement("a");
       dummyLink.href = url;
@@ -36,7 +40,7 @@ import { NAMESPACE } from "@options/constant";
     const updateTimestamp = (ruleMetaData: IRuleMetaData): void => {
       try {
         chrome.runtime.sendMessage(window[NAMESPACE].runtimeId, {
-          action: PostMessageAction.UpdateTimestamp,
+          action: PostMessageAction.UpdateRuleTimestamp,
           data: { ruleMetaData, timestamp: Date.now() },
         });
       } catch (error) {}
@@ -64,6 +68,26 @@ import { NAMESPACE } from "@options/constant";
         } catch (error) {
           return Promise.reject(error);
         }
+      }
+
+      if (matchedRule.pageType === PageType.MODIFY_RESPONSE) {
+        const response = await getOriginalResponse();
+        const responseBody = response.headers.get("content-type")?.includes("application/json")
+          ? await response.json()
+          : await response.text();
+        const args = {
+          response: responseBody,
+        };
+        const returnedData = new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)(args);
+
+        const customResponse = {
+          status: response.status,
+          statusText: response.statusText,
+          body: JSON.stringify(returnedData),
+          bodyAsJson: validateJSON(responseBody),
+        };
+
+        return new Response(customResponse.body, customResponse);
       }
 
       request = new Request(request.url, {
@@ -108,7 +132,7 @@ import { NAMESPACE } from "@options/constant";
     const send = XMLHttpRequest.prototype.send;
     XMLHttpRequest.prototype.send = function (data) {
       const matchedRule = getMatchedRuleByUrl(this.requestURL);
-      const requestBody = matchedRule ? matchedRule.editorValue : data;
+      const requestBody = matchedRule?.pageType === PageType.MODIFY_REQUEST_BODY ? matchedRule.editorValue : data;
       this.requestData = requestBody;
       send.call(this, requestBody);
     };
@@ -119,5 +143,5 @@ import { NAMESPACE } from "@options/constant";
       this.requestHeaders[header] = value;
       setRequestHeader.apply(this, arguments);
     };
-  };
+  }
 })(NAMESPACE);

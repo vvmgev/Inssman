@@ -1,31 +1,24 @@
-const Checkbox = ({ label, onChange, name, ...props }) => {
-  const handler = (event) => {
-    onChange({
-      target: {
-        name: name,
-        value: event.target.checked,
-      },
-    });
-  };
+import RCCheckbox, { CheckboxProps, CheckboxRef } from "rc-checkbox";
+import { ComponentProps, forwardRef, useId } from "react";
 
+type Props = {
+  label?: string;
+} & ComponentProps<"input"> &
+  CheckboxProps &
+  React.RefAttributes<CheckboxRef>;
+
+const Checkbox = forwardRef(({ label, ...props }: Props, ref: any) => {
+  const id = useId();
   return (
-    <div className="flex items-center">
+    <div className="flex items-center gap-1 cursor-pointer">
+      <RCCheckbox {...props} id={id} ref={ref} />
       {label && (
-        <label htmlFor="checked-checkbox" className="mr-3">
+        <label htmlFor={id} className="mr-3">
           {label}
         </label>
       )}
-      <input
-        onChange={handler}
-        checked
-        id="checked-checkbox"
-        type="checkbox"
-        value=""
-        className="w-4 h-4 rounded text-sky-500"
-        {...props}
-      />
     </div>
   );
-};
+});
 
 export default Checkbox;

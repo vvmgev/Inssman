@@ -12,9 +12,11 @@ class StorageService {
     );
   }
 
-  async getFilteredRules(filters: { [key: string]: any }[]): Promise<IRuleMetaData[]> {
+  async getFilteredRules(filterArr: { [key: string]: any }[][]): Promise<IRuleMetaData[]> {
     const rules = await this.getRules();
-    return rules.filter((rule) => filters.every((filter) => rule[filter.key] === filter.value));
+    return rules.filter((rule) =>
+      filterArr.some((filters) => filters.every((filter) => rule[filter.key] === filter.value))
+    );
   }
 
   async getSingleItem(key: string): Promise<any> {

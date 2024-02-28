@@ -9,7 +9,7 @@ import Button from "@/options/components/common/button/button";
 import Icon from "@options/components/common/icon/icon";
 import Copy from "copy-to-clipboard";
 import { EventType, IncrementalSource } from "rrweb";
-import { FC, ReactElement, memo, useContext, useEffect, useMemo, useState } from "react";
+import { FC, ReactElement, memo, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { RecordSession } from "@models/recordSessionModel";

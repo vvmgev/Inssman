@@ -1,26 +1,21 @@
-import MonacoEditor from "../monacoeditor/monacoEditor";
-import { useFormContext } from "react-hook-form";
+import MonacoEditor from "@/options/components/common/monacoeditor/monacoEditor";
 import { EditorLanguage } from "@/models/formFieldModel";
-import { useEffect, useRef, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { FC } from "react";
 
-const Editor = () => {
-  const editorRef = useRef<any>();
-  const methods = useFormContext();
-  const [editorValueUpdated, setEditorValueUpdated] = useState<boolean>(false);
-  const language = methods.watch("editorLang") || EditorLanguage.JSON;
-  const value = methods.watch("editorValue") || "";
-  const handleEditorValueChange = (value) => methods.setValue("editorValue", value);
+type Props = {
+  language?: EditorLanguage;
+};
 
-  useEffect(() => {
-    if (value && !editorValueUpdated) {
-      setEditorValueUpdated(true);
-      editorRef.current.getModel().setValue(value);
-    }
-  }, [value, editorValueUpdated]);
+const Editor: FC<Props> = ({ language = EditorLanguage.JSON }) => {
+  const { setValue, watch } = useFormContext();
+  const editorLang = watch("editorLang") || language;
+  const value = watch("editorValue");
+  const onChange = (value) => setValue("editorValue", value);
 
   return (
     <div className="relative w-full h-full">
-      <MonacoEditor onChangeHandler={handleEditorValueChange} language={language} value={value} ref={editorRef} />
+      <MonacoEditor onChange={onChange} language={editorLang} value={value} />
     </div>
   );
 };

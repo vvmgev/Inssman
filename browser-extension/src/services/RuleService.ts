@@ -100,14 +100,14 @@ class RuleService extends BaseService {
     const connectedRuleIds: number[] = [];
     const rules = generateRules(ruleMetaData);
     for (const rule of rules) {
-      let id: number = await StorageService.generateNextId();
+      const id: number = await StorageService.generateNextId();
       connectedRuleIds.push(id);
 
       if (ruleMetaData.enabled) {
         await BrowserRuleService.set([{ ...rule, id }]);
       }
     }
-    const id = connectedRuleIds[0] ? connectedRuleIds[0] : await StorageService.generateNextId();
+    const id = connectedRuleIds[0] || (await StorageService.generateNextId());
     await StorageService.set({ [id]: { ...ruleMetaData, id, connectedRuleIds } });
     return { ...ruleMetaData, id, connectedRuleIds };
   };
@@ -187,7 +187,7 @@ class RuleService extends BaseService {
 
   getMatchedRules = async (tab) => {
     if (tab.status === "complete") {
-      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([{ key: "enabled", value: true }]);
+      const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([[{ key: "enabled", value: true }]]);
       const isUrlsMatch = enabledRules.some(({ conditions }) =>
         conditions.some((condition) => MatcherService.isUrlsMatch(condition.source, tab.url, condition.matchType))
       );

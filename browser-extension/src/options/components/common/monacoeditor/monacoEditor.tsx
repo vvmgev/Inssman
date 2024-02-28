@@ -1,7 +1,11 @@
-import { useRef, useEffect, forwardRef } from "react";
+import Editor from "@monaco-editor/react";
 import * as monaco from "monaco-editor";
+import { loader } from "@monaco-editor/react";
+import { EditorLanguage } from "@/models/formFieldModel";
+import { useRef, forwardRef } from "react";
 
-// @ts-ignore
+loader.config({ monaco });
+
 self.MonacoEnvironment = {
   getWorkerUrl: function (_moduleId: any, label: string) {
     if (label === "json") {
@@ -20,29 +24,16 @@ self.MonacoEnvironment = {
   },
 };
 
-const MonacoEditor = forwardRef(({ language, onChangeHandler, value = "" }: any, ref: any) => {
-  const divEl = useRef<HTMLDivElement>(null);
-  let editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
-  const getModel = () => editorRef.current?.getModel() as monaco.editor.ITextModel;
-  const onChange = () => onChangeHandler && onChangeHandler(getModel().getValue());
-  const pritter = () => editorRef.current?.getAction("editor.action.formatDocument").run();
+type Props = {
+  value: string;
+  language: EditorLanguage;
+  onChange: any;
+};
 
-  useEffect(() => {
-    editorRef.current = monaco.editor.create(divEl.current as HTMLDivElement, {
-      value: "",
-      language: "",
-      theme: "vs-dark",
-      autoIndent: "advanced",
-      formatOnPaste: true,
-      formatOnType: true,
-      minimap: { enabled: false },
-    });
-    getModel().onDidChangeContent(onChange);
-    getModel().setValue(value);
-    ref.current = editorRef.current;
-  }, []);
-
-  useEffect(() => monaco.editor.setModelLanguage(getModel(), language), [language]);
+const MonacoEditor = forwardRef(({ language, onChange, value = "" }: Props, ref: any) => {
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
+  const handleEditorDidMount = (editor) => (editorRef.current = editor);
+  const pritter = () => editorRef.current?.getAction?.("editor.action.formatDocument")?.run?.();
 
   return (
     <>
@@ -52,7 +43,22 @@ const MonacoEditor = forwardRef(({ language, onChangeHandler, value = "" }: any,
       >
         Pritter
       </div>
-      <div className="w-full h-[320px]" ref={divEl}></div>
+      <Editor
+        onMount={handleEditorDidMount}
+        value={value}
+        className="w-full h-[320px]"
+        language={language}
+        onChange={onChange}
+        options={{
+          value: "",
+          language: "",
+          theme: "vs-dark",
+          autoIndent: "advanced",
+          formatOnPaste: true,
+          formatOnType: true,
+          minimap: { enabled: false },
+        }}
+      />
     </>
   );
 });

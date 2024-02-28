@@ -90,8 +90,10 @@ class InjectCodeService extends BaseService {
 
   async getInjectFileRules(): Promise<IRuleMetaData[]> {
     const filters = [
-      { key: "pageType", value: PageType.INJECT_FILE },
-      { key: "enabled", value: true },
+      [
+        { key: "pageType", value: PageType.INJECT_FILE },
+        { key: "enabled", value: true },
+      ],
     ];
     return await StorageService.getFilteredRules(filters);
   }
@@ -236,9 +238,14 @@ class InjectCodeService extends BaseService {
         target: { tabId },
         // this code runs in the browser tab
         func: (rules: IRuleMetaData[], NAMESPACE: string, runtimeId: string) => {
+          window[NAMESPACE] = window[NAMESPACE] || {};
           window[NAMESPACE].rules = rules;
           window[NAMESPACE].runtimeId = runtimeId;
-          window[NAMESPACE].start();
+          window[NAMESPACE].isExecuted = window[NAMESPACE].isExecuted || false;
+          if (window[NAMESPACE].start && !window[NAMESPACE].isExecuted) {
+            window[NAMESPACE].isExecuted = true;
+            window[NAMESPACE].start();
+          }
         },
         world: "MAIN",
         args: [rules, NAMESPACE, chrome.runtime.id],
