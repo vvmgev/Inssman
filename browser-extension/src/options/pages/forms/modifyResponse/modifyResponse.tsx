@@ -101,7 +101,11 @@ const ModifyResponseForm = () => {
             return (
               <Checkbox
                 type="radio"
-                label="Dynamic Response"
+                label={
+                  <>
+                    Dynamic Response<sup className="ml-1 text-xs text-red-500">Beta</sup>
+                  </>
+                }
                 checked={value === ResponseMode.DYNAMIC}
                 value={ResponseMode.DYNAMIC}
                 onChange={(value) => {
