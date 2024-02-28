@@ -4,6 +4,8 @@
 
 import StorageService from "@/services/StorageService";
 import { StorageKey } from "@/models/storageModel";
+import { PageType } from "@/models/formFieldModel";
+import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
 
 const storgeDataConverter = async () => {
   StorageService.remove(StorageKey.CONFIG);
@@ -25,6 +27,11 @@ const storgeDataConverter = async () => {
 
     if (version > "1.0.54") {
       const { resourceTypes, requestMethods, source, matchType, ...rest } = ruleMetaData;
+      // Added 1.0.59
+      if (rest.pageType === PageType.MODIFY_RESPONSE && !rest.responseMode) {
+        rest.responseMode = ResponseMode.STATIC;
+        await StorageService.set({ [ruleMetaData.id as number]: rest });
+      }
       // if already converted to new data structure
       if (!rest.conditions) {
         rest.connectedRuleIds = [ruleMetaData.id];
