@@ -1,7 +1,7 @@
 import RCSelect, { Option, SelectProps } from "rc-select";
+import { forwardRef } from "react";
 import "rc-select/assets/index.css";
 import "./select.css";
-import { forwardRef } from "react";
 
 type Props = {
   name: string;

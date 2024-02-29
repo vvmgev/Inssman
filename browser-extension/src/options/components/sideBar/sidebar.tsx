@@ -1,4 +1,4 @@
-import Section from "../common/section/section";
+import Section from "@components/common/section/section";
 import Tooltip from "@components/common/tooltip/tooltip";
 import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
 import Icon from "@options/components/common/icon/icon";
