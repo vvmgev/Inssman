@@ -11,7 +11,7 @@ const Editor: FC<Props> = ({ language = EditorLanguage.JSON }) => {
   const { setValue, watch } = useFormContext();
   const editorLang = watch("editorLang") || language;
   const value = watch("editorValue");
-  const onChange = (value) => setValue("editorValue", value);
+  const onChange = (value) => setValue("editorValue", value, { shouldDirty: true });
 
   return (
     <div className="relative w-full h-full">

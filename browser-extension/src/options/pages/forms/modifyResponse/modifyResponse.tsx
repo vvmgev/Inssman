@@ -42,9 +42,9 @@ const ModifyResponseForm = () => {
 
   const handleChangeResponseMode = (mode) => {
     if (mode === ResponseMode.STATIC) {
-      setValue("editorValue", staticValue);
+      setValue("editorValue", staticValue, { shouldDirty: true });
     } else {
-      setValue("editorValue", dynamicValue);
+      setValue("editorValue", dynamicValue, { shouldDirty: true });
     }
   };
 
