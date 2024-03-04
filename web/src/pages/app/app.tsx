@@ -1,10 +1,10 @@
 import Loading from "../../components/loading/loading";
-import { useEffect, useState } from "react";
-import { useParams, usePathname } from "next/navigation";
-import { isSharedRecordedSessionPath } from "../../utils/isSharedRecordedSessionPath";
 import Sidebar from "../../components/sidebar/sidebar";
 import SharedRecordedSession from "../../components/sharedRecordedSession/sharedRecordedSession";
 import InstallExtension from "../../components/installExtension/installExtension";
+import { useEffect, useState } from "react";
+import { useParams, usePathname } from "next/navigation";
+import { isSharedRecordedSessionPath } from "../../utils/isSharedRecordedSessionPath";
 import { getRecordedSessionByID } from "../../config/firebase";
 import "./app.css";
 
