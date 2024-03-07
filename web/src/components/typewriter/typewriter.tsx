@@ -34,7 +34,7 @@ export const TypewriterEffectSmooth = () => {
         overflow: "hidden",
       }}
       animate={{
-        width: ["0%", "15%", "0%"],
+        width: ["0%", "20%", "0%"],
         transition: {
           duration: 3,
           times: [0, 0.5, 1],

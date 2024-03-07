@@ -16,6 +16,7 @@ const config: Config = {
       },
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",
+        box: "box 25s linear infinite",
       },
       keyframes: {
         spotlight: {
@@ -26,6 +27,18 @@ const config: Config = {
           "100%": {
             opacity: "1",
             transform: "translate(-50%,-40%) scale(1)",
+          },
+        },
+        box: {
+          "0%": {
+            transform: "translateY(0) rotate(0deg)",
+            opacity: "1",
+          },
+          "80%": {
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(-1000px) rotate(720deg)",
           },
         },
       },
