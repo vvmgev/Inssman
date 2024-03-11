@@ -138,7 +138,7 @@ const FormHOC = (FormComponent) => {
                 variant="outline"
                 onClick={() =>
                   chrome.tabs.create({
-                    url: `https://github.com/vvmgev/Overrider#${pageType}`,
+                    url: `http://localhost:3000/docs/${pageType}`,
                   })
                 }
                 trackName="View Example"
