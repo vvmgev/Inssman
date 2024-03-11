@@ -22,9 +22,9 @@ const Footer = () => {
             <Image alt="email" src={EnvelopeSVG} />
             Contact
           </Link>
-          <Link target="__blank" href="/documentation" className="flex items-center gap-2">
+          <Link target="__blank" href="/docs" className="flex items-center gap-2">
             <Image alt="ducumentation" src={DocumentSVG} />
-            Documentation
+            Docs
           </Link>
         </div>
       </div>

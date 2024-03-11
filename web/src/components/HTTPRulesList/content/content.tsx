@@ -2,6 +2,7 @@ import Image from "next/image";
 import { paths } from "@/components/sidebar/paths";
 import { FC } from "react";
 import { HTTPRulesTypeInfo } from "./config";
+import { BackgroundGradient } from "@/components/backgroundGradient/backgroundGradient";
 
 type Props = {
   activeIndex: number;
@@ -15,6 +16,7 @@ const Content: FC<Props> = ({ activeIndex }) => {
     <div>
       <div className="flex flex-col gap-10">
         <div className="text-2xl break-all">{activeRuleInfo.title}</div>
+
         <Image
           className="w-3/4 border rounded shadow-lg opacity-80 border-slate-300 border-opacity-20"
           alt={activeRuleInfo.title}

@@ -1,0 +1,51 @@
+import MdxLayout from '../../components/layouts/mdxLayout'
+import Rules from '../../components/docs/rules.mdx'
+
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Introduction</h1>
+
+<br/>
+
+With Inssman frontend developers have access to an
+<ins className="text-sky-500 hover:text-sky-400">[open-source](https://github.com/vvmgev/Inssman)</ins> platform with essential tools and integrations for writing,
+testing, and debugging code more efficiently.
+As a result of frontend development, there are usually dependencies on backend developers for API updates,
+and reliance on specific environments for comprehensive feature testing. Finally,
+there may be occasional dependencies on clients, especially when deploying code on client websites.
+
+<br/>
+
+Inssman now available for Google Chrome and Microsoft Edge browsers.
+Frontend developers can reduce their dependency on backend developers, bypass environment complexity,
+and control the network layer to inspect, capture and modify https requests & responses.
+
+<br />
+
+Moreover, Inssman is completely free to use, offering an accessible solution without any financial barriers.
+Users can create unlimited rules within the platform, providing flexibility and scalability to accommodate diverse project requirements.
+
+<br />
+
+<h2 className="text-2xl border-b border-neutral-200/20 pb-2 text-neutral-300">Inssman creates following rules</h2>
+
+<br /><br />
+
+<Rules />
+
+<div className="flex justify-between mt-20 mb-10">
+  <div></div>
+  <a
+    className="w-fit flex items-center h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/quick-start"
+  >
+    Quick Start
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}

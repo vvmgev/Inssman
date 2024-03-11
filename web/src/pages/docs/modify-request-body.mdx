@@ -1,0 +1,44 @@
+import MdxLayout from '../../components/layouts/mdxLayout';
+import SourceCondition from '../../components/docs/sourceCondition.mdx';
+import TextBG from '../../components/docs/textBG.mdx';
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Modify Request Body</h1>
+
+<br/>
+
+The Modify Request Body allows to modify the API request body with custom payload without touching the source code.
+
+<br/>
+
+<img className="w-full rounded" alt="Modify request body" src="/assets/images/rules-image/modify-request-body.png" />
+
+<br/>
+
+<SourceCondition />
+
+<br/>
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/inject-file"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Inject File
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/http-logger"
+  >
+    HTTP Logger
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}
