@@ -2,7 +2,6 @@ import Image from "next/image";
 import { paths } from "@/components/sidebar/paths";
 import { FC } from "react";
 import { HTTPRulesTypeInfo } from "./config";
-import { BackgroundGradient } from "@/components/backgroundGradient/backgroundGradient";
 
 type Props = {
   activeIndex: number;
