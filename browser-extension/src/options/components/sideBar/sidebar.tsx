@@ -14,7 +14,7 @@ const Sidebar = () => {
   const { featureShowRecord } = useContext(FeatureToggleContext);
   const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   const location = useLocation();
-  const templateId = location.state?.ruleMetaData?.id;
+
   return (
     <Section classes="h-full p-0 flex flex-col overflow-y-auto">
       <SidebarSection classes="h-[70px] mt-2">
@@ -79,15 +79,14 @@ const Sidebar = () => {
         <SidebarSection title="Templates" classes="border-none">
           {paths.map(({ icon, path }) => {
             const ruleTemplates = templates[path] || [];
-            const url = `/template/${path}`;
-            return ruleTemplates.map((template) => (
+            return ruleTemplates.map((template, index) => (
               <SidebarItem
                 key={template.id}
                 title={template.name}
                 icon={icon}
-                url={url}
-                locationState={{ ruleMetaData: template, template: true }}
-                active={template.id === templateId}
+                locationState={{ template: true, index }}
+                url={`/template/${path}/${template.id}`}
+                active={location.pathname === `/template/${path}/${template.id}`}
               />
             ));
           })}

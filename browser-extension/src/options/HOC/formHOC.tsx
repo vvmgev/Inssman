@@ -13,6 +13,7 @@ import { StorageItemType } from "@/models/storageModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { templates } from "../components/app/templates";
 
 const getPageType = (mode: FormMode): string => {
   const pathArr = location.href.split("/");
@@ -109,15 +110,16 @@ const FormHOC = (FormComponent) => {
     };
 
     useEffect(() => {
-      if (mode === FormMode.UPDATE) {
+      const { template } = location.state ?? {};
+      if (mode === FormMode.UPDATE && !template) {
         getRuleMetaData();
       }
     }, []);
 
     useEffect(() => {
-      const { template, ruleMetaData } = location.state || {};
+      const { template, index } = location.state ?? {};
       if (template) {
-        setFormValues(ruleMetaData);
+        setFormValues(templates[pageType][index]);
       }
     }, [location.state]);
 
