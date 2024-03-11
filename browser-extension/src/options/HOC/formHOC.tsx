@@ -15,8 +15,11 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { templates } from "../components/app/templates";
 
-const getPageType = (mode: FormMode): string => {
+const getPageType = (mode: FormMode, isTemplate: boolean): string => {
   const pathArr = location.href.split("/");
+  if (isTemplate) {
+    return pathArr[pathArr.length - 2];
+  }
   return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
 };
 
@@ -27,10 +30,10 @@ const FormHOC = (FormComponent) => {
     const params = useParams();
     const methods = useForm({ mode: "onChange" });
     const [error, setError] = useState();
-    const id = params.id ? Number(params.id) : null;
-    const mode = id ? FormMode.UPDATE : FormMode.CREATE;
-    const pageType = getPageType(mode);
     const isTemplate = location.pathname.includes("template");
+    const id = params.id ? Number(params.id) : null;
+    const mode = id && !isTemplate ? FormMode.UPDATE : FormMode.CREATE;
+    const pageType = getPageType(mode, isTemplate);
 
     const {
       reset,
