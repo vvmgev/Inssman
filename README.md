@@ -1,9 +1,11 @@
-<h1 align="center">Welcome HTTP Interceptor</h2>
+<h1 align="center">⚡Welcome HTTP Interceptor⚡</h2>
 
 [<img width="1003" alt="Inssman logo" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
 
+<div align="center">
+
 [![gitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/vvmgev/inssman/blob/master/LICENSE.md)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vvmgev/inssman/pulls)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vvmgev/inssman/pulls)</div>
 
 <a href="https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk">
  <span>Install Inssman For Google Chrome</span>
