@@ -30,6 +30,8 @@ const FormHOC = (FormComponent) => {
     const id = params.id ? Number(params.id) : null;
     const mode = id ? FormMode.UPDATE : FormMode.CREATE;
     const pageType = getPageType(mode);
+    const isTemplate = location.pathname.includes("template");
+
     const {
       reset,
       setValue,
@@ -110,16 +112,15 @@ const FormHOC = (FormComponent) => {
     };
 
     useEffect(() => {
-      const { template } = location.state ?? {};
-      if (mode === FormMode.UPDATE && !template) {
+      if (mode === FormMode.UPDATE && !isTemplate) {
         getRuleMetaData();
       }
     }, []);
 
     useEffect(() => {
-      const { template, index } = location.state ?? {};
-      if (template) {
-        setFormValues(templates[pageType][index]);
+      if (isTemplate) {
+        const template = templates[pageType].find((template) => template.id === id);
+        setFormValues(template);
       }
     }, [location.state]);
 
