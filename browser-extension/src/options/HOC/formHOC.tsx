@@ -138,7 +138,7 @@ const FormHOC = (FormComponent) => {
                 variant="outline"
                 onClick={() =>
                   chrome.tabs.create({
-                    url: `http://localhost:3000/docs/${pageType}`,
+                    url: `https://inssman.com/docs/${pageType}`,
                   })
                 }
                 trackName="View Example"
