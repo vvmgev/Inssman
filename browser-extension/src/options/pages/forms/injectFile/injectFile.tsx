@@ -99,7 +99,7 @@ const InjectFile = () => {
       {fileSourceType === InjectFileSource.URL && editorLang !== InjectFileType.HTML && (
         <div className="flex items-center w-full mt-5">
           <span className="w-24">Source URL &nbsp;</span>
-          <div className="w-36">
+          <div className="w-1/2">
             <Controller
               name="fileSource"
               control={control}
