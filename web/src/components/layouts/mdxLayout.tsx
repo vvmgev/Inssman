@@ -4,6 +4,7 @@ import Footer from "@/components/footer/footer";
 import Sidebar from "@/components/docs/sidebar.mdx";
 import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "../../app/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,6 +31,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <Footer />
       </div>
+      {/* @ts-ignore */}
+      <GoogleAnalytics gtmId="G-9EJZ6QBWPD" />
     </div>
   );
 }
