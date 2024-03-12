@@ -13,9 +13,13 @@ import { StorageItemType } from "@/models/storageModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { templates } from "../components/app/templates";
 
-const getPageType = (mode: FormMode): string => {
+const getPageType = (mode: FormMode, isTemplate: boolean): string => {
   const pathArr = location.href.split("/");
+  if (isTemplate) {
+    return pathArr[pathArr.length - 2];
+  }
   return mode === FormMode.CREATE ? pathArr[pathArr.length - 1] : pathArr[pathArr.length - 2];
 };
 
@@ -26,9 +30,11 @@ const FormHOC = (FormComponent) => {
     const params = useParams();
     const methods = useForm({ mode: "onChange" });
     const [error, setError] = useState();
+    const isTemplate = location.pathname.includes("template");
     const id = params.id ? Number(params.id) : null;
-    const mode = id ? FormMode.UPDATE : FormMode.CREATE;
-    const pageType = getPageType(mode);
+    const mode = id && !isTemplate ? FormMode.UPDATE : FormMode.CREATE;
+    const pageType = getPageType(mode, isTemplate);
+
     const {
       reset,
       setValue,
@@ -109,15 +115,15 @@ const FormHOC = (FormComponent) => {
     };
 
     useEffect(() => {
-      if (mode === FormMode.UPDATE) {
+      if (mode === FormMode.UPDATE && !isTemplate) {
         getRuleMetaData();
       }
     }, []);
 
     useEffect(() => {
-      const { template, ruleMetaData } = location.state || {};
-      if (template) {
-        setFormValues(ruleMetaData);
+      if (isTemplate) {
+        const template = templates[pageType].find((template) => template.id === id);
+        setFormValues(template);
       }
     }, [location.state]);
 
@@ -138,7 +144,7 @@ const FormHOC = (FormComponent) => {
                 variant="outline"
                 onClick={() =>
                   chrome.tabs.create({
-                    url: `https://github.com/vvmgev/Overrider#${pageType}`,
+                    url: `https://inssman.com/docs/${pageType}`,
                   })
                 }
                 trackName="View Example"

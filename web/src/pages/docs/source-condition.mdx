@@ -1,0 +1,178 @@
+import MdxLayout from '../../components/layouts/mdxLayout';
+import SourceCondition from '../../components/docs/sourceCondition.mdx';
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Source Condition</h1>
+
+<br/>
+
+The Modify Request Body allows to modify the API request body with custom payload without touching the source code.
+
+<br/>
+
+
+<SourceCondition moreBtnClasses="hidden" />
+
+<br/>
+
+It is possible to add a Source Condition multiple times. The rule will work if one of them matches the source URL.
+In each Source Condition, there is an option to enable or disable it.
+
+<br/>
+
+<h2 className="text-2xl pb-2 text-neutral-300">Match Operators</h2>
+
+<br/>
+
+<h3 className="text-xl pb- border-b border-neutral-200/20 text-neutral-400">Contain Operator</h3>
+<br />
+
+Contain operator searches provided word in the whole URL
+
+<br/>
+
+Examples ⬇️
+
+<br/>
+
+Word  - user \
+URL    - http://example.com/user \
+Result - Match ✅
+
+<br/>
+
+Word   - user \
+URL    - http://example.com/?key=user \
+Result - Match ✅
+
+<br/>
+
+Word  - user \
+URL    - http://user.com/ \
+Result - Match ✅
+
+<br/>
+
+Word  - user \
+URL    - http://example.com/ \
+Result - No Match ❌
+
+<br/>
+
+<h3 className="text-xl pb-2 border-b border-neutral-200/20 text-neutral-400">Equal Operator</h3>
+<br />
+
+Equal Operator is strict matching action however this operator is ignore the protocol (http or https) and last slash (/) end of the URL
+
+<br/>
+
+Examples ⬇️
+
+Word  - example.com \
+URL    - http://example.com \
+Result - Match ✅
+
+<br/>
+
+Word  - example.com \
+URL    - http://example.com/ \
+Result - Match ✅
+
+<br/>
+
+Word  - example.com \
+URL    - https://example.com/ \
+Result - Match ✅
+
+<br/>
+
+Word  - example.com \
+URL    - http://example.com/ \
+Result - Match ✅
+
+<br/>
+
+Word  - example.com \
+URL    - http://www.example.com/ \
+Result - No Match ❌
+
+<br/>
+
+Word  - example.com \
+URL    - http://example.com/user \
+Result - No Match ❌
+
+<br/>
+
+<h3 className="text-xl pb-2 border-b border-neutral-200/20 text-neutral-400">Wilcard Operator</h3>
+<br />
+
+Wilcard operator uses the asterisk (*) to match the URL
+
+<br />
+
+Word  - \*example\* \
+URL    - http://example.com \
+Result - Match ✅
+
+<br />
+
+Word  - https://\*example.com \
+URL    - https://www.example.com \
+Result - Match ✅
+
+<br />
+
+For Redirect Request there is more powerful options. Each match with asterisk can be replaced in some parts of the destination URL $[number]
+
+<br />
+
+Examples ⬇️
+
+<br />
+
+Word            - https://example.com\/\*\/\*\/\* \
+URL             - https://example.com/article/edit/12 \
+Matches         - $1 = article, $2 = edit, $3 = 12 \
+Destination     - https://google.com/$1/$2/$3 \
+Redirected URL  - https://google.com/article/edit/12 \
+Result          - Match ✅
+
+<br />
+
+Word           -\*://\*.example.com/\* \
+URL            - https://www.example.com/?age=12&gender=male \
+Matches        - $1 = http, $2 = www, $3 = ?age=12&gender=male \
+Destination    - https://google.com/$1/$2/$3 \
+Redirected URL - https://google.com/https/www/?id=12&gender=male \
+Result         - Match ✅
+
+<br />
+
+Word           - https://example.com/*/*/* \
+URL            - https://www.example.com/article/edit/12 \
+Result         - No Match ❌
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/inject-file"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Inject File
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/http-logger"
+  >
+    HTTP Logger
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}

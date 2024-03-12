@@ -1,23 +1,22 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Inssman: Open-Source: Modify HTTP Request',
+  title: "Inssman: Open-Source: Modify HTTP Request",
   description: `Browser extension to intercept HTTP(S) Request, Modify Headers, Log headers, Change Response,
   Block Request, Redirect, Custom HTML/CSS/JS/JSON`,
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
+      {/* @ts-ignore */}
+      <GoogleAnalytics gtmId="G-9EJZ6QBWPD" />
     </html>
-  )
+  );
 }

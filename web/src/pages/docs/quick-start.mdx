@@ -1,0 +1,50 @@
+import Image from "next/image";
+import MdxLayout from '../../components/layouts/mdxLayout';
+import TextBG from '../../components/docs/textBG.mdx';
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Quick Start</h1>
+
+<br/>
+
+Inssman easyly can modify any HTTP request & response.
+
+<br/>
+
+1\. Go to <ins className="text-sky-500 hover:text-sky-400">[application](/app)</ins>
+<br/>
+2\. Select which type of rule you want to create in the sidebar. **(e.g. Block)**
+<br/>
+<Image width="200" height="200" alt="sidebar" src="/assets/images/rules-sidebar.png" />
+<br />
+3\. Fill in the details of the rule
+<br />
+<Image width="600" height="600" alt="sidebar" src="/assets/images/redirect-to-google.png" />
+<br />
+4\. Click <TextBG text="Create" /> Button
+<br />
+<br />
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/introduction"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Introduction
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/install"
+  >
+    Install
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}

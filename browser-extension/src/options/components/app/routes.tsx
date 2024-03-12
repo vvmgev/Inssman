@@ -40,13 +40,13 @@ const AppRoutes = () => {
           <Route path="modify-request-body/:id" element={<ModifyRequestBody key={13} />} />
         </Route>
         <Route path="/template">
-          <Route path="redirect" element={<Redirect key={30} />} />
-          <Route path="block" element={<Block key={31} />} />
-          <Route path="query-param" element={<QueryParam key={32} />} />
-          <Route path="modify-header" element={<ModifyHeader key={33} />} />
-          <Route path="modify-response" element={<ModifyResponse key={34} />} />
-          <Route path="modify-request-body" element={<InjectFile key={35} />} />
-          <Route path="inject-file" element={<ModifyRequestBody key={36} />} />
+          <Route path="redirect/:id" element={<Redirect key={30} />} />
+          <Route path="block/:id" element={<Block key={31} />} />
+          <Route path="query-param/:id" element={<QueryParam key={32} />} />
+          <Route path="modify-header/:id" element={<ModifyHeader key={33} />} />
+          <Route path="modify-response/:id" element={<ModifyResponse key={34} />} />
+          <Route path="modify-request-body/:id" element={<InjectFile key={35} />} />
+          <Route path="inject-file/:id" element={<ModifyRequestBody key={36} />} />
         </Route>
         <Route path="/record">
           <Route path="" element={<Record />} />

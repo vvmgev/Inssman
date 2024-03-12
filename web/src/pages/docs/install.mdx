@@ -1,0 +1,62 @@
+import Image from "next/image";
+import MdxLayout from '../../components/layouts/mdxLayout'
+import TextBG from '../../components/docs/textBG.mdx'
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Installation</h1>
+
+<br/>
+
+Inssman now available for Google Chrome and Microsoft Edge browsers.
+<br/>
+To install extension:
+<br/>
+1\. Go to the <TextBG text="Browser Web Store" />.
+<br/>
+2\. Click <TextBG text="Add" />, then click Add Extension.
+<br/>
+3\. Your extension will be installed.
+<br/>
+<br/>
+
+<div className="flex gap-4">
+  <a className="flex flex-col justify-center items-center w-fit border border-neutral-200/20 hover:border-neutral-200/40 hover:text-neutral-300 px-2 py-1 rounded"
+     href="https://chromewebstore.google.com/detail/inssman-open-source-modif/ghlpdbkhlenlfiglgphledhfhchjfjfk">
+    <Image width="50" height="50" alt="google chrome" src="/assets/images/chrome.png" />
+    Install For Google Chrome
+  </a>
+  <a className="flex flex-col justify-center items-center w-fit border border-neutral-200/20 hover:border-neutral-200/40 hover:text-neutral-300 px-2 py-1 rounded"
+     href="https://microsoftedge.microsoft.com/addons/detail/obibnmkbiilpbkhpkoagnkkjlghlndpf">
+    <Image width="50" height="50" alt="microsoft edge" src="/assets/images/edge.png" />
+    Install For Microsoft Edge
+  </a>
+</div>
+
+<br/>
+<br/>
+Firefox and Safari extensions will be available soon.
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/quick-start"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Quick Start
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/redirect"
+  >
+    Redirect Request
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}

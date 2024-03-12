@@ -1,0 +1,21 @@
+<ul className="ml-4 flex flex-col gap-2">
+  <li className={`transition duration-200 ${props.pathname === '/docs/introduction' ? "text-sky-500" : "hover:text-sky-500" }`}>[Introduction](/docs/introduction)</li>
+  <li className={`transition duration-200 ${props.pathname === '/docs/quick-start' ? "text-sky-500" : "hover:text-sky-500" }`}>[Quick Start](/docs/quick-start)</li>
+  <li className={`transition duration-200 ${props.pathname === '/docs/install' ? "text-sky-500" : "hover:text-sky-500" }`}>[Install](/docs/install)</li>
+  <li>
+    <details open>
+      <summary className="hover:cursor-pointer">HTTP Rules</summary>
+      <div className="space-y-3 ml-4">
+        <div className="mt-2"><span className={`transition duration-200 ${props.pathname === '/docs/redirect' ? "text-sky-500" : "hover:text-sky-500" }`}>[Redirect](/docs/redirect)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/block' ? "text-sky-500" : "hover:text-sky-500" }`}>[Block](/docs/block)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/query-param' ? "text-sky-500" : "hover:text-sky-500" }`}>[Query Params](/docs/query-param)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/modify-header' ? "text-sky-500" : "hover:text-sky-500" }`}>[Modify Header](/docs/modify-header)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/modify-response' ? "text-sky-500" : "hover:text-sky-500" }`}>[Modify Response](/docs/modify-response)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/inject-file' ? "text-sky-500" : "hover:text-sky-500" }`}>[Inject File](/docs/inject-file)</span></div>
+        <div><span className={`transition duration-200 ${props.pathname === '/docs/modify-request-body' ? "text-sky-500" : "hover:text-sky-500" }`}>[Modify Request Body](/docs/modify-request-body)</span></div>
+      </div>
+    </details>
+  </li>
+  <li className={`transition duration-200 ${props.pathname === '/docs/http-logger' ? "text-sky-500" : "hover:text-sky-500" }`}>[HTTP Logger](/docs/http-logger)</li>
+  <li className={`transition duration-200 ${props.pathname === '/docs/source-condition' ? "text-sky-500" : "hover:text-sky-500" }`}>[Source Condition](/docs/source-condition)</li>
+</ul>

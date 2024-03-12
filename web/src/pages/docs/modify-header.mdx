@@ -1,0 +1,83 @@
+import MdxLayout from '../../components/layouts/mdxLayout';
+import SourceCondition from '../../components/docs/sourceCondition.mdx';
+import Destination from '../../components/docs/destination.mdx';
+import TextBG from '../../components/docs/textBG.mdx';
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Modify Headers</h1>
+
+<br/>
+
+HTTP Headers consist of key-value pairs that provide extra information in an HTTP request or response.
+Developers often aim to easily adjust these headers for the traffic handled by their browsers.
+
+<br/>
+
+<img className="w-full rounded" alt="Modify header" src="/assets/images/rules-image/modify-header.png" />
+
+<br/>
+
+<SourceCondition />
+
+<br/>
+
+<span className="text-neutral-200">**Operator Type:**</span>
+This is the section where need to select modification type. You can choose to  <TextBG text="Add"/>, <TextBG text="Remove"/> or <TextBG text="Append"/>.
+
+<br/>
+
+<span className="text-neutral-200">**Request/Response Modification:**</span>
+Here need to select <TextBG text="Request"/> or <TextBG text="Response"/> to modify headers.
+
+<br/>
+
+<span className="text-neutral-200">**Request/Response Key:**</span>
+This field for header key of <TextBG text="Request"/> or <TextBG text="Response"/>.
+
+
+<br/>
+
+<span className="text-neutral-200">**Request/Response Value:**</span>
+This field for header value of <TextBG text="Request"/> or <TextBG text="Response"/>.
+
+<br/>
+
+It is possible to add a HTTP Header multiple times. The rule will work if one of them matches the source URL.
+In each HTTP Header, there is an option to enable or disable it.
+
+<br/>
+<br/>
+
+<h2 className="text-2xl border-b border-neutral-200/20 pb-2 text-neutral-300">Examples</h2>
+
+<br/>
+
+<ins className="text-sky-500 hover:text-sky-400">[Remove Content-Security-Policy Header](/app/template/modify-header/41)</ins>
+<br />
+<ins className="text-sky-500 hover:text-sky-400">[Bypass CORS](/app/template/modify-header/42)</ins>
+
+<br/>
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/query-param"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Query Param
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/modify-response"
+  >
+    Modify Response
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}

@@ -1,0 +1,63 @@
+import MdxLayout from '../../components/layouts/mdxLayout';
+import SourceCondition from '../../components/docs/sourceCondition.mdx';
+import Destination from '../../components/docs/destination.mdx';
+import TextBG from '../../components/docs/textBG.mdx';
+
+<h1 className="text-4xl border-b border-neutral-200/20 pb-2 text-neutral-300">Modify Response</h1>
+
+<br/>
+
+The Modify Response allows you to return static or dynamic data.
+
+<br/>
+
+<img className="w-full rounded" alt="Modify response" src="/assets/images/rules-image/modify-response.png" />
+
+<br/>
+
+<SourceCondition />
+
+<br/>
+
+<span className="text-neutral-200">**Static Data:**</span>
+Static Data allows to return defined data in the editor
+
+<br />
+
+<span className="text-neutral-200">**Response Type:**</span>
+Here need to select Response Type like <TextBG text="JSON" />, <TextBG text="CSS" /> or <TextBG text="JAVASCRIPT" />.
+
+<br/>
+
+<span className="text-neutral-200">**Dynamic Data:**</span>
+Dynamic Data allows to return the data which should be result of defined function <TextBG text="modifyResponse" /> in the editor.
+This function takes the original response as an argument and can be modified based on the use case.
+
+
+
+<br/>
+
+<div className="flex justify-between mt-20 mb-10">
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/modify-header"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+    </svg>
+    Modify Header
+  </a>
+  <a
+    className="flex items-center w-fit h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
+    href="/docs/inject-file"
+  >
+    Inject File
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+    </svg>
+  </a>
+</div>
+
+export default function MDXPage({ children }) {
+  return <MdxLayout>{children}</MdxLayout>;
+}
