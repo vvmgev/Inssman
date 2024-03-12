@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -14,6 +15,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
+      {/* @ts-ignore */}
+      <GoogleAnalytics gtmId="G-9EJZ6QBWPD" />
     </html>
   );
 }
