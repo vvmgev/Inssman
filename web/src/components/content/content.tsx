@@ -24,7 +24,7 @@ const Content = () => {
           <div className="flex gap-5 text-sm">
             <Link
               className="relative flex items-center justify-center h-10 p-4 text-center no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
-              href="/docs"
+              href="/docs/introduction"
               target="_blank"
             >
               Get Started
