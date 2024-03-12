@@ -13,7 +13,7 @@ Inssman is a lightweight browser extension designed to faster intercept HTTP(s) 
 <br />
 
 
-## &nbsp; About Inssman 🚀
+## About Inssman 🚀
 
 Inssman is an Open-Source project that makes developers' daily tasks faster and easier.
 <br />
@@ -24,7 +24,7 @@ Inssman provides features like redirecting requests to another source, overridin
 
 <br />
 
-## &nbsp; Features ⭐
+## Features ⭐
 
 
 - **Redirect Request 🔀** \
@@ -55,14 +55,14 @@ Inssman provides features like redirecting requests to another source, overridin
 
 <br />
 
-## &nbsp;  Documentation 📕
+## Documentation 📕
 
 For more information and examples please visit <a href="https://inssman.com/docs/introduction">**Documentation**</a> page.
 
 <br />
 
 
-## &nbsp; Contributing 🙏
+## Contributing 🙏
 
 Inssman welcomes contributions in the form of pull requests, whether it's for fixing bugs, improvement or introducing new features. Your valuable contributions help improve the project and make it better for everyone.
 
