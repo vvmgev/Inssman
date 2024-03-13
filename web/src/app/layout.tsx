@@ -15,8 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      {/* @ts-ignore */}
-      <GoogleAnalytics gtmId="G-9EJZ6QBWPD" />
+      <GoogleAnalytics gaId="G-9EJZ6QBWPD" />
     </html>
   );
 }

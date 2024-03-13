@@ -33,8 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           <Footer />
         </div>
-        {/* @ts-ignore */}
-        <GoogleAnalytics gtmId="G-9EJZ6QBWPD" />
+        <GoogleAnalytics gaId="G-9EJZ6QBWPD" />
       </div>
     </div>
   );
