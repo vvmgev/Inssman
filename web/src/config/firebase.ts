@@ -2,7 +2,7 @@ import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
 import { getDocs, initializeFirestore, deleteDoc } from "firebase/firestore";
 import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
-import { getDatabase, ref, push } from "firebase/database";
+import { getDatabase, ref, push, get } from "firebase/database";
 import { getFirestore, collection, addDoc, doc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -25,6 +25,21 @@ export const trackingRef = ref(db, "tracking");
 export const firestoreApp = initializeFirestore(app, { experimentalForceLongPolling: true });
 export const firestoreDB = getFirestore();
 const recordedSessionsCollectionRef = collection(firestoreDB, "recordedSessions");
+
+// get(ruleMetaDataRef)
+//   .then((snapshot) => {
+//     if (snapshot.exists()) {
+//       // Data exists in the snapshot
+//       const data = snapshot.val();
+//       console.log(data);
+//     } else {
+//       // Data doesn't exist
+//       console.log("No data available");
+//     }
+//   })
+//   .catch((error) => {
+//     console.error("Error getting data:", error);
+//   });
 
 export const compressEvents = (events: any): string => {
   return strFromU8(zlibSync(strToU8(JSON.stringify(events))), true);

@@ -145,7 +145,7 @@ const ModifyHeaderForm = () => {
                       disabled={disabled}
                       options={HTTPHeaders[controlledFields[index].type].map((item) => ({
                         value: item,
-                        lable: item,
+                        label: item,
                       }))}
                       placeholder="Key"
                       mode="combobox"

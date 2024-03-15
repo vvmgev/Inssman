@@ -1,5 +1,5 @@
 import RCSelect, { Option, SelectProps } from "rc-select";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import "rc-select/assets/index.css";
 import "./select.css";
 
@@ -25,6 +25,8 @@ const Select = forwardRef(
     }: SelectProps & Props,
     ref: any
   ) => {
+    const [searhValue, setSearchValue] = useState<string>("");
+    const onSearch = (value: string) => setSearchValue(value.toLowerCase());
     const changeHandler = (value) => {
       // @ts-ignore
       onChange({
@@ -57,18 +59,21 @@ const Select = forwardRef(
           maxTagCount={3}
           onChange={changeHandler}
           removeIcon={<span className="ml-2 cursor-pointer bold">X</span>}
+          onSearch={showSearch ? onSearch : undefined}
           ref={ref}
         >
           {options?.map((item, id) => {
-            return (
-              <Option
-                className="pl-1 text-xs capitalize cursor-pointer bg-slate-700/70 hover:bg-sky-500"
-                key={id}
-                value={item.value}
-              >
-                {item.label}
-              </Option>
-            );
+            if ((item.label as string).toLowerCase().includes(searhValue)) {
+              return (
+                <Option
+                  className="pl-1 text-xs capitalize cursor-pointer bg-slate-700/70 hover:bg-sky-500"
+                  key={id}
+                  value={item.value}
+                >
+                  {item.label}
+                </Option>
+              );
+            }
           })}
         </RCSelect>
         <div className="absolute text-xs text-red-500 left-1 b-0">{error}</div>
