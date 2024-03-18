@@ -48,7 +48,7 @@ class RuleService extends BaseService {
   }
 
   onUpdatedTab = (tabId, changeInfo, tab): void => {
-    this.getMatchedRules(tab);
+    this.onMatchRule(tab);
   };
 
   onMessage = async (request, sender, sendResponse) => {
@@ -185,7 +185,7 @@ class RuleService extends BaseService {
     }
   };
 
-  getMatchedRules = async (tab) => {
+  onMatchRule = async (tab) => {
     if (tab.status === "complete") {
       const enabledRules: IRuleMetaData[] = await StorageService.getFilteredRules([[{ key: "enabled", value: true }]]);
       const isUrlsMatch = enabledRules.some(({ conditions }) =>
