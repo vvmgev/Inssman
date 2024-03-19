@@ -18,7 +18,7 @@ const Header: FC<Props> = ({ navbar }) => {
           <nav className="flex items-center space-x-6 text-sm font-medium xl:flex">
             <Link
               className="hidden transition-colors hover:text-foreground/80 text-foreground/60 sm:block"
-              href="/docs/introduction"
+              href="/docs"
             >
               Documentation
             </Link>
