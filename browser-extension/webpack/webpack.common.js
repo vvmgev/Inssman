@@ -1,11 +1,13 @@
+const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CreateFileWebpack = require("create-file-webpack");
+const Dotenv = require("dotenv-webpack");
 const { EnvironmentPlugin } = require("webpack");
-const manifest = require("../src/manifest.json");
 const { version } = require("../package.json");
+const manifest = require("../src/manifest.json");
 
 const outputPath = path.join(__dirname, "../", `dist/${process.env.BROWSER}`);
 
@@ -47,6 +49,7 @@ module.exports = {
       "@models": path.resolve(__dirname, "../src/models"),
       "@utils": path.resolve(__dirname, "../src/utils"),
     },
+    fallback: { "process/browser": require.resolve("process/browser") },
   },
   stats: {
     errorDetails: true,
@@ -108,8 +111,14 @@ module.exports = {
         content: JSON.stringify(manifest),
       });
     })(),
+    new Dotenv({
+      path: path.resolve(__dirname, "../../.env"),
+    }),
     new EnvironmentPlugin({
       BROWSER: process.env.BROWSER,
+    }),
+    new webpack.ProvidePlugin({
+      process: "process/browser",
     }),
   ],
 };
