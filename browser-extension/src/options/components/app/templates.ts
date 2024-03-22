@@ -1,4 +1,5 @@
-import { PageType } from "@models/formFieldModel";
+import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
+import { EditorLanguage, PageType } from "@models/formFieldModel";
 
 export const templates = {
   [PageType.REDIRECT]: [
@@ -179,6 +180,40 @@ export const templates = {
       ],
       name: "Bypass CORS",
       pageType: "modify-header",
+    },
+  ],
+  [PageType.MODIFY_RESPONSE]: [
+    {
+      id: 51,
+      conditions: [
+        {
+          source: "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+          enabled: true,
+        },
+      ],
+      responseMode: ResponseMode.DYNAMIC,
+      editorLang: EditorLanguage.JAVASCRIPT,
+      editorValue: `function modifyResponse(args) {
+  const { response } = args;
+  // support only Fetch API
+
+  try {
+    const replace = (string) => {
+      // replace all urls
+     return string.replace(/"url"\s*:\s*"[^"]*"/g, '"url": "https://placehold.co/600x400"');
+    }
+
+    return JSON.parse(replace(JSON.stringify(response)));
+  } catch (error) {
+    console.error(error);
+    return response;
+  }
+}`,
+      name: "Modify Response",
+      pageType: "modify-response",
     },
   ],
 };

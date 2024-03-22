@@ -147,9 +147,9 @@ const FormHOC = (FormComponent) => {
                     url: `https://inssman.com/docs/${pageType}`,
                   })
                 }
-                trackName="View Example"
+                trackName="Watch Vidoe"
               >
-                View Example
+                Watch Vidoe
               </Button>
             </div>
             {mode === FormMode.UPDATE && (
