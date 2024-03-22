@@ -30,6 +30,7 @@ const FormHOC = (FormComponent) => {
     const params = useParams();
     const methods = useForm({ mode: "onChange" });
     const [error, setError] = useState();
+    const [loading, setLoading] = useState<boolean>(false);
     const isTemplate = location.pathname.includes("template");
     const id = params.id ? Number(params.id) : null;
     const mode = id && !isTemplate ? FormMode.UPDATE : FormMode.CREATE;
@@ -57,6 +58,8 @@ const FormHOC = (FormComponent) => {
     }, [isSubmitSuccessful, reset]);
 
     const onSubmitHandler = (fields) => {
+      if (loading) return;
+      setLoading(true);
       fields.pageType = fields.pageType ? fields.pageType : pageType;
 
       const ruleMetaData = {
@@ -74,6 +77,8 @@ const FormHOC = (FormComponent) => {
           data: { ruleMetaData },
         },
         (ruleMetaData) => {
+          // set loading false
+          setLoading(false);
           if (ruleMetaData.error) {
             setError(ruleMetaData.info.message);
             return;
@@ -88,6 +93,14 @@ const FormHOC = (FormComponent) => {
       );
     };
 
+    // compress ctrl+s or command+s, save content
+    const handleKeyDown = (event) => {
+      if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
+
+        onSubmitHandler(getValues());
+      }
+    };
     const getRuleMetaData = () => {
       chrome.runtime.sendMessage(
         {
@@ -125,6 +138,10 @@ const FormHOC = (FormComponent) => {
         const template = templates[pageType].find((template) => template.id === id);
         setFormValues(template);
       }
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
     }, [location.state]);
 
     return (
