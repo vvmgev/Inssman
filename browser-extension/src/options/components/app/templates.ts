@@ -1,5 +1,5 @@
 import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
-import { EditorLanguage, PageType } from "@models/formFieldModel";
+import { EditorLanguage, InjectFileOperator, InjectFileSource, InjectFileType, PageType } from "@models/formFieldModel";
 
 export const templates = {
   [PageType.REDIRECT]: [
@@ -214,6 +214,30 @@ export const templates = {
 }`,
       name: "Modify Response",
       pageType: "modify-response",
+    },
+  ],
+  [PageType.INJECT_FILE]: [
+    {
+      id: 61,
+      conditions: [
+        {
+          source: "inssman.com",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+          enabled: true,
+        },
+      ],
+      editorLang: InjectFileType.JAVASCRIPT,
+      fileSourceType: InjectFileSource.CODE,
+      tagSelectorOperator: InjectFileOperator.AFTERBEGIN,
+      tagSelector: "document.body",
+      fileSource: "",
+      editorValue: `document.addEventListener('DOMContentLoaded', () => {
+  document.body.addEventListener('click', () => alert('body click'))
+})`,
+      name: "Inject File",
+      pageType: "inject-file",
     },
   ],
 };
