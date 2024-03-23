@@ -97,8 +97,7 @@ const FormHOC = (FormComponent) => {
     const handleKeyDown = (event) => {
       if (event.key === "s" && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
-
-        onSubmitHandler(getValues());
+        handleSubmit(onSubmitHandler)();
       }
     };
     const getRuleMetaData = () => {
@@ -131,6 +130,10 @@ const FormHOC = (FormComponent) => {
       if (mode === FormMode.UPDATE && !isTemplate) {
         getRuleMetaData();
       }
+      document.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.removeEventListener("keydown", handleKeyDown);
+      };
     }, []);
 
     useEffect(() => {
@@ -138,10 +141,6 @@ const FormHOC = (FormComponent) => {
         const template = templates[pageType].find((template) => template.id === id);
         setFormValues(template);
       }
-      document.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.removeEventListener("keydown", handleKeyDown);
-      };
     }, [location.state]);
 
     return (

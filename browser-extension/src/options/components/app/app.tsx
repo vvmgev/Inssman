@@ -2,7 +2,7 @@ import FeatureToggleProvider from "@context/featureToggleContext";
 import Background from "@options/components/common/background/background";
 import Header from "../header/header";
 import Footer from "../footer/footer";
-import Sidebar from "../sideBar/sidebar";
+import Sidebar from "../sidebar/sidebar";
 import RuleRoutes from "./routes";
 import BrowserSupport from "./browserSupport";
 import Section from "../common/section/section";
