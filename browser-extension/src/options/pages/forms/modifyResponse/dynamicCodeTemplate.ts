@@ -1,5 +1,6 @@
 const dynamicCodeTemplate = `function modifyResponse(args) {
   const { response } = args;
+  // support only Fetch API
 
   try {
     // custom code here
