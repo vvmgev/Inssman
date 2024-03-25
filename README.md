@@ -12,10 +12,6 @@ Inssman is a lightweight browser extension designed to faster intercept HTTP(s) 
 
 <br />
 
-<img src="https://github.com/vvmgev/Inssman/blob/master/assets/images/store/Intercept%20&%20Modify%20HTTP%20Request.png?raw=true" >
-
-<br />
-
 
 ## About Inssman 🚀
 
