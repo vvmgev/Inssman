@@ -34,7 +34,7 @@ export const LIST_HEADERS: ListHeader[] = [
 
 const onEditClick = async (item) => {
   const url: string = chrome.runtime.getURL(`options/options.html#/edit/${item.pageType}/${item.id}`);
-  await TabService.focusOrCreateTab(url);
+  await TabService.createTab(url);
 };
 
 export const LIST_ITEMS: ListItems[] = [
