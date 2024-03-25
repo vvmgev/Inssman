@@ -122,41 +122,6 @@ import { validateJSON } from "@/utils/validateJSON";
       XMLHttpRequest[key] = val;
     });
 
-    function onXhrLoadend() {
-      if (!this || this.readyState !== 4) {
-        return;
-      }
-
-      if (this.status === 0 && !(this.responseURL && this.responseURL.indexOf("file:") === 0)) {
-        return;
-      }
-      let responseData = this._reqHeaders?.["Content-Type"]?.includes("application/json")
-        ? this.responseText
-        : this.response;
-
-      const args = {
-        response: validateJSON(responseData) ? JSON.parse(responseData) : responseData,
-      };
-      const returnedData = new ExecuteCode("args", `return (${this.matchedRule.editorValue})(args);`)(args);
-
-      // resolve can not set response or responseText
-      Object.defineProperties(this, {
-        response: {
-          enumerable: true,
-          configurable: true,
-          writable: true,
-        },
-        responseText: {
-          enumerable: true,
-          configurable: true,
-          writable: true,
-        },
-      });
-
-      this.response = JSON.stringify(returnedData);
-      this.responseText = JSON.stringify(returnedData);
-    }
-
     const open = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (method, url) {
       this.method = method;
@@ -170,27 +135,6 @@ import { validateJSON } from "@/utils/validateJSON";
       const requestBody = matchedRule?.pageType === PageType.MODIFY_REQUEST_BODY ? matchedRule.editorValue : data;
       this.requestData = requestBody;
       send.call(this, requestBody);
-
-      if (matchedRule?.pageType === PageType.MODIFY_RESPONSE) {
-        this.matchedRule = matchedRule;
-
-        setTimeout(() => {
-          if ("onloadend" in this) {
-            // Use onloadend if available
-            const _onloadend = this.onloadend;
-            this.onloadend = () => {
-              onXhrLoadend.apply(this, arguments);
-              _onloadend.apply(this, arguments);
-            };
-          } else {
-            const _onreadystatechange = this.onreadystatechange;
-            this.onreadystatechange = () => {
-              onXhrLoadend.apply(this, arguments);
-              _onreadystatechange.apply(this, arguments);
-            };
-          }
-        });
-      }
     };
 
     const setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
