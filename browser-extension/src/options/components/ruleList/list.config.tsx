@@ -61,10 +61,10 @@ export const LIST_ITEMS: ListItems[] = [
     field: "pageType",
     render: function (item) {
       return (
-        <>
+        <div className="flex gap-1">
           <span className="w-[18px]">{IconsMap[item[this.field]]}</span>
           <div>{PageName[item[this.field]]}</div>
-        </>
+        </div>
       );
     },
   },
