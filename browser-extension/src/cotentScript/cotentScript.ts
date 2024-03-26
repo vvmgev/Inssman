@@ -175,18 +175,18 @@ import { validateJSON } from "@/utils/validateJSON";
         this.matchedRule = matchedRule;
 
         setTimeout(() => {
-          if ("onloadend" in this) {
+          if (this.onloadend) {
             // Use onloadend if available
             const _onloadend = this.onloadend;
             this.onloadend = () => {
               onXhrLoadend.apply(this, arguments);
-              _onloadend.apply(this, arguments);
+              _onloadend?.apply(this, arguments);
             };
           } else {
             const _onreadystatechange = this.onreadystatechange;
             this.onreadystatechange = () => {
               onXhrLoadend.apply(this, arguments);
-              _onreadystatechange.apply(this, arguments);
+              _onreadystatechange?.apply(this, arguments);
             };
           }
         });
