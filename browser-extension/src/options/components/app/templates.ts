@@ -211,7 +211,39 @@ export const templates = {
     return response;
   }
 }`,
-      name: "Modify Response",
+      name: "Modify Response Youtube.com",
+      pageType: "modify-response",
+    },
+    {
+      id: 52,
+      conditions: [
+        {
+          source: "https://completion.amazon.com/api/2017/suggestions",
+          matchType: "contain",
+          resourceTypes: [],
+          requestMethods: [],
+          enabled: true,
+        },
+      ],
+      responseMode: ResponseMode.DYNAMIC,
+      editorLang: EditorLanguage.JAVASCRIPT,
+      editorValue: `function modifyResponse(args) {
+  const { response } = args;
+  // support only Fetch API
+
+  try {
+    // custom code here
+      response.suggestions = response.suggestions.map(suggestion => ({
+          ...suggestion,
+          value: suggestion.value += ' - modified by Inssman'
+      }))
+      return response;
+  } catch (error) {
+    console.error(error);
+    return response;
+  }
+}`,
+      name: "Modify Response Amazon.com",
       pageType: "modify-response",
     },
   ],
