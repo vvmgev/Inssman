@@ -1,6 +1,8 @@
 import { ListHeader, ListItems } from "@/options/components/common/list/list";
 import Switcher from "@options/components/common/switcher/switcher";
 import { IconsMap, PageName } from "@models/formFieldModel";
+import Button from "@options/components/common/button/button";
+import TabService from "@services/TabService";
 
 export const LIST_HEADERS: ListHeader[] = [
   {
@@ -30,11 +32,20 @@ export const LIST_HEADERS: ListHeader[] = [
   },
 ];
 
+const onEditClick = async (item) => {
+  const url: string = chrome.runtime.getURL(`options/options.html#/edit/${item.pageType}/${item.id}`);
+  await TabService.createTab(url);
+};
+
 export const LIST_ITEMS: ListItems[] = [
   {
     field: "name",
     render: function (item, handlers) {
-      return handlers?.cutString(item[this.field]);
+      return (
+        <Button className="text-left" variant="link" onClick={() => onEditClick(item)}>
+          {handlers?.cutString(item[this.field])}
+        </Button>
+      );
     },
   },
   {
