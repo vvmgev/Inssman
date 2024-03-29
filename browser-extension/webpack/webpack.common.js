@@ -105,6 +105,12 @@ module.exports = {
     }),
     (() => {
       manifest.version = version;
+      if (process.env.BROWSER === "firefox") {
+        manifest.background = {
+          scripts: [manifest.background.service_worker],
+          type: manifest.background.type,
+        };
+      }
       return new CreateFileWebpack({
         path: outputPath,
         fileName: "manifest.json",
