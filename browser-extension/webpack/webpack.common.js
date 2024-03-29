@@ -21,6 +21,7 @@ module.exports = {
     startRecording: path.resolve(__dirname, "../src/startRecording", "startRecording.ts"),
     options: path.resolve(__dirname, "../src/options", "options.tsx"),
     popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
+    types: path.resolve(__dirname, "../src/types", "browserTypeCompatibility.ts"),
     iframeContentScript: path.resolve(__dirname, "../src/iframeContentScript", "iframeContentScript.ts"),
     HTTPLoggerWindow: path.resolve(__dirname, "../src/HTTPLoggerWindow", "HTTPLoggerWindow.tsx"),
     "editor.worker": path.resolve(__dirname, "../node_modules/monaco-editor/esm/vs/editor/editor.worker.js"),

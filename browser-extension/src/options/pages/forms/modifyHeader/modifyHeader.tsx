@@ -11,6 +11,7 @@ import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 
 import HeaderOperation = chrome.declarativeNetRequest.HeaderOperation;
 
+console.log("modify");
 const modifyHeaderActionOptions = Object.entries(HeaderOperation).reduce((previous: any, [value, label]: any) => {
   previous.push({ value: value.toLowerCase(), label });
   return previous;

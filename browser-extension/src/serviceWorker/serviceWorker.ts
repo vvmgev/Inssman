@@ -1,3 +1,4 @@
+import "../types/browserTypeCompatibility";
 import StorageService from "@services/StorageService";
 import BSService from "@services/BrowserSupportService";
 import InjectCodeService from "@services/InjectCodeService";
@@ -36,6 +37,7 @@ class ServiceWorker extends BaseService {
       try {
         sendResponse(await handler(request.data, sender));
       } catch (error: any) {
+        console.log("error", error);
         const { version } = chrome.runtime.getManifest();
         sendResponse({
           error: true,
