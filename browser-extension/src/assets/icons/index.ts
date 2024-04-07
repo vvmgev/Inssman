@@ -37,7 +37,8 @@ export type IconName =
   | "wrench"
   | "xCircle"
   | "photo"
-  | "floppy";
+  | "floppy"
+  | "rocket";
 
 export { default as adjustmentVertical } from "./adjustmentVertical.svg";
 export { default as arrowDownLong } from "./arrowDownLong.svg";
@@ -78,3 +79,4 @@ export { default as wrench } from "./wrench.svg";
 export { default as xCircle } from "./xCircle.svg";
 export { default as photo } from "./photo.svg";
 export { default as floppy } from "./floppy.svg";
+export { default as rocket } from "./rocket.svg";

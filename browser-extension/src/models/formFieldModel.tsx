@@ -1,4 +1,4 @@
-import PencilSVG from "@assets/icons/pencil.svg";
+import PencilSquareSVG from "@assets/icons/pencilSquare.svg";
 import BlockSVG from "@assets/icons/block.svg";
 import RedirectSVG from "@assets/icons/redirect.svg";
 import QuestionSVG from "@assets/icons/question.svg";
@@ -91,7 +91,7 @@ export const IconsMap = {
   [PageType.REDIRECT]: <RedirectSVG />,
   [PageType.QUERY_PARAM]: <QuestionSVG />,
   [PageType.MODIFY_HEADER]: <CodeSVG />,
-  [PageType.MODIFY_RESPONSE]: <PencilSVG />,
+  [PageType.MODIFY_RESPONSE]: <PencilSquareSVG />,
   [PageType.MODIFY_REQUEST_BODY]: <PaperClipSVG />,
   [PageType.INJECT_FILE]: <WrenchSVG />,
 } as const;
