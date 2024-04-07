@@ -4,6 +4,7 @@ import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { NAMESPACE } from "@options/constant";
 import { validateJSON } from "@/utils/validateJSON";
+import { jsonParesString } from "@/utils/jsonParesString";
 
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
@@ -122,40 +123,47 @@ import { validateJSON } from "@/utils/validateJSON";
       XMLHttpRequest[key] = val;
     });
 
-    function onXhrLoadend() {
-      if (!this || this.readyState !== 4) {
-        return;
+    const onReadystatechange = async function () {
+      if (this.readyState === this.DONE) {
+        const responseData = this.response;
+
+        const args = {
+          response: jsonParesString(responseData),
+        };
+
+        // Execute custom function
+        let returnedData = await new ExecuteCode("args", `return (${this.matchedRule.editorValue})(args);`)(args);
+
+        const requestHeaders = this.requestHeaders || {};
+        const isJson =
+          requestHeaders["Content-Type"]?.includes("json") ||
+          requestHeaders["Accept"]?.includes("json") ||
+          this.responseType === "json";
+
+        // Convert response back to string, Blob isn't necessary
+        if (isJson && !(returnedData instanceof Blob)) {
+          try {
+            returnedData = JSON.stringify(returnedData);
+          } catch (error) {}
+        }
+
+        // Modify response
+        Object.defineProperty(this, "response", {
+          get: function () {
+            return returnedData;
+          },
+        });
+
+        // Modify responseText
+        if (this.responseType === "" || this.responseType === "text") {
+          Object.defineProperty(this, "responseText", {
+            get: function () {
+              return returnedData;
+            },
+          });
+        }
       }
-
-      if (this.status === 0 && !(this.responseURL && this.responseURL.indexOf("file:") === 0)) {
-        return;
-      }
-      let responseData = this._reqHeaders?.["Content-Type"]?.includes("application/json")
-        ? this.responseText
-        : this.response;
-
-      const args = {
-        response: validateJSON(responseData) ? JSON.parse(responseData) : responseData,
-      };
-      const returnedData = new ExecuteCode("args", `return (${this.matchedRule.editorValue})(args);`)(args);
-
-      // resolve can not set response or responseText
-      Object.defineProperties(this, {
-        response: {
-          enumerable: true,
-          configurable: true,
-          writable: true,
-        },
-        responseText: {
-          enumerable: true,
-          configurable: true,
-          writable: true,
-        },
-      });
-
-      this.response = JSON.stringify(returnedData);
-      this.responseText = JSON.stringify(returnedData);
-    }
+    };
 
     const open = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (method, url) {
@@ -167,29 +175,17 @@ import { validateJSON } from "@/utils/validateJSON";
     const send = XMLHttpRequest.prototype.send;
     XMLHttpRequest.prototype.send = function (data) {
       const matchedRule = getMatchedRuleByUrl(this.requestURL);
+      // Modify request body
       const requestBody = matchedRule?.pageType === PageType.MODIFY_REQUEST_BODY ? matchedRule.editorValue : data;
       this.requestData = requestBody;
       send.call(this, requestBody);
 
+      // If matchedRule is found and pageType is MODIFY_RESPONSE then attach the event listener
       if (matchedRule?.pageType === PageType.MODIFY_RESPONSE) {
         this.matchedRule = matchedRule;
 
-        setTimeout(() => {
-          if (this.onloadend) {
-            // Use onloadend if available
-            const _onloadend = this.onloadend;
-            this.onloadend = () => {
-              onXhrLoadend.apply(this, arguments);
-              _onloadend?.apply(this, arguments);
-            };
-          } else {
-            const _onreadystatechange = this.onreadystatechange;
-            this.onreadystatechange = () => {
-              onXhrLoadend.apply(this, arguments);
-              _onreadystatechange?.apply(this, arguments);
-            };
-          }
-        });
+        // Add readystatechange
+        this.addEventListener("readystatechange", onReadystatechange, false);
       }
     };
 
