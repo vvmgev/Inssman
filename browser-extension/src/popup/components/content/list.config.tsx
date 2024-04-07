@@ -25,7 +25,7 @@ export const LIST_HEADERS: ListHeader[] = [
   },
   {
     title: "Status",
-    classes: "flex justify-end",
+    classes: "flex justify-end flex-none",
     render: function () {
       return this.title;
     },
@@ -42,8 +42,8 @@ export const LIST_ITEMS: ListItems[] = [
     field: "name",
     render: function (item, handlers) {
       return (
-        <Button className="text-left" variant="link" onClick={() => onEditClick(item)}>
-          {handlers?.cutString(item[this.field])}
+        <Button className="text-left" size="medium" variant="link" onClick={() => onEditClick(item)}>
+          {handlers?.cutString(item[this.field], 15)}
         </Button>
       );
     },
@@ -62,7 +62,7 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
+      const firstSource = handlers?.cutString(item.conditions[0][this.field], 20);
       if (item.conditions.length > 1) {
         return `${firstSource} + ${item.conditions.length - 1}`;
       }
@@ -71,7 +71,7 @@ export const LIST_ITEMS: ListItems[] = [
   },
   {
     field: "enabled",
-    classes: "justify-end",
+    classes: "justify-end flex-none",
     render: function (item, handlers) {
       return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
