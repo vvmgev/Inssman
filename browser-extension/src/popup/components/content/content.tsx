@@ -52,6 +52,9 @@ const Content = () => {
               title: "Seems You Have Not Created a Rule Yet",
               description: 'Please Select One Of Rule In The "Create Rule" Tab',
             }}
+            rowStyle={{
+              gridTemplateColumns: "26% 26% 33% 15%",
+            }}
           />
         </div>
       )}

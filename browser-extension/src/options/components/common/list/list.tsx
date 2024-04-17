@@ -20,6 +20,7 @@ type Props = {
   items: ListItems[];
   listClasses?: string;
   rowClasses?: string;
+  rowStyle?: React.CSSProperties;
   headerClasses?: string;
   activeRow?: Item<any> | null;
   data: Item<any>[];
@@ -39,6 +40,7 @@ const List: FC<Props> = ({
   options,
   listClasses = "",
   rowClasses = "",
+  rowStyle = {},
   headerClasses = "",
   activeRow,
   texts = {
@@ -48,10 +50,13 @@ const List: FC<Props> = ({
 }) => {
   return (
     <>
-      <div className="flex items-center justify-between w-full px-6 py-3 border-b border-slate-700 bg-slate-700 bg-opacity-40">
+      <div
+        className={`grid grid-cols-${headers.length} w-full px-6 py-3 border-b border-slate-700 bg-slate-700 bg-opacity-40`}
+        style={rowStyle}
+      >
         {headers.map((item) => {
           return (
-            <div key={item.title} className={twMerge(`flex-1 ${item.classes || ""}`, headerClasses)}>
+            <div key={item.title} className={twMerge(`w-full ${item.classes || ""}`, headerClasses)}>
               {item.render()}
             </div>
           );
@@ -64,14 +69,15 @@ const List: FC<Props> = ({
               onClick={() => onRowClick(row)}
               key={row.id}
               className={twMerge(
-                "py-5 max-h-[90%] flex justify-between items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40",
+                `py-5 max-h-[90%] grid grid-cols-${items.length} items-center px-6 border-b border-slate-700 w-full hover:bg-slate-800 hover:bg-opacity-40`,
                 rowClasses,
                 activeRow?.id === row.id ? "text-sky-500" : ""
               )}
+              style={rowStyle}
             >
               {items.map((item) => {
                 return (
-                  <div key={item.field} className={`flex flex-1 ${item.classes || ""}`}>
+                  <div key={item.field} className={`flex w-full ${item.classes || ""}`}>
                     {item.render(row, options)}
                   </div>
                 );

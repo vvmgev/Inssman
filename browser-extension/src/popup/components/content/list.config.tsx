@@ -1,8 +1,8 @@
 import { ListHeader, ListItems } from "@/options/components/common/list/list";
 import Switcher from "@options/components/common/switcher/switcher";
 import { IconsMap, PageName } from "@models/formFieldModel";
-import Button from "@options/components/common/button/button";
 import TabService from "@services/TabService";
+import Tooltip from "@options/components/common/tooltip/tooltip";
 
 export const LIST_HEADERS: ListHeader[] = [
   {
@@ -40,11 +40,14 @@ const onEditClick = async (item) => {
 export const LIST_ITEMS: ListItems[] = [
   {
     field: "name",
-    render: function (item, handlers) {
+    render: function (item) {
       return (
-        <Button className="text-left" variant="link" onClick={() => onEditClick(item)}>
-          {handlers?.cutString(item[this.field])}
-        </Button>
+        <span
+          className="cursor-pointer hover:underline hover:underline-offset-2 hover:text-sky-500 text-left w-full truncate mr-1"
+          onClick={() => onEditClick(item)}
+        >
+          {item[this.field]}
+        </span>
       );
     },
   },
@@ -62,16 +65,20 @@ export const LIST_ITEMS: ListItems[] = [
   {
     field: "source",
     render: function (item, handlers) {
-      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
-      if (item.conditions.length > 1) {
-        return `${firstSource} + ${item.conditions.length - 1}`;
-      }
-      return firstSource;
+      const firstSource = item.conditions[0][this.field];
+      const extraConditionsCount = item.conditions.length - 1;
+      const content = extraConditionsCount ? `${firstSource} + ${extraConditionsCount}` : firstSource;
+
+      return (
+        <Tooltip content={content}>
+          <span className="truncate">{content}</span>
+        </Tooltip>
+      );
     },
   },
   {
     field: "enabled",
-    classes: "justify-end",
+    classes: "flex justify-end",
     render: function (item, handlers) {
       return <Switcher checked={item[this.field]} onChange={(event) => handlers?.handleToggleRule(event, item)} />;
     },
