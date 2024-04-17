@@ -43,7 +43,7 @@ export const LIST_HEADERS: ListHeader[] = [
   },
   {
     title: "Actions",
-    classes: "flex justify-end",
+    classes: "flex justify-end pr-4",
     render: function () {
       return this.title;
     },
@@ -53,8 +53,8 @@ export const LIST_HEADERS: ListHeader[] = [
 export const LIST_ITEMS: ListItems[] = [
   {
     field: "name",
-    render: function (item, handlers) {
-      return handlers?.cutString(item[this.field]);
+    render: function (item) {
+      return <span className="truncate">{item[this.field]}</span>;
     },
   },
   {
@@ -70,12 +70,17 @@ export const LIST_ITEMS: ListItems[] = [
   },
   {
     field: "source",
-    render: function (item, handlers) {
-      const firstSource = handlers?.cutString(item.conditions[0][this.field], 15);
-      if (item.conditions.length > 1) {
-        return `${firstSource} + ${item.conditions.length - 1}`;
-      }
-      return firstSource;
+    classes: "pr-2",
+    render: function (item) {
+      const firstSource = item.conditions[0][this.field];
+      const extraConditionsCount = item.conditions.length - 1;
+      const content = extraConditionsCount ? `${firstSource} + ${extraConditionsCount}` : firstSource;
+
+      return (
+        <Tooltip content={content}>
+          <span className="truncate">{content}</span>
+        </Tooltip>
+      );
     },
   },
   {
