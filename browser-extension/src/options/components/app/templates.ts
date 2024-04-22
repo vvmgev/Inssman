@@ -229,7 +229,6 @@ export const templates = {
       editorLang: EditorLanguage.JAVASCRIPT,
       editorValue: `function modifyResponse(args) {
   const { response } = args;
-  // support only Fetch API
 
   try {
     // custom code here
