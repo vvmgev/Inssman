@@ -31,8 +31,8 @@ import { jsonParesString } from "@/utils/jsonParesString";
       const absoluteUrl = getAbsoluteUrl(url);
       const matchedRule = window[NAMESPACE].rules.find((rule) =>
         rule.conditions.some((condition) =>
-          MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType)
-        )
+          MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType),
+        ),
       );
       if (matchedRule) updateTimestamp(matchedRule);
       return matchedRule;
@@ -63,7 +63,7 @@ import { jsonParesString } from "@/utils/jsonParesString";
 
       const matchedRule = getMatchedRuleByUrl(request.url);
 
-      if (["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
+      if (["HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
         try {
           return await getOriginalResponse();
         } catch (error) {
@@ -116,6 +116,7 @@ import { jsonParesString } from "@/utils/jsonParesString";
     const XHR = XMLHttpRequest;
     XMLHttpRequest = function () {
       const xhr = new XHR();
+      xhr.addEventListener("readystatechange", onReadyStateChange.bind(xhr), false);
       return xhr;
     };
     XMLHttpRequest.prototype = XHR.prototype;
@@ -126,13 +127,16 @@ import { jsonParesString } from "@/utils/jsonParesString";
     const onReadystatechange = async function () {
       if (this.readyState === this.DONE) {
         const responseData = this.response;
+        const matchedRule = getMatchedRuleByUrl(this.requestURL);
 
         const args = {
           response: jsonParesString(responseData),
         };
 
         // Execute custom function
-        let returnedData = await new ExecuteCode("args", `return (${this.matchedRule.editorValue})(args);`)(args);
+        let returnedData = matchedRule
+          ? await new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)(args)
+          : responseData;
 
         const requestHeaders = this.requestHeaders || {};
         const isJson =
@@ -179,14 +183,6 @@ import { jsonParesString } from "@/utils/jsonParesString";
       const requestBody = matchedRule?.pageType === PageType.MODIFY_REQUEST_BODY ? matchedRule.editorValue : data;
       this.requestData = requestBody;
       send.call(this, requestBody);
-
-      // If matchedRule is found and pageType is MODIFY_RESPONSE then attach the event listener
-      if (matchedRule?.pageType === PageType.MODIFY_RESPONSE) {
-        this.matchedRule = matchedRule;
-
-        // Add readystatechange
-        this.addEventListener("readystatechange", onReadystatechange, false);
-      }
     };
 
     const setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
