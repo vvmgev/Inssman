@@ -1,10 +1,6 @@
-import Editor from "@monaco-editor/react";
+import { useRef, useEffect, FC } from "react";
 import * as monaco from "monaco-editor";
-import { loader } from "@monaco-editor/react";
 import { EditorLanguage } from "@/models/formFieldModel";
-import { useRef, forwardRef } from "react";
-
-loader.config({ monaco });
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (_moduleId: any, label: string) {
@@ -25,15 +21,48 @@ self.MonacoEnvironment = {
 };
 
 type Props = {
-  value: string;
   language: EditorLanguage;
-  onChange: any;
+  onChange?: (data: string) => void;
+  value?: string;
 };
 
-const MonacoEditor = forwardRef(({ language, onChange, value = "" }: Props, ref: any) => {
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
-  const handleEditorDidMount = (editor) => (editorRef.current = editor);
-  const pritter = () => editorRef.current?.getAction?.("editor.action.formatDocument")?.run?.();
+const MonacoEditor: FC<Props> = ({ language, onChange, value = "" }: any) => {
+  const divEl = useRef<HTMLDivElement>(null);
+  let editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
+  const getModel = () => editorRef.current?.getModel() as monaco.editor.ITextModel;
+  const onChangeHandler = () => onChange && onChange(getModel().getValue());
+  const pritter = () => editorRef.current?.getAction("editor.action.formatDocument")?.run();
+
+  useEffect(() => {
+    editorRef.current = monaco.editor.create(divEl.current as HTMLDivElement, {
+      value: "",
+      language: "",
+      theme: "vs-dark",
+      autoIndent: "advanced",
+      formatOnPaste: true,
+      formatOnType: true,
+      minimap: { enabled: false },
+    });
+    getModel().onDidChangeContent(onChangeHandler);
+  }, []);
+
+  useEffect(() => {
+    const model = getModel();
+    if (value === model.getValue()) {
+      return;
+    }
+
+    editorRef.current?.executeEdits("", [
+      {
+        range: model.getFullModelRange(),
+        text: value,
+        forceMoveMarkers: true,
+      },
+    ]);
+    editorRef.current?.pushUndoStop();
+  }, [value]);
+
+  useEffect(() => monaco.editor.setModelLanguage(getModel(), language), [language]);
 
   return (
     <>
@@ -43,24 +72,9 @@ const MonacoEditor = forwardRef(({ language, onChange, value = "" }: Props, ref:
       >
         Pritter
       </div>
-      <Editor
-        onMount={handleEditorDidMount}
-        value={value}
-        className="w-full h-[320px]"
-        language={language}
-        onChange={onChange}
-        options={{
-          value: "",
-          language: "",
-          theme: "vs-dark",
-          autoIndent: "advanced",
-          formatOnPaste: true,
-          formatOnType: true,
-          minimap: { enabled: false },
-        }}
-      />
+      <div className="w-full h-[320px]" ref={divEl}></div>
     </>
   );
-});
+};
 
 export default MonacoEditor;
