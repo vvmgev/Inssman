@@ -124,7 +124,7 @@ import { jsonParesString } from "@/utils/jsonParesString";
       XMLHttpRequest[key] = val;
     });
 
-    const onReadystatechange = async function () {
+    const onReadyStateChange = async function () {
       if (this.readyState === this.DONE) {
         const responseData = this.response;
         const matchedRule = getMatchedRuleByUrl(this.requestURL);
