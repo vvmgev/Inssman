@@ -57,6 +57,10 @@ class ServiceWorker extends BaseService {
   };
 
   injectContentScript = async (tabId, _, tab) => {
+    const isExtensionDisabled = !(await this.getExtensionStatus());
+    if (isExtensionDisabled) {
+      return;
+    }
     const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => tab.url?.startsWith(url));
     const filters = [
       [
@@ -87,7 +91,7 @@ class ServiceWorker extends BaseService {
   async URLChanged({ pathname }: { pathname: string }, sender): Promise<void> {
     InjectCodeService.injectInternalScriptToDocument(
       sender.tab.id,
-      `window.postMessage({source: 'inssman:setup', action: 'URLChanged', data: {'pathname': '${pathname}'}})`
+      `window.postMessage({source: 'inssman:setup', action: 'URLChanged', data: {'pathname': '${pathname}'}})`,
     );
   }
 }
