@@ -12,7 +12,9 @@ import { jsonParesString } from "@/utils/jsonParesString";
   window[NAMESPACE].queueRequests = [];
   window[NAMESPACE].isExecuted = window[NAMESPACE].isExecuted || false;
   window[NAMESPACE].start = () => {
-    startIntercept();
+    if (window[NAMESPACE].rules.length) {
+      startIntercept();
+    }
   };
   if (!window[NAMESPACE].isExecuted) {
     window[NAMESPACE].isExecuted = true;
@@ -31,8 +33,8 @@ import { jsonParesString } from "@/utils/jsonParesString";
       const absoluteUrl = getAbsoluteUrl(url);
       const matchedRule = window[NAMESPACE].rules.find((rule) =>
         rule.conditions.some((condition) =>
-          MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType),
-        ),
+          MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType)
+        )
       );
       if (matchedRule) updateTimestamp(matchedRule);
       return matchedRule;
@@ -63,7 +65,7 @@ import { jsonParesString } from "@/utils/jsonParesString";
 
       const matchedRule = getMatchedRuleByUrl(request.url);
 
-      if (["HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
+      if (["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
         try {
           return await getOriginalResponse();
         } catch (error) {
@@ -128,28 +130,30 @@ import { jsonParesString } from "@/utils/jsonParesString";
       if (this.readyState === this.DONE) {
         const responseData = this.response;
         const matchedRule = getMatchedRuleByUrl(this.requestURL);
+        let returnedData = responseData;
+        if (matchedRule) {
+          // Execute custom function
+          let returnedData = matchedRule
+            ? await new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)(args)
+            : responseData;
+
+          const requestHeaders = this.requestHeaders || {};
+          const isJson =
+            requestHeaders["Content-Type"]?.includes("json") ||
+            requestHeaders["Accept"]?.includes("json") ||
+            this.responseType === "json";
+
+          // Convert response back to string, Blob isn't necessary
+          if (isJson && !(returnedData instanceof Blob)) {
+            try {
+              returnedData = JSON.stringify(returnedData);
+            } catch (error) {}
+          }
+        }
 
         const args = {
           response: jsonParesString(responseData),
         };
-
-        // Execute custom function
-        let returnedData = matchedRule
-          ? await new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)(args)
-          : responseData;
-
-        const requestHeaders = this.requestHeaders || {};
-        const isJson =
-          requestHeaders["Content-Type"]?.includes("json") ||
-          requestHeaders["Accept"]?.includes("json") ||
-          this.responseType === "json";
-
-        // Convert response back to string, Blob isn't necessary
-        if (isJson && !(returnedData instanceof Blob)) {
-          try {
-            returnedData = JSON.stringify(returnedData);
-          } catch (error) {}
-        }
 
         // Modify response
         Object.defineProperty(this, "response", {
