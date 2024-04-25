@@ -91,7 +91,7 @@ class ServiceWorker extends BaseService {
   async URLChanged({ pathname }: { pathname: string }, sender): Promise<void> {
     InjectCodeService.injectInternalScriptToDocument(
       sender.tab.id,
-      `window.postMessage({source: 'inssman:setup', action: 'URLChanged', data: {'pathname': '${pathname}'}})`,
+      `window.postMessage({source: 'inssman:setup', action: 'URLChanged', data: {'pathname': '${pathname}'}})`
     );
   }
 }

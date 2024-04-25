@@ -10,16 +10,11 @@ import { jsonParesString } from "@/utils/jsonParesString";
   window[NAMESPACE] = window[NAMESPACE] || {};
   window[NAMESPACE].rules = window[NAMESPACE].rules || [];
   window[NAMESPACE].queueRequests = [];
-  window[NAMESPACE].isExecuted = window[NAMESPACE].isExecuted || false;
   window[NAMESPACE].start = () => {
     if (window[NAMESPACE].rules.length) {
       startIntercept();
     }
   };
-  if (!window[NAMESPACE].isExecuted) {
-    window[NAMESPACE].isExecuted = true;
-    window[NAMESPACE].start();
-  }
   const ExecuteCode = Function;
 
   function startIntercept() {
