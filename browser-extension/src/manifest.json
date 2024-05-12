@@ -30,7 +30,7 @@
     },
     {
       "matches": ["http://*/*", "https://*/*"],
-      "js": ["cotentScript/cotentScript.js"],
+      "js": ["intercept/intercept.js"],
       "run_at": "document_start",
       "all_frames": true,
       "world": "MAIN"

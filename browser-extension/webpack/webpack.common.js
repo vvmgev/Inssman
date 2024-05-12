@@ -14,7 +14,7 @@ const outputPath = path.join(__dirname, "../", `dist/${process.env.BROWSER}`);
 module.exports = {
   entry: {
     serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
-    cotentScript: path.resolve(__dirname, "../src/cotentScript", "cotentScript.ts"),
+    intercept: path.resolve(__dirname, "../src/cotentScript", "intercept.ts"),
     recorderWidget: path.resolve(__dirname, "../src/cotentScript", "recorderWidget.ts"),
     setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
     recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),

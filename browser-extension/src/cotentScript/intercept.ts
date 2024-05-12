@@ -4,7 +4,23 @@ import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { NAMESPACE } from "@options/constant";
 import { validateJSON } from "@/utils/validateJSON";
-import { jsonParesString } from "@/utils/jsonParesString";
+import { isPromise } from "@/utils/isPromise";
+
+const jsonifyValidJSONString = (mightBeJSONString, doStrictCheck) => {
+  const defaultValue = doStrictCheck ? {} : mightBeJSONString;
+
+  if (typeof mightBeJSONString !== "string") {
+    return defaultValue;
+  }
+
+  try {
+    return JSON.parse(mightBeJSONString);
+  } catch (e) {}
+
+  return defaultValue;
+};
+
+const isContentTypeJSON = (contentType) => !!contentType?.includes("application/json");
 
 ((NAMESPACE) => {
   window[NAMESPACE] = window[NAMESPACE] || {};
@@ -60,7 +76,10 @@ import { jsonParesString } from "@/utils/jsonParesString";
 
       const matchedRule = getMatchedRuleByUrl(request.url);
 
-      if (["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule) {
+      if (
+        matchedRule?.pageType !== PageType.MODIFY_RESPONSE &&
+        (["GET", "HEAD"].includes(request.method.toUpperCase()) || !matchedRule)
+      ) {
         try {
           return await getOriginalResponse();
         } catch (error) {
@@ -68,7 +87,7 @@ import { jsonParesString } from "@/utils/jsonParesString";
         }
       }
 
-      if (matchedRule.pageType === PageType.MODIFY_RESPONSE) {
+      if (matchedRule?.pageType === PageType.MODIFY_RESPONSE) {
         const response = await getOriginalResponse();
         const responseBody = response.headers.get("content-type")?.includes("application/json")
           ? await response.json()
@@ -109,7 +128,75 @@ import { jsonParesString } from "@/utils/jsonParesString";
       }
     };
 
-    // XMLHttpRequest interceptor
+    const onReadyStateChange = async function () {
+      const matchedRule = getMatchedRuleByUrl(this.requestURL);
+      if (!matchedRule) return;
+      if (this.readyState === this.HEADERS_RECEIVED || this.readyState === this.DONE) {
+        const responseType = this.responseType;
+        const contentType = this.getResponseHeader("content-type");
+
+        if (this.readyState === this.HEADERS_RECEIVED) {
+          try {
+            Object.defineProperty(this, "status", {
+              get: () => 200,
+            });
+          } catch (error) {}
+        }
+
+        if (this.readyState === this.DONE) {
+          let customResponse =
+            matchedRule?.pageType === PageType.MODIFY_RESPONSE
+              ? new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)({ response: this.response })
+              : this.response;
+
+          // Convert customResponse back to rawText
+          // response.value is String and evaluator method might return string/object
+          if (isPromise(customResponse)) {
+            customResponse = await customResponse;
+          }
+
+          const isUnsupportedResponseType = responseType && !["json", "text"].includes(responseType);
+
+          if (isUnsupportedResponseType) {
+            customResponse = this.response;
+          }
+
+          if (
+            !isUnsupportedResponseType &&
+            typeof customResponse === "object" &&
+            !(customResponse instanceof Blob) &&
+            (responseType === "json" || isContentTypeJSON(contentType))
+          ) {
+            customResponse = JSON.stringify(customResponse);
+          }
+
+          try {
+            Object.defineProperty(this, "response", {
+              get: function () {
+                if (responseType === "json") {
+                  if (typeof customResponse === "object") {
+                    return customResponse;
+                  }
+
+                  return jsonifyValidJSONString(customResponse);
+                }
+
+                return customResponse;
+              },
+            });
+
+            if (responseType === "" || responseType === "text") {
+              Object.defineProperty(this, "responseText", {
+                get: function () {
+                  return customResponse;
+                },
+              });
+            }
+          } catch (error) {}
+        }
+      }
+    };
+
     const XHR = XMLHttpRequest;
     XMLHttpRequest = function () {
       const xhr = new XHR();
@@ -121,70 +208,21 @@ import { jsonParesString } from "@/utils/jsonParesString";
       XMLHttpRequest[key] = val;
     });
 
-    const onReadyStateChange = async function () {
-      if (this.readyState === this.DONE) {
-        const responseData = this.response;
-        const matchedRule = getMatchedRuleByUrl(this.requestURL);
-        let returnedData = responseData;
-        if (matchedRule) {
-          // Execute custom function
-          let returnedData = matchedRule
-            ? await new ExecuteCode("args", `return (${matchedRule.editorValue})(args);`)(args)
-            : responseData;
-
-          const requestHeaders = this.requestHeaders || {};
-          const isJson =
-            requestHeaders["Content-Type"]?.includes("json") ||
-            requestHeaders["Accept"]?.includes("json") ||
-            this.responseType === "json";
-
-          // Convert response back to string, Blob isn't necessary
-          if (isJson && !(returnedData instanceof Blob)) {
-            try {
-              returnedData = JSON.stringify(returnedData);
-            } catch (error) {}
-          }
-        }
-
-        const args = {
-          response: jsonParesString(responseData),
-        };
-
-        // Modify response
-        Object.defineProperty(this, "response", {
-          get: function () {
-            return returnedData;
-          },
-        });
-
-        // Modify responseText
-        if (this.responseType === "" || this.responseType === "text") {
-          Object.defineProperty(this, "responseText", {
-            get: function () {
-              return returnedData;
-            },
-          });
-        }
-      }
-    };
-
     const open = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function (method, url) {
       this.method = method;
-      this.requestURL = url;
+      this.requestURL = getAbsoluteUrl(url);
       open.apply(this, arguments);
     };
 
     const send = XMLHttpRequest.prototype.send;
     XMLHttpRequest.prototype.send = function (data) {
       const matchedRule = getMatchedRuleByUrl(this.requestURL);
-      // Modify request body
       const requestBody = matchedRule?.pageType === PageType.MODIFY_REQUEST_BODY ? matchedRule.editorValue : data;
-      this.requestData = requestBody;
       send.call(this, requestBody);
     };
 
-    const setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+    let setRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
     XMLHttpRequest.prototype.setRequestHeader = function (header, value) {
       this.requestHeaders = this.requestHeaders || {};
       this.requestHeaders[header] = value;

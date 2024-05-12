@@ -241,7 +241,7 @@ class InjectCodeService extends BaseService {
           window[NAMESPACE] = window[NAMESPACE] || {};
           window[NAMESPACE].rules = rules;
           window[NAMESPACE].runtimeId = runtimeId;
-          window[NAMESPACE].start();
+          window[NAMESPACE]?.start?.();
         },
         world: "MAIN",
         args: [rules, NAMESPACE, chrome.runtime.id],
