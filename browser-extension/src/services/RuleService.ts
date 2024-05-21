@@ -109,6 +109,7 @@ class RuleService extends BaseService {
       }
     }
     const id = connectedRuleIds[0] || generateId();
+    console.log(id);
     await StorageService.set({ [id]: { ...ruleMetaData, id, connectedRuleIds } });
     return { ...ruleMetaData, id, connectedRuleIds };
   };

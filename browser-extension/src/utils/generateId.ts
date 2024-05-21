@@ -1,1 +1,6 @@
-export const generateId = (): number => parseInt(`${Date.now() % 1000000}${Math.floor(Math.random() * 9999)}`);
+export const generateId = (): number =>
+  parseInt(
+    `${Date.now() % 10}${Math.floor(Math.random() * 50)}${Math.floor(Math.random() * 50)}${Math.floor(
+      Math.random() * 50
+    )}`
+  );
