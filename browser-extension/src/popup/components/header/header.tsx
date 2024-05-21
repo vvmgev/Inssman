@@ -11,7 +11,7 @@ const Header = () => {
 
   useEffect(() => {
     setOpenWebApp(featureOpenWebApp);
-  }, []);
+  }, [featureOpenWebApp]);
 
   const onHandleOpen = () => {
     if (openWebApp) {

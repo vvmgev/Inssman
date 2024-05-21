@@ -32,9 +32,11 @@ export const LIST_HEADERS: ListHeader[] = [
   },
 ];
 
-const onEditClick = async (item) => {
-  const url: string = chrome.runtime.getURL(`options/options.html#/edit/${item.pageType}/${item.id}`);
-  await TabService.createTab(url);
+const onEditClick = async (item, featureOpenWebApp) => {
+  const url: string = featureOpenWebApp
+    ? `https://www.inssman.com/app/edit/${item.pageType}/${item.id}`
+    : chrome.runtime.getURL(`options/options.html#/edit/${item.pageType}/${item.id}`);
+  TabService.createTab(url);
 };
 
 export const LIST_ITEMS: ListItems[] = [
@@ -42,7 +44,12 @@ export const LIST_ITEMS: ListItems[] = [
     field: "name",
     render: function (item, handlers) {
       return (
-        <Button className="text-left" size="medium" variant="link" onClick={() => onEditClick(item)}>
+        <Button
+          className="text-left"
+          size="medium"
+          variant="link"
+          onClick={() => onEditClick(item, handlers.featureOpenWebApp)}
+        >
           {handlers?.cutString(item[this.field], 15)}
         </Button>
       );

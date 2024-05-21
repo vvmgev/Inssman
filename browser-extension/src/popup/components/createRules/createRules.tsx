@@ -1,17 +1,25 @@
 import Section from "@options/components/common/section/section";
-import { FC, Fragment, ReactElement } from "react";
+import { FC, Fragment, ReactElement, useContext } from "react";
 import { paths } from "@options/components/app/paths";
-import { capitalizeFirstLetter } from "@utils/capitalizeFirstLetter";
+import { FeatureToggleContext } from "@/context/featureToggleContext";
+import TabService from "@/services/TabService";
 
 const CreateRules: FC = (): ReactElement => {
+  const { featureOpenWebApp } = useContext(FeatureToggleContext);
+
   const onClick = (path) => {
+    if (featureOpenWebApp) {
+      const url: string = `https://www.inssman.com/app/create/${path}`;
+      TabService.createTab(url);
+      return;
+    }
     chrome.tabs.query({ active: true, currentWindow: true }, (tab) => {
       const { hostname } = new URL(tab[0].url as string);
       const hostnameArr = hostname.split(".");
       const name = hostnameArr[hostnameArr.length - 2];
       // const url: string = `options/options.html#/create/${path}?source=${hostname}&name=${capitalizeFirstLetter(name)}`;
       const url: string = `options/options.html#/create/${path}`;
-      chrome.tabs.create({ url: chrome.runtime.getURL(url) });
+      TabService.createTab(chrome.runtime.getURL(url));
     });
   };
 

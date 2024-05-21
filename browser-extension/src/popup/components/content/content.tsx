@@ -5,10 +5,12 @@ import Tab, { Tabs } from "@popup/components/tab/tab";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData } from "@models/formFieldModel";
 import { cutString } from "@utils/cutString";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
+import { FeatureToggleContext } from "@/context/featureToggleContext";
 
 const Content = () => {
+  const { featureOpenWebApp } = useContext(FeatureToggleContext);
   const [tab, setTab] = useState<Tabs>(Tabs.RuleList);
   const [rules, setRules] = useState<IRuleMetaData[]>([]);
   const getRules = (): void => chrome.runtime.sendMessage({ action: PostMessageAction.GetStorageRules }, setRules);
@@ -28,7 +30,7 @@ const Content = () => {
     });
   }, []);
 
-  useEffect(() => getRules(), []);
+  useEffect(getRules, []);
 
   return (
     <Section classes="border-l-0 border-r-0 p-0 max-h-[430px]">
@@ -46,6 +48,7 @@ const Content = () => {
             options={{
               cutString,
               handleToggleRule,
+              featureOpenWebApp,
             }}
             data={rules}
             texts={{

@@ -10,6 +10,7 @@ import { ListenerType } from "@services/ListenerService/ListenerService";
 import { storeRuleMetaData } from "@/serviceWorker/firebase";
 import { StorageKey } from "@models/storageModel";
 import { throttle } from "@utils/throttle";
+import { generateId } from "@/utils/generateId";
 
 import UpdateRuleOptions = chrome.declarativeNetRequest.UpdateRuleOptions;
 import Rule = chrome.declarativeNetRequest.Rule;
@@ -100,14 +101,14 @@ class RuleService extends BaseService {
     const connectedRuleIds: number[] = [];
     const rules = generateRules(ruleMetaData);
     for (const rule of rules) {
-      const id: number = await StorageService.generateNextId();
+      const id: number = generateId();
       connectedRuleIds.push(id);
 
       if (ruleMetaData.enabled) {
         await BrowserRuleService.set([{ ...rule, id }]);
       }
     }
-    const id = connectedRuleIds[0] || (await StorageService.generateNextId());
+    const id = connectedRuleIds[0] || generateId();
     await StorageService.set({ [id]: { ...ruleMetaData, id, connectedRuleIds } });
     return { ...ruleMetaData, id, connectedRuleIds };
   };
@@ -124,7 +125,7 @@ class RuleService extends BaseService {
       const removeRuleIds: number[] = [...ruleMetaData.connectedRuleIds];
       ruleMetaData.connectedRuleIds = [];
       for (const rule of rules) {
-        rule.id = rule.id || (await StorageService.generateNextId());
+        rule.id = rule.id || generateId();
         ruleMetaData.connectedRuleIds.push(rule.id);
       }
       if (ruleMetaData.enabled) {
