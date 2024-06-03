@@ -41,6 +41,7 @@ const MonacoEditor: FC<Props> = ({ language, onChange, value = "" }: any) => {
       autoIndent: "advanced",
       formatOnPaste: true,
       formatOnType: true,
+      contextmenu: false,
       minimap: { enabled: false },
     });
     getModel().onDidChangeContent(onChangeHandler);
