@@ -9,6 +9,7 @@
     "./input": "./src/input.tsx",
     "./checkbox": "./src/checkbox.tsx",
     "./tooltip": "./src/tooltip/tooltip.tsx",
+    "./icon": "./src/icon.tsx",
     "./switcher": "./src/switcher.tsx"
   },
   "scripts": {

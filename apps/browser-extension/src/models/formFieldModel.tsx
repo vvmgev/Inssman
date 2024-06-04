@@ -1,10 +1,4 @@
-import PencilSquareSVG from "@assets/icons/pencilSquare.svg";
-import BlockSVG from "@assets/icons/block.svg";
-import RedirectSVG from "@assets/icons/redirect.svg";
-import QuestionSVG from "@assets/icons/question.svg";
-import WrenchSVG from "@assets/icons/wrench.svg";
-import CodeSVG from "@assets/icons/code.svg";
-import PaperClipSVG from "@assets/icons/paperClip.svg";
+import Icon from "@repo/ui/icon";
 import Rule = chrome.declarativeNetRequest.Rule;
 import QueryKeyValue = chrome.declarativeNetRequest.QueryKeyValue;
 import RuleCondition = chrome.declarativeNetRequest.RuleCondition;
@@ -87,13 +81,13 @@ export const PageName = {
 } as const;
 
 export const IconsMap = {
-  [PageType.BLOCK]: <BlockSVG />,
-  [PageType.REDIRECT]: <RedirectSVG />,
-  [PageType.QUERY_PARAM]: <QuestionSVG />,
-  [PageType.MODIFY_HEADER]: <CodeSVG />,
-  [PageType.MODIFY_RESPONSE]: <PencilSquareSVG />,
-  [PageType.MODIFY_REQUEST_BODY]: <PaperClipSVG />,
-  [PageType.INJECT_FILE]: <WrenchSVG />,
+  [PageType.BLOCK]: <Icon name="block" />,
+  [PageType.REDIRECT]: <Icon name="redirect" />,
+  [PageType.QUERY_PARAM]: <Icon name="question" />,
+  [PageType.MODIFY_HEADER]: <Icon name="code" />,
+  [PageType.MODIFY_RESPONSE]: <Icon name="pencilSquare" />,
+  [PageType.MODIFY_REQUEST_BODY]: <Icon name="paperClip" />,
+  [PageType.INJECT_FILE]: <Icon name="wrench" />,
 } as const;
 
 export enum MatchType {

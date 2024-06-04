@@ -1,6 +1,7 @@
 import { Input } from "@repo/ui/input";
 import Select from "@options/components/common/select/select";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import FormHOC from "@/options/HOC/formHOC";
 import { Button } from "@repo/ui/button";
 import { Switcher } from "@repo/ui/switcher";

@@ -1,5 +1,6 @@
 import Select from "@options/components/common/select/select";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { Input } from "@repo/ui/input";
 import { Switcher } from "@repo/ui/switcher";
 import { Button } from "@repo/ui/button";

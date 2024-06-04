@@ -1,5 +1,6 @@
 import { ReactElement, FC, ReactNode } from "react";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import Section from "@options/components/common/section/section";
 
 type Props = {

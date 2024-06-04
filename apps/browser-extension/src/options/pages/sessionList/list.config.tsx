@@ -2,7 +2,8 @@ import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import Dialog from "@/options/components/dialog/dialog";
 import { Tooltip } from "@repo/ui/tooltip";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { Link } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";

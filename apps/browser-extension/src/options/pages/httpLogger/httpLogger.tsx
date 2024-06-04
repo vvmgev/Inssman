@@ -1,6 +1,7 @@
 import Section from "@options/components/common/section/section";
 import { Input } from "@repo/ui/input";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { Button } from "@repo/ui/button";
 import BackButton from "@options/components/common/backButton/backButton";
 import List from "@/options/components/common/list/list";

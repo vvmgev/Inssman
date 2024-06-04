@@ -1,11 +1,12 @@
 import BackButton from "@options/components/common/backButton/backButton";
-import { Button } from "@repo/ui/button";
 import Section from "@options/components/common/section/section";
-import Icon from "@options/components/common/icon/icon";
-import { Input } from "@repo/ui/input";
+import Icon from "@repo/ui/icon";
+
 import Sources from "@/options/pages/forms/components/sources/sources";
 import TrackService from "@/services/TrackService";
 import Toast from "@options/components/common/toast/toast";
+import { Button } from "@repo/ui/button";
+import { Input } from "@repo/ui/input";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { FormMode, IconsMap, PageName } from "@/models/formFieldModel";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -146,16 +147,18 @@ const FormHOC = (FormComponent) => {
     return (
       <FormProvider {...methods}>
         <Section classes="flex justify-between px-2 py-4 border-0 border-b border-r bg-slate-800 bg-opacity-40">
-          <BackButton url="/" text="Rules" />
+          <div>
+            <BackButton url="/" text="Rules" />
+          </div>
           <span className="flex flex-col items-center">
             <span className="text-md">{mode === "create" ? "Create New Rule" : "Edit Rule"}</span>
             <span className="flex items-center gap-1 text-xs text-slate-400">
-              <span className="w-4">{IconsMap[pageType]}</span>
+              {IconsMap[pageType]}
               {PageName[pageType]}
             </span>
           </span>
           <div className="flex gap-5">
-            <div className="flex justify-end">
+            <div>
               <Button
                 variant="outline"
                 onClick={() =>
@@ -168,17 +171,19 @@ const FormHOC = (FormComponent) => {
                 View Example
               </Button>
             </div>
-            {mode === FormMode.UPDATE && (
-              <Button
-                variant="outline"
-                className="hover:border-red-400 hover:text-red-400"
-                type="button"
-                onClick={handleDelete}
-                startIcon={<Icon name="trash" />}
-              >
-                Delete
-              </Button>
-            )}
+            <div>
+              {mode === FormMode.UPDATE && (
+                <Button
+                  variant="outline"
+                  className="hover:border-red-400 hover:text-red-400"
+                  type="button"
+                  onClick={handleDelete}
+                  startIcon={<Icon name="trash" />}
+                >
+                  Delete
+                </Button>
+              )}
+            </div>
             <div>
               <Button
                 startIcon={<Icon name={mode === FormMode.CREATE || isDirty ? "pencil" : "floppy"} />}

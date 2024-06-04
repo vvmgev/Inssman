@@ -6,7 +6,8 @@ import IndexDBService from "@/services/IndexDBService";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import List from "@options/components/common/list/list";
 import { FC, ReactElement, memo, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";

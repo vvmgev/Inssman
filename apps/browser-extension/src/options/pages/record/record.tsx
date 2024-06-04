@@ -2,7 +2,8 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import Section from "@options/components/common/section/section";
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { ReactElement, useState, FC, useEffect, useRef, memo } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";

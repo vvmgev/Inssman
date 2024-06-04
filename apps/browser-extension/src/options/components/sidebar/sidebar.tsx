@@ -1,7 +1,8 @@
 import Section from "@components/common/section/section";
 import { Tooltip } from "@repo/ui/tooltip";
 import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import SidebarSection from "./components/sidebarSection/sidebarSection";
 import SidebarItem from "./components/sidebarItem/sidebarItem";
 import { useLocation } from "react-router-dom";

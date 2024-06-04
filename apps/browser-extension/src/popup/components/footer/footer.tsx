@@ -1,5 +1,6 @@
 import Section from "@options/components/common/section/section";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import TrackService from "@services/TrackService";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";

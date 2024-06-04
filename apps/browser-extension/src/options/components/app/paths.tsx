@@ -1,4 +1,4 @@
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
 import { PageType } from "@models/formFieldModel";
 
 export const paths = [

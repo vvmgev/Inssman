@@ -1,4 +1,5 @@
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { useNavigate } from "react-router-dom";
 import { FC } from "react";
 import { Button } from "@repo/ui/button";

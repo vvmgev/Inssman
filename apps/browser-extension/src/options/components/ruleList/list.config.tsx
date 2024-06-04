@@ -1,6 +1,7 @@
 import { Switcher } from "@repo/ui/switcher";
 import { Tooltip } from "@repo/ui/tooltip";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { IconsMap, PageName } from "@/models/formFieldModel";
 import { Link } from "react-router-dom";

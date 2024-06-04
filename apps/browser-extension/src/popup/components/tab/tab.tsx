@@ -1,6 +1,5 @@
 import { FC, ReactElement } from "react";
-import ListSVG from "@assets/icons/list.svg";
-import PlusSVG from "@assets/icons/plus.svg";
+import Icon from "@repo/ui/icon";
 
 export enum Tabs {
   CreatRule,
@@ -23,7 +22,7 @@ const Tab: FC<Props> = ({ active, onChangeTab }): ReactElement => {
               : "text-gray-400 bg-gray-800 hover:bg-gray-700 hover:text-sky-400"
           }`}
         >
-          <span className="w-[24px]">{<ListSVG />}</span>
+          <span className="w-[24px]">{<Icon name="list" />}</span>
           <span>Rule List</span>
         </div>
       </li>
@@ -35,7 +34,7 @@ const Tab: FC<Props> = ({ active, onChangeTab }): ReactElement => {
               : "text-gray-400 bg-gray-800 hover:bg-gray-700 hover:text-sky-400"
           }`}
         >
-          <span className="w-[24px]">{<PlusSVG />}</span>
+          <span className="w-[24px]">{<Icon name="plus" />}</span>
           <span>Create Rule</span>
         </div>
       </li>

@@ -1,6 +1,6 @@
 import { ComponentProps, FC } from "react";
 import { twMerge } from "tailwind-merge";
-import * as Icons from "@assets/icons";
+import * as Icons from "./assets/icons";
 
 type Props = { name: Icons.IconName; className?: string } & ComponentProps<"span">;
 

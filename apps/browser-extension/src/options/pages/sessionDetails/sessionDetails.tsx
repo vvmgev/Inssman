@@ -3,7 +3,8 @@ import Dialog from "@/options/components/dialog/dialog";
 import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
 import Toast from "@/options/components/common/toast/toast";
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import Copy from "copy-to-clipboard";
 import { Input } from "@repo/ui/input";
 import { Tooltip } from "@repo/ui/tooltip";

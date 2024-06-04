@@ -1,4 +1,5 @@
-import Icon from "@options/components/common/icon/icon";
+import Icon from "@repo/ui/icon";
+
 import Section from "@options/components/common/section/section";
 import ExtensionToggle from "@options/components/common/extensionToggle/extensionToggle";
 import { Tooltip } from "@repo/ui/tooltip";
