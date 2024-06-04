@@ -4,7 +4,6 @@ import { FC } from "react";
 import { Button } from "@repo/ui/button";
 
 type Props = {
-  trackName?: string;
   url?: string;
   text?: string;
 };

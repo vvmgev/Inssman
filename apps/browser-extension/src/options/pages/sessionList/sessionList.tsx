@@ -146,19 +146,13 @@ const SessionList: FC = (): ReactElement => {
         onClose={() => setDialogName("")}
         footer={
           <div className="flex justify-end gap-3">
-            <Button
-              variant="outline"
-              trackName="Delete All Sessions - NO"
-              className="min-w-[100px]"
-              onClick={() => setDialogName("")}
-            >
+            <Button variant="outline" className="min-w-[100px]" onClick={() => setDialogName("")}>
               No
             </Button>
             <Button
               variant="outline"
               startIcon={<Icon name="trash" />}
               className="min-w-[100px] hover:text-red-400 hover:border-red-400"
-              trackName="Delete All Sessions - YES"
               onClick={() => handleDeleteSessions(setDialogName)}
             >
               Yes
@@ -179,7 +173,6 @@ const SessionList: FC = (): ReactElement => {
           <Button
             variant="outline"
             className="hover:text-red-400 hover:border-red-400"
-            trackName="Delete All Session"
             startIcon={<Icon name="trash" />}
             onClick={() => setDialogName("deleteAll")}
           >
@@ -196,7 +189,6 @@ const SessionList: FC = (): ReactElement => {
           </div>
           <Button
             variant="icon"
-            trackName="grid"
             onClick={() => handleListType(SessionListType.GRID)}
             className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.GRID ? "bg-blue-600" : "hover:bg-blue-500"
@@ -206,7 +198,6 @@ const SessionList: FC = (): ReactElement => {
           </Button>
           <Button
             variant="icon"
-            trackName="list"
             onClick={() => handleListType(SessionListType.LIST)}
             className={`flex items-center rounded px-4 py-2 border border-slate-500 ${
               listType === SessionListType.LIST ? "bg-blue-600" : "hover:bg-blue-500"

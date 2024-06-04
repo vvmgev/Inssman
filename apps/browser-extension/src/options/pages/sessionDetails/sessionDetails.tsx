@@ -2,12 +2,12 @@ import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlaye
 import Dialog from "@/options/components/dialog/dialog";
 import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
-import { Input } from "@repo/ui/input";
 import Toast from "@/options/components/common/toast/toast";
-import { Tooltip } from "@repo/ui/tooltip";
-import { Button } from "@repo/ui/button";
 import Icon from "@options/components/common/icon/icon";
 import Copy from "copy-to-clipboard";
+import { Input } from "@repo/ui/input";
+import { Tooltip } from "@repo/ui/tooltip";
+import { Button } from "@repo/ui/button";
 import { EventType, IncrementalSource } from "rrweb";
 import { FC, ReactElement, memo, useEffect, useMemo, useState } from "react";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -156,19 +156,13 @@ const SessionDetails: FC = (): ReactElement => {
         onClose={() => setDialogVisible(false)}
         footer={
           <div className="flex justify-end gap-3">
-            <Button
-              variant="outline"
-              trackName="Delete Session - NO"
-              className="min-w-[100px]"
-              onClick={() => setDialogVisible(false)}
-            >
+            <Button variant="outline" className="min-w-[100px]" onClick={() => setDialogVisible(false)}>
               No
             </Button>
             <Button
               variant="outline"
               startIcon={<Icon name="trash" />}
               className="min-w-[100px] hover:text-red-400 hover:border-red-400"
-              trackName="Delete Session - YES"
               onClick={() => {
                 handleDelete();
                 setDialogVisible(false);
@@ -198,7 +192,7 @@ const SessionDetails: FC = (): ReactElement => {
               <p className="leading-7 text-slate-400">Please Ensure That You Have Entered The Correct URL.</p>
               <p className="leading-7 text-slate-400">Or Contact The Session Owner For Assistance.</p>
               <Link to="/">
-                <Button trackName="404">Go Main Page</Button>
+                <Button>Go Main Page</Button>
               </Link>
               <div className="flex justify-center w-full">
                 <span className="px-2 tracking-widest text-white rounded bg-sky-600 text-9xl">404</span>
@@ -216,7 +210,6 @@ const SessionDetails: FC = (): ReactElement => {
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                trackName="Delete Recorded Session in view mode"
                 className="hover:border-red-400 hover:text-red-400"
                 onClick={() => setDialogVisible(true)}
                 startIcon={<Icon name="trash" />}
@@ -227,7 +220,6 @@ const SessionDetails: FC = (): ReactElement => {
               <Button
                 variant="outline"
                 disabled={isSessionShared || isSharedUrl}
-                trackName="Share Recorded Session in view mode"
                 onClick={handleShare}
                 startIcon={<Icon name="share" />}
                 endIcon={isSharing ? <Icon name="loader" /> : null}

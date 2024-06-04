@@ -25,18 +25,17 @@ const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", p
         action: PostMessageAction.ToggleRule,
         data: { ruleMetaData, checked: event.target.checked },
       },
-      () => getRules()
+      () => getRules(),
     );
   };
 
   const handleDelete = (ruleMetaData) => {
-    TrackService.trackEvent(`${PageName[ruleMetaData.pageType]} Rule Delete Event`);
     chrome.runtime.sendMessage(
       {
         action: PostMessageAction.DeleteRule,
         data: { id: ruleMetaData.id, connectedRuleIds: ruleMetaData.connectedRuleIds },
       },
-      () => getRules()
+      () => getRules(),
     );
   };
 
@@ -45,8 +44,8 @@ const RuleList: FC<Props> = ({ rules, getRules, search = "", listClasses = "", p
   const description = rules.length
     ? ""
     : page === "options"
-    ? "Please Select One Of Rule In The Sidebar To Create Or Choose a Templates"
-    : 'Please Select One Of Rule In The "Create Rule" Tab To Create';
+      ? "Please Select One Of Rule In The Sidebar To Create Or Choose a Templates"
+      : 'Please Select One Of Rule In The "Create Rule" Tab To Create';
 
   return (
     <List

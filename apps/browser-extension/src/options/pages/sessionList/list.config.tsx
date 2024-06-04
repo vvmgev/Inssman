@@ -98,7 +98,6 @@ export const LIST_ITEMS: ListItems[] = [
               <div className="flex justify-end gap-3">
                 <Button
                   variant="outline"
-                  trackName="Delete Session - NO"
                   className="min-w-[100px]"
                   onClick={() => {
                     options.selectSession(null);
@@ -111,7 +110,6 @@ export const LIST_ITEMS: ListItems[] = [
                   variant="outline"
                   startIcon={<Icon name="trash" />}
                   className="min-w-[100px] hover:text-red-400 hover:border-red-400"
-                  trackName="Delete Session - YES"
                   onClick={() => {
                     options.setDialogName("");
                     options.selectSession(null);
@@ -163,7 +161,6 @@ export const LIST_ITEMS: ListItems[] = [
           <Tooltip content="Delete Session">
             <Button
               variant="icon"
-              trackName="delete session"
               className="hover:text-red-400"
               onClick={() => {
                 options.setDialogName("deleteSession");

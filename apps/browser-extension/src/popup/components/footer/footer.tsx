@@ -1,8 +1,8 @@
-import { Button } from "@repo/ui/button";
 import Section from "@options/components/common/section/section";
-import { Input } from "@repo/ui/input";
 import Icon from "@options/components/common/icon/icon";
-import VideoCameraSVG from "@assets/icons/videoCamera.svg";
+import TrackService from "@services/TrackService";
+import { Button } from "@repo/ui/button";
+import { Input } from "@repo/ui/input";
 import { useContext, useState } from "react";
 import { FeatureToggleContext } from "@context/featureToggleContext";
 import { PostMessageAction } from "@models/postMessageActionModel";
@@ -25,7 +25,6 @@ const Footer = () => {
             />
             <Button
               startIcon={<Icon name="videoCamera" />}
-              trackName="Start Recording Popup"
               onClick={() => {
                 if (url) {
                   chrome.runtime.sendMessage(

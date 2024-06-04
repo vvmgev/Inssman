@@ -1,9 +1,13 @@
+import TrackService from "@/services/TrackService";
 import Section from "@options/components/common/section/section";
 import { Button } from "@repo/ui/button";
-import { ReactElement, FC } from "react";
+import { ReactElement, FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const NotFound: FC = (): ReactElement => {
+  useEffect(() => {
+    TrackService.trackEvent("Not Found Page");
+  }, []);
   return (
     <Section classes="min-h-[300px]">
       <div className="flex flex-col gap-5">
@@ -21,7 +25,7 @@ const NotFound: FC = (): ReactElement => {
           <p>
             Or Navigate To{" "}
             <Link to="/">
-              <Button trackName="404">Main Page</Button>
+              <Button>Main Page</Button>
             </Link>
           </p>
         </div>

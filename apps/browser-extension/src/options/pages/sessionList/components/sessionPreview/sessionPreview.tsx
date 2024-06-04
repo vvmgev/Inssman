@@ -9,6 +9,7 @@ import { RecordSession } from "@models/recordSessionModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 import { Link } from "react-router-dom";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
+import TrackService from "@/services/TrackService";
 
 type Props = {
   id: number;
@@ -69,7 +70,6 @@ const Session: FC<Props> = ({
           <div className="flex justify-end gap-3">
             <Button
               variant="outline"
-              trackName="Delete Session - NO"
               className="min-w-[100px]"
               onClick={() => {
                 selectSession(null);
@@ -82,7 +82,6 @@ const Session: FC<Props> = ({
               variant="outline"
               startIcon={<Icon name="trash" />}
               className="min-w-[100px] hover:text-red-400 hover:border-red-400"
-              trackName="Delete Session - YES"
               onClick={() => {
                 setDialogName("");
                 onDelete();

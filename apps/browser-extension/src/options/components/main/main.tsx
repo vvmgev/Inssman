@@ -2,6 +2,7 @@ import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import Dialog from "@options/components/dialog/dialog";
 import Section from "@options/components/common/section/section";
+import TrackService from "@services/TrackService";
 import RuleList from "../ruleList/ruleList";
 import Icon from "@options/components/common/icon/icon";
 import { useState, useRef, useEffect } from "react";
@@ -57,9 +58,10 @@ export default () => {
           <div className="flex justify-end gap-3">
             <Button
               variant="outline"
-              trackName="Import faild - close"
               className="min-w-[100px]"
-              onClick={() => setDialogName("")}
+              onClick={() => {
+                setDialogName("");
+              }}
             >
               Close
             </Button>
@@ -87,9 +89,10 @@ export default () => {
           <div className="flex justify-end gap-3">
             <Button
               variant="outline"
-              trackName="Delete All Rules - NO"
               className="min-w-[100px]"
-              onClick={() => setDialogName("")}
+              onClick={() => {
+                setDialogName("");
+              }}
             >
               No
             </Button>
@@ -97,8 +100,9 @@ export default () => {
               variant="outline"
               startIcon={<Icon name="trash" />}
               className="min-w-[100px] hover:text-red-400 hover:border-red-400"
-              trackName="Delete All Rules - YES"
-              onClick={() => onHandleDeleteRules()}
+              onClick={() => {
+                onHandleDeleteRules();
+              }}
             >
               Yes
             </Button>
@@ -123,22 +127,12 @@ export default () => {
                   className="hidden"
                   accept="application/JSON"
                 />
-                <Button
-                  variant="outline"
-                  onClick={onHandleImport}
-                  trackName="Import rules"
-                  startIcon={<Icon name="arrowDownLong" />}
-                >
+                <Button variant="outline" onClick={onHandleImport} startIcon={<Icon name="arrowDownLong" />}>
                   Import
                 </Button>
               </div>
               <div>
-                <Button
-                  variant="outline"
-                  onClick={onHandleExportRules}
-                  trackName="Export rules"
-                  startIcon={<Icon name="arrowUpLong" />}
-                >
+                <Button variant="outline" onClick={onHandleExportRules} startIcon={<Icon name="arrowUpLong" />}>
                   Export
                 </Button>
               </div>
@@ -147,7 +141,6 @@ export default () => {
                 onClick={() => setDialogName("deleteAllRules")}
                 variant="outline"
                 className="hover:text-red-400 hover:border-red-400"
-                trackName="Delete All Rules Popup"
                 startIcon={<Icon name="trash" />}
               >
                 Delete All Rules

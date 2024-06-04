@@ -59,6 +59,7 @@ const FormHOC = (FormComponent) => {
 
     const onSubmitHandler = (fields) => {
       if (loading) return;
+      TrackService.trackEvent(`${PageName[pageType]} Rule Create Event`);
       setLoading(true);
       fields.pageType = fields.pageType ? fields.pageType : pageType;
 
@@ -114,7 +115,6 @@ const FormHOC = (FormComponent) => {
 
     const handleDelete = () => {
       const [id, pageType, connectedRuleIds] = getValues(["id", "pageType", "connectedRuleIds"]);
-      TrackService.trackEvent(`${PageName[pageType]} Rule Delete Event`);
       chrome.runtime.sendMessage(
         {
           action: PostMessageAction.DeleteRule,
@@ -164,7 +164,6 @@ const FormHOC = (FormComponent) => {
                   })
                 }
                 startIcon={<Icon name="play" />}
-                trackName="view example"
               >
                 View Example
               </Button>
@@ -172,7 +171,6 @@ const FormHOC = (FormComponent) => {
             {mode === FormMode.UPDATE && (
               <Button
                 variant="outline"
-                trackName="Delete rule edit mode"
                 className="hover:border-red-400 hover:text-red-400"
                 type="button"
                 onClick={handleDelete}
@@ -184,7 +182,6 @@ const FormHOC = (FormComponent) => {
             <div>
               <Button
                 startIcon={<Icon name={mode === FormMode.CREATE || isDirty ? "pencil" : "floppy"} />}
-                trackName={`${PageName[pageType]} Rule Create Event`}
                 onClick={handleSubmit(onSubmitHandler)}
               >
                 {mode === "create" ? "Create" : "Edit"}

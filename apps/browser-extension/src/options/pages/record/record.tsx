@@ -60,9 +60,7 @@ const Record: FC = (): ReactElement => {
           </span>
           <form className="flex gap-5 pt-5">
             <Input ref={searchRef} classes="w-2/3" placeholder="Enter URL e.g https://google.com" />
-            <Button onClick={startRecording} trackName="Start Recording">
-              Start Recording
-            </Button>
+            <Button onClick={startRecording}>Start Recording</Button>
           </form>
         </div>
       </div>
@@ -70,7 +68,7 @@ const Record: FC = (): ReactElement => {
         <Section classes="flex flex-col gap-5">
           <div className="flex justify-between">
             <span className="text-xl">Last Recorded Session</span>
-            <Button type="button" trackName="Open Last Recorder Session">
+            <Button type="button">
               <Link to={`session/${session.id}`}>Open</Link>
             </Button>
           </div>
