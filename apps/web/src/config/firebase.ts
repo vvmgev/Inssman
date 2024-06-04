@@ -1,3 +1,4 @@
+// @ts-ignore
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { initializeApp } from "firebase/app";
 import { getDocs, initializeFirestore, deleteDoc } from "firebase/firestore";
@@ -98,7 +99,7 @@ export const storeRecordedSession = async (session: any) => {
       sessionRef.id,
       "application/octet-stream",
       compressEvents(events),
-      `sessions/${sessionRef.id}`
+      `sessions/${sessionRef.id}`,
     );
     return { docID: sessionRef.id };
   } catch (error) {
