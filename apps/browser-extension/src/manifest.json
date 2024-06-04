@@ -1,0 +1,83 @@
+{
+  "name": "Inssman: Open-Source: Modify HTTP Request",
+  "description": "Intercept HTTP(S) Request, Modify Headers, Log headers, Change Response, Block Request, Redirect, Custom HTML/CSS/JS/JSON",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "serviceWorker.js",
+    "type": "module"
+  },
+  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["setupContentConfig.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://*.inssman.com/app/*"],
+      "js": ["iframeContentScript.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["intercept.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    },
+    {
+      "matches": ["http://localhost:3000/app/*", "http://localhost:3000/app"],
+      "js": ["iframeContentScript.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "world": "MAIN"
+    }
+  ],
+  "externally_connectable": {
+    "ids": ["*"],
+    "matches": ["http://*/*", "https://*/*"],
+    "accepts_tls_channel_id": false
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["recordSession.js", "recorderWidget.js", "startRecording.js", "options.html"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback",
+    "webNavigation",
+    "scripting",
+    "tabs",
+    "webRequest",
+    "unlimitedStorage"
+  ],
+  "host_permissions": ["*://*/*"],
+  "action": {
+    "default_icon": {
+      "16": "/assets/images/icons/inssman_16.png",
+      "32": "/assets/images/icons/inssman_32.png",
+      "48": "/assets/images/icons/inssman_48.png",
+      "128": "/assets/images/icons/inssman_128.png"
+    },
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "/assets/images/icons/inssman_16.png",
+    "32": "/assets/images/icons/inssman_32.png",
+    "48": "/assets/images/icons/inssman_48.png",
+    "128": "/assets/images/icons/inssman_128.png"
+  }
+}
