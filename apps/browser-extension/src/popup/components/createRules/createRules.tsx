@@ -1,15 +1,15 @@
 import Section from "@options/components/common/section/section";
+import TabService from "@/services/TabService";
 import { FC, Fragment, ReactElement, useContext } from "react";
 import { paths } from "@options/components/app/paths";
 import { FeatureToggleContext } from "@/context/featureToggleContext";
-import TabService from "@/services/TabService";
 
 const CreateRules: FC = (): ReactElement => {
   const { featureOpenWebApp } = useContext(FeatureToggleContext);
 
   const onClick = (path) => {
     if (featureOpenWebApp) {
-      const url: string = `https://www.inssman.com/app/create/${path}`;
+      const url: string = `${process.env.API_ROOT}/app/create/${path}`;
       TabService.createTab(url);
       return;
     }

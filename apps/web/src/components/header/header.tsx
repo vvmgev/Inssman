@@ -2,6 +2,7 @@ import Image from "next/image";
 import Logo from "../../../../browser-extension/src/assets/images/icons/inssman_big.png";
 import Link from "next/link";
 import { FC } from "react";
+import { Button } from "@repo/ui/button";
 
 type Props = {
   navbar?: boolean;
@@ -25,13 +26,11 @@ const Header: FC<Props> = ({ navbar }) => {
           </nav>
         )}
         <div className="flex items-center justify-end flex-1 gap-2 sm:gap-2 md:justify-end">
-          <Link
-            className="relative flex items-center h-10 p-px px-3 py-2 space-x-2 text-sm no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 w-36 font-semiboldtext-center ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
-            href="/app"
-            target="_blank"
-          >
-            Open Application
-          </Link>
+          <Button className="px-3 py-2">
+            <Link href="/app" target="_blank">
+              Open Application
+            </Link>
+          </Button>
         </div>
       </div>
     </header>

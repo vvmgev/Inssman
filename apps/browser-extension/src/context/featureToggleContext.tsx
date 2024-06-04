@@ -14,7 +14,7 @@ const FeatureToggleProvider: FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const getConfig = async () => {
-      const response = await fetch("https://inssman.com/api/config");
+      const response = await fetch(`${process.env.API_ROOT}/api/config`);
       const data: FeatureToggles = await response.json();
       setToggles(data);
     };

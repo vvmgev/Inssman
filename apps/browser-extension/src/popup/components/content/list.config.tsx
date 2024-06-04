@@ -34,7 +34,7 @@ export const LIST_HEADERS: ListHeader[] = [
 
 const onEditClick = async (item, featureOpenWebApp) => {
   const url: string = featureOpenWebApp
-    ? `https://www.inssman.com/app/edit/${item.pageType}/${item.id}`
+    ? `${process.env.API_ROOT}app/edit/${item.pageType}/${item.id}`
     : chrome.runtime.getURL(`options/options.html#/edit/${item.pageType}/${item.id}`);
   TabService.createTab(url);
 };

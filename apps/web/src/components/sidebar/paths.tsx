@@ -1,11 +1,11 @@
-import CodeSVG from "../../assets/icons/code.svg";
-import RedirectSVG from "../../assets/icons/redirect.svg";
-import BlockSVG from "../../assets/icons/block.svg";
-import QuestionSVG from "../../assets/icons/question.svg";
-import PencilSquareSVG from "../../assets/icons/pencilSquare.svg";
-import ListBulletSVG from "../../assets/icons/listBullet.svg";
-import PaperClipSVG from "../../assets/icons/paperClip.svg";
-import WrenchSVG from "../../assets/icons/wrench.svg";
+import { code as CodeSVG } from "@repo/ui/icons";
+import { redirect as RedirectSVG } from "@repo/ui/icons";
+import { block as BlockSVG } from "@repo/ui/icons";
+import { question as QuestionSVG } from "@repo/ui/icons";
+import { pencilSquare as PencilSquareSVG } from "@repo/ui/icons";
+import { listBullet as ListBulletSVG } from "@repo/ui/icons";
+import { paperClip as PaperClipSVG } from "@repo/ui/icons";
+import { wrench as WrenchSVG } from "@repo/ui/icons";
 
 export enum PageType {
   REDIRECT = "redirect",

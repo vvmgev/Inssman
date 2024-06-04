@@ -1,7 +1,7 @@
 import HTTPRulesList from "@/components/HTTPRulesList/HTTPRulesList";
 import Link from "next/link";
-import Image from "next/image";
-import GithubSVG from "../../app/github.svg";
+import Icon from "@repo/ui/icon";
+import { Button } from "@repo/ui/button";
 import { TypewriterEffectSmooth } from "@/components/typewriter/typewriter";
 import { Spotlight } from "@/components/typewriter/spotlight";
 
@@ -21,22 +21,47 @@ const Content = () => {
               <TypewriterEffectSmooth />
             </span>
           </div>
+          <ul className="z-10 space-y-1">
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> Block Request
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> Redirect URL (Script, Style, Iframe, Fetch, ...)
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> Modify HTTP Headers
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> Modify HTTP Payload
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> Modify HTTP Query Params
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> No Mock Server
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> No Registration, No Account
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> 100% Free To Use
+            </li>
+            <li className="flex gap-2">
+              <Icon name="checkCircle" /> 100% Open Source
+            </li>
+          </ul>
           <div className="flex gap-5 text-sm">
-            <Link
-              className="relative flex items-center justify-center h-10 p-4 text-center no-underline transition duration-200 cursor-pointer text-slate-100 bg-sky-600 hover:bg-sky-400 ustify-center group hover:shadow-2xl shadow-zinc-900 rounded-2xl"
-              href="/docs/introduction"
-              target="_blank"
-            >
-              Get Started
-            </Link>
-            <Link
-              className="relative flex items-center justify-center h-10 gap-2 p-4 text-center no-underline transition duration-200 border cursor-pointer text-slate-100 border-slate-300/50 ustify-center group hover:shadow-2xl shadow-zinc-900 hover:bg-gray-900 rounded-2xl"
-              href="https://github.com/vvmgev/Inssman"
-              target="_blank"
-            >
-              <Image alt="Inssman Github" src={GithubSVG} />
-              Github
-            </Link>
+            <Button className="z-10">
+              <Link href="/docs/introduction" target="_blank">
+                Get Started
+              </Link>
+            </Button>
+            <Button className="z-10 p-2 rounded-xl" variant="outline">
+              <Link href="https://github.com/vvmgev/Inssman" target="_blank" className="flex items-center gap-2">
+                Source Code
+                <Icon name="github" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

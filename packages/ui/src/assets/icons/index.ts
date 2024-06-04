@@ -6,6 +6,7 @@ export type IconName =
   | "arrowLeft"
   | "block"
   | "bug"
+  | "check"
   | "checkCircle"
   | "clipboard"
   | "code"
@@ -38,6 +39,7 @@ export type IconName =
   | "xCircle"
   | "photo"
   | "floppy"
+  | "envelope"
   | "rocket";
 
 export { default as adjustmentVertical } from "./adjustmentVertical.svg";
@@ -47,6 +49,7 @@ export { default as arrowRight } from "./arrowRight.svg";
 export { default as arrowLeft } from "./arrowLeft.svg";
 export { default as block } from "./block.svg";
 export { default as bug } from "./bug.svg";
+export { default as check } from "./check.svg";
 export { default as checkCircle } from "./checkCircle.svg";
 export { default as clipboard } from "./clipboard.svg";
 export { default as code } from "./code.svg";
@@ -80,3 +83,4 @@ export { default as xCircle } from "./xCircle.svg";
 export { default as photo } from "./photo.svg";
 export { default as floppy } from "./floppy.svg";
 export { default as rocket } from "./rocket.svg";
+export { default as envelope } from "./envelope.svg";

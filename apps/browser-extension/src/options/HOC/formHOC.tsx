@@ -1,7 +1,6 @@
 import BackButton from "@options/components/common/backButton/backButton";
 import Section from "@options/components/common/section/section";
 import Icon from "@repo/ui/icon";
-
 import Sources from "@/options/pages/forms/components/sources/sources";
 import TrackService from "@/services/TrackService";
 import Toast from "@options/components/common/toast/toast";
@@ -163,7 +162,7 @@ const FormHOC = (FormComponent) => {
                 variant="outline"
                 onClick={() =>
                   chrome.tabs.create({
-                    url: `https://inssman.com/docs/${pageType}`,
+                    url: `${process.env.API_ROOT}/docs/${pageType}`,
                   })
                 }
                 startIcon={<Icon name="play" />}

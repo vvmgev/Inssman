@@ -10,6 +10,7 @@
     "./checkbox": "./src/checkbox.tsx",
     "./tooltip": "./src/tooltip/tooltip.tsx",
     "./icon": "./src/icon.tsx",
+    "./icons": "./src/assets/icons/index.ts",
     "./switcher": "./src/switcher.tsx"
   },
   "scripts": {
