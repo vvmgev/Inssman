@@ -1,6 +1,6 @@
 {
   "name": "@repo/browser-extension",
-  "version": "0.0.0",
+  "version": "1.0.64",
   "private": true,
   "scripts": {
     "dev": "BROWSER=chrome mode=development webpack --config webpack/webpack.development.js --watch",
@@ -14,16 +14,6 @@
     "release": "npm run clear:dist && npm run build && npm run create:zip",
     "style": "tailwindcss -i ./src/options/input.css -o ./dist/options/style.css --watch"
   },
-  "keywords": [
-    "chrome extension",
-    "open source",
-    "http",
-    "proxy",
-    "postman",
-    "react"
-  ],
-  "author": "Gevorg Baghdasaryan (vvmgev@gmail.com)",
-  "license": "ISC",
   "dependencies": {
     "@amplitude/analytics-browser": "^1.9.1",
     "@babel/core": "^7.17.10",

@@ -1,81 +1,66 @@
-# Turborepo starter
+[<img width="1003" alt="Inssman logo" src="https://github.com/vvmgev/Inssman/assets/11613729/adfe9084-5c0c-4a81-afbb-2d41f02af315">](https://chromewebstore.google.com/detail/inssman-modify-http-heade/ghlpdbkhlenlfiglgphledhfhchjfjfk)
 
-This is an official starter Turborepo.
+<div align="center">
 
-## Using this example
+[![gitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/vvmgev/inssman/blob/master/LICENSE.md)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/vvmgev/inssman/pulls)</div>
 
-Run the following command:
+<h1 align="center">⚡Welcome HTTP Interceptor⚡</h1>
 
-```sh
-npx create-turbo@latest
-```
+Inssman is a lightweight browser extension designed to faster intercept HTTP(s) requests without additional programs. Inssman built the top of the last APIs which provides control over HTTP(s) responses and requests.
+<a href="https://inssman.com/docs/install">Install Inssman</a>
 
-## What's inside?
+<br />
 
-This Turborepo includes the following packages/apps:
+## About Inssman 🚀
 
-### Apps and Packages
+Inssman is an Open-Source project that makes developers' daily tasks faster and easier.
+<br />
+Inssman is reducing dependency on the backend side by modifying the response of API, even returning data from not existed the API.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+Inssman provides features like redirecting requests to another source, overriding API responses, injecting files to the website, use local files or remote sources in production without deployment. <a href="https://inssman.com/docs/introduction">Read more 🔗 </a>
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+<br />
 
-### Utilities
+## Features ⭐
 
-This Turborepo has some additional tools already setup for you:
+- **Redirect Request 🔀** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Redirect any type of production request to the local environment.
+- **Block Request 🚫** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Block loading third-party libraries.
+- **Modify Request 📎** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Modify API request body without modifying the original code.
+- **Modify Response 📝** \
+  &nbsp; Use cases\
+  &nbsp; &nbsp; Modify API response before backend integration of new changes.
+- **Modify Query Parameters ❔** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Block loading third-party libraries.
+- **Modify Request Header 🌐** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Add authorization header to request.
+- **Modify Response Header 🗞️** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Remove CORS of the browser.
+- **Inject File 🔧** \
+  &nbsp; Use cases \
+  &nbsp; &nbsp; Modify the behavior of mouse/keyboard events or add listeners browser events.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+<br />
 
-### Build
+## Documentation 📕
 
-To build all apps and packages, run the following command:
+For more information and examples please visit <a href="https://inssman.com/docs/introduction">**Documentation**</a> page.
 
-```
-cd my-turborepo
-pnpm build
-```
+<br />
 
-### Develop
+## Contributing 🙏
 
-To develop all apps and packages, run the following command:
+Inssman welcomes contributions in the form of pull requests, whether it's for fixing bugs, improvement or introducing new features. Your valuable contributions help improve the project and make it better for everyone.
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+<br />
+<br />
+<br />
