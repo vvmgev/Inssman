@@ -1,3 +1,4 @@
+"use client";
 import HTTPRulesList from "@/components/HTTPRulesList/HTTPRulesList";
 import Link from "next/link";
 import Image from "next/image";
@@ -5,6 +6,7 @@ import GithubSVG from "../../app/github.svg";
 import { TypewriterEffectSmooth } from "@/components/typewriter/typewriter";
 import { Spotlight } from "@/components/typewriter/spotlight";
 
+console.log("aaa");
 console.log(typeof process !== "undefined" && process?.env);
 
 const Content = () => {
