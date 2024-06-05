@@ -6,7 +6,7 @@ const Page = () => {
   const pathname = usePathname();
   const pathArr = pathname?.split("/") || [];
   const fileName = pathArr[pathArr.length - 1];
-  const Doc = dynamic(() => import(`../files/${fileName}.mdx`));
+  const Doc = dynamic(() => import(`../pages/${fileName}.mdx`));
   return <Doc />;
 };
 

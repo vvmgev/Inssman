@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
-import Sidebar from "@/components/docs/sidebar.mdx";
+import Sidebar from "@/app/docs/components/sidebar.mdx";
 import { usePathname } from "next/navigation";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "../../app/globals.css";

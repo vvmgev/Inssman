@@ -1,5 +1,5 @@
 "use client";
-import Introduction from "./files/introduction.mdx";
+import Introduction from "./pages/introduction.mdx";
 const Page = () => {
   return <Introduction />;
 };
