@@ -1,3 +1,4 @@
+import Icon from "@repo/ui/icon";
 import RCDialog, { DialogProps } from "rc-dialog";
 import { FC, PropsWithChildren } from "react";
 import "rc-dialog/assets/index.css";
@@ -23,6 +24,7 @@ const Dialog: FC<Props> = ({ children, classes, title, ...props }) => {
         mask: `bg-transparent ${classes?.mask || ""}`,
       }}
       {...props}
+      closable={{ closeIcon: <Icon name="cross" className="text-white" /> }}
     >
       {children}
     </RCDialog>

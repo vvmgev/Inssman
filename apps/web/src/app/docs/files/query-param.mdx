@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout';
-import SourceCondition from '../../components/docs/sourceCondition.mdx';
-import Destination from '../../components/docs/destination.mdx';
-import TextBG from '../../components/docs/textBG.mdx'
+import SourceCondition from '@/components/docs/sourceCondition.mdx';
+import Destination from '@/components/docs/destination.mdx';
+import TextBG from '@/components/docs/textBG.mdx'
 
 
 <Head>
@@ -80,6 +79,4 @@ In each Query Param, there is an option to enable or disable it.
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}
+

@@ -1,20 +1,19 @@
 import Section from "@options/components/common/section/section";
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
-import Dialog from "@/options/components/dialog/dialog";
 import IndexDBService from "@/services/IndexDBService";
 import SessionPreview from "./components/sessionPreview/sessionPreview";
 import Toast from "@/options/components/common/toast/toast";
 import Copy from "copy-to-clipboard";
 import Icon from "@repo/ui/icon";
-
 import List from "@options/components/common/list/list";
+import { Button } from "@repo/ui/button";
+import { Input } from "@repo/ui/input";
 import { FC, ReactElement, memo, useEffect, useState } from "react";
 import { LIST_HEADERS, LIST_ITEMS } from "./list.config";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { RecordSession } from "@models/recordSessionModel";
 import { toast } from "react-toastify";
 import { APP_URL } from "@/options/constant";
+import Dialog from "@/options/components/dialog/dialog";
 
 enum SessionListType {
   GRID = "grid",

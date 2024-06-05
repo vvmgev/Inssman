@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout';
-import SourceCondition from '../../components/docs/sourceCondition.mdx';
-import Destination from '../../components/docs/destination.mdx';
-import TextBG from '../../components/docs/textBG.mdx';
+import SourceCondition from '@/components/docs/sourceCondition.mdx';
+import Destination from '@/components/docs/destination.mdx';
+import TextBG from '@/components/docs/textBG.mdx';
 
 <Head>
   <title>Modify Response Header</title>
@@ -82,6 +81,4 @@ This function takes the original response as an argument and can be modified bas
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}
+

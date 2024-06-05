@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout';
-import SourceCondition from '../../components/docs/sourceCondition.mdx';
-import Destination from '../../components/docs/destination.mdx';
-import TextBG from '../../components/docs/textBG.mdx';
+import SourceCondition from '@/components/docs/sourceCondition.mdx';
+import Destination from '@/components/docs/destination.mdx';
+import TextBG from '@/components/docs/textBG.mdx';
 
 <Head>
   <title>Inject File</title>
@@ -72,7 +71,3 @@ If select URL, need to provide a URL to inject the returned data.
     </svg>
   </a>
 </div>
-
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}

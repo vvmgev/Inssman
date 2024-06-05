@@ -38,7 +38,7 @@ class ToggleExntesion extends BaseService {
 
   toggleExtensionOptions = async ({ checked }: { checked: boolean }): Promise<void> => {
     const tabs = await chrome.tabs.query({
-      url: ["https://*.inssman.com/*", chrome.runtime.getURL("options/options.html")],
+      url: ["https://*.inssman.com/*", chrome.runtime.getURL("options.html")],
     });
     if (tabs.length) {
       tabs.forEach((tab) => {

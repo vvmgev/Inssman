@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout'
-import SourceCondition from '../../components/docs/sourceCondition.mdx'
-import Destination from '../../components/docs/destination.mdx'
+import SourceCondition from '@/components/docs/sourceCondition.mdx'
+import Destination from '@/components/docs/destination.mdx'
 
 <Head>
   <title>Block Request</title>
@@ -75,6 +74,3 @@ The Block Request feature is mainly employed to prevent requests, reducing distr
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}

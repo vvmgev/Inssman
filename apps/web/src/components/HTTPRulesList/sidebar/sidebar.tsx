@@ -20,18 +20,14 @@ const Sidebar: FC<Props> = ({ onClick, activeIndex }) => {
                   "flex items-center gap-2 cursor-pointer w-min px-2 py-1 rounded-xl text-slate-400 transition-all duration-200 ease-in-out sm:text-xs md:text-base",
                   activeIndex === index
                     ? "bg-white bg-opacity-20 text-slate-100"
-                    : "hover:bg-white hover:bg-opacity-30 hover:text-slate-100"
+                    : "hover:bg-white hover:bg-opacity-30 hover:text-slate-100",
                 )}
               >
-                <span className="min-w-[24px] text-white">
-                  <Image className="dark:invert" src={icon} alt="icon" />
-                </span>
-                <>
-                  <span className="whitespace-nowrap">{text}</span>
-                </>
+                <span className="min-w-[24px] text-white">{icon}</span>
+                <span className="whitespace-nowrap">{text}</span>
               </div>
             </li>
-          )
+          ),
       )}
     </ul>
   );

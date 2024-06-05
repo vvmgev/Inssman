@@ -42,7 +42,7 @@
     "postcss-preset-env": "^7.5.0",
     "process": "^0.11.10",
     "rc-checkbox": "^3.1.0",
-    "rc-dialog": "^9.3.4",
+    "rc-dialog": "^9.5.1",
     "rc-input": "^1.4.3",
     "rc-select": "^14.12.0",
     "rc-tooltip": "^6.1.3",

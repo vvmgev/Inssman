@@ -1,5 +1,3 @@
-import { NAMESPACE } from "@/options/constant";
-
 const createIframe = (src: string) => {
   const iframe = document.createElement("iframe");
   iframe.src = src;
@@ -14,13 +12,10 @@ const createIframe = (src: string) => {
   return iframe;
 };
 
-window[NAMESPACE] = window[NAMESPACE] || {};
-window[NAMESPACE].isExtensionInstalled = true;
-
 window.postMessage({
   source: "inssman:iframe",
   action: "generateUrl",
-  data: { filePath: `options/options.html#${window.location.pathname.replace("/app", "")}` },
+  data: { filePath: `options.html#${window.location.pathname.replace("/app", "")}` },
 });
 
 window.addEventListener("message", (event) => {

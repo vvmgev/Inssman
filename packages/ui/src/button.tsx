@@ -21,7 +21,7 @@ type Props = PropsWithChildren<{
 const buttonVariants: ButtonVariant = {
   primary: "bg-sky-600 hover:bg-sky-400 text-gray-100",
   secondary: "",
-  outline: "border border-slate-500 text-slate-300 hover:border-sky-400 hover:text-sky-400",
+  outline: "border border-slate-800 text-slate-300 hover:border-sky-400 hover:text-sky-400",
   icon: "p-0",
   link: "p-0 hover:underline hover:underline-offset-2 hover:text-sky-500",
   disabled:

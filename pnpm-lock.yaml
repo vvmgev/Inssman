@@ -114,7 +114,7 @@ importers:
         specifier: ^3.1.0
         version: 3.3.0(react-dom@18.2.0)(react@18.2.0)
       rc-dialog:
-        specifier: ^9.3.4
+        specifier: ^9.5.1
         version: 9.5.1(react-dom@18.2.0)(react@18.2.0)
       rc-input:
         specifier: ^1.4.3
@@ -332,6 +332,9 @@ importers:
       rc-checkbox:
         specifier: ^3.1.0
         version: 3.3.0(react-dom@18.2.0)(react@18.2.0)
+      rc-dialog:
+        specifier: ^9.5.1
+        version: 9.5.1(react-dom@18.2.0)(react@18.2.0)
       rc-input:
         specifier: ^1.4.3
         version: 1.5.1(react-dom@18.2.0)(react@18.2.0)
@@ -345,6 +348,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@repo/tailwind-config':
+        specifier: workspace:*
+        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -9971,7 +9977,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.24.6
       '@rc-component/portal': 1.1.2(react-dom@18.2.0)(react@18.2.0)
       classnames: 2.5.1
       rc-motion: 2.9.1(react-dom@18.2.0)(react@18.2.0)

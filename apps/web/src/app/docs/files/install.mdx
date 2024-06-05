@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Image from "next/image";
-import MdxLayout from '../../components/layouts/mdxLayout'
-import TextBG from '../../components/docs/textBG.mdx'
+import TextBG from '@/components/docs/textBG.mdx'
 
 <Head>
   <title>Install</title>
@@ -61,8 +60,3 @@ Firefox and Safari extensions will be available soon.
     </svg>
   </a>
 </div>
-
-
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}

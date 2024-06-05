@@ -99,7 +99,7 @@ class RecordSessionService extends BaseService {
     this.removeListener(ListenerType.ON_REMOVED_TAB, this.onRemovedTab);
     const lastRecordedSession = await this.getLastRecordedSession();
     if (lastRecordedSession.id) {
-      const url = chrome.runtime.getURL(`options/options.html#/record/session/${lastRecordedSession.id}`);
+      const url = chrome.runtime.getURL(`options.html#/record/session/${lastRecordedSession.id}`);
       TabService.createTab(url);
     }
   };

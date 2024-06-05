@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout';
-import SourceCondition from '../../components/docs/sourceCondition.mdx';
+import SourceCondition from '@/components/docs/sourceCondition.mdx';
 
 <Head>
   <title>Source Condition</title>
@@ -180,6 +179,4 @@ Result         - No Match ❌
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}
+

@@ -1,6 +1,5 @@
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import Dialog from "@/options/components/dialog/dialog";
 import { Tooltip } from "@repo/ui/tooltip";
 import Icon from "@repo/ui/icon";
 
@@ -8,6 +7,7 @@ import { ListHeader, ListItems } from "@options/components/common/list/list";
 import { Link } from "react-router-dom";
 import { timeDifference } from "@utils/timeDifference";
 import { cutString } from "@utils/cutString";
+import Dialog from "@/options/components/dialog/dialog";
 
 export const LIST_HEADERS: ListHeader[] = [
   {

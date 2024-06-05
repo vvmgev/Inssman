@@ -1,11 +1,4 @@
-import { code as CodeSVG } from "@repo/ui/icons";
-import { redirect as RedirectSVG } from "@repo/ui/icons";
-import { block as BlockSVG } from "@repo/ui/icons";
-import { question as QuestionSVG } from "@repo/ui/icons";
-import { pencilSquare as PencilSquareSVG } from "@repo/ui/icons";
-import { listBullet as ListBulletSVG } from "@repo/ui/icons";
-import { paperClip as PaperClipSVG } from "@repo/ui/icons";
-import { wrench as WrenchSVG } from "@repo/ui/icons";
+import Icon from "@repo/ui/icon";
 
 export enum PageType {
   REDIRECT = "redirect",
@@ -22,46 +15,46 @@ export const paths = [
   {
     path: PageType.REDIRECT,
     text: "Redirect Request",
-    icon: RedirectSVG,
+    icon: <Icon name="redirect" />,
   },
   {
     path: PageType.BLOCK,
     text: "Block Request",
-    icon: BlockSVG,
+    icon: <Icon name="block" />,
   },
   {
     path: PageType.QUERY_PARAM,
     text: "Query Param",
-    icon: QuestionSVG,
+    icon: <Icon name="question" />,
   },
   {
     path: PageType.MODIFY_HEADER,
     text: "Modify Header",
-    icon: CodeSVG,
+    icon: <Icon name="code" />,
   },
   {
     path: PageType.MODIFY_RESPONSE,
     text: "Modify Response",
-    icon: PencilSquareSVG,
+    icon: <Icon name="pencilSquare" />,
   },
   {
     path: PageType.INJECT_FILE,
     text: "Inject File",
-    icon: WrenchSVG,
+    icon: <Icon name="wrench" />,
   },
   {
     path: PageType.MODIFY_REQUEST_BODY,
     text: "Modify Request Body",
-    icon: PaperClipSVG,
+    icon: <Icon name="paperClip" />,
   },
   {
     path: PageType.HTTP_LOGGER,
     text: "HTTP Logger",
-    icon: ListBulletSVG,
+    icon: <Icon name="listBullet" />,
   },
 ];
 
-export const popularPaths = [PageType.MODIFY_HEADER];
+export const popularPaths = [PageType.MODIFY_HEADER, PageType.REDIRECT];
 
 export const templates: any = {
   [PageType.REDIRECT]: [

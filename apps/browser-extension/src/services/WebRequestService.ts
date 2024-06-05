@@ -13,7 +13,7 @@ chrome.runtime.onConnect.addListener((port) => {
       }
       if (message === "openWindow") {
         chrome.windows.create({
-          url: chrome.runtime.getURL("HTTPLoggerWindow/HTTPLoggerWindow.html"),
+          url: chrome.runtime.getURL("HTTPLoggerWindow.html"),
           type: "popup",
         });
       }

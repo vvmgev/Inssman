@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import MdxLayout from '../../components/layouts/mdxLayout';
-import SourceCondition from '../../components/docs/sourceCondition.mdx';
-import TextBG from '../../components/docs/textBG.mdx';
+import SourceCondition from '@/components/docs/sourceCondition.mdx';
+import TextBG from '@/components/docs/textBG.mdx';
 
 <Head>
   <title>Modify Request Body</title>
@@ -45,6 +44,4 @@ The Modify Request Body allows to modify the API request body with custom payloa
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}
+

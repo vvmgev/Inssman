@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import MdxLayout from '../../components/layouts/mdxLayout';
-import TextBG from '../../components/docs/textBG.mdx';
+
+import TextBG from '@/components/docs/textBG.mdx';
 
 <Head>
   <title>Quick Start</title>
@@ -52,6 +52,4 @@ Inssman easyly can modify any HTTP request & response.
   </a>
 </div>
 
-export default function MDXPage({ children }) {
-  return <MdxLayout>{children}</MdxLayout>;
-}
+

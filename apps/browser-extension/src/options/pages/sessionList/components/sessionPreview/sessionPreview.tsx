@@ -3,7 +3,7 @@ import Icon from "@repo/ui/icon";
 import Section from "@options/components/common/section/section";
 import { Tooltip } from "@repo/ui/tooltip";
 import SessionPlayer from "@options/components/common/sessionPlayer/sessionPlayer";
-import Dialog from "@/options/components/dialog/dialog";
+
 import { Button } from "@repo/ui/button";
 import rrwebPlayer from "rrweb-player";
 import { RecordSession } from "@models/recordSessionModel";
@@ -11,6 +11,7 @@ import { PostMessageAction } from "@/models/postMessageActionModel";
 import { Link } from "react-router-dom";
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import TrackService from "@/services/TrackService";
+import Dialog from "@/options/components/dialog/dialog";
 
 type Props = {
   id: number;
