@@ -27,7 +27,7 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       turbo:
-        specifier: latest
+        specifier: ^2.0.1
         version: 2.0.1
 
   apps/browser-extension:

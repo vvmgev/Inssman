@@ -20,13 +20,13 @@
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\""
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
-    "prettier": "^3.2.5",
-    "turbo": "latest",
     "@commitlint/cli": "^18.6.1",
     "@commitlint/config-conventional": "^18.6.2",
-    "husky": "^9.0.11"
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
+    "turbo": "^2.0.1"
   },
   "packageManager": "pnpm@8.9.0",
   "engines": {
