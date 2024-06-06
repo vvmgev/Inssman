@@ -2,8 +2,8 @@ import Image from "next/image";
 import GithubSVG from "../../app/github.svg";
 import EnvelopeSVG from "../../app/envelope.svg";
 import DocumentSVG from "../../app/document.svg";
-import Logo from "../../../../browser-extension/src/assets/images/icons/inssman_big.png";
 import Link from "next/link";
+import Logo from "../../../../browser-extension/src/assets/images/icons/inssman_big.png";
 
 const Footer = () => {
   return (
