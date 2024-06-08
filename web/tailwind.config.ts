@@ -17,6 +17,7 @@ const config: Config = {
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",
         box: "box 25s linear infinite",
+        "ping-long": "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
       },
       keyframes: {
         spotlight: {
@@ -39,6 +40,12 @@ const config: Config = {
           },
           "100%": {
             transform: "translateY(-1000px) rotate(720deg)",
+          },
+        },
+        ping: {
+          "75%, 100% ": {
+            transform: "scale(2)",
+            opacity: "0",
           },
         },
       },
