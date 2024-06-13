@@ -48,6 +48,14 @@ const Content = () => {
             </li>
             <li className="flex gap-2">
               <Image src={CheckCircleSVG} className="dark:invert" alt="" />
+              <span className="text-transparent from-yellow-200 bg-gradient-to-r to-yellow-400 bg-clip-text">
+                UNLIMITED
+              </span>
+              Rules
+              <Image src={StarSVG} alt="" className="animate-ping-long" />
+            </li>
+            <li className="flex gap-2">
+              <Image src={CheckCircleSVG} className="dark:invert" alt="" />
               <span className="text-transparent from-yellow-200 bg-gradient-to-r to-yellow-400 bg-clip-text">100%</span>
               Free To Use
               <Image src={StarSVG} alt="" className="animate-ping-long" />
