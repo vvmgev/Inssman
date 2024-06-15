@@ -4,7 +4,7 @@ type FeatureToggle = Record<string, boolean>;
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<FeatureToggle>) {
   res.status(200).json({
-    featureOpenWebApp: false,
+    featureOpenWebApp: true,
     featureUseCache: false,
     featureShowRecord: true,
   });
