@@ -60,7 +60,7 @@ const FormHOC = (FormComponent) => {
     const onSubmitHandler = (fields) => {
       if (loading) return;
       setLoading(true);
-      fields.pageType = fields.pageType ? fields.pageType : pageType;
+      fields.pageType = fields.pageType || pageType;
 
       const ruleMetaData = {
         ...fields,

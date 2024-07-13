@@ -73,7 +73,7 @@ const MonacoEditor: FC<Props> = ({ language, onChange, value = "" }: any) => {
       >
         Pritter
       </div>
-      <div className="w-full h-[320px]" ref={divEl}></div>
+      <div className="w-full h-[400px]" ref={divEl}></div>
     </>
   );
 };
