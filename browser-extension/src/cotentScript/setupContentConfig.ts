@@ -1,11 +1,5 @@
-import { PostMessageAction } from "@models/postMessageActionModel";
-
-const setupConfig = () => {
-  injectRecordSession();
-  injectRecorderWidget();
-};
-
 const injectScript = (src: string) => {
+  console.log("gev", window.location.href);
   const script = document.createElement("script");
   script.type = "text/javascript";
   script.src = src;
@@ -14,9 +8,6 @@ const injectScript = (src: string) => {
   (document.head || document.documentElement).appendChild(script);
   return script;
 };
-
-const injectRecordSession = () => injectScript(chrome.runtime.getURL("recordSession/recordSession.js"));
-const injectRecorderWidget = () => injectScript(chrome.runtime.getURL("recorderWidget/recorderWidget.js"));
 
 window.addEventListener("message", (event) => {
   const { action, source, data } = event.data;
@@ -41,17 +32,4 @@ window.addEventListener("message", (event) => {
       },
     });
   }
-
-  if (action === "saveRecordedSession") {
-    chrome.runtime.sendMessage({
-      action: PostMessageAction.SaveRecording,
-      data,
-    });
-  }
-
-  if (action === "stopRecordedSession") {
-    chrome.runtime.sendMessage({ action: PostMessageAction.StopRecording });
-  }
 });
-
-setupConfig();

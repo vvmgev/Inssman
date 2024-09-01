@@ -3,7 +3,6 @@ import { FC, PropsWithChildren, createContext, useEffect, useState } from "react
 export type FeatureToggles = {
   featureOpenWebApp: boolean;
   featureUseCache: boolean;
-  featureShowRecord: boolean;
 };
 type Props = PropsWithChildren<{}>;
 

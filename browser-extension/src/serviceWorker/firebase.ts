@@ -1,16 +1,4 @@
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  getDoc,
-  deleteDoc,
-  initializeFirestore,
-  where,
-  query,
-  getDocs,
-  documentId,
-} from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 import { strFromU8, strToU8, zlibSync, unzlibSync } from "fflate";
 import { getBlob, getStorage, ref as refStorage, uploadBytes, deleteObject } from "firebase/storage";
 import { initializeApp } from "firebase/app";
@@ -27,8 +15,6 @@ export const trackingRef = ref(db, "tracking");
 export const sessionErrorRef = ref(db, "sessionError");
 // Firestore
 export const firestoreApp = initializeFirestore(app, { experimentalForceLongPolling: true });
-export const firestoreDB = getFirestore();
-const recordedSessionsCollectionRef = collection(firestoreDB, "recordedSessions");
 
 export const compressEvents = (events: any): string => {
   return strFromU8(zlibSync(strToU8(JSON.stringify(events))), true);
@@ -70,62 +56,6 @@ export const getFile = async (filePath: string) => {
   } catch (error) {
     storeSessionError(JSON.stringify(error));
     return Promise.reject(new Error("notFound"));
-  }
-};
-
-export const storeRecordedSession = async (session: any) => {
-  const { events, ...data } = session;
-  try {
-    const { id } = await addDoc(recordedSessionsCollectionRef, data);
-    const createFileResult = await createFile(id, "application/octet-stream", compressEvents(events), `sessions/${id}`);
-    return { docID: id };
-  } catch (error) {
-    storeSessionError(JSON.stringify(error));
-    return Promise.reject(error);
-  }
-};
-
-export const getRecordedSessionByDocIDs = async (ids: string[]) => {
-  try {
-    const q = query(recordedSessionsCollectionRef, where(documentId(), "in", ids));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => doc.data()) || [];
-  } catch (error: any) {
-    storeSessionError(JSON.stringify(error));
-  }
-};
-
-export const getRecordedSessionByID = async (id: string) => {
-  try {
-    const sessionRef = doc(recordedSessionsCollectionRef, id);
-    const sessionSnapshot = await getDoc(sessionRef);
-
-    if (sessionSnapshot.exists()) {
-      const data = sessionSnapshot.data();
-      const events = await getFile(`sessions/${id}`);
-
-      return {
-        ...data,
-        events: decompressEvents(events),
-      };
-    } else {
-      throw new Error("notFound");
-    }
-  } catch (error: any) {
-    storeSessionError(JSON.stringify(error));
-    return { error: true, message: error.message };
-  }
-};
-
-export const removeRecordedSession = async (id) => {
-  try {
-    const recordedSessionMetaDataRef = doc(recordedSessionsCollectionRef, id);
-    deleteDoc(recordedSessionMetaDataRef);
-    const storage = getStorage(app);
-    const recordedSessionRef = refStorage(storage, `sessions/${id}`);
-    deleteObject(recordedSessionRef);
-  } catch (error) {
-    storeSessionError(JSON.stringify(error));
   }
 };
 

@@ -6,7 +6,6 @@
   "background": {
     "service_worker": "./serviceWorker/serviceWorker.js",
     "type": "module"
-
   },
   "options_page": "options/options.html",
   "options_ui": {
@@ -20,12 +19,14 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "js": ["setupContentConfig/setupContentConfig.js"],
-      "run_at": "document_start"
+      "run_at": "document_start",
+      "all_frames": true
     },
     {
       "matches": ["*://*.inssman.com/app/*"],
       "js": ["iframeContentScript/iframeContentScript.js"],
       "run_at": "document_start",
+      "all_frames": true,
       "world": "MAIN"
     },
     {
@@ -45,19 +46,12 @@
   ],
   "externally_connectable": {
     "ids": ["*"],
-    "matches": [
-      "http://*/*",
-      "https://*/*"
-    ],
+    "matches": ["http://*/*", "https://*/*"],
     "accepts_tls_channel_id": false
   },
   "web_accessible_resources": [
     {
-      "resources": [
-        "recordSession/recordSession.js",
-        "recorderWidget/recorderWidget.js",
-        "startRecording/startRecording.js",
-        "options/options.html"],
+      "resources": ["options/options.html"],
       "matches": ["<all_urls>"]
     }
   ],
@@ -72,9 +66,7 @@
     "webRequest",
     "unlimitedStorage"
   ],
-  "host_permissions": [
-    "*://*/*"
-  ],
+  "host_permissions": ["*://*/*"],
   "action": {
     "default_icon": {
       "16": "/assets/images/icons/inssman_16.png",

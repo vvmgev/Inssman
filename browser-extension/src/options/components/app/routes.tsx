@@ -1,8 +1,5 @@
 import RouteListener from "@options/components/routeListener/routeListener";
 import HTTPLogger from "@options/pages/httpLogger/httpLogger";
-import Record from "@options/pages/record/record";
-import SessionList from "@options/pages/sessionList/sessionList";
-import SessionDetails from "@/options/pages/sessionDetails/sessionDetails";
 import Main from "@options/components/main/main";
 import NotFound from "@options/components/notFound/notFound";
 import Redirect from "@/options/pages/forms/redirect/redirect";
@@ -47,12 +44,6 @@ const AppRoutes = () => {
           <Route path="modify-response/:id" element={<ModifyResponse key={34} />} />
           <Route path="modify-request-body/:id" element={<InjectFile key={35} />} />
           <Route path="inject-file/:id" element={<ModifyRequestBody key={36} />} />
-        </Route>
-        <Route path="/record">
-          <Route path="" element={<Record />} />
-          <Route path="session" element={<SessionList />} />
-          <Route path="shared/session/:id" element={<SessionDetails />} />
-          <Route path="session/:id" element={<SessionDetails />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Route>

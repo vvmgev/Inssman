@@ -15,10 +15,7 @@ module.exports = {
   entry: {
     serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
     intercept: path.resolve(__dirname, "../src/cotentScript", "intercept.ts"),
-    recorderWidget: path.resolve(__dirname, "../src/cotentScript", "recorderWidget.ts"),
     setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
-    recordSession: path.resolve(__dirname, "../src/recordSession", "recordSession.ts"),
-    startRecording: path.resolve(__dirname, "../src/startRecording", "startRecording.ts"),
     options: path.resolve(__dirname, "../src/options", "options.tsx"),
     popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),
     iframeContentScript: path.resolve(__dirname, "../src/iframeContentScript", "iframeContentScript.ts"),

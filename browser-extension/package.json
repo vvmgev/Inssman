@@ -44,7 +44,6 @@
     "file-loader": "^6.2.0",
     "firebase": "^10.7.1",
     "html-webpack-plugin": "^5.5.0",
-    "html2canvas": "^1.4.1",
     "idb": "^8.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "mixpanel-browser": "^2.47.0",

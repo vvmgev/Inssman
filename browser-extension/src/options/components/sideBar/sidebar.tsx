@@ -1,18 +1,13 @@
 import Section from "@components/common/section/section";
 import Tooltip from "@components/common/tooltip/tooltip";
-import SkeletonAnimation from "../skeletonAnimation/skeletonAnimation";
 import Icon from "@options/components/common/icon/icon";
 import SidebarSection from "./components/sidebarSection/sidebarSection";
 import SidebarItem from "./components/sidebarItem/sidebarItem";
 import { useLocation } from "react-router-dom";
-import { Fragment, useContext } from "react";
-import { FeatureToggleContext } from "@context/featureToggleContext";
 import { paths, popularPaths } from "../app/paths";
 import { templates } from "../app/templates";
 
 const Sidebar = () => {
-  const { featureShowRecord } = useContext(FeatureToggleContext);
-  const AnimationElement = featureShowRecord ? SkeletonAnimation : Fragment;
   const location = useLocation();
 
   return (
@@ -48,33 +43,6 @@ const Sidebar = () => {
           );
         })}
       </SidebarSection>
-      <AnimationElement>
-        <SidebarSection
-          title={
-            <div className="flex">
-              <div className="text-slate-400 whitespace-nowrap">Record Session</div>
-              {featureShowRecord ? (
-                <sup className="inline-block text-xs text-red-500 bottom-4 whitespace-nowrap">&nbsp;Beta</sup>
-              ) : (
-                <sup className="inline-block text-xs bottom-4 text-sky-500 whitespace-nowrap">&nbsp;Coming Soon</sup>
-              )}
-            </div>
-          }
-        >
-          <SidebarItem
-            title="Record"
-            icon={<Icon name="videoCamera" />}
-            url={featureShowRecord ? "/record" : "#"}
-            active={location.pathname === "/record"}
-          />
-          <SidebarItem
-            title="Recorded Sessions"
-            icon={<Icon name="squares" />}
-            url={featureShowRecord ? "/record/session" : "#"}
-            active={location.pathname === "/record/session"}
-          />
-        </SidebarSection>
-      </AnimationElement>
       <div className="py-2 border-none">
         <SidebarSection title="Templates" classes="border-none">
           {paths.map(({ icon, path }) => {
