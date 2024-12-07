@@ -50,6 +50,7 @@ const generateListeners = (callback: Function) => {
     [ListenerType.ON_BEFORE_SEND_HEADERS]: (() => {
       const listener = callback(ListenerType.ON_BEFORE_SEND_HEADERS);
       return {
+        // @ts-ignore
         addListener: (...args) => chrome.webRequest.onBeforeSendHeaders.addListener(listener, ...args),
         removeListener: () => chrome.webRequest.onBeforeSendHeaders.removeListener(listener),
       };
@@ -57,6 +58,7 @@ const generateListeners = (callback: Function) => {
     [ListenerType.ON_HEADERS_RECEVIED]: (() => {
       const listener = callback(ListenerType.ON_HEADERS_RECEVIED);
       return {
+        // @ts-ignore
         addListener: (...args) => chrome.webRequest.onHeadersReceived.addListener(listener, ...args),
         removeListener: () => chrome.webRequest.onHeadersReceived.removeListener(listener),
       };
@@ -64,6 +66,7 @@ const generateListeners = (callback: Function) => {
     [ListenerType.ON_COMPLETED]: (() => {
       const listener = callback(ListenerType.ON_COMPLETED);
       return {
+        // @ts-ignore
         addListener: (...args) => chrome.webRequest.onCompleted.addListener(listener, ...args),
         removeListener: () => chrome.webRequest.onCompleted.removeListener(listener),
       };

@@ -14,7 +14,7 @@ const outputPath = path.join(__dirname, "../", `dist/${process.env.BROWSER}`);
 module.exports = {
   entry: {
     serviceWorker: path.resolve(__dirname, "../src/serviceWorker", "serviceWorker.ts"),
-    intercept: path.resolve(__dirname, "../src/cotentScript", "intercept.ts"),
+    interceptor: path.resolve(__dirname, "../src/cotentScript", "interceptor.ts"),
     setupContentConfig: path.resolve(__dirname, "../src/cotentScript", "setupContentConfig.ts"),
     options: path.resolve(__dirname, "../src/options", "options.tsx"),
     popup: path.resolve(__dirname, "../src/popup", "popup.tsx"),

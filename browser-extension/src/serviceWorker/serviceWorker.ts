@@ -4,7 +4,7 @@ import InjectCodeService from "@services/InjectCodeService";
 import BaseService from "@services/BaseService";
 import storgeDataConverter from "./storgeDataConverter";
 import handleError from "./errorHandler";
-import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
+import { ModificationType } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
 import { ListenerType } from "@services/ListenerService/ListenerService";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
@@ -17,11 +17,12 @@ class ServiceWorker extends BaseService {
 
   constructor() {
     super();
+    InjectCodeService.registerContentScripts();
     chrome.runtime.setUninstallURL(UNINSTALL_URL);
 
     this.addListener(ListenerType.ON_INSTALL, this.onInstalled)
       .addListener(ListenerType.ON_MESSAGE, this.onMessage)
-      .addListener(ListenerType.ON_UPDATE_TAB, this.onUpdatedTab);
+      .addListener(ListenerType.ON_COMMITTED, this.onCommitted);
 
     this.listenersMap = {
       [PostMessageAction.GetUserId]: this.getUserId,
@@ -29,6 +30,29 @@ class ServiceWorker extends BaseService {
       [PostMessageAction.URLChanged]: this.URLChanged,
     };
   }
+
+  onCommitted = async (details) => {
+    console.log("details", details);
+    const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => details.url?.startsWith(url));
+    if (isUrlExluded) {
+      return;
+    }
+    const filters = [
+      [
+        { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
+        { key: "enabled", value: true },
+      ],
+      // [
+      //   { key: "pageType", value: PageType.MODIFY_RESPONSE },
+      //   { key: "modificationType", value: ModificationType.DYNAMIC },
+      //   { key: "enabled", value: true },
+      // ],
+    ];
+
+    const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
+    console.log("rules", rules);
+    InjectCodeService.injectRules(details.tabId, rules);
+  };
 
   onMessage = async (request, sender, sendResponse) => {
     const handler = this.listenersMap[request.action];
@@ -52,32 +76,28 @@ class ServiceWorker extends BaseService {
     storgeDataConverter();
   };
 
-  onUpdatedTab = (tabId, changeInfo, tab): void => {
-    this.injectContentScript(tabId, changeInfo, tab);
-  };
+  // injectContentScript = async (tabId, _, tab) => {
+  //   const isExtensionDisabled = !(await this.getExtensionStatus());
+  //   if (isExtensionDisabled) {
+  //     return;
+  //   }
+  //   const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => tab.url?.startsWith(url));
+  //   const filters = [
+  //     [
+  //       { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
+  //       { key: "enabled", value: true },
+  //     ],
+  //     [
+  //       { key: "pageType", value: PageType.MODIFY_RESPONSE },
+  //       { key: "modificationType", value: ModificationType.DYNAMIC },
+  //       { key: "enabled", value: true },
+  //     ],
+  //   ];
 
-  injectContentScript = async (tabId, _, tab) => {
-    const isExtensionDisabled = !(await this.getExtensionStatus());
-    if (isExtensionDisabled) {
-      return;
-    }
-    const isUrlExluded: boolean = EXCLUDED_URLS.some((url) => tab.url?.startsWith(url));
-    const filters = [
-      [
-        { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
-        { key: "enabled", value: true },
-      ],
-      [
-        { key: "pageType", value: PageType.MODIFY_RESPONSE },
-        { key: "responseMode", value: ResponseMode.DYNAMIC },
-        { key: "enabled", value: true },
-      ],
-    ];
-
-    const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
-    if (!BSService.isSupportScripting() || isUrlExluded || !rules.length) return;
-    InjectCodeService.injectContentScript(tabId, rules);
-  };
+  //   const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
+  //   if (!BSService.isSupportScripting() || isUrlExluded || !rules.length) return;
+  //   InjectCodeService.injectContentScript(tabId, rules);
+  // };
 
   async getUserId(): Promise<{ [key: string]: number }> {
     return { [StorageKey.USER_ID]: await StorageService.getUserId() };

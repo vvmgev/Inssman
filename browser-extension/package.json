@@ -33,7 +33,7 @@
     "@babel/preset-react": "^7.16.7",
     "@mswjs/interceptors": "^0.22.14",
     "@svgr/webpack": "^6.5.1",
-    "@types/chrome": "^0.0.181",
+    "@types/chrome": "^0.0.287",
     "babel-loader": "^8.2.5",
     "concurrently": "^7.1.0",
     "copy-to-clipboard": "^3.3.3",

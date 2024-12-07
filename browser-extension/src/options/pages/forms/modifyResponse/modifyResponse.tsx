@@ -6,7 +6,7 @@ import dynamicCodeTemplate from "./dynamicCodeTemplate";
 import { EditorLanguage } from "@/models/formFieldModel";
 import { Controller, useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { ResponseMode } from "./generateModifyResponseRules";
+import { ModificationType } from "./generateModifyResponseRules";
 
 const editorLangOptions = Object.entries(EditorLanguage).reduce((previous: any, [value, label]: any) => {
   previous.push({ value: value.toLowerCase(), label });
@@ -18,11 +18,11 @@ const ModifyResponseForm = () => {
   const [staticValue, setStaticValue] = useState<string>("");
   const [staticLanguage, setStaticLanguage] = useState<EditorLanguage>(EditorLanguage.JSON);
   const [dynamicValue, setDynamicValue] = useState<string>(dynamicCodeTemplate);
-  const [editorValue, editorLang, responseMode] = watch(["editorValue", "editorLang", "responseMode"]);
+  const [editorValue, editorLang, modificationType] = watch(["editorValue", "editorLang", "modificationType"]);
 
   useEffect(() => {
-    if (responseMode) {
-      if (responseMode === ResponseMode.STATIC) {
+    if (modificationType) {
+      if (modificationType === ModificationType.STATIC) {
         setStaticValue(editorValue);
         setValue("editorLang", staticLanguage);
       } else {
@@ -30,18 +30,18 @@ const ModifyResponseForm = () => {
         setDynamicValue(editorValue);
       }
     }
-  }, [editorValue, responseMode]);
+  }, [editorValue, modificationType]);
 
   useEffect(() => {
-    if (responseMode) {
-      if (responseMode === ResponseMode.STATIC) {
+    if (modificationType) {
+      if (modificationType === ModificationType.STATIC) {
         setStaticLanguage(editorLang);
       }
     }
   }, [editorLang]);
 
   const handleChangeResponseMode = (mode) => {
-    if (mode === ResponseMode.STATIC) {
+    if (mode === ModificationType.STATIC) {
       setValue("editorValue", staticValue, { shouldDirty: true });
     } else {
       setValue("editorValue", dynamicValue, { shouldDirty: true });
@@ -50,7 +50,7 @@ const ModifyResponseForm = () => {
 
   useEffect(() => {
     setValue("editorLang", staticLanguage);
-    setValue("responseMode", ResponseMode.STATIC);
+    setValue("modificationType", ModificationType.STATIC);
   }, []);
 
   return (
@@ -64,7 +64,7 @@ const ModifyResponseForm = () => {
             render={({ field, fieldState }) => {
               return (
                 <Select
-                  disabled={getValues("responseMode") === ResponseMode.DYNAMIC}
+                  disabled={getValues("modificationType") === ModificationType.DYNAMIC}
                   options={editorLangOptions}
                   error={fieldState.error?.message}
                   {...field}
@@ -76,17 +76,17 @@ const ModifyResponseForm = () => {
       </div>
       <div className="flex gap-3">
         <Controller
-          name="responseMode"
+          name="modificationType"
           control={control}
           render={({ field: { value, onChange, ...field } }) => {
             return (
               <Checkbox
                 label="Static Response"
                 type="radio"
-                checked={value === ResponseMode.STATIC}
-                value={ResponseMode.STATIC}
+                checked={value === ModificationType.STATIC}
+                value={ModificationType.STATIC}
                 onChange={(value) => {
-                  handleChangeResponseMode(ResponseMode.STATIC);
+                  handleChangeResponseMode(ModificationType.STATIC);
                   onChange(value);
                 }}
                 {...field}
@@ -95,7 +95,7 @@ const ModifyResponseForm = () => {
           }}
         />
         <Controller
-          name="responseMode"
+          name="modificationType"
           control={control}
           render={({ field: { value, onChange, ...field } }) => {
             return (
@@ -106,10 +106,10 @@ const ModifyResponseForm = () => {
                     Dynamic Response<sup className="ml-1 text-xs text-red-500">Beta</sup>
                   </>
                 }
-                checked={value === ResponseMode.DYNAMIC}
-                value={ResponseMode.DYNAMIC}
+                checked={value === ModificationType.DYNAMIC}
+                value={ModificationType.DYNAMIC}
                 onChange={(value) => {
-                  handleChangeResponseMode(ResponseMode.DYNAMIC);
+                  handleChangeResponseMode(ModificationType.DYNAMIC);
                   onChange(value);
                 }}
                 {...field}

@@ -3,18 +3,18 @@ import { encode } from "@/utils/encode";
 
 import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 
-export enum ResponseMode {
+export enum ModificationType {
   STATIC = "static",
   DYNAMIC = "dynamic",
 }
 
 const generateRule = (fields) => {
-  if (fields.responseMode === ResponseMode.DYNAMIC) {
+  if (fields.modificationType === ModificationType.DYNAMIC) {
     return null;
   }
   return fields.conditions.map(() => ({
     action: {
-      type: RuleActionType.REDIRECT,
+      type: "redirect",
       redirect: {
         url: encode(MimeTypeMap[fields.editorLang], fields.editorValue),
         // ...generateRegexSubstitution(ruleMetaData),

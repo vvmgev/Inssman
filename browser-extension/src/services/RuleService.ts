@@ -105,7 +105,9 @@ class RuleService extends BaseService {
       connectedRuleIds.push(id);
 
       if (ruleMetaData.enabled) {
-        await BrowserRuleService.set([{ ...rule, id }]);
+        // TODO: disable for all type of rule
+        // until refactor all features will be done
+        // await BrowserRuleService.set([{ ...rule, id }]);
       }
     }
     const id = connectedRuleIds[0] || generateId();
@@ -129,7 +131,9 @@ class RuleService extends BaseService {
         ruleMetaData.connectedRuleIds.push(rule.id);
       }
       if (ruleMetaData.enabled) {
-        await BrowserRuleService.set(rules, removeRuleIds);
+        // TODO: disable for all type of rule
+        // until refactor all features will be done
+        // await BrowserRuleService.set(rules, removeRuleIds);
       }
     }
     await StorageService.set({ [ruleMetaData.id]: ruleMetaData });

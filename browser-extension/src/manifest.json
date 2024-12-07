@@ -30,13 +30,6 @@
       "world": "MAIN"
     },
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["intercept/intercept.js"],
-      "run_at": "document_start",
-      "all_frames": true,
-      "world": "MAIN"
-    },
-    {
       "matches": ["http://localhost:3000/app/*", "http://localhost:3000/app"],
       "js": ["iframeContentScript/iframeContentScript.js"],
       "run_at": "document_start",

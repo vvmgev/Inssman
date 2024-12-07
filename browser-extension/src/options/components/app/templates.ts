@@ -1,4 +1,4 @@
-import { ResponseMode } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
+import { ModificationType } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
 import { EditorLanguage, InjectFileOperator, InjectFileSource, InjectFileType, PageType } from "@models/formFieldModel";
 
 export const templates = {
@@ -194,7 +194,7 @@ export const templates = {
           enabled: true,
         },
       ],
-      responseMode: ResponseMode.DYNAMIC,
+      modificationType: ModificationType.DYNAMIC,
       editorLang: EditorLanguage.JAVASCRIPT,
       editorValue: `function modifyResponse(args) {
   const { response } = args;
@@ -225,7 +225,7 @@ export const templates = {
           enabled: true,
         },
       ],
-      responseMode: ResponseMode.DYNAMIC,
+      modificationType: ModificationType.DYNAMIC,
       editorLang: EditorLanguage.JAVASCRIPT,
       editorValue: `function modifyResponse(args) {
   const { response } = args;

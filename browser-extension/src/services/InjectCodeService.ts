@@ -232,16 +232,16 @@ class InjectCodeService extends BaseService {
       });
   };
 
-  injectContentScript = async (tabId, rules) => {
-    chrome.scripting
+  injectRules = async (tabId, rules) => {
+    await chrome.scripting
       .executeScript({
-        target: { tabId },
+        target: { tabId, allFrames: true },
         // this code runs in the browser tab
         func: (rules: IRuleMetaData[], NAMESPACE: string, runtimeId: string) => {
           window[NAMESPACE] = window[NAMESPACE] || {};
           window[NAMESPACE].rules = rules;
           window[NAMESPACE].runtimeId = runtimeId;
-          window[NAMESPACE]?.start?.();
+          console.log("window[NAMESPACE]", window[NAMESPACE]);
         },
         world: "MAIN",
         args: [rules, NAMESPACE, chrome.runtime.id],
@@ -251,6 +251,29 @@ class InjectCodeService extends BaseService {
       .catch((error) => {
         // should be tracking here
       });
+  };
+
+  registerContentScripts = async () => {
+    return await chrome.scripting
+      .registerContentScripts([
+        {
+          id: "interceptor",
+          js: ["interceptor/interceptor.js"],
+          world: "MAIN",
+          allFrames: true,
+          persistAcrossSessions: false,
+          matches: ["http://*/*", "https://*/*"],
+          runAt: "document_start",
+          // excludeMatches: excludeMatchesPatterns,
+        },
+      ])
+      .then(() => {
+        console.log("[registerClientScript]");
+        chrome.scripting
+          .getRegisteredContentScripts()
+          .then((scripts) => console.log("[registerClientScript]", "registered content scripts", scripts));
+      })
+      .catch((err) => console.warn("[unregisterClientScript]", "unexpected error", err));
   };
 }
 
