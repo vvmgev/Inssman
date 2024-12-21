@@ -1,5 +1,4 @@
 import StorageService from "@services/StorageService";
-import BSService from "@services/BrowserSupportService";
 import InjectCodeService from "@services/InjectCodeService";
 import BaseService from "@services/BaseService";
 import storgeDataConverter from "./storgeDataConverter";
@@ -42,15 +41,13 @@ class ServiceWorker extends BaseService {
         { key: "pageType", value: PageType.MODIFY_REQUEST_BODY },
         { key: "enabled", value: true },
       ],
-      // [
-      //   { key: "pageType", value: PageType.MODIFY_RESPONSE },
-      //   { key: "modificationType", value: ModificationType.DYNAMIC },
-      //   { key: "enabled", value: true },
-      // ],
+      [
+        { key: "pageType", value: PageType.MODIFY_RESPONSE },
+        { key: "enabled", value: true },
+      ],
     ];
 
     const rules: IRuleMetaData[] = await StorageService.getFilteredRules(filters);
-    console.log("rules", rules);
     InjectCodeService.injectRules(details.tabId, rules);
   };
 

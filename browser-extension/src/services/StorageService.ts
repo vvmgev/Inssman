@@ -1,5 +1,6 @@
 import { StorageItemType, StorageKey } from "@models/storageModel";
 import { IRuleMetaData } from "@models/formFieldModel";
+
 class StorageService {
   async get(keys?: string | string[] | { [key: string]: any } | null): Promise<{ [key: string]: any }> {
     const data = await chrome.storage.local.get(keys);
@@ -14,6 +15,7 @@ class StorageService {
 
   async getFilteredRules(filterArr: { [key: string]: any }[][]): Promise<IRuleMetaData[]> {
     const rules = await this.getRules();
+    console.log("rules", rules);
     return rules.filter((rule) =>
       filterArr.some((filters) => filters.every((filter) => rule[filter.key] === filter.value))
     );

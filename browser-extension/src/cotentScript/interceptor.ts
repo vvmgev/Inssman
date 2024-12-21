@@ -1,1 +1,2 @@
 import "./fetch";
+import "./xhr";

@@ -1,3 +1,4 @@
+import { PageType } from "@/models/formFieldModel";
 import { ModificationType } from "@/options/pages/forms/modifyResponse/generateModifyResponseRules";
 import {
   // applyDelay,
@@ -7,13 +8,11 @@ import {
   // getMatchedRequestRule,
   // getMatchedResponseRule,
   isContentTypeJSON,
-  isJSON,
   isPromise,
   jsonifyValidJSONString,
   // notifyOnBeforeRequest,
   // notifyRequestRuleApplied,
   // notifyResponseRuleApplied,
-  shouldServeResponseWithoutRequest,
   getMatchedRuleByUrl,
 } from "@utils/contentScript";
 
@@ -37,9 +36,11 @@ export const initFetchInterceptor = () => {
       const method = request.method;
 
       const canRequestBodyBeSent = !["GET", "HEAD"].includes(method);
-      const requestRule = canRequestBodyBeSent && getMatchedRuleByUrl(url);
+      const { [PageType.MODIFY_REQUEST_BODY]: requestRule, [PageType.MODIFY_RESPONSE]: responseRule }: any =
+        getMatchedRuleByUrl(url) as any;
 
       console.log("requestRule", requestRule);
+      console.log("responseRule", responseRule);
 
       // getMatchedRequestRule({
       //   url: url,
@@ -48,7 +49,7 @@ export const initFetchInterceptor = () => {
       //   initiator: location.origin,
       // });
 
-      if (requestRule) {
+      if (requestRule && canRequestBodyBeSent) {
         const originalRequestBody = await request.text();
         let requestBody = requestRule.editorValue;
 
@@ -81,21 +82,10 @@ export const initFetchInterceptor = () => {
         requestData = jsonifyValidJSONString(await request.clone().text());
       }
 
-      const responseRule = null as any;
-
-      // const responseRule = getMatchedResponseRule({
-      //   url,
-      //   requestData,
-      //   method,
-      // });
-
       let responseHeaders;
       let fetchedResponse;
 
-      if (responseRule && shouldServeResponseWithoutRequest(responseRule)) {
-        const contentType = isJSON(responseRule.pairs[0].response.value) ? "application/json" : "text/plain";
-        responseHeaders = new Headers({ "content-type": contentType });
-      } else {
+      if (responseRule) {
         try {
           const headersObject = {};
           request?.headers?.forEach((value, key) => {
@@ -129,9 +119,7 @@ export const initFetchInterceptor = () => {
       }
 
       let customResponse;
-      const responseModification = responseRule.pairs[0].response;
-
-      if (responseModification.type === "code") {
+      if (responseRule.modificationType === ModificationType.DYNAMIC) {
         const requestHeaders =
           request.headers &&
           // @ts-ignore
@@ -141,7 +129,7 @@ export const initFetchInterceptor = () => {
             return obj;
           }, {});
 
-        let evaluatorArgs = {
+        let responseArgs: any = {
           method,
           url,
           requestHeaders,
@@ -153,8 +141,8 @@ export const initFetchInterceptor = () => {
           const responseType = fetchedResponse.headers.get("content-type");
           const fetchedResponseDataAsJson = jsonifyValidJSONString(fetchedResponseData, true);
 
-          evaluatorArgs = {
-            ...evaluatorArgs,
+          responseArgs = {
+            ...responseArgs,
             // @ts-ignore
             responseType,
             response: fetchedResponseData,
@@ -162,42 +150,38 @@ export const initFetchInterceptor = () => {
           };
         }
 
-        // customResponse = getFunctionFromCode(responseModification.value, "response")(evaluatorArgs);
+        customResponse = new Function("args", `return (${responseRule.editorValue})(args);`)(responseArgs);
 
         if (typeof customResponse === "undefined") {
           return fetchedResponse;
         }
 
-        // evaluator might return us Object but response.value is string
-        // So make the response consistent by converting to JSON String and then create the Response object
         if (isPromise(customResponse)) {
           customResponse = await customResponse;
         }
 
-        // @ts-ignore
-        if (typeof customResponse === "object" && isContentTypeJSON(evaluatorArgs?.responseType)) {
+        if (typeof customResponse === "object" && isContentTypeJSON(responseArgs?.responseType)) {
           customResponse = JSON.stringify(customResponse);
         }
       } else {
-        customResponse = responseModification.value;
+        customResponse = responseRule.editorValue;
       }
 
-      const requestDetails = {
-        url,
-        method,
-        type: "fetch",
-        timeStamp: Date.now(),
-      };
+      // const requestDetails = {
+      //   url,
+      //   method,
+      //   type: "fetch",
+      //   timeStamp: Date.now(),
+      // };
 
       // notifyResponseRuleApplied();
 
-      // For network failures, fetchedResponse is undefined but we still return customResponse with status=200
-      const finalStatusCode = parseInt(responseModification.statusCode || fetchedResponse?.status) || 200;
+      const finalStatusCode = fetchedResponse?.status || 200;
       const requiresNullResponseBody = [204, 205, 304].includes(finalStatusCode);
 
       return new Response(requiresNullResponseBody ? null : new Blob([customResponse]), {
         status: finalStatusCode,
-        statusText: responseModification.statusText || fetchedResponse?.statusText,
+        statusText: fetchedResponse?.statusText,
         headers: responseHeaders,
       });
     } catch (err) {

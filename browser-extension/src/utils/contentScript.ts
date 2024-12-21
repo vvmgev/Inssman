@@ -1,6 +1,6 @@
 import MatcherService from "@services/MatcherService";
 import { NAMESPACE } from "@options/constant";
-import { IRuleMetaData } from "@/models/formFieldModel";
+import { IRuleMetaData, PageType } from "@/models/formFieldModel";
 import { PostMessageAction } from "@/models/postMessageActionModel";
 
 let logShown = false;
@@ -112,6 +112,11 @@ export const notifyOnErrorOccurred = async (requestDetails) => {
 export const isPromise = (obj) =>
   !!obj && (typeof obj === "object" || typeof obj === "function") && typeof obj.then === "function";
 
+export const isJSON = (data) => {
+  const parsedJson = jsonifyValidJSONString(data);
+  return parsedJson !== data;
+};
+
 /**
  * @param mightBeJSONString string which might be JSON String or normal String
  * @param doStrictCheck should return empty JSON if invalid JSON string
@@ -130,11 +135,6 @@ export const jsonifyValidJSONString = (mightBeJSONString, doStrictCheck = false)
   }
 
   return defaultValue;
-};
-
-export const isJSON = (data) => {
-  const parsedJson = jsonifyValidJSONString(data);
-  return parsedJson !== data; // if data is not a JSON, jsonifyValidJSONString() returns same value
 };
 
 export const notifyResponseRuleApplied = (message) => {
@@ -163,11 +163,16 @@ export const notifyRequestRuleApplied = (message) => {
 
 export const getMatchedRuleByUrl = (url) => {
   const absoluteUrl = getAbsoluteUrl(url);
-  const matchedRule = window[NAMESPACE].rules.find((rule) =>
-    rule.conditions.some((condition) => MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType))
-  );
-  if (matchedRule) updateTimestamp(matchedRule);
-  return matchedRule;
+  const matchedRules = {};
+  window[NAMESPACE].rules.forEach((rule) => {
+    rule.conditions.forEach((condition) => {
+      if (MatcherService.isUrlsMatch(condition.source, absoluteUrl, condition.matchType)) {
+        matchedRules[rule.pageType] = rule;
+      }
+    });
+  });
+  // if (matchedRule) updateTimestamp(matchedRule);
+  return matchedRules;
 };
 
 export const updateTimestamp = (ruleMetaData: IRuleMetaData): void => {
@@ -207,11 +212,6 @@ export const getAbsoluteUrl = (url) => {
 //     (rule) => matchRuleWithRequest(rule, requestDetails)?.isApplied === true
 //   );
 // };
-
-export const shouldServeResponseWithoutRequest = (responseRule) => {
-  const responseModification = responseRule.pairs[0].response;
-  return responseModification.type === "static" && responseModification.serveWithoutRequest;
-};
 
 export const isContentTypeJSON = (contentType) => !!contentType?.includes("application/json");
 
