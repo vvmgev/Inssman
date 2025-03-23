@@ -7,7 +7,7 @@ import handleError from "@/serviceWorker/errorHandler";
 import { IRuleMetaData, PageType } from "@models/formFieldModel";
 import { PostMessageAction } from "@models/postMessageActionModel";
 import { ListenerType } from "@services/ListenerService/ListenerService";
-import { storeRuleMetaData } from "@/serviceWorker/firebase";
+// import { storeRuleMetaData } from "@/serviceWorker/firebase";
 import { StorageKey } from "@models/storageModel";
 import { throttle } from "@utils/throttle";
 import { generateId } from "@/utils/generateId";
@@ -93,10 +93,10 @@ class RuleService extends BaseService {
 
   addRule = async ({ ruleMetaData }: { ruleMetaData: IRuleMetaData }): Promise<IRuleMetaData> => {
     // Tracking temp
-    storeRuleMetaData({
-      ruleMetaData,
-      actionType: PostMessageAction[PostMessageAction.AddRule],
-    });
+    // storeRuleMetaData({
+    //   ruleMetaData,
+    //   actionType: PostMessageAction[PostMessageAction.AddRule],
+    // });
 
     const connectedRuleIds: number[] = [];
     const rules = generateRules(ruleMetaData);
@@ -118,10 +118,10 @@ class RuleService extends BaseService {
   updateRule = async ({ ruleMetaData }): Promise<IRuleMetaData> => {
     const rules = generateRules(ruleMetaData);
     // Tracking temp
-    storeRuleMetaData({
-      ruleMetaData,
-      actionType: PostMessageAction[PostMessageAction.UpdateRule],
-    });
+    // storeRuleMetaData({
+    //   ruleMetaData,
+    //   actionType: PostMessageAction[PostMessageAction.UpdateRule],
+    // });
 
     if (rules) {
       const removeRuleIds: number[] = [...ruleMetaData.connectedRuleIds];

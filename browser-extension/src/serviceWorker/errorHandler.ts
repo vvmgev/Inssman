@@ -1,4 +1,4 @@
-import { storeError } from "./firebase";
+// import { storeError } from "./firebase";
 
 const destinationError = 'specifies an incorrect value for the "action.redirect.regexSubstitution"';
 const destinationError2 = 'specify the "regexSubstitution" key without specifying the "regexFilter" key';
@@ -52,11 +52,11 @@ const handleError = (error: any, data = {}) => {
   }
 
   if (errorData) {
-    storeError({ message, data });
+    // storeError({ message, data });
     return errorData;
   }
 
-  storeError({ message, data, type: "unhandled" });
+  // storeError({ message, data, type: "unhandled" });
   return {
     fieldName: "general",
     message: "Something went wrong. Our team is already aware of the issue.",
