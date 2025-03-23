@@ -1,8 +1,8 @@
 import Section from "@components/common/section/section";
 import Tooltip from "@components/common/tooltip/tooltip";
 import Icon from "@options/components/common/icon/icon";
-import SidebarSection from "./components/sidebarSection/sidebarSection";
-import SidebarItem from "./components/sidebarItem/sidebarItem";
+import SidebarSection from "../sideBar/components/sidebarSection/sidebarSection";
+import SidebarItem from "../sideBar/components/sidebarItem/sidebarItem";
 import { useLocation } from "react-router-dom";
 import { paths, popularPaths } from "../app/paths";
 import { templates } from "../app/templates";
