@@ -36,7 +36,7 @@ const Header = () => {
         </a>
         <a
           target="_blank"
-          href="http://localhost:3000/docs/introduction"
+          href="https://inssman.com/docs/introduction"
           className="flex items-center gap-1 hover:text-sky-500"
         >
           <Icon name="document" className="pl-2 border-l border-white" />
