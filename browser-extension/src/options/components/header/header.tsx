@@ -32,7 +32,7 @@ const Header = () => {
           href="https://github.com/vvmgev/Inssman"
           className="flex items-center gap-1 hover:text-sky-500"
         >
-          {<Icon name="github" className="pl-2 border-l border-white/0" />}Github
+          {<Icon name="github" className="pl-2 border-l border-white/0" />}GitHub
         </a>
         <a
           target="_blank"
